@@ -13,8 +13,9 @@ namespace Atreyu.ViewModels
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
 
-    using Falkor.Atreyu.Models;
-    using Falkor.Events.Atreyu;
+    using Atreyu.Events;
+    using Atreyu.Models;
+    //using Falkor.Events.Atreyu;
 
     using Microsoft.Practices.Prism.Mvvm;
     using Microsoft.Practices.Prism.PubSubEvents;

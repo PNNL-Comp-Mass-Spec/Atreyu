@@ -13,6 +13,9 @@ namespace Atreyu.ViewModels
     using System.ComponentModel.Composition;
     using System.Threading.Tasks;
 
+    using Atreyu.Events;
+    using Atreyu.Models;
+
     using Microsoft.Practices.Prism.Mvvm;
     using Microsoft.Practices.Prism.PubSubEvents;
 

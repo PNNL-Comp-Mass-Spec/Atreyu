@@ -12,8 +12,8 @@ namespace Falkor.Views.Atreyu
     using System.ComponentModel.Composition;
     using System.Windows;
     using System.Windows.Controls;
-
-    using Falkor.ViewModels.Atreyu;
+    
+    using global::Atreyu.ViewModels;
 
     /// <summary>
     /// Interaction logic for HeatMapView.xaml

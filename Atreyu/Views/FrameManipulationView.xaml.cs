@@ -7,12 +7,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Atreyu.Views
+namespace Falkor.Views.Atreyu
 {
     using System.Windows;
     using System.Windows.Controls;
 
-    using Atreyu.ViewModels;
+    using global::Atreyu.ViewModels;
 
     using Microsoft.Practices.Prism.Mvvm;
     using System.ComponentModel.Composition;

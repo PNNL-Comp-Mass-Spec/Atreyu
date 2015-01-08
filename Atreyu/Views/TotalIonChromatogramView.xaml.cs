@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MzSpectraView.xaml.cs" company="">
+// <copyright file="TotalIonChromatogramView.xaml.cs" company="">
 //   
 // </copyright>
 // <summary>
-//   Interaction logic for MzSpectraView.xaml
+//   Interaction logic for TotalIonChromatogramView.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -12,24 +12,24 @@ namespace Falkor.Views.Atreyu
     using System.ComponentModel.Composition;
     using System.Windows.Controls;
 
-    using Falkor.ViewModels.Atreyu;
+    using global::Atreyu.ViewModels;
 
     /// <summary>
-    /// Interaction logic for MzSpectraView.xaml
+    /// Interaction logic for TotalIonChromatogramView.xaml
     /// </summary>
     [Export]
-    public partial class MzSpectraView : UserControl
+    public partial class TotalIonChromatogramView : UserControl
     {
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MzSpectraView"/> class.
+        /// Initializes a new instance of the <see cref="TotalIonChromatogramView"/> class.
         /// </summary>
         /// <param name="viewModel">
         /// TODO The view model.
         /// </param>
         [ImportingConstructor]
-        public MzSpectraView(MzSpectraViewModel viewModel)
+        public TotalIonChromatogramView(TotalIonChromatogramViewModel viewModel)
         {
             this.DataContext = viewModel;
             this.InitializeComponent();
