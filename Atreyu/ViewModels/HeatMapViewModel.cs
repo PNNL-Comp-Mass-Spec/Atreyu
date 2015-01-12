@@ -9,19 +9,16 @@
 
 namespace Atreyu.ViewModels
 {
-    using System;
-    using System.ComponentModel.Composition;
-    using System.Threading.Tasks;
-
     using Atreyu.Events;
     using Atreyu.Models;
-
     using Microsoft.Practices.Prism.Mvvm;
     using Microsoft.Practices.Prism.PubSubEvents;
-
     using OxyPlot;
     using OxyPlot.Axes;
     using OxyPlot.Series;
+    using System;
+    using System.ComponentModel.Composition;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// TODO The heat map view model.

@@ -9,20 +9,18 @@
 
 namespace Atreyu.ViewModels
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-
     using Atreyu.Events;
     using Atreyu.Models;
     //using Falkor.Events.Atreyu;
 
     using Microsoft.Practices.Prism.Mvvm;
     using Microsoft.Practices.Prism.PubSubEvents;
-
     using OxyPlot;
     using OxyPlot.Axes;
     using OxyPlot.Series;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.Composition;
 
     /// <summary>
     /// TODO The mz spectra view model.

@@ -9,17 +9,15 @@
 
 namespace Atreyu.ViewModels
 {
-    using System;
-    using System.ComponentModel.Composition;
-    using System.Windows.Input;
-
     using Atreyu.Events;
     using Atreyu.Models;
-
     using Microsoft.Practices.Prism.Commands;
     using Microsoft.Practices.Prism.Mvvm;
     using Microsoft.Practices.Prism.PubSubEvents;
     using Microsoft.WindowsAPICodePack.Dialogs;
+    using System;
+    using System.ComponentModel.Composition;
+    using System.Windows.Input;
 
     /// <summary>
     /// TODO The frame manipulation view model.
