@@ -161,7 +161,7 @@ namespace Atreyu.Models
             {
                 this.ValuesPerPixelX = 1;
             }
-            /*
+            
             this.FrameData = this._dataReader.AccumulateFrameData(
                 startFrameNumber, 
                 endFrameNumber, 
@@ -172,7 +172,7 @@ namespace Atreyu.Models
                 endBin, 
                 this.ValuesPerPixelX, 
                 this.ValuesPerPixelY);
-                */
+                
             return this.FrameData;
         }
 

@@ -44,6 +44,13 @@ namespace Falkor.Views.Atreyu
             this.DataContext = this._viewModel;
             this.InitializeComponent();
             this.HeatMapPlot.SizeChanged += this.HeatMapView_SizeChanged;
+            this.HeatMapPlot.AllowDrop = true;
+            this.HeatMapPlot.Drop += (sender, args) => this.OnDrop(args);
+
+            // this.HandleFileOpen(new string[] { "test.uimf" });
+
+            //this._viewModel.InitializeUimfData("test.uimf");
+
         }
 
         #endregion

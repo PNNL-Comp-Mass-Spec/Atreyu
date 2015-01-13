@@ -9,7 +9,11 @@
 			 d:DesignHeight="300" d:DesignWidth="300"
 			 AllowDrop="True">
 	<Grid>
-		<wpf:PlotView x:Name="HeatMapPlot" Model="{Binding HeatMapPlotModel}" Height="auto" Background="{x:Null}" Margin="0,31,0,0" />
-		<TextBlock TextWrapping="Wrap" Text="Heatmap" Margin="0,0,0,269" HorizontalAlignment="Center"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" TextWrapping="Wrap" Text="Heatmap" TextAlignment="Center"/>
+        <wpf:PlotView Grid.Row="1" x:Name="HeatMapPlot" Model="{Binding HeatMapPlotModel}" Margin="0,5,0,0" />
 	</Grid>
 </UserControl>

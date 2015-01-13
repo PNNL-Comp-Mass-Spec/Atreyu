@@ -121,7 +121,8 @@ namespace Atreyu.ViewModels
         /// </param>
         public void InitializeUimfData(string file)
         {
-            this._heatMapData = new UimfData(file) { currentMinBin = 0 };
+            this._heatMapData = new UimfData(file);
+            this._heatMapData.currentMinBin = 0;
             this._heatMapData.currentMaxBin = this._heatMapData.TotalBins;
             this.SetUpPlot(1);
             this._eventAggregator.GetEvent<UimfFileChangedEvent>().Publish(this._heatMapData);
