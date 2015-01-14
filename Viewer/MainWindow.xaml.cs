@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 
 namespace Viewer
 {
+    using System.IO;
+
     using Atreyu.ViewModels;
 
     using Falkor.Views.Atreyu;
@@ -49,17 +51,12 @@ namespace Viewer
             InitializeComponent();
 
             heatMapViewModel = new HeatMapViewModel(eventAggregator);
-            
             heatMapView = new HeatMapView(heatMapViewModel);
-
-
             MainTabControl.Items.Add(heatMapView);
 
             this.frameManipulationViewModel = new FrameManipulationViewModel(this.eventAggregator);
-            
             this.frameManipulationView = new FrameManipulationView(this.frameManipulationViewModel);
             MainTabControl.Items.Add(this.frameManipulationView);
-
 
             this.mzSpectraViewModel = new MzSpectraViewModel(this.eventAggregator);
             this.mzSpectraView = new MzSpectraView(this.mzSpectraViewModel);
@@ -69,8 +66,43 @@ namespace Viewer
             this.totalIonChromatogramView = new TotalIonChromatogramView(this.totalIonChromatogramViewModel);
             MainTabControl.Items.Add(this.totalIonChromatogramView);
 
-            //heatMapViewModel.InitializeUimfData("test.uimf");
-            
+            this.AllowDrop = true;
+            this.PreviewDrop += this.MainTabControl_PreviewDragEnter;
+        }
+
+        private void MainTabControl_PreviewDragEnter(object sender, DragEventArgs e)
+        {
+            var isCorrect = true;
+            string[] filenames = { };
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, true) == true)
+            {
+                filenames = (string[])e.Data.GetData(DataFormats.FileDrop, true);
+                foreach (string filename in filenames)
+                {
+                    if (File.Exists(filename) == false)
+                    {
+                        isCorrect = false;
+                        break;
+                    }
+
+                    var info = new FileInfo(filename);
+
+                    if (info.Extension.ToLower() != ".uimf")
+                    {
+                        isCorrect = false;
+                        break;
+                    }
+                }
+            }
+
+            e.Effects = isCorrect ? DragDropEffects.All : DragDropEffects.None;
+
+            if (isCorrect)
+            {
+                this.heatMapViewModel.InitializeUimfData(filenames[0]);
+            }
+
+            e.Handled = true;
         }
     }
 }
