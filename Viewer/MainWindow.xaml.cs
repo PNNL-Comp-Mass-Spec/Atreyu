@@ -52,19 +52,34 @@ namespace Viewer
 
             heatMapViewModel = new HeatMapViewModel(eventAggregator);
             heatMapView = new HeatMapView(heatMapViewModel);
-            MainTabControl.Items.Add(heatMapView);
-
+            Grid.SetColumn(this.heatMapView, 1);
+            Grid.SetRow(this.heatMapView, 1);
+            this.MainGrid.Children.Add(this.heatMapView);
+            
             this.frameManipulationViewModel = new FrameManipulationViewModel(this.eventAggregator);
             this.frameManipulationView = new FrameManipulationView(this.frameManipulationViewModel);
-            MainTabControl.Items.Add(this.frameManipulationView);
+            Grid.SetColumn(this.frameManipulationView, 1);
+            Grid.SetRow(this.frameManipulationView, 0);
+            this.MainGrid.Children.Add(this.frameManipulationView);
 
             this.mzSpectraViewModel = new MzSpectraViewModel(this.eventAggregator);
             this.mzSpectraView = new MzSpectraView(this.mzSpectraViewModel);
-            MainTabControl.Items.Add(this.mzSpectraView);
+            var transform = new TransformGroup();
+            transform.Children.Add(new RotateTransform(90));
+            //transform.Children.Add(new ScaleTransform(-1, 1));
+            //transform.Children.Add(new );
+            //this.mzSpectraView.RenderTransform = transform;
+            Grid.SetColumn(this.mzSpectraView, 0);
+            Grid.SetRow(this.mzSpectraView, 1);
+            //this.mzSpectraView.VerticalAlignment = VerticalAlignment.Stretch;
+            //this.mzSpectraView.HorizontalAlignment = HorizontalAlignment.Stretch;
+            this.MainGrid.Children.Add(this.mzSpectraView);
 
             this.totalIonChromatogramViewModel = new TotalIonChromatogramViewModel(this.eventAggregator);
             this.totalIonChromatogramView = new TotalIonChromatogramView(this.totalIonChromatogramViewModel);
-            MainTabControl.Items.Add(this.totalIonChromatogramView);
+            Grid.SetColumn(this.totalIonChromatogramView, 1);
+            Grid.SetRow(this.totalIonChromatogramView, 3);
+            this.MainGrid.Children.Add(this.totalIonChromatogramView);
 
             this.AllowDrop = true;
             this.PreviewDrop += this.MainTabControl_PreviewDragEnter;
