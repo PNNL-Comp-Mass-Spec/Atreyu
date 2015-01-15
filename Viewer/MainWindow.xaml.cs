@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 
 namespace Viewer
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
 
     using Atreyu.ViewModels;
@@ -22,6 +23,7 @@ namespace Viewer
     using Falkor.Views.Atreyu;
 
     using Microsoft.Practices.Prism.PubSubEvents;
+    using Microsoft.Win32;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -45,6 +47,7 @@ namespace Viewer
 
         private TotalIonChromatogramView totalIonChromatogramView;
 
+        private Button loadButton;
 
         public MainWindow()
         {
@@ -81,8 +84,29 @@ namespace Viewer
             Grid.SetRow(this.totalIonChromatogramView, 3);
             this.MainGrid.Children.Add(this.totalIonChromatogramView);
 
+            this.loadButton = new Button { Content = "Load" };
+            this.loadButton.Click += this.LoadButtonClick;
+            Grid.SetColumn(this.loadButton, 0);
+            Grid.SetRow(this.loadButton, 0);
+            this.MainGrid.Children.Add(this.loadButton);
+
             this.AllowDrop = true;
             this.PreviewDrop += this.MainTabControl_PreviewDragEnter;
+        }
+
+        [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1503:CurlyBracketsMustNotBeOmitted", Justification = "Reviewed. Suppression is OK here.")]
+        void LoadButtonClick(object sender, RoutedEventArgs e)
+        {
+            var dialogue = new OpenFileDialog();
+            dialogue.DefaultExt = ".uimf";
+            dialogue.Filter = "Unified Ion Mobility File (*.uimf)|*.uimf";
+            
+            var result = dialogue.ShowDialog();
+
+            if (result != true) return;
+
+            var filename = dialogue.FileName;
+            this.LoadFile(filename);
         }
 
         private void MainTabControl_PreviewDragEnter(object sender, DragEventArgs e)
@@ -114,10 +138,16 @@ namespace Viewer
 
             if (isCorrect)
             {
-                this.heatMapViewModel.InitializeUimfData(filenames[0]);
+                this.LoadFile(filenames[0]);
             }
 
             e.Handled = true;
         }
+
+        private void LoadFile(string fileName)
+        {
+            this.heatMapViewModel.InitializeUimfData(fileName);
+        }
+
     }
 }
