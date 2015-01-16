@@ -53,10 +53,10 @@ namespace Atreyu.ViewModels
         /// </summary>
         private int _numFrames;
 
-        /// <summary>
-        /// TODO The _sum frames.
-        /// </summary>
-        private FrameRange _sumFrames;
+        ///// <summary>
+        ///// TODO The _sum frames.
+        ///// </summary>
+        //private FrameRange _sumFrames;
 
         #endregion
 

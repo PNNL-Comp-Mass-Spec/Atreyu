@@ -25,10 +25,10 @@ namespace Atreyu.Models
         /// </summary>
         private DataReader _dataReader;
 
-        /// <summary>
-        /// TODO The _start bin.
-        /// </summary>
-        private int _startBin;
+        ///// <summary>
+        ///// TODO The _start bin.
+        ///// </summary>
+        //private int _startBin;
 
         #endregion
 
@@ -42,11 +42,11 @@ namespace Atreyu.Models
         public UimfData(string uimfFile)
         {
             this._dataReader = new DataReader(uimfFile);
-            var global = this._dataReader.GetGlobalParameters();
-            this.Frames = this._dataReader.GetGlobalParameters().NumFrames;
+            var global = this._dataReader.GetGlobalParams();
+            this.Frames = this._dataReader.GetGlobalParams().NumFrames;
             this.MaxBins = global.Bins;
             this.TotalBins = this.MaxBins;
-            this.Scans = this._dataReader.GetFrameParameters(1).Scans;
+            this.Scans = this._dataReader.GetFrameParams(1).Scans;
         }
 
         #endregion
