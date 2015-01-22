@@ -147,6 +147,7 @@ namespace Viewer
         private void LoadFile(string fileName)
         {
             this.heatMapViewModel.InitializeUimfData(fileName);
+            this.totalIonChromatogramViewModel.UpdateReference(this.heatMapViewModel.HeatMapData);
         }
 
     }
