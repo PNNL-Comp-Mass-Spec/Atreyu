@@ -299,7 +299,7 @@ namespace Atreyu.ViewModels
             {
                 this.HeatMapData.CurrentMinBin = 0;
                 this.HeatMapData.CurrentMaxBin = this.HeatMapData.MaxBins;
-                var startScan = 0;
+                const int StartScan = 0;
                 var endScan = this.HeatMapData.Scans - 1;
                 if (series != null)
                 {
@@ -309,9 +309,9 @@ namespace Atreyu.ViewModels
                         this._currentFrame, 
                         this._currentFrame, 
                         this.Height, 
-                        startScan, 
+                        StartScan, 
                         endScan);
-                    series.X0 = startScan;
+                    series.X0 = StartScan;
                     series.X1 = endScan;
                     series.Y0 = this.HeatMapData.CurrentMinBin;
                     series.Y1 = this.HeatMapData.CurrentMaxBin;
