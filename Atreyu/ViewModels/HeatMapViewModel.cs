@@ -20,11 +20,13 @@ namespace Atreyu.ViewModels
     using System.ComponentModel.Composition;
     using System.Threading.Tasks;
 
+    using ReactiveUI;
+
     /// <summary>
     /// TODO The heat map view model.
     /// </summary>
     [Export]
-    public class HeatMapViewModel : BindableBase
+    public class HeatMapViewModel : ReactiveObject
     {
         #region Fields
 
@@ -36,7 +38,18 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// TODO The _heat map data.
         /// </summary>
-        public UimfData HeatMapData { get; private set; }
+        public UimfData HeatMapData
+        {
+            get
+            {
+                return this.heatMapData;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.heatMapData, value);
+            }
+        }
 
         /// <summary>
         /// TODO The _heat map plot model.
@@ -47,6 +60,8 @@ namespace Atreyu.ViewModels
         /// TODO The _num frames.
         /// </summary>
         private int _numFrames;
+
+        private UimfData heatMapData;
 
         ///// <summary>
         ///// TODO The _sum frames.
@@ -95,7 +110,7 @@ namespace Atreyu.ViewModels
 
             set
             {
-                this.SetProperty(ref this._heatMapPlotModel, value);
+                this.RaiseAndSetIfChanged(ref this._heatMapPlotModel, value);
             }
         }
 
@@ -116,6 +131,7 @@ namespace Atreyu.ViewModels
         /// </param>
         public void InitializeUimfData(string file)
         {
+            //this.HeatMapData.ReadFile(file);
             this.HeatMapData = new UimfData(file);
             this.HeatMapData.CurrentMinBin = 0;
             this.HeatMapData.CurrentMaxBin = this.HeatMapData.TotalBins;

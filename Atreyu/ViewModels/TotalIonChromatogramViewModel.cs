@@ -22,11 +22,13 @@ namespace Atreyu.ViewModels
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
 
+    using ReactiveUI;
+
     /// <summary>
     /// TODO The total ion chromatogram view model.
     /// </summary>
     [Export]
-    public class TotalIonChromatogramViewModel : BindableBase
+    public class TotalIonChromatogramViewModel : ReactiveObject
     {
         #region Fields
 
@@ -63,7 +65,7 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// TODO The _uimf data.
         /// </summary>
-        private UimfData _uimfData;
+        private UimfData uimfData;
 
         #endregion
 
@@ -85,10 +87,10 @@ namespace Atreyu.ViewModels
                 throw new NullReferenceException();
             }
 
-            this._eventAggregator = eventAggregator;
-            this._eventAggregator.GetEvent<UimfFileChangedEvent>().Subscribe(this.UpdateReference, true);
-            this._eventAggregator.GetEvent<XAxisChangedEvent>().Subscribe(this.UpdateAxes, true);
-            this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Subscribe(this.UpdateFrameNumber, true);
+            //this._eventAggregator = eventAggregator;
+            //this._eventAggregator.GetEvent<UimfFileChangedEvent>().Subscribe(this.UpdateReference, true);
+            //this._eventAggregator.GetEvent<XAxisChangedEvent>().Subscribe(this.UpdateAxes, true);
+            //this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Subscribe(this.UpdateFrameNumber, true);
         }
 
         #endregion
@@ -107,7 +109,7 @@ namespace Atreyu.ViewModels
 
             set
             {
-                this.SetProperty(ref this._ticPlotModel, value);
+                this.RaiseAndSetIfChanged(ref this._ticPlotModel, value);
             }
         }
 
@@ -156,7 +158,7 @@ namespace Atreyu.ViewModels
             xAxis.AbsoluteMaximum = this._endScan;
             xAxis.Minimum = this._startScan;
             xAxis.Maximum = this._endScan;
-            this._frameData = this._uimfData.FrameData;
+            this._frameData = this.uimfData.FrameData;
             if (this._frameData != null)
             {
                 Dictionary<int, double> frameData = new Dictionary<int, double>();
@@ -189,15 +191,11 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The update frame number.
+        /// TODO The update frame data.
         /// </summary>
-        /// <param name="frameNumber">
-        /// TODO The frame number.
-        /// </param>
-        private void UpdateFrameNumber(int? frameNumber)
+        public void UpdateFrameData(double[,] Data)
         {
-            this._currentFrameNumber = frameNumber.Value;
-            this._frameData = this._uimfData.FrameData;
+            this._frameData = Data;
             if (this._frameData != null)
             {
                 if (this._endScan == 0)
@@ -243,16 +241,21 @@ namespace Atreyu.ViewModels
         /// </param>
         public void UpdateReference(UimfData uimfData)
         {
-            this._uimfData = uimfData;
+
+            this.uimfData = uimfData;
             if (this.TicPlotModel != null)
             {
                 return;
             }
-
+            
             this.TicPlotModel = new PlotModel();
-            var linearAxis = new LinearAxis { Position = AxisPosition.Bottom, AbsoluteMinimum = 0 };
-            linearAxis.IsPanEnabled = false;
-            linearAxis.IsZoomEnabled = false;
+            var linearAxis = new LinearAxis
+                                 {
+                                     Position = AxisPosition.Bottom,
+                                     AbsoluteMinimum = 0,
+                                     IsPanEnabled = false,
+                                     IsZoomEnabled = false
+                                 };
             this.TicPlotModel.Axes.Add(linearAxis);
 
             var linearYAxis = new LinearAxis
@@ -264,7 +267,7 @@ namespace Atreyu.ViewModels
                                   };
 
             this.TicPlotModel.Axes.Add(linearYAxis);
-            LineSeries series = new LineSeries { Color = OxyColors.Black, };
+            var series = new LineSeries { Color = OxyColors.Black, };
 
             this.TicPlotModel.Series.Add(series);
         }

@@ -17,6 +17,7 @@ namespace Viewer
 {
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
+    using System.Reactive.Linq;
 
     using Atreyu.ViewModels;
 
@@ -24,6 +25,8 @@ namespace Viewer
 
     using Microsoft.Practices.Prism.PubSubEvents;
     using Microsoft.Win32;
+
+    using ReactiveUI;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -83,6 +86,13 @@ namespace Viewer
             Grid.SetColumn(this.totalIonChromatogramView, 1);
             Grid.SetRow(this.totalIonChromatogramView, 3);
             this.MainGrid.Children.Add(this.totalIonChromatogramView);
+
+            this.WhenAnyValue(vm => vm.heatMapViewModel.HeatMapData)
+                .Subscribe(this.totalIonChromatogramViewModel.UpdateReference);
+
+            this.WhenAnyValue(vm => vm.heatMapViewModel.HeatMapData.FrameData)
+                .Subscribe(this.totalIonChromatogramViewModel.UpdateFrameData);
+
 
             this.loadButton = new Button { Content = "Load" };
             this.loadButton.Click += this.LoadButtonClick;
@@ -147,7 +157,7 @@ namespace Viewer
         private void LoadFile(string fileName)
         {
             this.heatMapViewModel.InitializeUimfData(fileName);
-            this.totalIonChromatogramViewModel.UpdateReference(this.heatMapViewModel.HeatMapData);
+            //this.totalIonChromatogramViewModel.UpdateReference(this.heatMapViewModel.HeatMapData);
         }
 
     }
