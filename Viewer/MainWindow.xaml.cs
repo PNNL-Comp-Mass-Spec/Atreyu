@@ -56,7 +56,7 @@ namespace Viewer
         {
             InitializeComponent();
 
-            heatMapViewModel = new HeatMapViewModel(eventAggregator);
+            heatMapViewModel = new HeatMapViewModel();
             heatMapView = new HeatMapView(heatMapViewModel);
             Grid.SetColumn(this.heatMapView, 1);
             Grid.SetRow(this.heatMapView, 1);

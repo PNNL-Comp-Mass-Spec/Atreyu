@@ -81,13 +81,8 @@ namespace Atreyu.ViewModels
         /// <exception cref="ArgumentNullException">
         /// </exception>
         [ImportingConstructor]
-        public HeatMapViewModel(IEventAggregator eventAggregator)
+        public HeatMapViewModel()
         {
-            if (eventAggregator == null)
-            {
-                throw new ArgumentNullException();
-            }
-
             ////this._eventAggregator = eventAggregator;
             ////this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Subscribe(this.UpdateFrameNumber);
             ////this._eventAggregator.GetEvent<UimfFileLoadedEvent>().Subscribe(this.InitializeUimfData);
