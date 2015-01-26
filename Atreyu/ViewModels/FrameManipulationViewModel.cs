@@ -19,33 +19,30 @@ namespace Atreyu.ViewModels
     using System.ComponentModel.Composition;
     using System.Windows.Input;
 
+    using ReactiveUI;
+
     /// <summary>
     /// TODO The frame manipulation view model.
     /// </summary>
     [Export]
-    public class FrameManipulationViewModel : BindableBase
+    public class FrameManipulationViewModel : ReactiveObject
     {
         #region Fields
 
         /// <summary>
-        /// TODO The _event aggregator.
+        /// The current frame.
         /// </summary>
-        private readonly IEventAggregator _eventAggregator;
+        private int currentFrame;
 
         /// <summary>
-        /// TODO The _current frame.
+        /// TODO The lowest frame number.
         /// </summary>
-        private int _currentFrame;
+        private int minNumFrame;
 
         /// <summary>
-        /// TODO The _min num frame.
+        /// TODO The total number of frames.
         /// </summary>
-        private int _minNumFrame;
-
-        /// <summary>
-        /// TODO The _num frames.
-        /// </summary>
-        private int _numFrames;
+        private int numFrames;
 
         #endregion
 
@@ -66,9 +63,9 @@ namespace Atreyu.ViewModels
 
             this.OpenFileCommand = new DelegateCommand(this.Open);
             this.SumFramesCommand = new DelegateCommand(this.SumFrames);
-            this._eventAggregator = eventAggregator;
-            this._eventAggregator.GetEvent<NumberOfFramesChangedEvent>().Subscribe(this.NumFramesChanged);
-            this._eventAggregator.GetEvent<MinimumNumberOfFrames>().Subscribe(this.MinimumNumberOfFramesChanged);
+
+            ////this._eventAggregator.GetEvent<NumberOfFramesChangedEvent>().Subscribe(this.NumFramesChanged);
+            ////this._eventAggregator.GetEvent<MinimumNumberOfFrames>().Subscribe(this.MinimumNumberOfFramesChanged);
         }
 
         #endregion
@@ -82,12 +79,12 @@ namespace Atreyu.ViewModels
         {
             get
             {
-                return this._currentFrame;
+                return this.currentFrame;
             }
 
             set
             {
-                this.SetProperty(ref this._currentFrame, value);
+                this.RaiseAndSetIfChanged(ref this.currentFrame, value);
             }
         }
 
@@ -103,12 +100,12 @@ namespace Atreyu.ViewModels
         {
             get
             {
-                return this._minNumFrame;
+                return this.minNumFrame;
             }
 
             set
             {
-                this.SetProperty(ref this._minNumFrame, value);
+                this.RaiseAndSetIfChanged(ref this.minNumFrame, value);
             }
         }
 
@@ -119,12 +116,12 @@ namespace Atreyu.ViewModels
         {
             get
             {
-                return this._numFrames;
+                return this.numFrames;
             }
 
             set
             {
-                this.SetProperty(ref this._numFrames, value);
+                this.RaiseAndSetIfChanged(ref this.numFrames, value);
             }
         }
 
@@ -158,7 +155,7 @@ namespace Atreyu.ViewModels
             if (this.CurrentFrame != frameNumber)
             {
                 this.CurrentFrame = frameNumber;
-                this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Publish(frameNumber);
+                ////this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Publish(frameNumber);
             }
         }
 
@@ -168,7 +165,7 @@ namespace Atreyu.ViewModels
         /// </param>
         public void UpdateFrameNumber(int frameNumber)
         {
-            this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Publish(frameNumber);
+            ////this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Publish(frameNumber);
             this.CurrentFrame = frameNumber;
         }
 
@@ -204,8 +201,17 @@ namespace Atreyu.ViewModels
             if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 string fileName = openFileDialog.FileName;
-                this._eventAggregator.GetEvent<UimfFileLoadedEvent>().Publish(fileName);
+                ////this._eventAggregator.GetEvent<UimfFileLoadedEvent>().Publish(fileName);
             }
+        }
+
+        public void UpdateUimf(UimfData uimfData)
+        {
+            if (uimfData == null) return;
+
+            this.MinNumFrame = 1;
+            this.NumFrames = uimfData.Frames;
+            this.currentFrame = 1;
         }
 
         /// <summary>
@@ -216,7 +222,7 @@ namespace Atreyu.ViewModels
             FrameRange range = new FrameRange();
             range.StartFrame = this.StartFrame;
             range.EndFrame = this.EndFrame;
-            this._eventAggregator.GetEvent<SumFramesChangedEvent>().Publish(range);
+            ////this._eventAggregator.GetEvent<SumFramesChangedEvent>().Publish(range);
         }
 
         #endregion

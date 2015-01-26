@@ -90,6 +90,9 @@ namespace Viewer
             this.WhenAnyValue(vm => vm.heatMapViewModel.HeatMapData)
                 .Subscribe(this.totalIonChromatogramViewModel.UpdateReference);
 
+            this.WhenAnyValue(vm => vm.heatMapViewModel.HeatMapData)
+                .Subscribe(this.frameManipulationViewModel.UpdateUimf);
+
             this.WhenAnyValue(vm => vm.heatMapViewModel.HeatMapData.FrameData)
                 .Subscribe(this.totalIonChromatogramViewModel.UpdateFrameData);
 
