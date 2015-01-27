@@ -106,6 +106,10 @@ namespace Viewer
             this.WhenAnyValue(vm => vm.frameManipulationViewModel.CurrentFrame)
                 .Subscribe(this.heatMapViewModel.UpdateFrameNumber);
 
+
+            // hook up the frame summing feature
+            this.WhenAnyValue(vm => vm.frameManipulationViewModel.Range).Subscribe(this.heatMapViewModel.SumFrames);
+
             this.loadButton = new Button { Content = "Load" };
             this.loadButton.Click += this.LoadButtonClick;
             Grid.SetColumn(this.loadButton, 0);

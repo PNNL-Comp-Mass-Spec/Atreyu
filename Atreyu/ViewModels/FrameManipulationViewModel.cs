@@ -44,6 +44,8 @@ namespace Atreyu.ViewModels
         /// </summary>
         private int numFrames;
 
+        private FrameRange range;
+
         #endregion
 
         #region Constructors and Destructors
@@ -219,10 +221,22 @@ namespace Atreyu.ViewModels
         /// </summary>
         private void SumFrames()
         {
-            FrameRange range = new FrameRange();
-            range.StartFrame = this.StartFrame;
-            range.EndFrame = this.EndFrame;
+            FrameRange tempRange = new FrameRange { StartFrame = this.StartFrame, EndFrame = this.EndFrame };
+            this.Range = tempRange;
             ////this._eventAggregator.GetEvent<SumFramesChangedEvent>().Publish(range);
+        }
+
+        public FrameRange Range
+        {
+            get
+            {
+                return this.range;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.range, value);
+            }
         }
 
         #endregion

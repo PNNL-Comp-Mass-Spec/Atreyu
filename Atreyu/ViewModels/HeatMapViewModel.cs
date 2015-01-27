@@ -353,8 +353,12 @@ namespace Atreyu.ViewModels
         /// <param name="sumFrames">
         /// TODO The sum frames.
         /// </param>
-        private async void SumFrames(FrameRange sumFrames)
+        public async void SumFrames(FrameRange sumFrames)
         {
+            if (sumFrames == null) return;
+            if (this.HeatMapPlotModel == null) return;
+            if (this.HeatMapData == null) return;
+
             LinearAxis yAxis = this._heatMapPlotModel.Axes[2] as LinearAxis;
             var series = this._heatMapPlotModel.Series[0] as HeatMapSeries;
             var xAxis = this._heatMapPlotModel.Axes[1];
