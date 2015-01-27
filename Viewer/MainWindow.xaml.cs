@@ -87,15 +87,24 @@ namespace Viewer
             Grid.SetRow(this.totalIonChromatogramView, 3);
             this.MainGrid.Children.Add(this.totalIonChromatogramView);
 
+            // update the uimf data for the various components
             this.WhenAnyValue(vm => vm.heatMapViewModel.HeatMapData)
                 .Subscribe(this.totalIonChromatogramViewModel.UpdateReference);
 
             this.WhenAnyValue(vm => vm.heatMapViewModel.HeatMapData)
                 .Subscribe(this.frameManipulationViewModel.UpdateUimf);
 
+
+
+            // update the frame data of the TIC plot when needed
             this.WhenAnyValue(vm => vm.heatMapViewModel.HeatMapData.FrameData)
                 .Subscribe(this.totalIonChromatogramViewModel.UpdateFrameData);
 
+
+
+            // update the frame whenever it is changed via the frame manipulation view
+            this.WhenAnyValue(vm => vm.frameManipulationViewModel.CurrentFrame)
+                .Subscribe(this.heatMapViewModel.UpdateFrameNumber);
 
             this.loadButton = new Button { Content = "Load" };
             this.loadButton.Click += this.LoadButtonClick;

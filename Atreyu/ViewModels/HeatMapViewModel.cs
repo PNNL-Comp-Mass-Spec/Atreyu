@@ -218,9 +218,11 @@ namespace Atreyu.ViewModels
         /// <param name="frameNumber">
         /// TODO The frame number.
         /// </param>
-        public void UpdateFrameNumber(int? frameNumber)
+        public void UpdateFrameNumber(int frameNumber)
         {
-            this._currentFrame = frameNumber.Value;
+            this._currentFrame = frameNumber;
+
+            if (this.HeatMapPlotModel == null) return;
 
             var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
             if (series != null)
