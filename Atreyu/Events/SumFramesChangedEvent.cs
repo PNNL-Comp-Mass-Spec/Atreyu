@@ -6,7 +6,6 @@
 //   TODO The sum frames changed event.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Atreyu.Events
 {
     using Atreyu.Models;

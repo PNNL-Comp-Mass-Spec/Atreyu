@@ -6,19 +6,17 @@
 //   TODO The heat map view model.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Atreyu.ViewModels
 {
-    using Atreyu.Events;
-    using Atreyu.Models;
-    using Microsoft.Practices.Prism.Mvvm;
-    using Microsoft.Practices.Prism.PubSubEvents;
-    using OxyPlot;
-    using OxyPlot.Axes;
-    using OxyPlot.Series;
     using System;
     using System.ComponentModel.Composition;
     using System.Threading.Tasks;
+
+    using Atreyu.Models;
+
+    using OxyPlot;
+    using OxyPlot.Axes;
+    using OxyPlot.Series;
 
     using ReactiveUI;
 
@@ -36,22 +34,6 @@ namespace Atreyu.ViewModels
         private int _currentFrame;
 
         /// <summary>
-        /// TODO The _heat map data.
-        /// </summary>
-        public UimfData HeatMapData
-        {
-            get
-            {
-                return this.heatMapData;
-            }
-
-            private set
-            {
-                this.RaiseAndSetIfChanged(ref this.heatMapData, value);
-            }
-        }
-
-        /// <summary>
         /// TODO The _heat map plot model.
         /// </summary>
         private PlotModel _heatMapPlotModel;
@@ -61,15 +43,17 @@ namespace Atreyu.ViewModels
         /// </summary>
         private int _numFrames;
 
+        /// <summary>
+        /// TODO The heat map data.
+        /// </summary>
         private UimfData heatMapData;
+
+        #endregion
 
         ///// <summary>
         ///// TODO The _sum frames.
         ///// </summary>
-        //private FrameRange _sumFrames;
-
-        #endregion
-
+        // private FrameRange _sumFrames;
         #region Constructors and Destructors
 
         /// <summary>
@@ -92,6 +76,22 @@ namespace Atreyu.ViewModels
         #endregion
 
         #region Public Properties
+
+        /// <summary>
+        /// TODO The _heat map data.
+        /// </summary>
+        public UimfData HeatMapData
+        {
+            get
+            {
+                return this.heatMapData;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.heatMapData, value);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the heat map plot model.
@@ -126,18 +126,19 @@ namespace Atreyu.ViewModels
         /// </param>
         public void InitializeUimfData(string file)
         {
-            //this.HeatMapData.ReadFile(file);
+            // this.HeatMapData.ReadFile(file);
             this.HeatMapData = new UimfData(file);
             this.HeatMapData.CurrentMinBin = 0;
             this.HeatMapData.CurrentMaxBin = this.HeatMapData.TotalBins;
             this.SetUpPlot(1);
-            ////this._eventAggregator.GetEvent<UimfFileChangedEvent>().Publish(this.HeatMapData);
 
+            ////this._eventAggregator.GetEvent<UimfFileChangedEvent>().Publish(this.HeatMapData);
             this._numFrames = this.HeatMapData.Frames;
+
             ////this._eventAggregator.GetEvent<NumberOfFramesChangedEvent>().Publish(this._numFrames);
             ////this._eventAggregator.GetEvent<MinimumNumberOfFrames>().Publish(1);
-
             int? frameNumber = 1;
+
             ////this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Publish(frameNumber);
         }
 
@@ -213,6 +214,64 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
+        /// TODO The sum frames.
+        /// </summary>
+        /// <param name="sumFrames">
+        /// TODO The sum frames.
+        /// </param>
+        public async void SumFrames(FrameRange sumFrames)
+        {
+            if (sumFrames == null)
+            {
+                return;
+            }
+
+            if (this.HeatMapPlotModel == null)
+            {
+                return;
+            }
+
+            if (this.HeatMapData == null)
+            {
+                return;
+            }
+
+            LinearAxis yAxis = this._heatMapPlotModel.Axes[2] as LinearAxis;
+            var series = this._heatMapPlotModel.Series[0] as HeatMapSeries;
+            var xAxis = this._heatMapPlotModel.Axes[1];
+            this.HeatMapData.CurrentMinBin = (int)yAxis.ActualMinimum;
+            this.HeatMapData.CurrentMaxBin = (int)yAxis.ActualMaximum;
+
+            var startScan = (int)xAxis.ActualMinimum;
+            var endScan = (int)xAxis.ActualMaximum;
+
+            if (series != null)
+            {
+                await
+                    Task.Run(
+                        () =>
+                        series.Data =
+                        this.HeatMapData.ReadData(
+                            this.HeatMapData.CurrentMinBin, 
+                            this.HeatMapData.CurrentMaxBin, 
+                            sumFrames.StartFrame, 
+                            sumFrames.EndFrame, 
+                            this.Height, 
+                            startScan, 
+                            endScan));
+                series.X0 = startScan;
+                series.X1 = endScan;
+                series.Y0 = this.HeatMapData.CurrentMinBin;
+                series.Y1 = this.HeatMapData.CurrentMaxBin;
+            }
+
+            this._heatMapPlotModel.InvalidatePlot(true);
+
+            ////this._eventAggregator.GetEvent<XAxisChangedEvent>().Publish(this._heatMapPlotModel.Axes[1] as LinearAxis);
+            ////this._eventAggregator.GetEvent<YAxisChangedEvent>().Publish(this._heatMapPlotModel.Axes[2] as LinearAxis);
+        }
+
+        /// <summary>
         /// TODO The update frame number.
         /// </summary>
         /// <param name="frameNumber">
@@ -222,7 +281,10 @@ namespace Atreyu.ViewModels
         {
             this._currentFrame = frameNumber;
 
-            if (this.HeatMapPlotModel == null) return;
+            if (this.HeatMapPlotModel == null)
+            {
+                return;
+            }
 
             var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
             if (series != null)
@@ -236,6 +298,7 @@ namespace Atreyu.ViewModels
                     (int)this._heatMapPlotModel.Axes[1].ActualMinimum, 
                     (int)this._heatMapPlotModel.Axes[1].ActualMaximum);
                 this.HeatMapPlotModel.InvalidatePlot(true);
+
                 ////this._eventAggregator.GetEvent<XAxisChangedEvent>()
                 ////    .Publish(this._heatMapPlotModel.Axes[1] as LinearAxis);
                 ////this._eventAggregator.GetEvent<YAxisChangedEvent>()
@@ -256,11 +319,13 @@ namespace Atreyu.ViewModels
             {
                 return;
             }
+
             var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
             if (series == null)
             {
                 return;
             }
+
             series.Data = this.HeatMapData.ReadData(
                 this.HeatMapData.CurrentMinBin, 
                 this.HeatMapData.CurrentMaxBin, 
@@ -270,6 +335,7 @@ namespace Atreyu.ViewModels
                 (int)this._heatMapPlotModel.Axes[1].ActualMinimum, 
                 (int)this._heatMapPlotModel.Axes[1].ActualMaximum);
             this.HeatMapPlotModel.InvalidatePlot(true);
+
             ////this._eventAggregator.GetEvent<XAxisChangedEvent>()
             ////    .Publish(this._heatMapPlotModel.Axes[1] as LinearAxis);
             ////this._eventAggregator.GetEvent<YAxisChangedEvent>()
@@ -343,52 +409,7 @@ namespace Atreyu.ViewModels
             }
 
             this._heatMapPlotModel.InvalidatePlot(true);
-            ////this._eventAggregator.GetEvent<XAxisChangedEvent>().Publish(this._heatMapPlotModel.Axes[1] as LinearAxis);
-            ////this._eventAggregator.GetEvent<YAxisChangedEvent>().Publish(this._heatMapPlotModel.Axes[2] as LinearAxis);
-        }
 
-        /// <summary>
-        /// TODO The sum frames.
-        /// </summary>
-        /// <param name="sumFrames">
-        /// TODO The sum frames.
-        /// </param>
-        public async void SumFrames(FrameRange sumFrames)
-        {
-            if (sumFrames == null) return;
-            if (this.HeatMapPlotModel == null) return;
-            if (this.HeatMapData == null) return;
-
-            LinearAxis yAxis = this._heatMapPlotModel.Axes[2] as LinearAxis;
-            var series = this._heatMapPlotModel.Series[0] as HeatMapSeries;
-            var xAxis = this._heatMapPlotModel.Axes[1];
-            this.HeatMapData.CurrentMinBin = (int)yAxis.ActualMinimum;
-            this.HeatMapData.CurrentMaxBin = (int)yAxis.ActualMaximum;
-
-            var startScan = (int)xAxis.ActualMinimum;
-            var endScan = (int)xAxis.ActualMaximum;
-
-            if (series != null)
-            {
-                await
-                    Task.Run(
-                        () =>
-                        series.Data =
-                        this.HeatMapData.ReadData(
-                            this.HeatMapData.CurrentMinBin, 
-                            this.HeatMapData.CurrentMaxBin, 
-                            sumFrames.StartFrame, 
-                            sumFrames.EndFrame, 
-                            this.Height, 
-                            startScan, 
-                            endScan));
-                series.X0 = startScan;
-                series.X1 = endScan;
-                series.Y0 = this.HeatMapData.CurrentMinBin;
-                series.Y1 = this.HeatMapData.CurrentMaxBin;
-            }
-
-            this._heatMapPlotModel.InvalidatePlot(true);
             ////this._eventAggregator.GetEvent<XAxisChangedEvent>().Publish(this._heatMapPlotModel.Axes[1] as LinearAxis);
             ////this._eventAggregator.GetEvent<YAxisChangedEvent>().Publish(this._heatMapPlotModel.Axes[2] as LinearAxis);
         }

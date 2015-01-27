@@ -6,7 +6,6 @@
 //   TODO The minimum number of frames.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Atreyu.Events
 {
     using Microsoft.Practices.Prism.PubSubEvents;

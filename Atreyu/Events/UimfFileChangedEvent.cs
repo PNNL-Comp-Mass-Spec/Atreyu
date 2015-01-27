@@ -6,7 +6,6 @@
 //   TODO The uimf file changed event.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Atreyu.Events
 {
     using Atreyu.Models;

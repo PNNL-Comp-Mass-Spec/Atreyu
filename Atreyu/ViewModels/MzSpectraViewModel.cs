@@ -6,21 +6,21 @@
 //   TODO The mz spectra view model.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Atreyu.ViewModels
 {
-    using Atreyu.Events;
-    using Atreyu.Models;
-    //using Falkor.Events.Atreyu;
-
-    using Microsoft.Practices.Prism.Mvvm;
-    using Microsoft.Practices.Prism.PubSubEvents;
-    using OxyPlot;
-    using OxyPlot.Axes;
-    using OxyPlot.Series;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
+
+    using Atreyu.Models;
+
+    using Microsoft.Practices.Prism.Mvvm;
+
+    using OxyPlot;
+    using OxyPlot.Axes;
+    using OxyPlot.Series;
+
+    // using Falkor.Events.Atreyu;
 
     /// <summary>
     /// TODO The mz spectra view model.
@@ -103,17 +103,21 @@ namespace Atreyu.ViewModels
 
         #endregion
 
-        #region Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// TODO The update frame number.
         /// </summary>
-        /// <param name="frameNumber">
-        /// TODO The frame number.
+        /// <param name="framedata">
+        /// The framedata.
         /// </param>
         public void UpdateFrameData(double[,] framedata)
         {
-            if (this._uimfData == null) return;
+            if (this._uimfData == null)
+            {
+                return;
+            }
+
             if (framedata == null)
             {
                 return;
@@ -159,7 +163,10 @@ namespace Atreyu.ViewModels
         /// </param>
         public void UpdateReference(UimfData uimfData)
         {
-            if (uimfData == null) return;
+            if (uimfData == null)
+            {
+                return;
+            }
 
             this._uimfData = uimfData;
             this.MzPlotModel = new PlotModel();
@@ -180,9 +187,9 @@ namespace Atreyu.ViewModels
                                       IsZoomEnabled = false, 
                                       Position = AxisPosition.Top, 
                                       Key = "YAxisKey", 
-                                      IsPanEnabled = false,
-                                      MinimumPadding = 0,
-                                      StartPosition = 1,
+                                      IsPanEnabled = false, 
+                                      MinimumPadding = 0, 
+                                      StartPosition = 1, 
                                       EndPosition = 0
                                   };
             this.MzPlotModel.Axes.Add(linearYAxis);
@@ -194,6 +201,10 @@ namespace Atreyu.ViewModels
                                     };
             this.MzPlotModel.Series.Add(series);
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// TODO The update x axis.

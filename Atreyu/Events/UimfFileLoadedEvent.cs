@@ -6,7 +6,6 @@
 //   TODO The uimf file loaded event.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Atreyu.Events
 {
     using Microsoft.Practices.Prism.PubSubEvents;

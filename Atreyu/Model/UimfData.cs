@@ -6,7 +6,6 @@
 //   TODO The uimf data.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Atreyu.Models
 {
     using System;
@@ -27,10 +26,55 @@ namespace Atreyu.Models
         /// </summary>
         private DataReader _dataReader;
 
+        /// <summary>
+        /// TODO The current max bin.
+        /// </summary>
+        private int currentMaxBin;
+
+        /// <summary>
+        /// TODO The current min bin.
+        /// </summary>
+        private int currentMinBin;
+
         ///// <summary>
         ///// TODO The _start bin.
         ///// </summary>
-        //private int _startBin;
+        // private int _startBin;
+
+        /// <summary>
+        /// TODO The frame data.
+        /// </summary>
+        private double[,] frameData;
+
+        /// <summary>
+        /// TODO The frames.
+        /// </summary>
+        private int frames;
+
+        /// <summary>
+        /// TODO The max bins.
+        /// </summary>
+        private int maxBins;
+
+        /// <summary>
+        /// TODO The scans.
+        /// </summary>
+        private int scans;
+
+        /// <summary>
+        /// TODO The total bins.
+        /// </summary>
+        private int totalBins;
+
+        /// <summary>
+        /// TODO The values per pixel x.
+        /// </summary>
+        private double valuesPerPixelX;
+
+        /// <summary>
+        /// TODO The values per pixel y.
+        /// </summary>
+        private double valuesPerPixelY;
 
         #endregion
 
@@ -55,12 +99,43 @@ namespace Atreyu.Models
 
         #region Public Properties
 
-        private double[,] frameData;
+        /// <summary>
+        /// Gets or sets the current max bin.
+        /// </summary>
+        public int CurrentMaxBin
+        {
+            get
+            {
+                return this.currentMaxBin;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.currentMaxBin, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the current min bin.
+        /// </summary>
+        public int CurrentMinBin
+        {
+            get
+            {
+                return this.currentMinBin;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.currentMinBin, value);
+            }
+        }
+
         /// <summary>
         /// Gets or sets the frame data.
         /// </summary>
-        public double[,] FrameData 
-        { 
+        public double[,] FrameData
+        {
             get
             {
                 return this.frameData;
@@ -69,15 +144,14 @@ namespace Atreyu.Models
             set
             {
                 this.RaiseAndSetIfChanged(ref this.frameData, value);
-            } 
+            }
         }
 
-        private int frames;
         /// <summary>
         /// Gets or sets the frames.
         /// </summary>
-        public int Frames 
-        { 
+        public int Frames
+        {
             get
             {
                 return this.frames;
@@ -86,10 +160,8 @@ namespace Atreyu.Models
             set
             {
                 this.RaiseAndSetIfChanged(ref this.frames, value);
-            } 
+            }
         }
-
-        private int maxBins;
 
         /// <summary>
         /// Gets or sets the max bins.
@@ -107,8 +179,6 @@ namespace Atreyu.Models
             }
         }
 
-        private int scans;
-
         /// <summary>
         /// Gets or sets the scans.
         /// </summary>
@@ -125,8 +195,6 @@ namespace Atreyu.Models
             }
         }
 
-        private int totalBins;
-
         /// <summary>
         /// Gets or sets the total bins.
         /// </summary>
@@ -142,15 +210,6 @@ namespace Atreyu.Models
                 this.RaiseAndSetIfChanged(ref this.totalBins, value);
             }
         }
-
-
-        private double valuesPerPixelX;
-
-        private double valuesPerPixelY;
-
-        private int currentMaxBin;
-
-        private int currentMinBin;
 
         /// <summary>
         /// Gets or sets the values per pixel x.
@@ -177,39 +236,10 @@ namespace Atreyu.Models
             {
                 return this.valuesPerPixelY;
             }
+
             set
             {
                 this.RaiseAndSetIfChanged(ref this.valuesPerPixelY, value);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the current max bin.
-        /// </summary>
-        public int CurrentMaxBin
-        {
-            get
-            {
-                return this.currentMaxBin;
-            }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.currentMaxBin, value);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the current min bin.
-        /// </summary>
-        public int CurrentMinBin
-        {
-            get
-            {
-                return this.currentMinBin;
-            }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.currentMinBin, value);
             }
         }
 
@@ -276,7 +306,7 @@ namespace Atreyu.Models
             {
                 this.ValuesPerPixelX = 1;
             }
-            
+
             this.FrameData = this._dataReader.AccumulateFrameData(
                 startFrameNumber, 
                 endFrameNumber, 
@@ -287,7 +317,7 @@ namespace Atreyu.Models
                 endBin, 
                 this.ValuesPerPixelX, 
                 this.ValuesPerPixelY);
-                
+
             return this.FrameData;
         }
 

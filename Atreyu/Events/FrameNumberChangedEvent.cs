@@ -6,7 +6,6 @@
 //   TODO The frame number changed event.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Atreyu.Events
 {
     using Microsoft.Practices.Prism.PubSubEvents;

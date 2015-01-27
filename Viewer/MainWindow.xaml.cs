@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MainWindow.xaml.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Interaction logic for MainWindow.xaml
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Viewer
 {
+    using System;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
-    using System.Reactive.Linq;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Media;
 
     using Atreyu.ViewModels;
 
@@ -33,35 +30,75 @@ namespace Viewer
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region Fields
+
+        /// <summary>
+        /// TODO The event aggregator.
+        /// </summary>
         private EventAggregator eventAggregator = new EventAggregator();
 
-        private HeatMapViewModel heatMapViewModel;
-        private HeatMapView heatMapView;
-
-        private FrameManipulationViewModel frameManipulationViewModel;
-
+        /// <summary>
+        /// TODO The frame manipulation view.
+        /// </summary>
         private FrameManipulationView frameManipulationView;
 
-        private MzSpectraViewModel mzSpectraViewModel;
+        /// <summary>
+        /// TODO The frame manipulation view model.
+        /// </summary>
+        private FrameManipulationViewModel frameManipulationViewModel;
 
-        private MzSpectraView mzSpectraView;
+        /// <summary>
+        /// TODO The heat map view.
+        /// </summary>
+        private HeatMapView heatMapView;
 
-        private TotalIonChromatogramViewModel totalIonChromatogramViewModel;
+        /// <summary>
+        /// TODO The heat map view model.
+        /// </summary>
+        private HeatMapViewModel heatMapViewModel;
 
-        private TotalIonChromatogramView totalIonChromatogramView;
-
+        /// <summary>
+        /// TODO The load button.
+        /// </summary>
         private Button loadButton;
 
+        /// <summary>
+        /// TODO The mz spectra view.
+        /// </summary>
+        private MzSpectraView mzSpectraView;
+
+        /// <summary>
+        /// TODO The mz spectra view model.
+        /// </summary>
+        private MzSpectraViewModel mzSpectraViewModel;
+
+        /// <summary>
+        /// TODO The total ion chromatogram view.
+        /// </summary>
+        private TotalIonChromatogramView totalIonChromatogramView;
+
+        /// <summary>
+        /// TODO The total ion chromatogram view model.
+        /// </summary>
+        private TotalIonChromatogramViewModel totalIonChromatogramViewModel;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindow"/> class.
+        /// </summary>
         public MainWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
-            heatMapViewModel = new HeatMapViewModel();
-            heatMapView = new HeatMapView(heatMapViewModel);
+            this.heatMapViewModel = new HeatMapViewModel();
+            this.heatMapView = new HeatMapView(this.heatMapViewModel);
             Grid.SetColumn(this.heatMapView, 1);
             Grid.SetRow(this.heatMapView, 1);
             this.MainGrid.Children.Add(this.heatMapView);
-            
+
             this.frameManipulationViewModel = new FrameManipulationViewModel();
             this.frameManipulationView = new FrameManipulationView(this.frameManipulationViewModel);
             Grid.SetColumn(this.frameManipulationView, 1);
@@ -72,13 +109,15 @@ namespace Viewer
             this.mzSpectraView = new MzSpectraView(this.mzSpectraViewModel);
             var transform = new TransformGroup();
             transform.Children.Add(new RotateTransform(90));
-            //transform.Children.Add(new ScaleTransform(-1, 1));
-            //transform.Children.Add(new );
-            //this.mzSpectraView.RenderTransform = transform;
+
+            // transform.Children.Add(new ScaleTransform(-1, 1));
+            // transform.Children.Add(new );
+            // this.mzSpectraView.RenderTransform = transform;
             Grid.SetColumn(this.mzSpectraView, 0);
             Grid.SetRow(this.mzSpectraView, 1);
-            //this.mzSpectraView.VerticalAlignment = VerticalAlignment.Stretch;
-            //this.mzSpectraView.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+            // this.mzSpectraView.VerticalAlignment = VerticalAlignment.Stretch;
+            // this.mzSpectraView.HorizontalAlignment = HorizontalAlignment.Stretch;
             this.MainGrid.Children.Add(this.mzSpectraView);
 
             this.totalIonChromatogramViewModel = new TotalIonChromatogramViewModel(this.eventAggregator);
@@ -94,9 +133,7 @@ namespace Viewer
             this.WhenAnyValue(vm => vm.heatMapViewModel.HeatMapData)
                 .Subscribe(this.frameManipulationViewModel.UpdateUimf);
 
-            this.WhenAnyValue(vm => vm.heatMapViewModel.HeatMapData)
-                .Subscribe(this.mzSpectraViewModel.UpdateReference);
-
+            this.WhenAnyValue(vm => vm.heatMapViewModel.HeatMapData).Subscribe(this.mzSpectraViewModel.UpdateReference);
 
             // update the frame data of the TIC plot when needed
             this.WhenAnyValue(vm => vm.heatMapViewModel.HeatMapData.FrameData)
@@ -109,8 +146,6 @@ namespace Viewer
             // update the frame whenever it is changed via the frame manipulation view
             this.WhenAnyValue(vm => vm.frameManipulationViewModel.CurrentFrame)
                 .Subscribe(this.heatMapViewModel.UpdateFrameNumber);
-
-
 
             // hook up the frame summing feature
             this.WhenAnyValue(vm => vm.frameManipulationViewModel.Range).Subscribe(this.heatMapViewModel.SumFrames);
@@ -125,21 +160,60 @@ namespace Viewer
             this.PreviewDrop += this.MainTabControl_PreviewDragEnter;
         }
 
-        [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1503:CurlyBracketsMustNotBeOmitted", Justification = "Reviewed. Suppression is OK here.")]
-        void LoadButtonClick(object sender, RoutedEventArgs e)
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// TODO The load button click.
+        /// </summary>
+        /// <param name="sender">
+        /// TODO The sender.
+        /// </param>
+        /// <param name="e">
+        /// TODO The e.
+        /// </param>
+        [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1503:CurlyBracketsMustNotBeOmitted", 
+            Justification = "Reviewed. Suppression is OK here.")]
+        private void LoadButtonClick(object sender, RoutedEventArgs e)
         {
             var dialogue = new OpenFileDialog();
             dialogue.DefaultExt = ".uimf";
             dialogue.Filter = "Unified Ion Mobility File (*.uimf)|*.uimf";
-            
+
             var result = dialogue.ShowDialog();
 
-            if (result != true) return;
+            if (result != true)
+            {
+                return;
+            }
 
             var filename = dialogue.FileName;
             this.LoadFile(filename);
         }
 
+        /// <summary>
+        /// TODO The load file.
+        /// </summary>
+        /// <param name="fileName">
+        /// TODO The file name.
+        /// </param>
+        private void LoadFile(string fileName)
+        {
+            this.heatMapViewModel.InitializeUimfData(fileName);
+
+            // this.totalIonChromatogramViewModel.UpdateReference(this.heatMapViewModel.HeatMapData);
+        }
+
+        /// <summary>
+        /// TODO The main tab control_ preview drag enter.
+        /// </summary>
+        /// <param name="sender">
+        /// TODO The sender.
+        /// </param>
+        /// <param name="e">
+        /// TODO The e.
+        /// </param>
         private void MainTabControl_PreviewDragEnter(object sender, DragEventArgs e)
         {
             var isCorrect = true;
@@ -175,11 +249,6 @@ namespace Viewer
             e.Handled = true;
         }
 
-        private void LoadFile(string fileName)
-        {
-            this.heatMapViewModel.InitializeUimfData(fileName);
-            //this.totalIonChromatogramViewModel.UpdateReference(this.heatMapViewModel.HeatMapData);
-        }
-
+        #endregion
     }
 }

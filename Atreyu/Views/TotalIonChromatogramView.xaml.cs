@@ -6,12 +6,12 @@
 //   Interaction logic for TotalIonChromatogramView.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Falkor.Views.Atreyu
 {
-    using global::Atreyu.ViewModels;
     using System.ComponentModel.Composition;
     using System.Windows.Controls;
+
+    using global::Atreyu.ViewModels;
 
     /// <summary>
     /// Interaction logic for TotalIonChromatogramView.xaml

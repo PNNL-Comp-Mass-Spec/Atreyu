@@ -6,23 +6,23 @@
 //   TODO The total ion chromatogram view model.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Atreyu.ViewModels
 {
-    using Atreyu.Events;
-    using Atreyu.Models;
-    //using Falkor.Events.Atreyu;
-
-    using Microsoft.Practices.Prism.Mvvm;
-    using Microsoft.Practices.Prism.PubSubEvents;
-    using OxyPlot;
-    using OxyPlot.Axes;
-    using OxyPlot.Series;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
 
+    using Atreyu.Models;
+
+    using Microsoft.Practices.Prism.PubSubEvents;
+
+    using OxyPlot;
+    using OxyPlot.Axes;
+    using OxyPlot.Series;
+
     using ReactiveUI;
+
+    // using Falkor.Events.Atreyu;
 
     /// <summary>
     /// TODO The total ion chromatogram view model.
@@ -87,10 +87,10 @@ namespace Atreyu.ViewModels
                 throw new NullReferenceException();
             }
 
-            //this._eventAggregator = eventAggregator;
-            //this._eventAggregator.GetEvent<UimfFileChangedEvent>().Subscribe(this.UpdateReference, true);
-            //this._eventAggregator.GetEvent<XAxisChangedEvent>().Subscribe(this.UpdateAxes, true);
-            //this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Subscribe(this.UpdateFrameNumber, true);
+            // this._eventAggregator = eventAggregator;
+            // this._eventAggregator.GetEvent<UimfFileChangedEvent>().Subscribe(this.UpdateReference, true);
+            // this._eventAggregator.GetEvent<XAxisChangedEvent>().Subscribe(this.UpdateAxes, true);
+            // this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Subscribe(this.UpdateFrameNumber, true);
         }
 
         #endregion
@@ -111,6 +111,94 @@ namespace Atreyu.ViewModels
             {
                 this.RaiseAndSetIfChanged(ref this._ticPlotModel, value);
             }
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// TODO The update frame data.
+        /// </summary>
+        /// <param name="Data">
+        /// The Data.
+        /// </param>
+        public void UpdateFrameData(double[,] Data)
+        {
+            this._frameData = Data;
+            if (this._frameData != null)
+            {
+                if (this._endScan == 0)
+                {
+                    this._startScan = 0;
+                    this._endScan = 359;
+                }
+
+                Dictionary<int, double> frameData = new Dictionary<int, double>();
+
+                for (int i = 0; i < this._frameData.GetLength(0); i++)
+                {
+                    var index = i + this._startScan;
+                    for (int j = 0; j < this._frameData.GetLength(1); j++)
+                    {
+                        if (frameData.ContainsKey(index))
+                        {
+                            frameData[index] += this._frameData[i, j];
+                        }
+                        else
+                        {
+                            frameData.Add(index, this._frameData[i, j]);
+                        }
+                    }
+                }
+
+                var series = this.TicPlotModel.Series[0] as LineSeries;
+                series.Points.Clear();
+                foreach (var d in frameData)
+                {
+                    series.Points.Add(new DataPoint(d.Key, d.Value));
+                }
+
+                this.TicPlotModel.InvalidatePlot(true);
+            }
+        }
+
+        /// <summary>
+        /// TODO The update reference.
+        /// </summary>
+        /// <param name="uimfData">
+        /// TODO The uimf data.
+        /// </param>
+        public void UpdateReference(UimfData uimfData)
+        {
+            this.uimfData = uimfData;
+            if (this.TicPlotModel != null)
+            {
+                return;
+            }
+
+            this.TicPlotModel = new PlotModel();
+            var linearAxis = new LinearAxis
+                                 {
+                                     Position = AxisPosition.Bottom, 
+                                     AbsoluteMinimum = 0, 
+                                     IsPanEnabled = false, 
+                                     IsZoomEnabled = false
+                                 };
+            this.TicPlotModel.Axes.Add(linearAxis);
+
+            var linearYAxis = new LinearAxis
+                                  {
+                                      IsZoomEnabled = false, 
+                                      AbsoluteMinimum = 0, 
+                                      MinimumPadding = 0.1, 
+                                      IsPanEnabled = false
+                                  };
+
+            this.TicPlotModel.Axes.Add(linearYAxis);
+            var series = new LineSeries { Color = OxyColors.Black, };
+
+            this.TicPlotModel.Series.Add(series);
         }
 
         #endregion
@@ -188,88 +276,6 @@ namespace Atreyu.ViewModels
 
                 this.TicPlotModel.InvalidatePlot(true);
             }
-        }
-
-        /// <summary>
-        /// TODO The update frame data.
-        /// </summary>
-        public void UpdateFrameData(double[,] Data)
-        {
-            this._frameData = Data;
-            if (this._frameData != null)
-            {
-                if (this._endScan == 0)
-                {
-                    this._startScan = 0;
-                    this._endScan = 359;
-                }
-
-                Dictionary<int, double> frameData = new Dictionary<int, double>();
-
-                for (int i = 0; i < this._frameData.GetLength(0); i++)
-                {
-                    var index = i + this._startScan;
-                    for (int j = 0; j < this._frameData.GetLength(1); j++)
-                    {
-                        if (frameData.ContainsKey(index))
-                        {
-                            frameData[index] += this._frameData[i, j];
-                        }
-                        else
-                        {
-                            frameData.Add(index, this._frameData[i, j]);
-                        }
-                    }
-                }
-
-                var series = this.TicPlotModel.Series[0] as LineSeries;
-                series.Points.Clear();
-                foreach (var d in frameData)
-                {
-                    series.Points.Add(new DataPoint(d.Key, d.Value));
-                }
-
-                this.TicPlotModel.InvalidatePlot(true);
-            }
-        }
-
-        /// <summary>
-        /// TODO The update reference.
-        /// </summary>
-        /// <param name="uimfData">
-        /// TODO The uimf data.
-        /// </param>
-        public void UpdateReference(UimfData uimfData)
-        {
-
-            this.uimfData = uimfData;
-            if (this.TicPlotModel != null)
-            {
-                return;
-            }
-            
-            this.TicPlotModel = new PlotModel();
-            var linearAxis = new LinearAxis
-                                 {
-                                     Position = AxisPosition.Bottom,
-                                     AbsoluteMinimum = 0,
-                                     IsPanEnabled = false,
-                                     IsZoomEnabled = false
-                                 };
-            this.TicPlotModel.Axes.Add(linearAxis);
-
-            var linearYAxis = new LinearAxis
-                                  {
-                                      IsZoomEnabled = false, 
-                                      AbsoluteMinimum = 0, 
-                                      MinimumPadding = 0.1, 
-                                      IsPanEnabled = false
-                                  };
-
-            this.TicPlotModel.Axes.Add(linearYAxis);
-            var series = new LineSeries { Color = OxyColors.Black, };
-
-            this.TicPlotModel.Series.Add(series);
         }
 
         #endregion

@@ -6,14 +6,16 @@
 //   Interaction logic for FrameManipulationView.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Falkor.Views.Atreyu
 {
-    using global::Atreyu.ViewModels;
-    using Microsoft.Practices.Prism.Mvvm;
     using System.ComponentModel.Composition;
     using System.Windows;
     using System.Windows.Controls;
+
+    using global::Atreyu.ViewModels;
+
+    using Microsoft.Practices.Prism.Mvvm;
+
     /// <summary>
     /// Interaction logic for FrameManipulationView.xaml
     /// </summary>

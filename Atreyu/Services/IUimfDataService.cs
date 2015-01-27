@@ -1,7 +1,18 @@
-﻿namespace Atreyu.Services
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IUimfDataService.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   TODO The UimfDataService interface.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Atreyu.Services
 {
-	public interface IUimfDataService
-	{
-		 
-	}
+    /// <summary>
+    /// TODO The UimfDataService interface.
+    /// </summary>
+    public interface IUimfDataService
+    {
+    }
 }

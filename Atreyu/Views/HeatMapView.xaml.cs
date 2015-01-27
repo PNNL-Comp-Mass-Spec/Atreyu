@@ -6,15 +6,13 @@
 //   Interaction logic for HeatMapView.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Falkor.Views.Atreyu
 {
-    using System.IO;
-
-    using global::Atreyu.ViewModels;
     using System.ComponentModel.Composition;
     using System.Windows;
     using System.Windows.Controls;
+
+    using global::Atreyu.ViewModels;
 
     /// <summary>
     /// Interaction logic for HeatMapView.xaml
@@ -101,6 +99,5 @@ namespace Falkor.Views.Atreyu
         }
 
         #endregion
-
     }
 }

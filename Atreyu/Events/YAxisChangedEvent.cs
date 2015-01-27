@@ -6,7 +6,6 @@
 //   TODO The y axis changed event.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Atreyu.Events
 {
     using Microsoft.Practices.Prism.PubSubEvents;
