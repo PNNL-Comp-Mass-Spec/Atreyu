@@ -144,7 +144,7 @@ namespace Atreyu.ViewModels
                 series.Points.Clear();
                 foreach (var d in frameData)
                 {
-                    series.Points.Add(new DataPoint(d.Key, d.Value));
+                    series.Points.Add(new DataPoint(d.Value, d.Key));
                 }
             }
 
@@ -180,8 +180,10 @@ namespace Atreyu.ViewModels
                                       IsZoomEnabled = false, 
                                       Position = AxisPosition.Top, 
                                       Key = "YAxisKey", 
-                                      IsPanEnabled = false, 
-                                      MinimumPadding = 0
+                                      IsPanEnabled = false,
+                                      MinimumPadding = 0,
+                                      StartPosition = 1,
+                                      EndPosition = 0
                                   };
             this.MzPlotModel.Axes.Add(linearYAxis);
             LineSeries series = new LineSeries
