@@ -43,11 +43,6 @@ namespace Atreyu.ViewModels
         private int _endScan;
 
         /// <summary>
-        /// TODO The _event aggregator.
-        /// </summary>
-        private IEventAggregator _eventAggregator;
-
-        /// <summary>
         /// TODO The _frame data.
         /// </summary>
         private double[,] _frameData;
@@ -80,13 +75,8 @@ namespace Atreyu.ViewModels
         /// <exception cref="NullReferenceException">
         /// </exception>
         [ImportingConstructor]
-        public TotalIonChromatogramViewModel(IEventAggregator eventAggregator)
+        public TotalIonChromatogramViewModel()
         {
-            if (eventAggregator == null)
-            {
-                throw new NullReferenceException();
-            }
-
             // this._eventAggregator = eventAggregator;
             // this._eventAggregator.GetEvent<UimfFileChangedEvent>().Subscribe(this.UpdateReference, true);
             // this._eventAggregator.GetEvent<XAxisChangedEvent>().Subscribe(this.UpdateAxes, true);

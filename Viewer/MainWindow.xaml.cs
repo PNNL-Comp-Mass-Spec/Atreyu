@@ -120,7 +120,7 @@ namespace Viewer
             // this.mzSpectraView.HorizontalAlignment = HorizontalAlignment.Stretch;
             this.MainGrid.Children.Add(this.mzSpectraView);
 
-            this.totalIonChromatogramViewModel = new TotalIonChromatogramViewModel(this.eventAggregator);
+            this.totalIonChromatogramViewModel = new TotalIonChromatogramViewModel();
             this.totalIonChromatogramView = new TotalIonChromatogramView(this.totalIonChromatogramViewModel);
             Grid.SetColumn(this.totalIonChromatogramView, 1);
             Grid.SetRow(this.totalIonChromatogramView, 3);
