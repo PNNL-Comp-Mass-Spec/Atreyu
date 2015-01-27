@@ -41,11 +41,6 @@ namespace Atreyu.ViewModels
         private int _endMzBin;
 
         /// <summary>
-        /// TODO The _event aggregator.
-        /// </summary>
-        private IEventAggregator _eventAggregator;
-
-        /// <summary>
         /// TODO The _frame data.
         /// </summary>
         private double[,] _frameData;
@@ -78,17 +73,12 @@ namespace Atreyu.ViewModels
         /// <exception cref="ArgumentNullException">
         /// </exception>
         [ImportingConstructor]
-        public MzSpectraViewModel(IEventAggregator eventAggregator)
+        public MzSpectraViewModel()
         {
-            if (eventAggregator == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            this._eventAggregator = eventAggregator;
-            this._eventAggregator.GetEvent<UimfFileChangedEvent>().Subscribe(this.UpdateReference, true);
-            this._eventAggregator.GetEvent<YAxisChangedEvent>().Subscribe(this.UpdateXAxis, true);
-            this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Subscribe(this.UpdateFrameNumber, true);
+            ////this._eventAggregator = eventAggregator;
+            ////this._eventAggregator.GetEvent<UimfFileChangedEvent>().Subscribe(this.UpdateReference, true);
+            ////this._eventAggregator.GetEvent<YAxisChangedEvent>().Subscribe(this.UpdateXAxis, true);
+            ////this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Subscribe(this.UpdateFrameNumber, true);
         }
 
         #endregion
@@ -121,42 +111,44 @@ namespace Atreyu.ViewModels
         /// <param name="frameNumber">
         /// TODO The frame number.
         /// </param>
-        private void UpdateFrameNumber(int? frameNumber)
+        public void UpdateFrameData(double[,] framedata)
         {
-            this._currentFrameNumber = frameNumber.Value;
-            this._frameData = this._uimfData.FrameData;
-            if (this._frameData != null)
+            if (this._uimfData == null) return;
+            if (framedata == null)
             {
-                Dictionary<int, double> frameData = new Dictionary<int, double>();
-
-                for (int j = 0; j < this._frameData.GetLength(1); j++)
-                {
-                    var index = j + this._startMzBin;
-                    for (int i = 0; i < this._frameData.GetLength(0); i++)
-                    {
-                        if (frameData.ContainsKey(index))
-                        {
-                            frameData[index] += this._frameData[i, j];
-                        }
-                        else
-                        {
-                            frameData.Add(index, this._frameData[i, j]);
-                        }
-                    }
-                }
-
-                var series = this.MzPlotModel.Series[0] as LineSeries;
-                if (series != null)
-                {
-                    series.Points.Clear();
-                    foreach (var d in frameData)
-                    {
-                        series.Points.Add(new DataPoint(d.Key, d.Value));
-                    }
-                }
-
-                this.MzPlotModel.InvalidatePlot(true);
+                return;
             }
+
+            this._frameData = framedata;
+            Dictionary<int, double> frameData = new Dictionary<int, double>();
+
+            for (int j = 0; j < this._frameData.GetLength(1); j++)
+            {
+                var index = j + this._startMzBin;
+                for (int i = 0; i < this._frameData.GetLength(0); i++)
+                {
+                    if (frameData.ContainsKey(index))
+                    {
+                        frameData[index] += this._frameData[i, j];
+                    }
+                    else
+                    {
+                        frameData.Add(index, this._frameData[i, j]);
+                    }
+                }
+            }
+
+            var series = this.MzPlotModel.Series[0] as LineSeries;
+            if (series != null)
+            {
+                series.Points.Clear();
+                foreach (var d in frameData)
+                {
+                    series.Points.Add(new DataPoint(d.Key, d.Value));
+                }
+            }
+
+            this.MzPlotModel.InvalidatePlot(true);
         }
 
         /// <summary>
@@ -165,14 +157,11 @@ namespace Atreyu.ViewModels
         /// <param name="uimfData">
         /// TODO The uimf data.
         /// </param>
-        private void UpdateReference(UimfData uimfData)
+        public void UpdateReference(UimfData uimfData)
         {
-            this._uimfData = uimfData;
-            if (this.MzPlotModel != null)
-            {
-                return;
-            }
+            if (uimfData == null) return;
 
+            this._uimfData = uimfData;
             this.MzPlotModel = new PlotModel();
             var linearAxis = new LinearAxis
                                  {

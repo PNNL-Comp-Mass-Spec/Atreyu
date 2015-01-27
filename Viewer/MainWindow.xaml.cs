@@ -62,13 +62,13 @@ namespace Viewer
             Grid.SetRow(this.heatMapView, 1);
             this.MainGrid.Children.Add(this.heatMapView);
             
-            this.frameManipulationViewModel = new FrameManipulationViewModel(this.eventAggregator);
+            this.frameManipulationViewModel = new FrameManipulationViewModel();
             this.frameManipulationView = new FrameManipulationView(this.frameManipulationViewModel);
             Grid.SetColumn(this.frameManipulationView, 1);
             Grid.SetRow(this.frameManipulationView, 0);
             this.MainGrid.Children.Add(this.frameManipulationView);
 
-            this.mzSpectraViewModel = new MzSpectraViewModel(this.eventAggregator);
+            this.mzSpectraViewModel = new MzSpectraViewModel();
             this.mzSpectraView = new MzSpectraView(this.mzSpectraViewModel);
             var transform = new TransformGroup();
             transform.Children.Add(new RotateTransform(90));
@@ -94,17 +94,22 @@ namespace Viewer
             this.WhenAnyValue(vm => vm.heatMapViewModel.HeatMapData)
                 .Subscribe(this.frameManipulationViewModel.UpdateUimf);
 
+            this.WhenAnyValue(vm => vm.heatMapViewModel.HeatMapData)
+                .Subscribe(this.mzSpectraViewModel.UpdateReference);
 
 
             // update the frame data of the TIC plot when needed
             this.WhenAnyValue(vm => vm.heatMapViewModel.HeatMapData.FrameData)
                 .Subscribe(this.totalIonChromatogramViewModel.UpdateFrameData);
 
-
+            // Update the Framedata of the M/Z plot when needed
+            this.WhenAnyValue(vm => vm.heatMapViewModel.HeatMapData.FrameData)
+                .Subscribe(this.mzSpectraViewModel.UpdateFrameData);
 
             // update the frame whenever it is changed via the frame manipulation view
             this.WhenAnyValue(vm => vm.frameManipulationViewModel.CurrentFrame)
                 .Subscribe(this.heatMapViewModel.UpdateFrameNumber);
+
 
 
             // hook up the frame summing feature

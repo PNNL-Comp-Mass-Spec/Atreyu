@@ -56,13 +56,8 @@ namespace Atreyu.ViewModels
         /// <param name="eventAggregator">
         /// </param>
         [ImportingConstructor]
-        public FrameManipulationViewModel(IEventAggregator eventAggregator)
+        public FrameManipulationViewModel()
         {
-            if (eventAggregator == null)
-            {
-                throw new ArgumentNullException();
-            }
-
             this.OpenFileCommand = new DelegateCommand(this.Open);
             this.SumFramesCommand = new DelegateCommand(this.SumFrames);
 
