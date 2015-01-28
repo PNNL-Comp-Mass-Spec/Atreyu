@@ -193,10 +193,14 @@
     <Compile Include="Model\FrameRange.cs" />
     <Compile Include="RegionNames.cs" />
     <Compile Include="Services\IUimfDataService.cs" />
+    <Compile Include="ViewModels\CombinedHeatmapViewModel.cs" />
     <Compile Include="ViewModels\FrameManipulationViewModel.cs" />
     <Compile Include="ViewModels\HeatMapViewModel.cs" />
     <Compile Include="ViewModels\MzSpectraViewModel.cs" />
     <Compile Include="ViewModels\TotalIonChromatogramViewModel.cs" />
+    <Compile Include="Views\CombinedHeatmapView.xaml.cs">
+      <DependentUpon>CombinedHeatmapView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FrameManipulationView.xaml.cs">
       <DependentUpon>FrameManipulationView.xaml</DependentUpon>
     </Compile>
@@ -210,6 +214,10 @@
       <DependentUpon>TotalIonChromatogramView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\UimfData.cs" />
+    <Page Include="Views\CombinedHeatmapView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\FrameManipulationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
