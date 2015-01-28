@@ -1,16 +1,14 @@
 ﻿<Window x:Class="Viewer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:y="clr-namespace:Atreyu.Views;assembly=Atreyu"
         Title="MainWindow" Height="600" Width="800">
-    <Grid Name="MainGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="3*" />
-            <RowDefinition Height="1*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="5*" />
-        </Grid.ColumnDefinitions>
-    </Grid>
+    <DockPanel Name="MainDockPanel">
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Name="OpenButton" Content="Open" />
+            </ToolBar>
+        </ToolBarTray>
+        <y:CombinedHeatmapView Name="CombinedHeatmapView"/>
+    </DockPanel>
 </Window>
