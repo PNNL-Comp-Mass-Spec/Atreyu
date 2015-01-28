@@ -8,12 +8,13 @@
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
-            <RowDefinition Height="3*" />
-            <RowDefinition Height="1*" />
+            <RowDefinition Height="6*" />
+            <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="10*" />
             <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="5*" />
         </Grid.ColumnDefinitions>
     </Grid>
 </UserControl>

@@ -162,6 +162,8 @@ namespace Atreyu.ViewModels
                                            Title = "Intensity"
                                        };
 
+            linearColorAxis1.IsAxisVisible = this.AxisVisible;
+
             this.HeatMapPlotModel.Axes.Add(linearColorAxis1);
 
             var horizontalAxis = new LinearAxis
@@ -173,7 +175,7 @@ namespace Atreyu.ViewModels
                                          MaximumPadding = 0, 
                                          Title = "Mobility Scans"
                                      };
-
+            horizontalAxis.IsAxisVisible = AxisVisible;
             // horizontalAxis.AxisChanged += OnXAxisChange;
             this.HeatMapPlotModel.Axes.Add(horizontalAxis);
 
@@ -183,9 +185,15 @@ namespace Atreyu.ViewModels
                                        AbsoluteMaximum = this.HeatMapData.MaxBins, 
                                        MinimumRange = 10, 
                                        MaximumPadding = 0, 
-                                       Title = "TOF Bins"
+                                       Title = "TOF Bins",
+                                       TickStyle = TickStyle.Inside,
+                                       AxisDistance = -2,
+                                       TextColor = OxyColors.Red,
+                                       TicklineColor = OxyColors.Red,
+                                       Layer = AxisLayer.AboveSeries
                                    };
 
+            verticalAxis.IsAxisVisible = AxisVisible;
             verticalAxis.AxisChanged += this.OnYAxisChange;
 
             this.HeatMapPlotModel.Axes.Add(verticalAxis);
@@ -413,6 +421,8 @@ namespace Atreyu.ViewModels
             ////this._eventAggregator.GetEvent<XAxisChangedEvent>().Publish(this._heatMapPlotModel.Axes[1] as LinearAxis);
             ////this._eventAggregator.GetEvent<YAxisChangedEvent>().Publish(this._heatMapPlotModel.Axes[2] as LinearAxis);
         }
+
+        public bool AxisVisible { get; set; }
 
         #endregion
     }

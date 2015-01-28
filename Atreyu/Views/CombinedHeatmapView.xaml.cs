@@ -69,6 +69,7 @@ namespace Atreyu.Views
             this.heatMapView = new HeatMapView(this.ViewModel.HeatMapViewModel);
             Grid.SetColumn(this.heatMapView, 1);
             Grid.SetRow(this.heatMapView, 1);
+            Grid.SetColumnSpan(this.heatMapView, 2);
             this.MainGrid.Children.Add(this.heatMapView);
 
             this.frameManipulationView = new FrameManipulationView(this.ViewModel.FrameManipulationViewModel);
@@ -84,6 +85,7 @@ namespace Atreyu.Views
             this.totalIonChromatogramView = new TotalIonChromatogramView(this.ViewModel.TotalIonChromatogramViewModel);
             Grid.SetColumn(this.totalIonChromatogramView, 1);
             Grid.SetRow(this.totalIonChromatogramView, 3);
+            Grid.SetColumnSpan(this.totalIonChromatogramView, 2);
             this.MainGrid.Children.Add(this.totalIonChromatogramView);
 
             this.AllowDrop = true;
