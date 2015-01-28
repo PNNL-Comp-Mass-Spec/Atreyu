@@ -177,9 +177,11 @@ namespace Viewer
             Justification = "Reviewed. Suppression is OK here.")]
         private void LoadButtonClick(object sender, RoutedEventArgs e)
         {
-            var dialogue = new OpenFileDialog();
-            dialogue.DefaultExt = ".uimf";
-            dialogue.Filter = "Unified Ion Mobility File (*.uimf)|*.uimf";
+            var dialogue = new OpenFileDialog
+                               {
+                                   DefaultExt = ".uimf",
+                                   Filter = "Unified Ion Mobility File (*.uimf)|*.uimf"
+                               };
 
             var result = dialogue.ShowDialog();
 
