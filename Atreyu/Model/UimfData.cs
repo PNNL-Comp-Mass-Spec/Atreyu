@@ -243,6 +243,68 @@ namespace Atreyu.Models
             }
         }
 
+        private int startscan;
+        public int StartScan
+        {
+            get
+            {
+                return this.startscan;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.startscan, value);
+            }
+        }
+
+        private int endScan;
+
+        public int EndScan
+        {
+            get
+            {
+                return this.endScan;
+            }
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.endScan, value);
+            }
+        }
+
+
+
+
+        private int startframeNumber;
+        public int StartFrameNumber
+        {
+            get
+            {
+                return this.startframeNumber;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.startframeNumber, value);
+            }
+        }
+
+        private int endframeNumber;
+
+        public int EndFrameNumber
+        {
+            get
+            {
+                return this.endframeNumber;
+            }
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.endframeNumber, value);
+            }
+        }
+
+
+
+
         #endregion
 
         #region Public Methods and Operators
@@ -284,15 +346,9 @@ namespace Atreyu.Models
             int startScan = 0, 
             int endScan = 359)
         {
-            if (endScan > this.Scans)
-            {
-                endScan = this.Scans;
-            }
+            this.EndScan = endScan > this.Scans ? this.Scans : endScan;
 
-            if (startScan < 0)
-            {
-                startScan = 0;
-            }
+            this.StartScan = startScan < 0 ? 0 : startScan;
 
             this.TotalBins = this.CurrentMaxBin - this.CurrentMinBin + 1;
             this.ValuesPerPixelY = this.TotalBins / (double)height;
@@ -307,12 +363,15 @@ namespace Atreyu.Models
                 this.ValuesPerPixelX = 1;
             }
 
+            this.StartFrameNumber = startFrameNumber;
+            this.EndFrameNumber = endFrameNumber;
+
             this.FrameData = this._dataReader.AccumulateFrameData(
                 startFrameNumber, 
                 endFrameNumber, 
                 false, 
-                startScan, 
-                endScan, 
+                this.StartScan, 
+                this.EndScan, 
                 startBin, 
                 endBin, 
                 this.ValuesPerPixelX, 
