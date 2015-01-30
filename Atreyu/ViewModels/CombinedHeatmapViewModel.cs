@@ -56,11 +56,17 @@ namespace Atreyu.ViewModels
             // hook up the frame summing feature
             this.WhenAnyValue(vm => vm.FrameManipulationViewModel.Range).Subscribe(this.HeatMapViewModel.SumFrames);
 
+            // These make the axis on the TIC update properly
             this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.StartScan)
                 .Subscribe(this.TotalIonChromatogramViewModel.ChangeStartScan);
-
             this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.EndScan)
                 .Subscribe(this.TotalIonChromatogramViewModel.ChangeEndScan);
+
+            // These make the axis on the mz plot update properly
+            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.CurrentMinBin)
+                .Subscribe(this.MzSpectraViewModel.changeStartBin);
+            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.CurrentMaxBin)
+                .Subscribe(this.MzSpectraViewModel.changeEndBin);
         }
 
         #endregion
