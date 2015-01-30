@@ -5,12 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:oxy="http://oxyplot.codeplex.com"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="70" d:DesignWidth="400">
 	<Grid>
-		<Slider Maximum="{Binding NumFrames}" Minimum="{Binding MinNumFrame}" VerticalAlignment="Top" TickPlacement="Both" TickFrequency="50" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged"/>
+		<Slider Maximum="{Binding NumFrames}" Minimum="{Binding MinNumFrame}" VerticalAlignment="Top" TickPlacement="Both" TickFrequency="5" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged"/>
 		<TextBox x:Name="StartFrameTextBox" HorizontalAlignment="Left" Height="23" Margin="82,35,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="50" TextChanged="StartFrameTextBox_TextChanged"/>
 		<Button x:Name="SumFramesButton" Content="Sum Frames" Command="{Binding SumFramesCommand}" Margin="192,32,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="108"/>
 		<TextBox x:Name="EndFrameTextBox" HorizontalAlignment="Left" Height="23" Margin="137,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" TextChanged="EndFrameTextBox_TextChanged"/>
 		<TextBlock HorizontalAlignment="Left" Margin="10,35,0,0" TextWrapping="Wrap" Text="{Binding CurrentFrame}" VerticalAlignment="Top" Height="22" Width="67"/>
+        <CheckBox Name="MzMode" HorizontalAlignment="Left" Margin="310,35,0,0" Content="M/Z Mode" />
 	</Grid>
 </UserControl>
