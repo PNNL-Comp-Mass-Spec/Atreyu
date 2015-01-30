@@ -153,6 +153,21 @@ namespace Atreyu.ViewModels
         /// </summary>
         public ICommand SumFramesCommand { get; private set; }
 
+        private bool mzModeEnabled;
+
+        public bool MzModeEnabled
+        {
+            get
+            {
+                return this.mzModeEnabled;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.mzModeEnabled, value);
+            }
+        }
+
         #endregion
 
         #region Public Methods and Operators
