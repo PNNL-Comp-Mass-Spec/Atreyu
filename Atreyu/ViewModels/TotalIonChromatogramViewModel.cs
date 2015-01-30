@@ -153,14 +153,17 @@ namespace Atreyu.ViewModels
 
                 var series = this.TicPlotModel.Series[0] as LineSeries;
                 series.MarkerType = MarkerType.Circle;
-                series.MarkerSize = 4;
-                series.MarkerStrokeThickness = 2;
-                series.MarkerFill = OxyColors.Red;
-                series.LineStyle = LineStyle.Dash;
+                series.MarkerSize = 2.5;
+                //series.MarkerStrokeThickness = 2;
+                series.MarkerFill = OxyColors.Black;
+                series.BrokenLineColor = OxyColors.Automatic;
+                series.BrokenLineStyle = LineStyle.Dot;
+                series.BrokenLineThickness = 1;
                 series.Points.Clear();
                 foreach (var d in frameData)
                 {
                     series.Points.Add(new DataPoint(d.Key, d.Value));
+                    series.Points.Add(new DataPoint(double.NaN, double.NaN));
                 }
 
                 this.TicPlotModel.InvalidatePlot(true);
