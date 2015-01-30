@@ -87,6 +87,15 @@ namespace Atreyu.ViewModels
 
         #region Public Properties
 
+        public void ChangeStartScan(int value)
+        {
+            this._startScan = value;
+        }
+
+        public void ChangeEndScan(int value)
+        {
+            this._endScan = value;
+        }
         /// <summary>
         /// Gets or sets the tic plot model.
         /// </summary>
@@ -128,7 +137,7 @@ namespace Atreyu.ViewModels
 
                 for (int i = 0; i < this._frameData.GetLength(0); i++)
                 {
-                    var index = i + this._startScan;
+                    var index = i + this._startScan + 1;
                     for (int j = 0; j < this._frameData.GetLength(1); j++)
                     {
                         if (frameData.ContainsKey(index))
@@ -170,7 +179,7 @@ namespace Atreyu.ViewModels
             this.TicPlotModel = new PlotModel();
             var linearAxis = new LinearAxis
                                  {
-                                     Position = AxisPosition.Bottom, 
+                                     Position = AxisPosition.Top, 
                                      AbsoluteMinimum = 0, 
                                      IsPanEnabled = false, 
                                      IsZoomEnabled = false
@@ -183,6 +192,7 @@ namespace Atreyu.ViewModels
                                       AbsoluteMinimum = 0, 
                                       MinimumPadding = 0.1, 
                                       IsPanEnabled = false
+                                      IsAxisVisible = false
                                   };
 
             this.TicPlotModel.Axes.Add(linearYAxis);

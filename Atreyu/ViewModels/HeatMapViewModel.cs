@@ -159,10 +159,9 @@ namespace Atreyu.ViewModels
                                            LowColor = OxyColors.Black, 
                                            Position = AxisPosition.Right, 
                                            Minimum = 1, 
-                                           Title = "Intensity"
+                                           Title = "Intensity",
+                                           IsAxisVisible = this.AxisVisible
                                        };
-
-            linearColorAxis1.IsAxisVisible = this.AxisVisible;
 
             this.HeatMapPlotModel.Axes.Add(linearColorAxis1);
 
@@ -173,9 +172,9 @@ namespace Atreyu.ViewModels
                                          AbsoluteMaximum = this.HeatMapData.Scans, 
                                          MinimumRange = 10, 
                                          MaximumPadding = 0, 
-                                         Title = "Mobility Scans"
+                                         Title = "Mobility Scans",
+                                         IsAxisVisible = this.AxisVisible
                                      };
-            horizontalAxis.IsAxisVisible = AxisVisible;
             // horizontalAxis.AxisChanged += OnXAxisChange;
             this.HeatMapPlotModel.Axes.Add(horizontalAxis);
 
@@ -190,10 +189,10 @@ namespace Atreyu.ViewModels
                                        AxisDistance = -2,
                                        TextColor = OxyColors.Red,
                                        TicklineColor = OxyColors.Red,
-                                       Layer = AxisLayer.AboveSeries
+                                       Layer = AxisLayer.AboveSeries,
+                                       IsAxisVisible = this.AxisVisible
                                    };
 
-            verticalAxis.IsAxisVisible = AxisVisible;
             verticalAxis.AxisChanged += this.OnYAxisChange;
 
             this.HeatMapPlotModel.Axes.Add(verticalAxis);

@@ -55,6 +55,12 @@ namespace Atreyu.ViewModels
 
             // hook up the frame summing feature
             this.WhenAnyValue(vm => vm.FrameManipulationViewModel.Range).Subscribe(this.HeatMapViewModel.SumFrames);
+
+            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.StartScan)
+                .Subscribe(this.TotalIonChromatogramViewModel.ChangeStartScan);
+
+            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.EndScan)
+                .Subscribe(this.TotalIonChromatogramViewModel.ChangeEndScan);
         }
 
         #endregion
