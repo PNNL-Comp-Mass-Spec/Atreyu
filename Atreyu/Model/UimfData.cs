@@ -9,6 +9,11 @@
 namespace Atreyu.Models
 {
     using System;
+    using System.Collections.Generic;
+    using System.Dynamic;
+    using System.Linq;
+    using System.Windows;
+    using System.Windows.Annotations;
 
     using ReactiveUI;
 
@@ -377,8 +382,48 @@ namespace Atreyu.Models
                 this.ValuesPerPixelX, 
                 this.ValuesPerPixelY);
 
+            
+            //  m/z=(K(t-t0))^2
+            // where K = slope
+            // t = bin
+            // and t0 = intercept
+            // but what units?
+            var frameData = this._dataReader.GetFrameParams(startFrameNumber);
+            double[] mzData;
+            int[] intensityData;
+
+            this._dataReader.GetSpectrum(
+                startFrameNumber,
+                endFrameNumber,
+                frameData.FrameType,
+                startScan,
+                endScan,
+                startBin,
+                endBin,
+                out mzData,
+                out intensityData);
+
+            var dict = intensityData.ToDictionary(i => mzData[i], i => intensityData[i]);
+
+            this.MzData = dict;
+
             return this.FrameData;
         }
+
+
+        private Dictionary<double, int> mzData = new Dictionary<double, int>();
+        public Dictionary<double, int> MzData 
+            {
+                get
+                {
+                    return this.mzData;
+                }
+
+                private set
+                {
+                    this.RaiseAndSetIfChanged(ref this.mzData, value);
+                }
+            }
 
         #endregion
 
