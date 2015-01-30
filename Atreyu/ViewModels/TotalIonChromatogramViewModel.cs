@@ -137,7 +137,7 @@ namespace Atreyu.ViewModels
 
                 for (int i = 0; i < this._frameData.GetLength(0); i++)
                 {
-                    var index = i + this._startScan + 1;
+                    var index = i + this._startScan;
                     for (int j = 0; j < this._frameData.GetLength(1); j++)
                     {
                         if (frameData.ContainsKey(index))
@@ -152,6 +152,11 @@ namespace Atreyu.ViewModels
                 }
 
                 var series = this.TicPlotModel.Series[0] as LineSeries;
+                series.MarkerType = MarkerType.Circle;
+                series.MarkerSize = 4;
+                series.MarkerStrokeThickness = 2;
+                series.MarkerFill = OxyColors.Red;
+                series.LineStyle = LineStyle.Dash;
                 series.Points.Clear();
                 foreach (var d in frameData)
                 {
@@ -191,7 +196,7 @@ namespace Atreyu.ViewModels
                                       IsZoomEnabled = false, 
                                       AbsoluteMinimum = 0, 
                                       MinimumPadding = 0.1, 
-                                      IsPanEnabled = false
+                                      IsPanEnabled = false,
                                       IsAxisVisible = false
                                   };
 
