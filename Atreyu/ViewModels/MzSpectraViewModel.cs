@@ -62,6 +62,16 @@ namespace Atreyu.ViewModels
 
         #endregion
 
+        public void changeStartBin(int bin)
+        {
+            this._startMzBin = bin;
+        }
+
+        public void changeEndBin(int bin)
+        {
+            this._endMzBin = bin;
+        }
+
         #region Constructors and Destructors
 
         /// <summary>
