@@ -11,6 +11,7 @@ namespace Atreyu.ViewModels
 {
     using System;
     using System.ComponentModel.Composition;
+    using System.Reactive.Linq;
 
     using ReactiveUI;
 
@@ -46,7 +47,7 @@ namespace Atreyu.ViewModels
                 .Subscribe(this.TotalIonChromatogramViewModel.UpdateFrameData);
 
             // Update the Framedata of the M/Z plot when needed
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.FrameData)
+            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.FrameData).Where(i => !this.FrameManipulationViewModel.MzModeEnabled)
                 .Subscribe(this.MzSpectraViewModel.UpdateFrameData);
 
             // update the frame whenever it is changed via the frame manipulation view
@@ -63,10 +64,13 @@ namespace Atreyu.ViewModels
                 .Subscribe(this.TotalIonChromatogramViewModel.ChangeEndScan);
 
             // These make the axis on the mz plot update properly
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.CurrentMinBin)
+            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.CurrentMinBin).Where(i => !this.FrameManipulationViewModel.MzModeEnabled)
                 .Subscribe(this.MzSpectraViewModel.changeStartBin);
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.CurrentMaxBin)
+            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.CurrentMaxBin).Where(i => !this.FrameManipulationViewModel.MzModeEnabled)
                 .Subscribe(this.MzSpectraViewModel.changeEndBin);
+
+            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.MzData).Where(i => this.FrameManipulationViewModel.MzModeEnabled)
+                .Subscribe(this.MzSpectraViewModel.UpdateFrameData);
         }
 
         #endregion

@@ -403,7 +403,12 @@ namespace Atreyu.Models
                 out mzData,
                 out intensityData);
 
-            var dict = intensityData.ToDictionary(i => mzData[i], i => intensityData[i]);
+            var dict = new Dictionary<double, int>(mzData.GetLength(0));
+
+            for (var i = 0; i < mzData.GetLength(0); i++)
+            {
+                dict.Add(mzData[i], intensityData[i]);
+            }
 
             this.MzData = dict;
 
