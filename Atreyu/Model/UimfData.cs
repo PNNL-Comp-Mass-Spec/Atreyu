@@ -369,6 +369,7 @@ namespace Atreyu.Models
         /// <returns>
         /// The <see cref="double[,]"/>.
         /// </returns>
+        [Obsolete("It is suggested that you use ReadData that specifies a width instead")]
         public double[,] ReadData(
             int startBin, 
             int endBin, 
@@ -384,6 +385,9 @@ namespace Atreyu.Models
 
             this.TotalBins = this.CurrentMaxBin - this.CurrentMinBin + 1;
             this.ValuesPerPixelY = this.TotalBins / (double)height;
+
+            var totalScans = this.EndScan - this.StartScan + 1;
+            //this.valuesPerPixelX = totalScans / (double)width;
 
             if (this.ValuesPerPixelY < 1)
             {
@@ -412,6 +416,88 @@ namespace Atreyu.Models
                 startBin, 
                 endBin, 
                 this.ValuesPerPixelX, 
+                this.ValuesPerPixelY);
+
+            return this.FrameData;
+        }
+
+        /// <summary>
+        /// TODO The read data.
+        /// </summary>
+        /// <param name="startBin">
+        /// TODO The start bin.
+        /// </param>
+        /// <param name="endBin">
+        /// TODO The end bin.
+        /// </param>
+        /// <param name="startFrameNumber">
+        /// TODO The start frame number.
+        /// </param>
+        /// <param name="endFrameNumber">
+        /// TODO The end frame number.
+        /// </param>
+        /// <param name="height">
+        /// TODO The height.
+        /// </param>
+        /// <param name="width">
+        /// TODO The width.
+        /// </param>
+        /// <param name="startScan">
+        /// TODO The start scan.
+        /// </param>
+        /// <param name="endScan">
+        /// TODO The end scan.
+        /// </param>
+        /// <returns>
+        /// The <see cref="double[,]"/>.
+        /// </returns>
+        public double[,] ReadData(
+            int startBin,
+            int endBin,
+            int startFrameNumber,
+            int endFrameNumber,
+            int height,
+            int width,
+            int startScan = 0,
+            int endScan = 359)
+        {
+            this.EndScan = endScan > this.Scans ? this.Scans : endScan;
+
+            this.StartScan = startScan < 0 ? 0 : startScan;
+
+            this.TotalBins = this.CurrentMaxBin - this.CurrentMinBin + 1;
+            this.ValuesPerPixelY = this.TotalBins / (double)height;
+
+            var totalScans = this.EndScan - this.StartScan + 1;
+            this.valuesPerPixelX = totalScans / (double)width;
+
+            if (this.ValuesPerPixelY < 1)
+            {
+                this.ValuesPerPixelY = 1;
+            }
+
+            if (this.ValuesPerPixelX < 1)
+            {
+                this.ValuesPerPixelX = 1;
+            }
+
+            this.StartFrameNumber = startFrameNumber;
+            this.EndFrameNumber = endFrameNumber;
+
+            var frameParams = this._dataReader.GetFrameParams(startFrameNumber);
+
+            this.FrameSlope = frameParams.GetValueDouble(FrameParamKeyType.CalibrationSlope);
+            this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
+
+            this.FrameData = this._dataReader.AccumulateFrameData(
+                startFrameNumber,
+                endFrameNumber,
+                false,
+                this.StartScan,
+                this.EndScan,
+                startBin,
+                endBin,
+                this.ValuesPerPixelX,
                 this.ValuesPerPixelY);
 
             return this.FrameData;

@@ -114,6 +114,10 @@ namespace Atreyu.ViewModels
         /// </summary>
         public int Height { get; set; }
 
+        /// <summary>
+        /// Gets or sets the width.
+        /// </summary>
+        public int Width { get; set; }
         #endregion
 
         #region Public Methods and Operators
@@ -210,6 +214,7 @@ namespace Atreyu.ViewModels
                                                  this._currentFrame, 
                                                  this._currentFrame, 
                                                  this.Height, 
+                                                 this.Width,
                                                  0, 
                                                  359), 
                                          Interpolate = false
@@ -264,6 +269,7 @@ namespace Atreyu.ViewModels
                             sumFrames.StartFrame, 
                             sumFrames.EndFrame, 
                             this.Height, 
+                            this.Width,
                             startScan, 
                             endScan));
                 series.X0 = startScan;
@@ -302,6 +308,7 @@ namespace Atreyu.ViewModels
                     this._currentFrame, 
                     this._currentFrame, 
                     this.Height, 
+                    this.Width,
                     (int)this._heatMapPlotModel.Axes[1].ActualMinimum, 
                     (int)this._heatMapPlotModel.Axes[1].ActualMaximum);
                 this.HeatMapPlotModel.InvalidatePlot(true);
@@ -319,9 +326,13 @@ namespace Atreyu.ViewModels
         /// <param name="height">
         /// TODO The height.
         /// </param>
-        public void UpdatePlotNewHeight(int height)
+        /// <param name="width">
+        /// TODO The Width.
+        /// </param>
+        public void UpdatePlotSize(int height, int width)
         {
             this.Height = height;
+            this.Width = width;
             if (this.HeatMapPlotModel == null)
             {
                 return;
@@ -338,7 +349,8 @@ namespace Atreyu.ViewModels
                 this.HeatMapData.CurrentMaxBin, 
                 this._currentFrame, 
                 this._currentFrame, 
-                height, 
+                height,
+                width,
                 (int)this._heatMapPlotModel.Axes[1].ActualMinimum, 
                 (int)this._heatMapPlotModel.Axes[1].ActualMaximum);
             this.HeatMapPlotModel.InvalidatePlot(true);
@@ -379,6 +391,7 @@ namespace Atreyu.ViewModels
                         this._currentFrame, 
                         this._currentFrame, 
                         this.Height, 
+                        this.Width,
                         StartScan, 
                         endScan);
                     series.X0 = StartScan;
@@ -405,7 +418,8 @@ namespace Atreyu.ViewModels
                         this.HeatMapData.CurrentMaxBin, 
                         this._currentFrame, 
                         this._currentFrame, 
-                        this.Height, 
+                        this.Height,
+                        this.Width,
                         startScan, 
                         endScan);
                     series.X0 = startScan;

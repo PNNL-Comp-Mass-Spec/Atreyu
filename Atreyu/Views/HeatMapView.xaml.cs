@@ -94,7 +94,8 @@ namespace Falkor.Views.Atreyu
             if (e.HeightChanged)
             {
                 var height = (int)e.NewSize.Height;
-                this._viewModel.UpdatePlotNewHeight(height);
+                var width = (int)e.NewSize.Width;
+                this._viewModel.UpdatePlotSize(height, width);
             }
         }
 
