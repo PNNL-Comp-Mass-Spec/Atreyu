@@ -47,7 +47,7 @@ namespace Atreyu.ViewModels
                 .Subscribe(this.TotalIonChromatogramViewModel.UpdateFrameData);
 
             // Update the Framedata of the M/Z plot when needed
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.FrameData).Where(i => !this.FrameManipulationViewModel.MzModeEnabled)
+            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.FrameData)
                 .Subscribe(this.MzSpectraViewModel.UpdateFrameData);
 
             // update the frame whenever it is changed via the frame manipulation view
@@ -64,18 +64,27 @@ namespace Atreyu.ViewModels
                 .Subscribe(this.TotalIonChromatogramViewModel.ChangeEndScan);
 
             // These make the axis on the mz plot update properly
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.CurrentMinBin).Where(i => !this.FrameManipulationViewModel.MzModeEnabled)
+            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.CurrentMinBin)
                 .Subscribe(this.MzSpectraViewModel.changeStartBin);
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.CurrentMaxBin).Where(i => !this.FrameManipulationViewModel.MzModeEnabled)
+            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.CurrentMaxBin)
                 .Subscribe(this.MzSpectraViewModel.changeEndBin);
 
             // This makes the axis of the mz plot be in mz mode properly
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.MzData).Where(i => this.FrameManipulationViewModel.MzModeEnabled)
-                .Subscribe(this.MzSpectraViewModel.UpdateFrameData);
+            this.WhenAnyValue(vm => vm.FrameManipulationViewModel.MzModeEnabled)
+                .Subscribe(b => this.MzSpectraViewModel.ShowMz = b);
 
-            // This reduces the hard drive calls when mz isn't needed.
-            this.WhenAnyValue(vm => vm.FrameManipulationViewModel.MzModeEnabled).Where(b => this.HeatMapViewModel.HeatMapData != null)
-                .Subscribe(b => this.HeatMapViewModel.HeatMapData.GetMzData = b);
+            ////this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.MzData).Where(i => this.FrameManipulationViewModel.MzModeEnabled)
+            ////    .Subscribe(this.MzSpectraViewModel.UpdateFrameData);
+
+            // These two allow the mz calculation to be done on the fly so it is fast, instead of calling the hard drive again 
+            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.FrameSlope)
+                .Where(b => this.HeatMapViewModel.HeatMapData != null)
+                .Subscribe(d => this.MzSpectraViewModel.Slope = d);
+
+            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.FrameIntercept)
+                .Where(b => this.HeatMapViewModel.HeatMapData != null)
+                .Subscribe(d => this.MzSpectraViewModel.Intercept = d);
+
         }
 
         #endregion

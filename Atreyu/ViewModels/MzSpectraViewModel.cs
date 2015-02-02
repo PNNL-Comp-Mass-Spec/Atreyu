@@ -20,13 +20,15 @@ namespace Atreyu.ViewModels
     using OxyPlot.Axes;
     using OxyPlot.Series;
 
+    using ReactiveUI;
+
     // using Falkor.Events.Atreyu;
 
     /// <summary>
     /// TODO The mz spectra view model.
     /// </summary>
     [Export]
-    public class MzSpectraViewModel : BindableBase
+    public class MzSpectraViewModel : ReactiveObject
     {
         #region Fields
 
@@ -77,14 +79,11 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="MzSpectraViewModel"/> class.
         /// </summary>
-        /// <param name="eventAggregator">
-        /// TODO The event aggregator.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// </exception>
         [ImportingConstructor]
         public MzSpectraViewModel()
         {
+            this.WhenAnyValue(vm => vm.ShowMz).Subscribe(b => this.UpdateFrameData(this._frameData));
+
             ////this._eventAggregator = eventAggregator;
             ////this._eventAggregator.GetEvent<UimfFileChangedEvent>().Subscribe(this.UpdateReference, true);
             ////this._eventAggregator.GetEvent<YAxisChangedEvent>().Subscribe(this.UpdateXAxis, true);
@@ -107,7 +106,7 @@ namespace Atreyu.ViewModels
 
             set
             {
-                this.SetProperty(ref this._mzPlotModel, value);
+                this.RaiseAndSetIfChanged(ref this._mzPlotModel, value);
             }
         }
 
@@ -134,11 +133,21 @@ namespace Atreyu.ViewModels
             }
 
             this._frameData = framedata;
-            Dictionary<int, double> frameData = new Dictionary<int, double>();
+            var frameData = new Dictionary<double, double>();
 
             for (int j = 0; j < this._frameData.GetLength(1); j++)
             {
-                var index = j + this._startMzBin;
+                double index = j + this._startMzBin;
+                if (this.showMz)
+                {
+                    //  m/z=(K(t-t0))^2
+                    // where K = slope
+                    // t = bin
+                    // and t0 = intercept
+                    // but what units?
+                    index = Math.Pow(this.Slope * (index - this.Intercept), 2);
+                }
+
                 for (int i = 0; i < this._frameData.GetLength(0); i++)
                 {
                     if (frameData.ContainsKey(index))
@@ -153,18 +162,77 @@ namespace Atreyu.ViewModels
             }
 
             var series = this.MzPlotModel.Series[0] as LineSeries;
+            series.MarkerType = MarkerType.None;
+            if (this.showMz)
+            {
+                series.MarkerType = MarkerType.Circle;
+                series.MarkerSize = 2.5;
+                //series.MarkerStrokeThickness = 2;
+                series.MarkerFill = OxyColors.Black;
+                series.BrokenLineColor = OxyColors.Automatic;
+                series.BrokenLineStyle = LineStyle.Dot;
+                series.BrokenLineThickness = 1;
+            }
             if (series != null)
             {
                 series.Points.Clear();
                 foreach (var d in frameData)
                 {
                     series.Points.Add(new DataPoint(d.Value, d.Key));
+                    if (this.showMz)
+                    {
+                        series.Points.Add(new DataPoint(double.NaN, double.NaN));
+                    }
                 }
             }
 
             this.MzPlotModel.InvalidatePlot(true);
         }
-        
+
+        private bool showMz;
+
+        public bool ShowMz
+        {
+            get
+            {
+                return this.showMz;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.showMz, value);
+            }
+        }
+
+        private double slope;
+        public double Slope
+        {
+            get
+            {
+                return this.slope;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.slope, value);
+            }
+        }
+
+        private double intercept;
+
+        public double Intercept
+        {
+            get
+            {
+                return this.intercept;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.intercept, value);
+            }
+        }
+
         public void UpdateFrameData(Dictionary<double, int> frameData)
         {
             if (this._uimfData == null)

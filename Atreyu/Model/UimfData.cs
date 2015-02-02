@@ -276,6 +276,33 @@ namespace Atreyu.Models
             }
         }
 
+        private double frameSlope;
+
+        public double FrameSlope
+        {
+            get
+            {
+                return this.frameSlope;
+            }
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.frameSlope, value);
+            }
+        }
+
+        private double frameIntercept;
+
+        public double FrameIntercept
+        {
+            get
+            {
+                return this.frameIntercept;
+            }
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.frameIntercept, value);
+            }
+        }
 
 
 
@@ -371,6 +398,11 @@ namespace Atreyu.Models
             this.StartFrameNumber = startFrameNumber;
             this.EndFrameNumber = endFrameNumber;
 
+            var frameParams = this._dataReader.GetFrameParams(startFrameNumber);
+
+            this.FrameSlope = frameParams.GetValueDouble(FrameParamKeyType.CalibrationSlope);
+            this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
+
             this.FrameData = this._dataReader.AccumulateFrameData(
                 startFrameNumber, 
                 endFrameNumber, 
@@ -382,72 +414,8 @@ namespace Atreyu.Models
                 this.ValuesPerPixelX, 
                 this.ValuesPerPixelY);
 
-            // if they don't want M/Z data, we are done.
-            if (!this.GetMzData) return this.FrameData;
-            
-            //  m/z=(K(t-t0))^2
-            // where K = slope
-            // t = bin
-            // and t0 = intercept
-            // but what units?
-            
-            var frameParams = this._dataReader.GetFrameParams(startFrameNumber);
-            double[] mzData;
-            int[] intensityData;
-
-            this._dataReader.GetSpectrum(
-                startFrameNumber,
-                endFrameNumber,
-                frameParams.FrameType,
-                startScan,
-                endScan,
-                startBin,
-                endBin,
-                out mzData,
-                out intensityData);
-
-            var dict = new Dictionary<double, int>(mzData.GetLength(0));
-
-            for (var i = 0; i < mzData.GetLength(0); i++)
-            {
-                dict.Add(mzData[i], intensityData[i]);
-            }
-
-            this.MzData = dict;
-
             return this.FrameData;
         }
-
-        private bool getMzData;
-
-        public bool GetMzData
-        {
-            get
-            {
-                return this.getMzData;
-            }
-
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.getMzData, value);
-            }
-        }
-
-
-        private Dictionary<double, int> mzData = new Dictionary<double, int>();
-        public Dictionary<double, int> MzData 
-            {
-                get
-                {
-                    return this.mzData;
-                }
-
-                private set
-                {
-                    this.RaiseAndSetIfChanged(ref this.mzData, value);
-                }
-            }
-
         #endregion
 
         #region Methods
