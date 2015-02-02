@@ -69,8 +69,13 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.CurrentMaxBin).Where(i => !this.FrameManipulationViewModel.MzModeEnabled)
                 .Subscribe(this.MzSpectraViewModel.changeEndBin);
 
+            // This makes the axis of the mz plot be in mz mode properly
             this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.MzData).Where(i => this.FrameManipulationViewModel.MzModeEnabled)
                 .Subscribe(this.MzSpectraViewModel.UpdateFrameData);
+
+            // This reduces the hard drive calls when mz isn't needed.
+            this.WhenAnyValue(vm => vm.FrameManipulationViewModel.MzModeEnabled).Where(b => this.HeatMapViewModel.HeatMapData != null)
+                .Subscribe(b => this.HeatMapViewModel.HeatMapData.GetMzData = b);
         }
 
         #endregion

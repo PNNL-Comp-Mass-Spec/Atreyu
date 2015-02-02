@@ -382,20 +382,23 @@ namespace Atreyu.Models
                 this.ValuesPerPixelX, 
                 this.ValuesPerPixelY);
 
+            // if they don't want M/Z data, we are done.
+            if (!this.GetMzData) return this.FrameData;
             
             //  m/z=(K(t-t0))^2
             // where K = slope
             // t = bin
             // and t0 = intercept
             // but what units?
-            var frameData = this._dataReader.GetFrameParams(startFrameNumber);
+            
+            var frameParams = this._dataReader.GetFrameParams(startFrameNumber);
             double[] mzData;
             int[] intensityData;
 
             this._dataReader.GetSpectrum(
                 startFrameNumber,
                 endFrameNumber,
-                frameData.FrameType,
+                frameParams.FrameType,
                 startScan,
                 endScan,
                 startBin,
@@ -413,6 +416,21 @@ namespace Atreyu.Models
             this.MzData = dict;
 
             return this.FrameData;
+        }
+
+        private bool getMzData;
+
+        public bool GetMzData
+        {
+            get
+            {
+                return this.getMzData;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.getMzData, value);
+            }
         }
 
 
