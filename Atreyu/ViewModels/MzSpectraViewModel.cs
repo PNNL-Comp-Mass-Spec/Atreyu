@@ -174,26 +174,12 @@ namespace Atreyu.ViewModels
                 series.YAxis.Title = this.ShowMz ? "m/z" : "Bin";
             }
             
-            if (this.showMz)
-            {
-                series.MarkerType = MarkerType.Circle;
-                series.MarkerSize = 2.5;
-                //series.MarkerStrokeThickness = 2;
-                series.MarkerFill = OxyColors.Black;
-                series.BrokenLineColor = OxyColors.Automatic;
-                series.BrokenLineStyle = LineStyle.Dot;
-                series.BrokenLineThickness = 1;
-            }
             if (series != null)
             {
                 series.Points.Clear();
                 foreach (var d in frameData)
                 {
                     series.Points.Add(new DataPoint(d.Value, d.Key));
-                    if (this.showMz)
-                    {
-                        series.Points.Add(new DataPoint(double.NaN, double.NaN));
-                    }
                 }
             }
 
