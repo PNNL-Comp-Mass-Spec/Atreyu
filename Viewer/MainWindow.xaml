@@ -7,6 +7,7 @@
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
                 <Button Name="OpenButton" Content="Open" />
+                <Button Name="SaveButton" Content="Save Heatmap (WiP)"/>
             </ToolBar>
         </ToolBarTray>
         <y:CombinedHeatmapView Name="CombinedHeatmapView"/>

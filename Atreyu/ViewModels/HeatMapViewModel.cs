@@ -10,15 +10,22 @@ namespace Atreyu.ViewModels
 {
     using System;
     using System.ComponentModel.Composition;
+    using System.Drawing;
+    using System.IO;
     using System.Threading.Tasks;
+    using System.Windows.Media.Imaging;
 
     using Atreyu.Models;
 
     using OxyPlot;
     using OxyPlot.Axes;
-    using OxyPlot.Series;
+    using OxyPlot.Wpf;
 
     using ReactiveUI;
+
+    using HeatMapSeries = OxyPlot.Series.HeatMapSeries;
+    using LinearAxis = OxyPlot.Axes.LinearAxis;
+    using LinearColorAxis = OxyPlot.Axes.LinearColorAxis;
 
     /// <summary>
     /// TODO The heat map view model.
@@ -144,6 +151,21 @@ namespace Atreyu.ViewModels
             int? frameNumber = 1;
 
             ////this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Publish(frameNumber);
+        }
+
+        /// <summary>
+        /// TODO The save heatmap image.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Image"/>.
+        /// </returns>
+        public Image GetHeatmapImage()
+        {
+            var stream = new MemoryStream();
+            PngExporter.Export(this.HeatMapPlotModel, stream, (int)this.HeatMapPlotModel.Width, (int)this.HeatMapPlotModel.Height, OxyColors.White);
+            
+            Image image = new Bitmap(stream);
+            return image;
         }
 
         /// <summary>

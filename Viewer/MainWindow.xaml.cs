@@ -11,6 +11,7 @@ namespace Viewer
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using System.Drawing.Imaging;
     using System.IO;
     using System.Windows;
     using System.Windows.Controls;
@@ -40,6 +41,8 @@ namespace Viewer
             this.InitializeComponent();
 
             this.OpenButton.Click += this.OpenButtonClick;
+
+            this.SaveButton.Click += this.SaveButtonClick;
 
             ////this.AllowDrop = true;
             ////this.PreviewDrop += this.MainTabControl_PreviewDragEnter;
@@ -76,6 +79,28 @@ namespace Viewer
             var filename = dialogue.FileName;
             this.LoadFile(filename);
         }
+
+        private void SaveButtonClick(object sender, RoutedEventArgs e)
+        {
+            var dialogue = new SaveFileDialog
+            {
+                DefaultExt = ".png"
+            };
+
+            var result = dialogue.ShowDialog();
+
+            if (result != true)
+            {
+                return;
+            }
+
+            var image = this.CombinedHeatmapView.ViewModel.HeatMapViewModel.GetHeatmapImage();
+
+            var filename = dialogue.FileName;
+            
+            image.Save(filename, ImageFormat.Png);
+        }
+
 
         /// <summary>
         /// TODO The load file.
