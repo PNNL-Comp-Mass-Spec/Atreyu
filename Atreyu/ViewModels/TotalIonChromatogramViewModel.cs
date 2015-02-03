@@ -11,6 +11,8 @@ namespace Atreyu.ViewModels
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
+    using System.Drawing;
+    using System.IO;
 
     using Atreyu.Models;
 
@@ -18,9 +20,12 @@ namespace Atreyu.ViewModels
 
     using OxyPlot;
     using OxyPlot.Axes;
-    using OxyPlot.Series;
+    using OxyPlot.Wpf;
 
     using ReactiveUI;
+
+    using LinearAxis = OxyPlot.Axes.LinearAxis;
+    using LineSeries = OxyPlot.Series.LineSeries;
 
     // using Falkor.Events.Atreyu;
 
@@ -116,6 +121,16 @@ namespace Atreyu.ViewModels
 
         #region Public Methods and Operators
 
+
+        public Image GetTicImage()
+        {
+            var stream = new MemoryStream();
+            PngExporter.Export(this.TicPlotModel, stream, (int)this.TicPlotModel.Width, (int)this.TicPlotModel.Height, OxyColors.White);
+
+            Image image = new Bitmap(stream);
+            return image;
+        }
+
         /// <summary>
         /// TODO The update frame data.
         /// </summary>
@@ -125,49 +140,57 @@ namespace Atreyu.ViewModels
         public void UpdateFrameData(double[,] Data)
         {
             this._frameData = Data;
-            if (this._frameData != null)
+            if (this._frameData == null)
             {
-                if (this._endScan == 0)
-                {
-                    this._startScan = 0;
-                    this._endScan = 359;
-                }
+                return;
+            }
 
-                Dictionary<int, double> frameData = new Dictionary<int, double>();
+            if (this._endScan == 0)
+            {
+                this._startScan = 0;
+                this._endScan = 359;
+            }
 
-                for (int i = 0; i < this._frameData.GetLength(0); i++)
+            var frameData = new Dictionary<int, double>();
+
+            for (var i = 0; i < this._frameData.GetLength(0); i++)
+            {
+                var index = i + this._startScan;
+                for (var j = 0; j < this._frameData.GetLength(1); j++)
                 {
-                    var index = i + this._startScan;
-                    for (int j = 0; j < this._frameData.GetLength(1); j++)
+                    if (frameData.ContainsKey(index))
                     {
-                        if (frameData.ContainsKey(index))
-                        {
-                            frameData[index] += this._frameData[i, j];
-                        }
-                        else
-                        {
-                            frameData.Add(index, this._frameData[i, j]);
-                        }
+                        frameData[index] += this._frameData[i, j];
+                    }
+                    else
+                    {
+                        frameData.Add(index, this._frameData[i, j]);
                     }
                 }
-
-                var series = this.TicPlotModel.Series[0] as LineSeries;
-                series.MarkerType = MarkerType.Circle;
-                series.MarkerSize = 2.5;
-                //series.MarkerStrokeThickness = 2;
-                series.MarkerFill = OxyColors.Black;
-                series.BrokenLineColor = OxyColors.Automatic;
-                series.BrokenLineStyle = LineStyle.Dot;
-                series.BrokenLineThickness = 1;
-                series.Points.Clear();
-                foreach (var d in frameData)
-                {
-                    series.Points.Add(new DataPoint(d.Key, d.Value));
-                    series.Points.Add(new DataPoint(double.NaN, double.NaN));
-                }
-
-                this.TicPlotModel.InvalidatePlot(true);
             }
+
+            var series = this.TicPlotModel.Series[0] as LineSeries;
+
+            if (series == null)
+            {
+                return;
+            }
+
+            series.MarkerType = MarkerType.Circle;
+            series.MarkerSize = 2.5;
+            //series.MarkerStrokeThickness = 2;
+            series.MarkerFill = OxyColors.Black;
+            series.BrokenLineColor = OxyColors.Automatic;
+            series.BrokenLineStyle = LineStyle.Dot;
+            series.BrokenLineThickness = 1;
+            series.Points.Clear();
+            foreach (var d in frameData)
+            {
+                series.Points.Add(new DataPoint(d.Key, d.Value));
+                series.Points.Add(new DataPoint(double.NaN, double.NaN));
+            }
+
+            this.TicPlotModel.InvalidatePlot(true);
         }
 
         /// <summary>

@@ -11,6 +11,8 @@ namespace Atreyu.ViewModels
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
+    using System.Drawing;
+    using System.IO;
 
     using Atreyu.Models;
 
@@ -18,9 +20,12 @@ namespace Atreyu.ViewModels
 
     using OxyPlot;
     using OxyPlot.Axes;
-    using OxyPlot.Series;
+    using OxyPlot.Wpf;
 
     using ReactiveUI;
+
+    using LinearAxis = OxyPlot.Axes.LinearAxis;
+    using LineSeries = OxyPlot.Series.LineSeries;
 
     // using Falkor.Events.Atreyu;
 
@@ -363,6 +368,21 @@ namespace Atreyu.ViewModels
 
                 this.MzPlotModel.InvalidatePlot(true);
             }
+        }
+
+        /// <summary>
+        /// TODO The get m/z image.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Image"/>.
+        /// </returns>
+        public Image GetMzImage()
+        {
+            var stream = new MemoryStream();
+            PngExporter.Export(this.MzPlotModel, stream, (int)this.MzPlotModel.Width, (int)this.MzPlotModel.Height, OxyColors.White);
+
+            Image image = new Bitmap(stream);
+            return image;
         }
 
         #endregion
