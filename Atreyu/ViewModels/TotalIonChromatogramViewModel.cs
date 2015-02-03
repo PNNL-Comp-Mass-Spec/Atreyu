@@ -190,7 +190,8 @@ namespace Atreyu.ViewModels
                                      Position = AxisPosition.Top, 
                                      AbsoluteMinimum = 0, 
                                      IsPanEnabled = false, 
-                                     IsZoomEnabled = false
+                                     IsZoomEnabled = false,
+                                     Title = "Scan"
                                  };
             this.TicPlotModel.Axes.Add(linearAxis);
 
@@ -200,7 +201,8 @@ namespace Atreyu.ViewModels
                                       AbsoluteMinimum = 0, 
                                       MinimumPadding = 0.1, 
                                       IsPanEnabled = false,
-                                      IsAxisVisible = false
+                                      IsAxisVisible = false,
+                                      Title = "Intensity"
                                   };
 
             this.TicPlotModel.Axes.Add(linearYAxis);
