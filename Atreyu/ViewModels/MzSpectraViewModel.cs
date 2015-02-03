@@ -314,6 +314,7 @@ namespace Atreyu.ViewModels
                                         Color = OxyColors.Black, 
                                         YAxisKey = linearAxis.Key, 
                                         XAxisKey = linearYAxis.Key, 
+                                        StrokeThickness = 1
                                     };
             this.MzPlotModel.Series.Add(series);
         }

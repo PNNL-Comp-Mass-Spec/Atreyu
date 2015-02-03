@@ -81,6 +81,8 @@ namespace Atreyu.ViewModels
 
             set
             {
+                // always raise it currently I would like to go back and find another way using rais and set if changed,
+                // but I have a meeting and I needed the slider bar to update on load and this was the easy way.
                 this.currentFrame = value;
                 this.raisePropertyChanged("CurrentFrame");
                 //this.RaiseAndSetIfChanged(ref this.currentFrame, value);
