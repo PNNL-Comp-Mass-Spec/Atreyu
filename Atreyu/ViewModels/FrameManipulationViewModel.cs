@@ -81,7 +81,9 @@ namespace Atreyu.ViewModels
 
             set
             {
-                this.RaiseAndSetIfChanged(ref this.currentFrame, value);
+                this.currentFrame = value;
+                this.raisePropertyChanged("CurrentFrame");
+                //this.RaiseAndSetIfChanged(ref this.currentFrame, value);
             }
         }
 

@@ -144,7 +144,7 @@ namespace Atreyu.Views
         private void LoadFile(string fileName)
         {
             this.ViewModel.HeatMapViewModel.InitializeUimfData(fileName);
-
+            this.ViewModel.FrameManipulationViewModel.CurrentFrame = 1;
             // this.totalIonChromatogramViewModel.UpdateReference(this.heatMapViewModel.HeatMapData);
         }
     }

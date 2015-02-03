@@ -158,6 +158,7 @@ namespace Viewer
         private void LoadFile(string fileName)
         {
             this.CombinedHeatmapView.ViewModel.HeatMapViewModel.InitializeUimfData(fileName);
+            this.CombinedHeatmapView.ViewModel.FrameManipulationViewModel.CurrentFrame = 1;
         }
 
         /// <summary>
