@@ -125,6 +125,21 @@ namespace Atreyu.ViewModels
         /// Gets or sets the width.
         /// </summary>
         public int Width { get; set; }
+
+        private string currentFile = "Heatmap";
+
+        public string CurrentFile
+        {
+            get
+            {
+                return this.currentFile;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.currentFile, value);
+            }
+        }
         #endregion
 
         #region Public Methods and Operators
@@ -138,17 +153,18 @@ namespace Atreyu.ViewModels
         public void InitializeUimfData(string file)
         {
             // this.HeatMapData.ReadFile(file);
-            this.HeatMapData = new UimfData(file);
-            this.HeatMapData.CurrentMinBin = 0;
+            this.HeatMapData = new UimfData(file) { CurrentMinBin = 0 };
             this.HeatMapData.CurrentMaxBin = this.HeatMapData.TotalBins;
             this.SetUpPlot(1);
 
             ////this._eventAggregator.GetEvent<UimfFileChangedEvent>().Publish(this.HeatMapData);
             this._numFrames = this.HeatMapData.Frames;
 
+            this._currentFrame = 1;
+            this.CurrentFile= Path.GetFileNameWithoutExtension(file);
             ////this._eventAggregator.GetEvent<NumberOfFramesChangedEvent>().Publish(this._numFrames);
             ////this._eventAggregator.GetEvent<MinimumNumberOfFrames>().Publish(1);
-            int? frameNumber = 1;
+
 
             ////this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Publish(frameNumber);
         }
