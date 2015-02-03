@@ -163,6 +163,12 @@ namespace Atreyu.ViewModels
 
             var series = this.MzPlotModel.Series[0] as LineSeries;
             series.MarkerType = MarkerType.None;
+
+            if (series.YAxis != null)
+            {
+                series.YAxis.Title = this.ShowMz ? "m/z" : "Bin";
+            }
+            
             if (this.showMz)
             {
                 series.MarkerType = MarkerType.Circle;
@@ -281,7 +287,8 @@ namespace Atreyu.ViewModels
                                      Key = "XAxisKey", 
                                      IsPanEnabled = false, 
                                      IsZoomEnabled = false, 
-                                     MinimumPadding = 0.05
+                                     MinimumPadding = 0.05,
+                                     Title = this.ShowMz ? "m/z" : "Bin"
                                  };
             this.MzPlotModel.Axes.Add(linearAxis);
 
@@ -294,7 +301,8 @@ namespace Atreyu.ViewModels
                                       IsPanEnabled = false, 
                                       MinimumPadding = 0, 
                                       StartPosition = 1, 
-                                      EndPosition = 0
+                                      EndPosition = 0,
+                                      Title = "Intensity"
                                   };
             this.MzPlotModel.Axes.Add(linearYAxis);
             LineSeries series = new LineSeries
