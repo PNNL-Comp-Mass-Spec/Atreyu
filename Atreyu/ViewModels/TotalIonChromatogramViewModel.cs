@@ -214,7 +214,8 @@ namespace Atreyu.ViewModels
                                      AbsoluteMinimum = 0, 
                                      IsPanEnabled = false, 
                                      IsZoomEnabled = false,
-                                     Title = "Scan"
+                                     Title = "Scan",
+                                     MinorTickSize = 0
                                  };
             this.TicPlotModel.Axes.Add(linearAxis);
 
