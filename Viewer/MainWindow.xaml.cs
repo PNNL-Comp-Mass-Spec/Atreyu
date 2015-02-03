@@ -82,8 +82,8 @@ namespace Viewer
 
         private void SaveButtonClick(object sender, RoutedEventArgs e)
         {
-            const string Filter = "|PNG files (*.png)|*.png" 
-                                  + "JPEG files (*.jpg)|*.jpg"
+            const string Filter = "PNG files (*.png)|*.png" 
+                                  + "|JPEG files (*.jpg)|*.jpg"
                                   + "|TIFF files (*.tif)|*.tif"
                                   + "|Bitmaps (*.bmp)|*.bmp";
             var dialogue = new SaveFileDialog
