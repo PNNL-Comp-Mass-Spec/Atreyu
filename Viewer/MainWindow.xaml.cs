@@ -82,9 +82,15 @@ namespace Viewer
 
         private void SaveButtonClick(object sender, RoutedEventArgs e)
         {
+            const string Filter = "|PNG files (*.png)|*.png" 
+                                  + "JPEG files (*.jpg)|*.jpg"
+                                  + "|TIFF files (*.tif)|*.tif"
+                                  + "|Bitmaps (*.bmp)|*.bmp";
             var dialogue = new SaveFileDialog
             {
-                DefaultExt = ".png"
+                DefaultExt = ".png",
+                AddExtension = true,
+                Filter = Filter
             };
 
             var result = dialogue.ShowDialog();
@@ -98,9 +104,50 @@ namespace Viewer
 
             var filename = dialogue.FileName;
             
-            image.Save(filename, ImageFormat.Png);
+
+            var format = GetImageFormat(filename);
+            image.Save(filename, format);
         }
 
+
+        private static ImageFormat GetImageFormat(string fileName)
+        {
+            var extension = Path.GetExtension(fileName);
+            if (string.IsNullOrEmpty(extension))
+            {
+                throw new ArgumentException(
+                    string.Format("Unable to determine file extension for fileName: {0}", fileName));
+            }
+
+            switch (extension.ToLower())
+            {
+                case @".bmp":
+                    return ImageFormat.Bmp;
+
+                case @".gif":
+                    return ImageFormat.Gif;
+
+                case @".ico":
+                    return ImageFormat.Icon;
+
+                case @".jpg":
+                case @".jpeg":
+                    return ImageFormat.Jpeg;
+
+                case @".png":
+                    return ImageFormat.Png;
+
+                case @".tif":
+                case @".tiff":
+                    return ImageFormat.Tiff;
+
+                case @".wmf":
+                    return ImageFormat.Wmf;
+
+                default:
+                    throw new NotImplementedException();
+            }
+        }
 
         /// <summary>
         /// TODO The load file.
