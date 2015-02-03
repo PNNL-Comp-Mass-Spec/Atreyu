@@ -302,10 +302,9 @@ namespace Atreyu.ViewModels
                                       MinimumPadding = 0, 
                                       StartPosition = 1, 
                                       EndPosition = 0,
-                                      Title = "Intensity"
                                   };
             this.MzPlotModel.Axes.Add(linearYAxis);
-            LineSeries series = new LineSeries
+            var series = new LineSeries
                                     {
                                         Color = OxyColors.Black, 
                                         YAxisKey = linearAxis.Key, 
