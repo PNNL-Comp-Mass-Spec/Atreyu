@@ -84,6 +84,11 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.FrameIntercept)
                 .Where(b => this.HeatMapViewModel.HeatMapData != null)
                 .Subscribe(d => this.MzSpectraViewModel.Intercept = d);
+
+            // Attach the heatmap threshold to the slider's gate, using Throttle so it doesn't spam HardDrive hits.
+            this.WhenAnyValue(vm => vm.GateSliderViewModel.Gate)
+                .Throttle(TimeSpan.FromMilliseconds(250))
+                .Subscribe(this.HeatMapViewModel.UpdateThreshold);
         }
 
         #endregion
