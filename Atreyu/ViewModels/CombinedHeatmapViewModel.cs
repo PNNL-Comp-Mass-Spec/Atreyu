@@ -30,6 +30,7 @@ namespace Atreyu.ViewModels
             this.FrameManipulationViewModel = new FrameManipulationViewModel();
             this.HeatMapViewModel = new HeatMapViewModel();
             this.MzSpectraViewModel = new MzSpectraViewModel();
+            this.GateSliderViewModel = new GateSliderViewModel();
             this.TotalIonChromatogramViewModel = new TotalIonChromatogramViewModel();
 
             // update the uimf data for the various components
@@ -103,6 +104,8 @@ namespace Atreyu.ViewModels
         /// Gets the mz spectra view model.
         /// </summary>
         public MzSpectraViewModel MzSpectraViewModel { get; private set; }
+
+        public GateSliderViewModel GateSliderViewModel { get; private set; }
 
         /// <summary>
         /// Gets the total ion chromatogram view model.

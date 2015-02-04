@@ -41,6 +41,8 @@ namespace Atreyu.Views
         /// </summary>
         private MzSpectraView mzSpectraView;
 
+        private GateSlider sliderView;
+
         /// <summary>
         /// TODO The total ion chromatogram view.
         /// </summary>
@@ -87,9 +89,15 @@ namespace Atreyu.Views
 
             this.totalIonChromatogramView = new TotalIonChromatogramView(this.ViewModel.TotalIonChromatogramViewModel);
             Grid.SetColumn(this.totalIonChromatogramView, 1);
-            Grid.SetRow(this.totalIonChromatogramView, 3);
+            Grid.SetRow(this.totalIonChromatogramView, 2);
             Grid.SetColumnSpan(this.totalIonChromatogramView, 2);
             this.MainGrid.Children.Add(this.totalIonChromatogramView);
+
+            this.sliderView = new GateSlider(this.ViewModel.GateSliderViewModel);
+            Grid.SetRow(this.sliderView, 1);
+            Grid.SetColumn(this.sliderView, 3);
+            this.MainGrid.Children.Add(this.sliderView);
+
 
             this.AllowDrop = true;
             this.PreviewDrop += this.MainTabControl_PreviewDragEnter;
