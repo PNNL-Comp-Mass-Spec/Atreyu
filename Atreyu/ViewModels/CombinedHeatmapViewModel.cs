@@ -18,7 +18,7 @@ namespace Atreyu.ViewModels
     /// TODO The combined heatmap view model.
     /// </summary>
     [Export]
-    public class CombinedHeatmapViewModel
+    public class CombinedHeatmapViewModel : ReactiveObject
     {
         #region Constructors and Destructors
 
@@ -32,6 +32,9 @@ namespace Atreyu.ViewModels
             this.MzSpectraViewModel = new MzSpectraViewModel();
             this.GateSliderViewModel = new GateSliderViewModel();
             this.TotalIonChromatogramViewModel = new TotalIonChromatogramViewModel();
+
+            this.ZoomOutFull = this.FrameManipulationViewModel.ZoomOutCommand;
+            this.ZoomOutFull.Subscribe(x => this.HeatMapViewModel.ZoomOutFull());
 
             // update the uimf data for the various components
             this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData)
@@ -87,7 +90,7 @@ namespace Atreyu.ViewModels
 
             // Attach the heatmap threshold to the slider's gate, using Throttle so it doesn't spam HardDrive hits.
             this.WhenAnyValue(vm => vm.GateSliderViewModel.Gate)
-                .Throttle(TimeSpan.FromMilliseconds(250))
+                .Throttle(TimeSpan.FromMilliseconds(200))
                 .Subscribe(this.HeatMapViewModel.UpdateThreshold);
         }
 
@@ -116,6 +119,8 @@ namespace Atreyu.ViewModels
         /// Gets the total ion chromatogram view model.
         /// </summary>
         public TotalIonChromatogramViewModel TotalIonChromatogramViewModel { get; private set; }
+
+        public ReactiveCommand<object> ZoomOutFull { get; private set; }
 
         #endregion
     }

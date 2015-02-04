@@ -410,11 +410,9 @@ namespace Atreyu.Models
             int height, 
             int startScan = 0, 
             int endScan = 359)
-        {
-            this.EndScan = endScan > this.Scans ? this.Scans : endScan;
-
-            this.StartScan = startScan < 0 ? 0 : startScan;
-
+        {            
+            UpdateScanRange(startScan, endScan);
+            
             this.TotalBins = this.CurrentMaxBin - this.CurrentMinBin + 1;
             this.ValuesPerPixelY = this.TotalBins / (double)height;
 
@@ -493,9 +491,7 @@ namespace Atreyu.Models
             int startScan = 0, 
             int endScan = 359)
         {
-            this.EndScan = endScan > this.Scans ? this.Scans : endScan;
-
-            this.StartScan = startScan < 0 ? 0 : startScan;
+            UpdateScanRange(startScan, endScan);
 
             this.TotalBins = this.CurrentMaxBin - this.CurrentMinBin + 1;
             this.ValuesPerPixelY = this.TotalBins / (double)height;
@@ -555,6 +551,13 @@ namespace Atreyu.Models
                     this._dataReader = null;
                 }
             }
+        }
+
+        public void UpdateScanRange(int startScanNew, int endScanNew)
+        {
+            this.EndScan = endScanNew > this.Scans ? this.Scans : endScanNew;
+
+            this.StartScan = startScanNew < 0 ? 0 : startScanNew;
         }
 
         #endregion

@@ -66,6 +66,8 @@ namespace Atreyu.ViewModels
             this.OpenFileCommand = new DelegateCommand(this.Open);
             this.SumFramesCommand = new DelegateCommand(this.SumFrames);
 
+            this.ZoomOutCommand = ReactiveCommand.Create();
+            
             ////this._eventAggregator.GetEvent<NumberOfFramesChangedEvent>().Subscribe(this.NumFramesChanged);
             ////this._eventAggregator.GetEvent<MinimumNumberOfFrames>().Subscribe(this.MinimumNumberOfFramesChanged);
         }
@@ -86,10 +88,10 @@ namespace Atreyu.ViewModels
 
             set
             {
-                // always raise it currently I would like to go back and find another way using rais and set if changed,
+                // always raise it currently I would like to go back and find another way using raise and set if changed,
                 // but I have a meeting and I needed the slider bar to update on load and this was the easy way.
                 this.currentFrame = value;
-                this.raisePropertyChanged("CurrentFrame");
+                this.RaisePropertyChanged("CurrentFrame");
 
                 // this.RaiseAndSetIfChanged(ref this.currentFrame, value);
             }
@@ -178,6 +180,9 @@ namespace Atreyu.ViewModels
         /// Gets the sum frames command.
         /// </summary>
         public ICommand SumFramesCommand { get; private set; }
+
+        public ReactiveCommand<object> ZoomOutCommand { get; private set; }
+
 
         #endregion
 

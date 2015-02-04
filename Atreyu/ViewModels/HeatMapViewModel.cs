@@ -443,10 +443,11 @@ namespace Atreyu.ViewModels
         /// <param name="width">
         /// TODO The Width.
         /// </param>
-        public void UpdatePlotSize(int height, int width)
+        public void UpdatePlotSize(double height, double width)
         {
-            this.Height = height;
-            this.Width = width;
+            this.Height = (int)height;
+            this.Width = (int)width;
+
             if (this.HeatMapPlotModel == null)
             {
                 return;
@@ -462,9 +463,9 @@ namespace Atreyu.ViewModels
                 this.HeatMapData.CurrentMinBin, 
                 this.HeatMapData.CurrentMaxBin, 
                 this._currentFrame, 
-                this._currentFrame, 
-                height, 
-                width, 
+                this._currentFrame,
+                (int)height,
+                (int)width, 
                 (int)this._heatMapPlotModel.Axes[1].ActualMinimum, 
                 (int)this._heatMapPlotModel.Axes[1].ActualMaximum);
             data = this.GateValues(data);
@@ -475,6 +476,16 @@ namespace Atreyu.ViewModels
             ////    .Publish(this._heatMapPlotModel.Axes[1] as LinearAxis);
             ////this._eventAggregator.GetEvent<YAxisChangedEvent>()
             ////    .Publish(this._heatMapPlotModel.Axes[2] as LinearAxis);
+        }
+
+        public void ZoomOutFull()
+        {
+            this.HeatMapData.UpdateScanRange(0, 359);
+
+            this.HeatMapData.CurrentMinBin = 0;
+            this.HeatMapData.CurrentMaxBin = this.HeatMapData.MaxBins;
+
+            UpdateFrameNumber(this._currentFrame);
         }
 
         #endregion

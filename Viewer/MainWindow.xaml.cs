@@ -6,6 +6,9 @@
 //   Interaction logic for MainWindow.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
+using Viewer.ViewModels;
+
 namespace Viewer
 {
     using System;
@@ -15,11 +18,29 @@ namespace Viewer
 
     using Microsoft.Win32;
 
+    using ReactiveUI;
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IViewFor<MainWindowViewModel>
     {
+        #region Fields
+     
+        public MainWindowViewModel ViewModel { get; set; }
+
+        #endregion
+
+        #region Properies
+
+        object IViewFor.ViewModel
+        {
+            get { return ViewModel; }
+            set { ViewModel = value as MainWindowViewModel; }
+        }
+
+        #endregion
+
+
         #region Constructors and Destructors
 
         /// <summary>
@@ -28,186 +49,17 @@ namespace Viewer
         public MainWindow()
         {
             this.InitializeComponent();
+            this.ViewModel = new MainWindowViewModel();
+            this.DataContext = this.ViewModel;
 
-            this.OpenButton.Click += this.OpenButtonClick;
-
-            this.SaveButton.Click += this.SaveButtonClick;
-
+            // Explicitly binding the content of CombinedHeatMapViewControl to the to CombinedHeatmapViewModel in the MainWindow model 
+            this.Bind(this.ViewModel, vm => vm.CombinedHeatmapViewModel, v => v.CombinedHeatMapViewControl.Content);
+          
             ////this.AllowDrop = true;
             ////this.PreviewDrop += this.MainTabControl_PreviewDragEnter;
         }
 
         #endregion
 
-        #region Methods
-
-        /// <summary>
-        /// TODO The get image format.
-        /// </summary>
-        /// <param name="fileName">
-        /// TODO The file name.
-        /// </param>
-        /// <returns>
-        /// The <see cref="ImageFormat"/>.
-        /// </returns>
-        /// <exception cref="ArgumentException">
-        /// </exception>
-        /// <exception cref="NotImplementedException">
-        /// </exception>
-        private static ImageFormat GetImageFormat(string fileName)
-        {
-            var extension = Path.GetExtension(fileName);
-            if (string.IsNullOrEmpty(extension))
-            {
-                throw new ArgumentException(
-                    string.Format("Unable to determine file extension for fileName: {0}", fileName));
-            }
-
-            switch (extension.ToLower())
-            {
-                case @".bmp":
-                    return ImageFormat.Bmp;
-
-                case @".gif":
-                    return ImageFormat.Gif;
-
-                case @".ico":
-                    return ImageFormat.Icon;
-
-                case @".jpg":
-                case @".jpeg":
-                    return ImageFormat.Jpeg;
-
-                case @".png":
-                    return ImageFormat.Png;
-
-                case @".tif":
-                case @".tiff":
-                    return ImageFormat.Tiff;
-
-                case @".wmf":
-                    return ImageFormat.Wmf;
-
-                default:
-                    throw new NotImplementedException();
-            }
-        }
-
-        /// <summary>
-        /// TODO The load file.
-        /// </summary>
-        /// <param name="fileName">
-        /// TODO The file name.
-        /// </param>
-        private void LoadFile(string fileName)
-        {
-            this.CombinedHeatmapView.ViewModel.HeatMapViewModel.InitializeUimfData(fileName);
-            this.CombinedHeatmapView.ViewModel.FrameManipulationViewModel.CurrentFrame = 1;
-        }
-
-        /// <summary>
-        /// TODO The main tab control_ preview drag enter.
-        /// </summary>
-        /// <param name="sender">
-        /// TODO The sender.
-        /// </param>
-        /// <param name="e">
-        /// TODO The e.
-        /// </param>
-        private void MainTabControl_PreviewDragEnter(object sender, DragEventArgs e)
-        {
-            var isCorrect = true;
-            string[] filenames = { };
-            if (e.Data.GetDataPresent(DataFormats.FileDrop, true) == true)
-            {
-                filenames = (string[])e.Data.GetData(DataFormats.FileDrop, true);
-                foreach (string filename in filenames)
-                {
-                    if (File.Exists(filename) == false)
-                    {
-                        isCorrect = false;
-                        break;
-                    }
-
-                    var info = new FileInfo(filename);
-
-                    if (info.Extension.ToLower() != ".uimf")
-                    {
-                        isCorrect = false;
-                        break;
-                    }
-                }
-            }
-
-            e.Effects = isCorrect ? DragDropEffects.All : DragDropEffects.None;
-
-            if (isCorrect)
-            {
-                this.LoadFile(filenames[0]);
-            }
-
-            e.Handled = true;
-        }
-
-        /// <summary>
-        /// TODO The load button click.
-        /// </summary>
-        /// <param name="sender">
-        /// TODO The sender.
-        /// </param>
-        /// <param name="e">
-        /// TODO The e.
-        /// </param>
-        private void OpenButtonClick(object sender, RoutedEventArgs e)
-        {
-            var dialogue = new OpenFileDialog
-                               {
-                                   DefaultExt = ".uimf", 
-                                   Filter = "Unified Ion Mobility File (*.uimf)|*.uimf"
-                               };
-
-            var result = dialogue.ShowDialog();
-
-            if (result != true)
-            {
-                return;
-            }
-
-            var filename = dialogue.FileName;
-            this.LoadFile(filename);
-        }
-
-        /// <summary>
-        /// TODO The save button click.
-        /// </summary>
-        /// <param name="sender">
-        /// TODO The sender.
-        /// </param>
-        /// <param name="e">
-        /// TODO The e.
-        /// </param>
-        private void SaveButtonClick(object sender, RoutedEventArgs e)
-        {
-            const string Filter =
-                "PNG files (*.png)|*.png" + "|JPEG files (*.jpg)|*.jpg" + "|TIFF files (*.tif)|*.tif"
-                + "|Bitmaps (*.bmp)|*.bmp";
-            var dialogue = new SaveFileDialog { DefaultExt = ".png", AddExtension = true, Filter = Filter };
-
-            var result = dialogue.ShowDialog();
-
-            if (result != true)
-            {
-                return;
-            }
-
-            var image = this.CombinedHeatmapView.ViewModel.HeatMapViewModel.GetHeatmapImage();
-
-            var filename = dialogue.FileName;
-
-            var format = GetImageFormat(filename);
-            image.Save(filename, format);
-        }
-
-        #endregion
     }
 }
