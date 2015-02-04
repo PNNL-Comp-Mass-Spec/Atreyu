@@ -1,0 +1,13 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	x:Class="Atreyu.Views.GateSlider"
+	x:Name="UserControl" d:DesignHeight="480" Width="198.71">
+
+	<Grid x:Name="LayoutRoot">
+		<Slider Name="GateSliderControl" Orientation="Vertical" Ticks="0, 1, 10, 100, 1000, 10000, 100000" HorizontalAlignment="Left" VerticalAlignment="Stretch" />
+	</Grid>
+</UserControl>

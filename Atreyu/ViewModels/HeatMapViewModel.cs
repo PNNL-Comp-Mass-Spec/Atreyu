@@ -115,7 +115,7 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The _heat map data.
+        /// Gets The heat map data (<seealso cref="UimfData"/>).
         /// </summary>
         public UimfData HeatMapData
         {
