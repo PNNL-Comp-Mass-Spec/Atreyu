@@ -6,7 +6,6 @@
 //   TODO The UimfDataService interface.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Atreyu.Services
 {
     /// <summary>

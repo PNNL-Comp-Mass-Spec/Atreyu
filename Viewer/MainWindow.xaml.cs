@@ -6,25 +6,14 @@
 //   Interaction logic for MainWindow.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Viewer
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Drawing.Imaging;
     using System.IO;
     using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Media;
 
-    using Atreyu.ViewModels;
-
-    using Falkor.Views.Atreyu;
-
-    using Microsoft.Practices.Prism.PubSubEvents;
     using Microsoft.Win32;
-
-    using ReactiveUI;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -53,63 +42,18 @@ namespace Viewer
         #region Methods
 
         /// <summary>
-        /// TODO The load button click.
+        /// TODO The get image format.
         /// </summary>
-        /// <param name="sender">
-        /// TODO The sender.
+        /// <param name="fileName">
+        /// TODO The file name.
         /// </param>
-        /// <param name="e">
-        /// TODO The e.
-        /// </param>
-        private void OpenButtonClick(object sender, RoutedEventArgs e)
-        {
-            var dialogue = new OpenFileDialog
-                               {
-                                   DefaultExt = ".uimf",
-                                   Filter = "Unified Ion Mobility File (*.uimf)|*.uimf"
-                               };
-
-            var result = dialogue.ShowDialog();
-
-            if (result != true)
-            {
-                return;
-            }
-
-            var filename = dialogue.FileName;
-            this.LoadFile(filename);
-        }
-
-        private void SaveButtonClick(object sender, RoutedEventArgs e)
-        {
-            const string Filter = "PNG files (*.png)|*.png" 
-                                  + "|JPEG files (*.jpg)|*.jpg"
-                                  + "|TIFF files (*.tif)|*.tif"
-                                  + "|Bitmaps (*.bmp)|*.bmp";
-            var dialogue = new SaveFileDialog
-            {
-                DefaultExt = ".png",
-                AddExtension = true,
-                Filter = Filter
-            };
-
-            var result = dialogue.ShowDialog();
-
-            if (result != true)
-            {
-                return;
-            }
-
-            var image = this.CombinedHeatmapView.ViewModel.HeatMapViewModel.GetHeatmapImage();
-
-            var filename = dialogue.FileName;
-            
-
-            var format = GetImageFormat(filename);
-            image.Save(filename, format);
-        }
-
-
+        /// <returns>
+        /// The <see cref="ImageFormat"/>.
+        /// </returns>
+        /// <exception cref="ArgumentException">
+        /// </exception>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
         private static ImageFormat GetImageFormat(string fileName)
         {
             var extension = Path.GetExtension(fileName);
@@ -203,6 +147,65 @@ namespace Viewer
             }
 
             e.Handled = true;
+        }
+
+        /// <summary>
+        /// TODO The load button click.
+        /// </summary>
+        /// <param name="sender">
+        /// TODO The sender.
+        /// </param>
+        /// <param name="e">
+        /// TODO The e.
+        /// </param>
+        private void OpenButtonClick(object sender, RoutedEventArgs e)
+        {
+            var dialogue = new OpenFileDialog
+                               {
+                                   DefaultExt = ".uimf", 
+                                   Filter = "Unified Ion Mobility File (*.uimf)|*.uimf"
+                               };
+
+            var result = dialogue.ShowDialog();
+
+            if (result != true)
+            {
+                return;
+            }
+
+            var filename = dialogue.FileName;
+            this.LoadFile(filename);
+        }
+
+        /// <summary>
+        /// TODO The save button click.
+        /// </summary>
+        /// <param name="sender">
+        /// TODO The sender.
+        /// </param>
+        /// <param name="e">
+        /// TODO The e.
+        /// </param>
+        private void SaveButtonClick(object sender, RoutedEventArgs e)
+        {
+            const string Filter =
+                "PNG files (*.png)|*.png" + "|JPEG files (*.jpg)|*.jpg" + "|TIFF files (*.tif)|*.tif"
+                + "|Bitmaps (*.bmp)|*.bmp";
+            var dialogue = new SaveFileDialog { DefaultExt = ".png", AddExtension = true, Filter = Filter };
+
+            var result = dialogue.ShowDialog();
+
+            if (result != true)
+            {
+                return;
+            }
+
+            var image = this.CombinedHeatmapView.ViewModel.HeatMapViewModel.GetHeatmapImage();
+
+            var filename = dialogue.FileName;
+
+            var format = GetImageFormat(filename);
+            image.Save(filename, format);
         }
 
         #endregion

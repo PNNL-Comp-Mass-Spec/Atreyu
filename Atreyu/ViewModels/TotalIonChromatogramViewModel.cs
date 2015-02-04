@@ -16,8 +16,6 @@ namespace Atreyu.ViewModels
 
     using Atreyu.Models;
 
-    using Microsoft.Practices.Prism.PubSubEvents;
-
     using OxyPlot;
     using OxyPlot.Axes;
     using OxyPlot.Wpf;
@@ -41,7 +39,6 @@ namespace Atreyu.ViewModels
         /// TODO The _current frame number.
         /// </summary>
         ////private int _currentFrameNumber;
-
         /// <summary>
         /// TODO The _end scan.
         /// </summary>
@@ -92,15 +89,6 @@ namespace Atreyu.ViewModels
 
         #region Public Properties
 
-        public void ChangeStartScan(int value)
-        {
-            this._startScan = value;
-        }
-
-        public void ChangeEndScan(int value)
-        {
-            this._endScan = value;
-        }
         /// <summary>
         /// Gets or sets the tic plot model.
         /// </summary>
@@ -121,11 +109,43 @@ namespace Atreyu.ViewModels
 
         #region Public Methods and Operators
 
+        /// <summary>
+        /// TODO The change end scan.
+        /// </summary>
+        /// <param name="value">
+        /// TODO The value.
+        /// </param>
+        public void ChangeEndScan(int value)
+        {
+            this._endScan = value;
+        }
 
+        /// <summary>
+        /// TODO The change start scan.
+        /// </summary>
+        /// <param name="value">
+        /// TODO The value.
+        /// </param>
+        public void ChangeStartScan(int value)
+        {
+            this._startScan = value;
+        }
+
+        /// <summary>
+        /// TODO The get tic image.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Image"/>.
+        /// </returns>
         public Image GetTicImage()
         {
             var stream = new MemoryStream();
-            PngExporter.Export(this.TicPlotModel, stream, (int)this.TicPlotModel.Width, (int)this.TicPlotModel.Height, OxyColors.White);
+            PngExporter.Export(
+                this.TicPlotModel, 
+                stream, 
+                (int)this.TicPlotModel.Width, 
+                (int)this.TicPlotModel.Height, 
+                OxyColors.White);
 
             Image image = new Bitmap(stream);
             return image;
@@ -178,7 +198,8 @@ namespace Atreyu.ViewModels
 
             series.MarkerType = MarkerType.Circle;
             series.MarkerSize = 2.5;
-            //series.MarkerStrokeThickness = 2;
+
+            // series.MarkerStrokeThickness = 2;
             series.MarkerFill = OxyColors.Black;
             series.BrokenLineColor = OxyColors.Automatic;
             series.BrokenLineStyle = LineStyle.Dot;
@@ -213,8 +234,8 @@ namespace Atreyu.ViewModels
                                      Position = AxisPosition.Top, 
                                      AbsoluteMinimum = 0, 
                                      IsPanEnabled = false, 
-                                     IsZoomEnabled = false,
-                                     Title = "Scan",
+                                     IsZoomEnabled = false, 
+                                     Title = "Scan", 
                                      MinorTickSize = 0
                                  };
             this.TicPlotModel.Axes.Add(linearAxis);
@@ -224,8 +245,8 @@ namespace Atreyu.ViewModels
                                       IsZoomEnabled = false, 
                                       AbsoluteMinimum = 0, 
                                       MinimumPadding = 0.1, 
-                                      IsPanEnabled = false,
-                                      IsAxisVisible = false,
+                                      IsPanEnabled = false, 
+                                      IsAxisVisible = false, 
                                       Title = "Intensity"
                                   };
 

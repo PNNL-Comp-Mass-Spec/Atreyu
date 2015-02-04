@@ -6,7 +6,6 @@
 //   TODO The combined heatmap view model.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Atreyu.ViewModels
 {
     using System;
@@ -28,7 +27,7 @@ namespace Atreyu.ViewModels
         /// </summary>
         public CombinedHeatmapViewModel()
         {
-            this.FrameManipulationViewModel = new FrameManipulationViewModel(); 
+            this.FrameManipulationViewModel = new FrameManipulationViewModel();
             this.HeatMapViewModel = new HeatMapViewModel();
             this.MzSpectraViewModel = new MzSpectraViewModel();
             this.TotalIonChromatogramViewModel = new TotalIonChromatogramViewModel();
@@ -84,7 +83,6 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.FrameIntercept)
                 .Where(b => this.HeatMapViewModel.HeatMapData != null)
                 .Subscribe(d => this.MzSpectraViewModel.Intercept = d);
-
         }
 
         #endregion

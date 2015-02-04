@@ -6,7 +6,6 @@
 //   Interaction logic for App.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Viewer
 {
     using System.Windows;
