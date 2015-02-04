@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CombinedHeatmapView.xaml.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Interaction logic for CombinedHeatmapView.xaml
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Atreyu.Views
 {
     using System.IO;
+    using System.Windows;
+    using System.Windows.Controls;
 
     using Atreyu.ViewModels;
 
@@ -23,17 +19,12 @@ namespace Atreyu.Views
 
     using ReactiveUI;
 
-
-
- 
-
-
     /// <summary>
     /// Interaction logic for CombinedHeatmapView.xaml
     /// </summary>
     public partial class CombinedHeatmapView : UserControl, IViewFor<CombinedHeatmapViewModel>
     {
-
+        #region Fields
 
         /// <summary>
         /// TODO The frame manipulation view.
@@ -55,15 +46,27 @@ namespace Atreyu.Views
         /// </summary>
         private TotalIonChromatogramView totalIonChromatogramView;
 
+        #endregion
 
-        public CombinedHeatmapView() : this(new CombinedHeatmapViewModel())
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CombinedHeatmapView"/> class.
+        /// </summary>
+        public CombinedHeatmapView()
+            : this(new CombinedHeatmapViewModel())
         {
         }
 
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CombinedHeatmapView"/> class.
+        /// </summary>
+        /// <param name="viewModel">
+        /// TODO The view model.
+        /// </param>
         public CombinedHeatmapView(CombinedHeatmapViewModel viewModel)
         {
-            InitializeComponent();
+            this.InitializeComponent();
             this.ViewModel = viewModel;
 
             this.heatMapView = new HeatMapView(this.ViewModel.HeatMapViewModel);
@@ -92,20 +95,62 @@ namespace Atreyu.Views
             this.PreviewDrop += this.MainTabControl_PreviewDragEnter;
         }
 
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets or sets the view model.
+        /// </summary>
+        public CombinedHeatmapViewModel ViewModel { get; set; }
+
+        #endregion
+
+        #region Explicit Interface Properties
+
+        /// <summary>
+        /// Gets or sets the view model.
+        /// </summary>
         object IViewFor.ViewModel
         {
             get
             {
                 return this.ViewModel;
             }
+
             set
             {
                 this.ViewModel = value as CombinedHeatmapViewModel;
             }
         }
 
-        public CombinedHeatmapViewModel ViewModel { get; set; }
+        #endregion
 
+        #region Methods
+
+        /// <summary>
+        /// TODO The load file.
+        /// </summary>
+        /// <param name="fileName">
+        /// TODO The file name.
+        /// </param>
+        private void LoadFile(string fileName)
+        {
+            this.ViewModel.HeatMapViewModel.InitializeUimfData(fileName);
+            this.ViewModel.FrameManipulationViewModel.CurrentFrame = 1;
+
+            // this.totalIonChromatogramViewModel.UpdateReference(this.heatMapViewModel.HeatMapData);
+        }
+
+        /// <summary>
+        /// TODO The main tab control_ preview drag enter.
+        /// </summary>
+        /// <param name="sender">
+        /// TODO The sender.
+        /// </param>
+        /// <param name="e">
+        /// TODO The e.
+        /// </param>
         private void MainTabControl_PreviewDragEnter(object sender, DragEventArgs e)
         {
             var isCorrect = true;
@@ -141,11 +186,6 @@ namespace Atreyu.Views
             e.Handled = true;
         }
 
-        private void LoadFile(string fileName)
-        {
-            this.ViewModel.HeatMapViewModel.InitializeUimfData(fileName);
-            this.ViewModel.FrameManipulationViewModel.CurrentFrame = 1;
-            // this.totalIonChromatogramViewModel.UpdateReference(this.heatMapViewModel.HeatMapData);
-        }
+        #endregion
     }
 }
