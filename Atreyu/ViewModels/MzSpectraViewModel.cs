@@ -40,7 +40,7 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// TODO The _current frame number.
         /// </summary>
-        private int _currentFrameNumber;
+        ////private int _currentFrameNumber;
 
         /// <summary>
         /// TODO The _end mz bin.
