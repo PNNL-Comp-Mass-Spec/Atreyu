@@ -8,6 +8,7 @@
 	x:Name="UserControl" d:DesignHeight="480" Width="198.71">
 
 	<Grid x:Name="LayoutRoot">
-		<Slider Name="GateSliderControl" Orientation="Vertical" Ticks="0, 1, 10, 100, 1000, 10000, 100000" HorizontalAlignment="Left" VerticalAlignment="Stretch" />
+        <Slider Name="GateSliderControl" Orientation="Vertical" Ticks="0, 1, 10, 100, 1000, 10000, 100000" TickPlacement="BottomRight" HorizontalAlignment="Left" VerticalAlignment="Stretch" Value="{Binding Gate}" />
+        <Label Name="CurrentValue" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="{Binding Gate, Mode=OneWay}" Margin="27,0,0,10" />
 	</Grid>
 </UserControl>

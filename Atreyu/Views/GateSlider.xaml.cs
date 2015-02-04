@@ -38,6 +38,7 @@ namespace Atreyu.Views
         {
             this.InitializeComponent();
             this.ViewModel = viewModel;
+            this.DataContext = this.ViewModel;
         }
 
         #endregion
