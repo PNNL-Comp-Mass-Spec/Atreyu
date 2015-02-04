@@ -87,6 +87,7 @@ namespace Atreyu.ViewModels
             ////this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Subscribe(this.UpdateFrameNumber);
             ////this._eventAggregator.GetEvent<UimfFileLoadedEvent>().Subscribe(this.InitializeUimfData);
             ////this._eventAggregator.GetEvent<SumFramesChangedEvent>().Subscribe(this.SumFrames);
+            this.WhenAnyValue(vm => vm.Threshold).Subscribe(this.UpdateThreshold);
         }
 
         #endregion
@@ -403,6 +404,34 @@ namespace Atreyu.ViewModels
             ////    .Publish(this._heatMapPlotModel.Axes[1] as LinearAxis);
             ////this._eventAggregator.GetEvent<YAxisChangedEvent>()
             ////    .Publish(this._heatMapPlotModel.Axes[2] as LinearAxis);
+        }
+
+        public void UpdateThreshold(double thresholdLevel)
+        {
+            this.Threshold = thresholdLevel;
+
+            if (this.HeatMapPlotModel == null) return;
+
+            if (this.HeatMapData == null) return;
+            
+            var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
+            if (series == null)
+            {
+                return;
+            }
+            
+            var data = this.HeatMapData.ReadData(
+                this.heatMapData.CurrentMinBin,
+                this.heatMapData.CurrentMaxBin,
+                this._currentFrame,
+                this._currentFrame,
+                this.Height,
+                this.Width,
+                (int)this._heatMapPlotModel.Axes[1].ActualMinimum,
+                (int)this._heatMapPlotModel.Axes[1].ActualMaximum);
+            data = this.GateValues(data);
+            series.Data = data;
+            this.HeatMapPlotModel.InvalidatePlot(true);
         }
 
         /// <summary>
