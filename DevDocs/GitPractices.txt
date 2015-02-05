@@ -1,0 +1,16 @@
+Git Commit Practice:
+The git methodology used here is based off of "A successful Git branching model" by Vincent Driessen( located at http://nvie.com/posts/a-successful-git-branching-model/ ). Located in the same folder as this file is a pdf entitled "Git-branching-model.pdf" that visually explains this process.  If you read and understand that the only thing you need to know is to make your commits as small and atomic as reasonable.
+
+The repository has two main branches:
+   Master
+      *This should constantly reflect a production ready state and not receive any updates except those that have been thoroughly tested on Develop and hotfixes
+   Develop
+      *All new features should first me made and tested on this branch.
+      *When the code is in a stable point, suitable for release, this should be merged back into Master and tagged with a release number matching the first half of the version in the code, which should be updated each release
+            *For example, /Master has version 1.1, a developer has created a new feature on dev, the version should be updated to 1.2 and when the branch is merged back into Master; that commit on Master should be "1.2"
+            *In preparation for release it is preferable that a release branch is created for any testing, polish, and updating of version information that needs to be completed.  
+
+Etiquette:
+*All commits should be as atomic as reasonable to facilitate merging while at the same time ensuring compilation.
+*When adding a new feature, a developer should create a new branch clearly named after the feature they are introducing.  When the feature is completed they should ensure functionality, then push their feature to Develop.
+*All Hotfixes (fixes to critical bugs in the production version) should be done in their own branch that is started from master.  When the hotfix is complete is should be pushed to both Master and Develop.  If a release branch exists, it should be pushed there to ensure that the merging of release and master does not accidentally undo the hotfix.
