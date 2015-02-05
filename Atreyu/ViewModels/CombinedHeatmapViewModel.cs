@@ -47,6 +47,7 @@ namespace Atreyu.ViewModels
 
             // update the frame data of the TIC plot when needed
             this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.GatedFrameData)
+                .Throttle(TimeSpan.FromMilliseconds(100))
                 .Subscribe(this.TotalIonChromatogramViewModel.UpdateFrameData);
 
             // Update the Framedata of the M/Z plot when needed

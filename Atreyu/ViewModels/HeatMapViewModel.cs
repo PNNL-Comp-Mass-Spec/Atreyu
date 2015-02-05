@@ -472,12 +472,12 @@ namespace Atreyu.ViewModels
 
         public void ZoomOutFull()
         {
-            this.HeatMapData.UpdateScanRange(0, 359);
+            this.HeatMapData.UpdateScanRange(0, this.HeatMapData.EndScan);
 
             this.HeatMapData.CurrentMinBin = 0;
             this.HeatMapData.CurrentMaxBin = this.HeatMapData.MaxBins;
 
-            UpdateFrameNumber(this._currentFrame);
+            this.SetUpPlot(this._currentFrame);
         }
 
         #endregion
