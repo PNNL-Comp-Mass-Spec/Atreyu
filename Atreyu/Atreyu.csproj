@@ -195,6 +195,7 @@
     <Compile Include="Events\UimfFileChangedEvent.cs" />
     <Compile Include="Events\YAxisChangedEvent.cs" />
     <Compile Include="Model\FrameRange.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegionNames.cs" />
     <Compile Include="Services\IUimfDataService.cs" />
     <Compile Include="ViewModels\CombinedHeatmapViewModel.cs" />
@@ -272,9 +273,7 @@
   <ItemGroup>
     <None Include="Resources\Icon1.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /Y /S /E "$(SolutionDir)lib\UimfLibrary\*"  "$(TargetDir)"</PostBuildEvent>

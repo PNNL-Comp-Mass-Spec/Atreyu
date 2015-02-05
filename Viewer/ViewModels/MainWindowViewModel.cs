@@ -22,7 +22,6 @@ namespace Viewer.ViewModels
         {
             CombinedHeatmapViewModel = new CombinedHeatmapViewModel();
 
-
             this.OpenFile = ReactiveCommand.Create();
             this.OpenFile.Subscribe(x => this.OpenHeatmapFile());
 

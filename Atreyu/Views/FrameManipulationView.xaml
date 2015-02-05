@@ -30,10 +30,10 @@
 
             <TextBox Grid.Column="0" x:Name="StartFrameTextBox" TextWrapping="Wrap" Text=""  TextChanged="StartFrameTextBox_TextChanged"/>
             <TextBox Grid.Column="1"  x:Name="EndFrameTextBox"  TextWrapping="Wrap" TextChanged="EndFrameTextBox_TextChanged"/>
-            <Button Grid.Column="2"  x:Name="SumFramesButton" Content="Sum Frames" Command="{Binding SumFramesCommand}"  />
-            <TextBlock Grid.Column="3"  TextWrapping="Wrap" Text="{Binding CurrentFrame}" />
-            <CheckBox Grid.Column="4"  Name="MzMode" IsChecked="{Binding MzModeEnabled}" Content="M/Z Mode" />
-            <Button Grid.Column="5"  x:Name="ZoomOutButton" Content="Zoom Out" Command="{Binding ZoomOutCommand}"  />
+            <Button Grid.Column="2"  x:Name="SumFramesButton" Content="Sum Frames" Command="{Binding SumFramesCommand}" HorizontalAlignment="Center" VerticalAlignment="Center"  />
+            <TextBlock Grid.Column="3" TextWrapping="Wrap" Text="{Binding CurrentFrame}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <CheckBox Grid.Column="4"  Name="MzMode" IsChecked="{Binding MzModeEnabled}" Content="M/Z Mode" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Button Grid.Column="5"  x:Name="ZoomOutButton" Content="Zoom Out" Command="{Binding ZoomOutCommand}" HorizontalAlignment="Center" VerticalAlignment="Center"  />
 
         </Grid>
             

@@ -56,20 +56,14 @@ namespace Atreyu.Views
         /// Initializes a new instance of the <see cref="CombinedHeatmapView"/> class.
         /// </summary>
         public CombinedHeatmapView()
-            : this(new CombinedHeatmapViewModel())
         {
+            InitializeComponent();
+            this.DataContextChanged += CombinedHeatmapView_DataContextChanged;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CombinedHeatmapView"/> class.
-        /// </summary>
-        /// <param name="viewModel">
-        /// TODO The view model.
-        /// </param>
-        public CombinedHeatmapView(CombinedHeatmapViewModel viewModel)
+        private void CombinedHeatmapView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            this.InitializeComponent();
-            this.ViewModel = viewModel;
+            this.ViewModel = e.NewValue as CombinedHeatmapViewModel;
 
             this.heatMapView = new HeatMapView(this.ViewModel.HeatMapViewModel);
             Grid.SetColumn(this.heatMapView, 1);
@@ -98,9 +92,8 @@ namespace Atreyu.Views
             Grid.SetColumn(this.sliderView, 3);
             this.MainGrid.Children.Add(this.sliderView);
 
-
             this.AllowDrop = true;
-            this.PreviewDrop += this.MainTabControl_PreviewDragEnter;
+            this.PreviewDrop += this.MainTabControl_PreviewDragEnter;        
         }
 
         #endregion

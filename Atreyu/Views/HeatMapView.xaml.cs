@@ -49,8 +49,10 @@ namespace Falkor.Views.Atreyu
             this.ViewModel = viewModel;
             this.DataContext = this.ViewModel;
             this.InitializeComponent();
+
+            // x and y are magically is assigned "this" via extension methods
             this.WhenAnyValue(x => x.ActualHeight, y => y.ActualWidth).Throttle(TimeSpan.FromMilliseconds(200))
-                .Subscribe(x => this.ViewModel.UpdatePlotSize(x.Item1, x.Item2));
+                .Subscribe(z => this.ViewModel.UpdatePlotSize(z.Item1, z.Item2));
         }
 
         #endregion
