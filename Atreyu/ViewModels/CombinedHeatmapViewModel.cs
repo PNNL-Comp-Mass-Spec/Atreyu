@@ -89,7 +89,7 @@ namespace Atreyu.ViewModels
                 .Subscribe(d => this.MzSpectraViewModel.Intercept = d);
 
             // Attach the heatmap threshold to the slider's gate, using Throttle so it doesn't seem jerky.
-            this.WhenAnyValue(vm => vm.GateSliderViewModel.Gate)
+            this.WhenAnyValue(vm => vm.GateSliderViewModel.LogarithmicGate)
                 .Throttle(TimeSpan.FromMilliseconds(200))
                 .Subscribe(this.HeatMapViewModel.UpdateThreshold);
         }

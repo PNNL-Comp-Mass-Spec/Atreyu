@@ -39,6 +39,8 @@ namespace Atreyu.Views
             this.InitializeComponent();
             this.ViewModel = viewModel;
             this.DataContext = this.ViewModel;
+
+            this.GateSliderControl.ValueChanged += (sender, args) => ViewModel.UpdateGate(args.NewValue);
         }
 
         #endregion
