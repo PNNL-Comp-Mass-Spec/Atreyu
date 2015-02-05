@@ -14,3 +14,4 @@ Etiquette:
 *All commits should be as atomic as reasonable to facilitate merging while at the same time ensuring compilation.
 *When adding a new feature, a developer should create a new branch clearly named after the feature they are introducing.  When the feature is completed they should ensure functionality, then push their feature to Develop.
 *All Hotfixes (fixes to critical bugs in the production version) should be done in their own branch that is started from master.  When the hotfix is complete is should be pushed to both Master and Develop.  If a release branch exists, it should be pushed there to ensure that the merging of release and master does not accidentally undo the hotfix.
+* If applicable, reference the Jira Ticket by number and a short description in your commit notes.
