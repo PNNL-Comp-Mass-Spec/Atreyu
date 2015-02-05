@@ -9,11 +9,6 @@
 namespace Atreyu.Models
 {
     using System;
-    using System.Collections.Generic;
-    using System.Dynamic;
-    using System.Linq;
-    using System.Windows;
-    using System.Windows.Annotations;
 
     using ReactiveUI;
 
@@ -41,6 +36,16 @@ namespace Atreyu.Models
         /// </summary>
         private int currentMinBin;
 
+        /// <summary>
+        /// TODO The end scan.
+        /// </summary>
+        private int endScan;
+
+        /// <summary>
+        /// TODO The endframe number.
+        /// </summary>
+        private int endframeNumber;
+
         ///// <summary>
         ///// TODO The _start bin.
         ///// </summary>
@@ -52,9 +57,29 @@ namespace Atreyu.Models
         private double[,] frameData;
 
         /// <summary>
+        /// TODO The frame intercept.
+        /// </summary>
+        private double frameIntercept;
+
+        /// <summary>
+        /// TODO The frame slope.
+        /// </summary>
+        private double frameSlope;
+
+        /// <summary>
         /// TODO The frames.
         /// </summary>
         private int frames;
+
+        /// <summary>
+        /// TODO The gate.
+        /// </summary>
+        private double gate;
+
+        /// <summary>
+        /// TODO The gated frame data.
+        /// </summary>
+        private double[,] gatedFrameData;
 
         /// <summary>
         /// TODO The max bins.
@@ -65,6 +90,16 @@ namespace Atreyu.Models
         /// TODO The scans.
         /// </summary>
         private int scans;
+
+        /// <summary>
+        /// TODO The startframe number.
+        /// </summary>
+        private int startframeNumber;
+
+        /// <summary>
+        /// TODO The startscan.
+        /// </summary>
+        private int startscan;
 
         /// <summary>
         /// TODO The total bins.
@@ -137,6 +172,38 @@ namespace Atreyu.Models
         }
 
         /// <summary>
+        /// Gets the end frame number.
+        /// </summary>
+        public int EndFrameNumber
+        {
+            get
+            {
+                return this.endframeNumber;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.endframeNumber, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the end scan.
+        /// </summary>
+        public int EndScan
+        {
+            get
+            {
+                return this.endScan;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.endScan, value);
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the frame data.
         /// </summary>
         public double[,] FrameData
@@ -153,6 +220,38 @@ namespace Atreyu.Models
         }
 
         /// <summary>
+        /// Gets the frame intercept.
+        /// </summary>
+        public double FrameIntercept
+        {
+            get
+            {
+                return this.frameIntercept;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.frameIntercept, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the frame slope.
+        /// </summary>
+        public double FrameSlope
+        {
+            get
+            {
+                return this.frameSlope;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.frameSlope, value);
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the frames.
         /// </summary>
         public int Frames
@@ -165,6 +264,38 @@ namespace Atreyu.Models
             set
             {
                 this.RaiseAndSetIfChanged(ref this.frames, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the gate.
+        /// </summary>
+        public double Gate
+        {
+            get
+            {
+                return this.gate;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.gate, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the gated frame data.
+        /// </summary>
+        public double[,] GatedFrameData
+        {
+            get
+            {
+                return this.gatedFrameData;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.gatedFrameData, value);
             }
         }
 
@@ -197,6 +328,38 @@ namespace Atreyu.Models
             set
             {
                 this.RaiseAndSetIfChanged(ref this.scans, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the start frame number.
+        /// </summary>
+        public int StartFrameNumber
+        {
+            get
+            {
+                return this.startframeNumber;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.startframeNumber, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the start scan.
+        /// </summary>
+        public int StartScan
+        {
+            get
+            {
+                return this.startscan;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.startscan, value);
             }
         }
 
@@ -248,95 +411,6 @@ namespace Atreyu.Models
             }
         }
 
-        private int startscan;
-        public int StartScan
-        {
-            get
-            {
-                return this.startscan;
-            }
-
-            private set
-            {
-                this.RaiseAndSetIfChanged(ref this.startscan, value);
-            }
-        }
-
-        private int endScan;
-
-        public int EndScan
-        {
-            get
-            {
-                return this.endScan;
-            }
-            private set
-            {
-                this.RaiseAndSetIfChanged(ref this.endScan, value);
-            }
-        }
-
-        private double frameSlope;
-
-        public double FrameSlope
-        {
-            get
-            {
-                return this.frameSlope;
-            }
-            private set
-            {
-                this.RaiseAndSetIfChanged(ref this.frameSlope, value);
-            }
-        }
-
-        private double frameIntercept;
-
-        public double FrameIntercept
-        {
-            get
-            {
-                return this.frameIntercept;
-            }
-            private set
-            {
-                this.RaiseAndSetIfChanged(ref this.frameIntercept, value);
-            }
-        }
-
-
-
-        private int startframeNumber;
-        public int StartFrameNumber
-        {
-            get
-            {
-                return this.startframeNumber;
-            }
-
-            private set
-            {
-                this.RaiseAndSetIfChanged(ref this.startframeNumber, value);
-            }
-        }
-
-        private int endframeNumber;
-
-        public int EndFrameNumber
-        {
-            get
-            {
-                return this.endframeNumber;
-            }
-            private set
-            {
-                this.RaiseAndSetIfChanged(ref this.endframeNumber, value);
-            }
-        }
-
-
-
-
         #endregion
 
         #region Public Methods and Operators
@@ -350,44 +424,77 @@ namespace Atreyu.Models
             GC.SuppressFinalize(this);
         }
 
+        private void GateData()
+        {
+            if (this.Gate <= 0)
+            {
+                this.GatedFrameData = this.FrameData;
+                return;
+            }
+
+            var temp = new double[this.FrameData.GetLength(0), this.FrameData.GetLength(1)];
+
+            for (var x = 0; x < temp.GetLength(0); x++)
+            {
+                for (var y = 0; y < temp.GetLength(1); y++)
+                {
+                    if (this.FrameData[x, y] > this.Gate)
+                    {
+                        temp[x, y] = this.FrameData[x, y];
+                    }
+                }
+            }
+
+            this.GatedFrameData = temp;
+        }
+
         /// <summary>
+        /// TODO The read data.
         /// </summary>
         /// <param name="startBin">
+        /// TODO The start bin.
         /// </param>
         /// <param name="endBin">
+        /// TODO The end bin.
         /// </param>
         /// <param name="startFrameNumber">
+        /// TODO The start frame number.
         /// </param>
         /// <param name="endFrameNumber">
+        /// TODO The end frame number.
         /// </param>
         /// <param name="height">
+        /// TODO The height.
         /// </param>
-        /// <param name="startScan">
+        /// <param name="width">
+        /// TODO The width.
         /// </param>
-        /// <param name="endScan">
+        /// <param name="startScanValue">
+        /// TODO The start scan.
+        /// </param>
+        /// <param name="endScanValue">
+        /// TODO The end scan.
         /// </param>
         /// <returns>
         /// The <see cref="double[,]"/>.
         /// </returns>
-        [Obsolete("It is suggested that you use ReadData that specifies a width instead")]
         public double[,] ReadData(
             int startBin, 
             int endBin, 
             int startFrameNumber, 
             int endFrameNumber, 
             int height, 
-            int startScan = 0, 
-            int endScan = 359)
+            int width, 
+            int startScanValue = 0, 
+            int endScanValue = 359)
         {
-            this.EndScan = endScan > this.Scans ? this.Scans : endScan;
-
-            this.StartScan = startScan < 0 ? 0 : startScan;
+            this.UpdateScanRange(startScanValue, endScanValue);
 
             this.TotalBins = this.CurrentMaxBin - this.CurrentMinBin + 1;
             this.ValuesPerPixelY = this.TotalBins / (double)height;
 
             var totalScans = this.EndScan - this.StartScan + 1;
-            //this.valuesPerPixelX = totalScans / (double)width;
+            this.ValuesPerPixelX = totalScans / (double)width;
 
             if (this.ValuesPerPixelY < 1)
             {
@@ -418,90 +525,11 @@ namespace Atreyu.Models
                 this.ValuesPerPixelX, 
                 this.ValuesPerPixelY);
 
-            return this.FrameData;
-        }
-
-        /// <summary>
-        /// TODO The read data.
-        /// </summary>
-        /// <param name="startBin">
-        /// TODO The start bin.
-        /// </param>
-        /// <param name="endBin">
-        /// TODO The end bin.
-        /// </param>
-        /// <param name="startFrameNumber">
-        /// TODO The start frame number.
-        /// </param>
-        /// <param name="endFrameNumber">
-        /// TODO The end frame number.
-        /// </param>
-        /// <param name="height">
-        /// TODO The height.
-        /// </param>
-        /// <param name="width">
-        /// TODO The width.
-        /// </param>
-        /// <param name="startScan">
-        /// TODO The start scan.
-        /// </param>
-        /// <param name="endScan">
-        /// TODO The end scan.
-        /// </param>
-        /// <returns>
-        /// The <see cref="double[,]"/>.
-        /// </returns>
-        public double[,] ReadData(
-            int startBin,
-            int endBin,
-            int startFrameNumber,
-            int endFrameNumber,
-            int height,
-            int width,
-            int startScan = 0,
-            int endScan = 359)
-        {
-            this.EndScan = endScan > this.Scans ? this.Scans : endScan;
-
-            this.StartScan = startScan < 0 ? 0 : startScan;
-
-            this.TotalBins = this.CurrentMaxBin - this.CurrentMinBin + 1;
-            this.ValuesPerPixelY = this.TotalBins / (double)height;
-
-            var totalScans = this.EndScan - this.StartScan + 1;
-            this.valuesPerPixelX = totalScans / (double)width;
-
-            if (this.ValuesPerPixelY < 1)
-            {
-                this.ValuesPerPixelY = 1;
-            }
-
-            if (this.ValuesPerPixelX < 1)
-            {
-                this.ValuesPerPixelX = 1;
-            }
-
-            this.StartFrameNumber = startFrameNumber;
-            this.EndFrameNumber = endFrameNumber;
-
-            var frameParams = this._dataReader.GetFrameParams(startFrameNumber);
-
-            this.FrameSlope = frameParams.GetValueDouble(FrameParamKeyType.CalibrationSlope);
-            this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
-
-            this.FrameData = this._dataReader.AccumulateFrameData(
-                startFrameNumber,
-                endFrameNumber,
-                false,
-                this.StartScan,
-                this.EndScan,
-                startBin,
-                endBin,
-                this.ValuesPerPixelX,
-                this.ValuesPerPixelY);
+            this.GateData();
 
             return this.FrameData;
         }
+
         #endregion
 
         #region Methods
@@ -522,6 +550,19 @@ namespace Atreyu.Models
                     this._dataReader = null;
                 }
             }
+        }
+
+        public void UpdateGate(double newValue)
+        {
+            this.Gate = newValue;
+            this.GateData();
+        }
+
+        public void UpdateScanRange(int startScanNew, int endScanNew)
+        {
+            this.EndScan = endScanNew > this.Scans ? this.Scans : endScanNew;
+
+            this.StartScan = startScanNew < 0 ? 0 : startScanNew;
         }
 
         #endregion

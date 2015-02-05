@@ -6,11 +6,16 @@
 //   Interaction logic for HeatMapView.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
+using System;
+using System.Reactive.Linq;
+
 namespace Falkor.Views.Atreyu
 {
     using System.ComponentModel.Composition;
     using System.Windows;
     using System.Windows.Controls;
+    using ReactiveUI;
 
     using global::Atreyu.ViewModels;
 
@@ -18,17 +23,18 @@ namespace Falkor.Views.Atreyu
     /// Interaction logic for HeatMapView.xaml
     /// </summary>
     [Export]
-    public partial class HeatMapView : UserControl
+    public partial class HeatMapView : UserControl, IViewFor<HeatMapViewModel>
     {
-        #region Fields
 
-        /// <summary>
-        /// TODO The _view model.
-        /// </summary>
-        private readonly HeatMapViewModel _viewModel;
 
-        #endregion
-
+ 		public HeatMapViewModel ViewModel { get; set; }
+ 
+        object IViewFor.ViewModel
+        {
+            get { return ViewModel; }
+            set { ViewModel = value as HeatMapViewModel; }
+        }       
+		       
         #region Constructors and Destructors
 
         /// <summary>
@@ -40,15 +46,19 @@ namespace Falkor.Views.Atreyu
         [ImportingConstructor]
         public HeatMapView(HeatMapViewModel viewModel)
         {
-            this._viewModel = viewModel;
-            this.DataContext = this._viewModel;
+            this.ViewModel = viewModel;
+            this.DataContext = this.ViewModel;
             this.InitializeComponent();
-            this.HeatMapPlot.SizeChanged += this.HeatMapView_SizeChanged;
+
+            // x and y are magically is assigned "this" via extension methods
+            this.WhenAnyValue(x => x.ActualHeight, y => y.ActualWidth).Throttle(TimeSpan.FromMilliseconds(200))
+                .Subscribe(z => this.ViewModel.UpdatePlotSize(z.Item1, z.Item2));
         }
 
         #endregion
 
         #region Methods
+
 
         /// <summary>
         /// TODO The on drop.
@@ -77,28 +87,12 @@ namespace Falkor.Views.Atreyu
         /// </param>
         private void HandleFileOpen(string[] files)
         {
-            this._viewModel.InitializeUimfData(files[0]);
+            this.ViewModel.InitializeUimfData(files[0]);
         }
 
-        /// <summary>
-        /// TODO The heat map view_ size changed.
-        /// </summary>
-        /// <param name="sender">
-        /// TODO The sender.
-        /// </param>
-        /// <param name="e">
-        /// TODO The e.
-        /// </param>
-        private void HeatMapView_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if (e.HeightChanged)
-            {
-                var height = (int)e.NewSize.Height;
-                var width = (int)e.NewSize.Width;
-                this._viewModel.UpdatePlotSize(height, width);
-            }
-        }
-
+       
         #endregion
+
+       
     }
 }

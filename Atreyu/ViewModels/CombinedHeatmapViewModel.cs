@@ -6,7 +6,6 @@
 //   TODO The combined heatmap view model.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Atreyu.ViewModels
 {
     using System;
@@ -19,7 +18,7 @@ namespace Atreyu.ViewModels
     /// TODO The combined heatmap view model.
     /// </summary>
     [Export]
-    public class CombinedHeatmapViewModel
+    public class CombinedHeatmapViewModel : ReactiveObject
     {
         #region Constructors and Destructors
 
@@ -28,10 +27,14 @@ namespace Atreyu.ViewModels
         /// </summary>
         public CombinedHeatmapViewModel()
         {
-            this.FrameManipulationViewModel = new FrameManipulationViewModel(); 
+            this.FrameManipulationViewModel = new FrameManipulationViewModel();
             this.HeatMapViewModel = new HeatMapViewModel();
             this.MzSpectraViewModel = new MzSpectraViewModel();
+            this.GateSliderViewModel = new GateSliderViewModel();
             this.TotalIonChromatogramViewModel = new TotalIonChromatogramViewModel();
+
+            this.ZoomOutFull = this.FrameManipulationViewModel.ZoomOutCommand;
+            this.ZoomOutFull.Subscribe(x => this.HeatMapViewModel.ZoomOutFull());
 
             // update the uimf data for the various components
             this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData)
@@ -43,11 +46,12 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData).Subscribe(this.MzSpectraViewModel.UpdateReference);
 
             // update the frame data of the TIC plot when needed
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.FrameData)
+            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.GatedFrameData)
+                .Throttle(TimeSpan.FromMilliseconds(100))
                 .Subscribe(this.TotalIonChromatogramViewModel.UpdateFrameData);
 
             // Update the Framedata of the M/Z plot when needed
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.FrameData)
+            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.GatedFrameData)
                 .Subscribe(this.MzSpectraViewModel.UpdateFrameData);
 
             // update the frame whenever it is changed via the frame manipulation view
@@ -85,6 +89,10 @@ namespace Atreyu.ViewModels
                 .Where(b => this.HeatMapViewModel.HeatMapData != null)
                 .Subscribe(d => this.MzSpectraViewModel.Intercept = d);
 
+            // Attach the heatmap threshold to the slider's gate, using Throttle so it doesn't seem jerky.
+            this.WhenAnyValue(vm => vm.GateSliderViewModel.LogarithmicGate)
+                .Throttle(TimeSpan.FromMilliseconds(200))
+                .Subscribe(this.HeatMapViewModel.UpdateThreshold);
         }
 
         #endregion
@@ -106,10 +114,14 @@ namespace Atreyu.ViewModels
         /// </summary>
         public MzSpectraViewModel MzSpectraViewModel { get; private set; }
 
+        public GateSliderViewModel GateSliderViewModel { get; private set; }
+
         /// <summary>
         /// Gets the total ion chromatogram view model.
         /// </summary>
         public TotalIonChromatogramViewModel TotalIonChromatogramViewModel { get; private set; }
+
+        public ReactiveCommand<object> ZoomOutFull { get; private set; }
 
         #endregion
     }

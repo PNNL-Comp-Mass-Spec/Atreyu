@@ -37,6 +37,11 @@ namespace Atreyu.ViewModels
         private int minNumFrame;
 
         /// <summary>
+        /// TODO The mz mode enabled.
+        /// </summary>
+        private bool mzModeEnabled;
+
+        /// <summary>
         /// TODO The total number of frames.
         /// </summary>
         private int numFrames;
@@ -61,6 +66,8 @@ namespace Atreyu.ViewModels
             this.OpenFileCommand = new DelegateCommand(this.Open);
             this.SumFramesCommand = new DelegateCommand(this.SumFrames);
 
+            this.ZoomOutCommand = ReactiveCommand.Create();
+            
             ////this._eventAggregator.GetEvent<NumberOfFramesChangedEvent>().Subscribe(this.NumFramesChanged);
             ////this._eventAggregator.GetEvent<MinimumNumberOfFrames>().Subscribe(this.MinimumNumberOfFramesChanged);
         }
@@ -81,11 +88,12 @@ namespace Atreyu.ViewModels
 
             set
             {
-                // always raise it currently I would like to go back and find another way using rais and set if changed,
+                // always raise it currently I would like to go back and find another way using raise and set if changed,
                 // but I have a meeting and I needed the slider bar to update on load and this was the easy way.
                 this.currentFrame = value;
-                this.raisePropertyChanged("CurrentFrame");
-                //this.RaiseAndSetIfChanged(ref this.currentFrame, value);
+                this.RaisePropertyChanged("CurrentFrame");
+
+                // this.RaiseAndSetIfChanged(ref this.currentFrame, value);
             }
         }
 
@@ -107,6 +115,22 @@ namespace Atreyu.ViewModels
             set
             {
                 this.RaiseAndSetIfChanged(ref this.minNumFrame, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether mz mode enabled.
+        /// </summary>
+        public bool MzModeEnabled
+        {
+            get
+            {
+                return this.mzModeEnabled;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.mzModeEnabled, value);
             }
         }
 
@@ -157,20 +181,8 @@ namespace Atreyu.ViewModels
         /// </summary>
         public ICommand SumFramesCommand { get; private set; }
 
-        private bool mzModeEnabled;
+        public ReactiveCommand<object> ZoomOutCommand { get; private set; }
 
-        public bool MzModeEnabled
-        {
-            get
-            {
-                return this.mzModeEnabled;
-            }
-
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.mzModeEnabled, value);
-            }
-        }
 
         #endregion
 

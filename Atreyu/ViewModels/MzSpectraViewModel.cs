@@ -16,8 +16,6 @@ namespace Atreyu.ViewModels
 
     using Atreyu.Models;
 
-    using Microsoft.Practices.Prism.Mvvm;
-
     using OxyPlot;
     using OxyPlot.Axes;
     using OxyPlot.Wpf;
@@ -41,7 +39,6 @@ namespace Atreyu.ViewModels
         /// TODO The _current frame number.
         /// </summary>
         ////private int _currentFrameNumber;
-
         /// <summary>
         /// TODO The _end mz bin.
         /// </summary>
@@ -67,17 +64,22 @@ namespace Atreyu.ViewModels
         /// </summary>
         private UimfData _uimfData;
 
+        /// <summary>
+        /// TODO The intercept.
+        /// </summary>
+        private double intercept;
+
+        /// <summary>
+        /// TODO The show mz.
+        /// </summary>
+        private bool showMz;
+
+        /// <summary>
+        /// TODO The slope.
+        /// </summary>
+        private double slope;
+
         #endregion
-
-        public void changeStartBin(int bin)
-        {
-            this._startMzBin = bin;
-        }
-
-        public void changeEndBin(int bin)
-        {
-            this._endMzBin = bin;
-        }
 
         #region Constructors and Destructors
 
@@ -100,6 +102,22 @@ namespace Atreyu.ViewModels
         #region Public Properties
 
         /// <summary>
+        /// Gets or sets the intercept.
+        /// </summary>
+        public double Intercept
+        {
+            get
+            {
+                return this.intercept;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.intercept, value);
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the mz plot model.
         /// </summary>
         public PlotModel MzPlotModel
@@ -115,9 +133,61 @@ namespace Atreyu.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether show mz.
+        /// </summary>
+        public bool ShowMz
+        {
+            get
+            {
+                return this.showMz;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.showMz, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the slope.
+        /// </summary>
+        public double Slope
+        {
+            get
+            {
+                return this.slope;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.slope, value);
+            }
+        }
+
         #endregion
 
         #region Public Methods and Operators
+
+        /// <summary>
+        /// TODO The get m/z image.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Image"/>.
+        /// </returns>
+        public Image GetMzImage()
+        {
+            var stream = new MemoryStream();
+            PngExporter.Export(
+                this.MzPlotModel, 
+                stream, 
+                (int)this.MzPlotModel.Width, 
+                (int)this.MzPlotModel.Height, 
+                OxyColors.White);
+
+            Image image = new Bitmap(stream);
+            return image;
+        }
 
         /// <summary>
         /// TODO The update frame number.
@@ -145,7 +215,7 @@ namespace Atreyu.ViewModels
                 double index = j + this._startMzBin;
                 if (this.showMz)
                 {
-                    //  m/z=(K(t-t0))^2
+                    // m/z=(K(t-t0))^2
                     // where K = slope
                     // t = bin
                     // and t0 = intercept
@@ -173,7 +243,7 @@ namespace Atreyu.ViewModels
             {
                 series.YAxis.Title = this.ShowMz ? "m/z" : "Bin";
             }
-            
+
             if (series != null)
             {
                 series.Points.Clear();
@@ -186,50 +256,12 @@ namespace Atreyu.ViewModels
             this.MzPlotModel.InvalidatePlot(true);
         }
 
-        private bool showMz;
-
-        public bool ShowMz
-        {
-            get
-            {
-                return this.showMz;
-            }
-
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.showMz, value);
-            }
-        }
-
-        private double slope;
-        public double Slope
-        {
-            get
-            {
-                return this.slope;
-            }
-
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.slope, value);
-            }
-        }
-
-        private double intercept;
-
-        public double Intercept
-        {
-            get
-            {
-                return this.intercept;
-            }
-
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.intercept, value);
-            }
-        }
-
+        /// <summary>
+        /// TODO The update frame data.
+        /// </summary>
+        /// <param name="frameData">
+        /// TODO The frame data.
+        /// </param>
         public void UpdateFrameData(Dictionary<double, int> frameData)
         {
             if (this._uimfData == null)
@@ -278,7 +310,7 @@ namespace Atreyu.ViewModels
                                      Key = "XAxisKey", 
                                      IsPanEnabled = false, 
                                      IsZoomEnabled = false, 
-                                     MinimumPadding = 0.05,
+                                     MinimumPadding = 0.05, 
                                      Title = this.ShowMz ? "m/z" : "Bin"
                                  };
             this.MzPlotModel.Axes.Add(linearAxis);
@@ -292,17 +324,39 @@ namespace Atreyu.ViewModels
                                       IsPanEnabled = false, 
                                       MinimumPadding = 0, 
                                       StartPosition = 1, 
-                                      EndPosition = 0,
+                                      EndPosition = 0, 
                                   };
             this.MzPlotModel.Axes.Add(linearYAxis);
             var series = new LineSeries
-                                    {
-                                        Color = OxyColors.Black, 
-                                        YAxisKey = linearAxis.Key, 
-                                        XAxisKey = linearYAxis.Key, 
-                                        StrokeThickness = 1
-                                    };
+                             {
+                                 Color = OxyColors.Black, 
+                                 YAxisKey = linearAxis.Key, 
+                                 XAxisKey = linearYAxis.Key, 
+                                 StrokeThickness = 1
+                             };
             this.MzPlotModel.Series.Add(series);
+        }
+
+        /// <summary>
+        /// TODO The change end bin.
+        /// </summary>
+        /// <param name="bin">
+        /// TODO The bin.
+        /// </param>
+        public void changeEndBin(int bin)
+        {
+            this._endMzBin = bin;
+        }
+
+        /// <summary>
+        /// TODO The change start bin.
+        /// </summary>
+        /// <param name="bin">
+        /// TODO The bin.
+        /// </param>
+        public void changeStartBin(int bin)
+        {
+            this._startMzBin = bin;
         }
 
         #endregion
@@ -355,21 +409,6 @@ namespace Atreyu.ViewModels
 
                 this.MzPlotModel.InvalidatePlot(true);
             }
-        }
-
-        /// <summary>
-        /// TODO The get m/z image.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="Image"/>.
-        /// </returns>
-        public Image GetMzImage()
-        {
-            var stream = new MemoryStream();
-            PngExporter.Export(this.MzPlotModel, stream, (int)this.MzPlotModel.Width, (int)this.MzPlotModel.Height, OxyColors.White);
-
-            Image image = new Bitmap(stream);
-            return image;
         }
 
         #endregion
