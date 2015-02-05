@@ -46,11 +46,11 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData).Subscribe(this.MzSpectraViewModel.UpdateReference);
 
             // update the frame data of the TIC plot when needed
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.FrameData)
+            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.GatedFrameData)
                 .Subscribe(this.TotalIonChromatogramViewModel.UpdateFrameData);
 
             // Update the Framedata of the M/Z plot when needed
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.FrameData)
+            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.GatedFrameData)
                 .Subscribe(this.MzSpectraViewModel.UpdateFrameData);
 
             // update the frame whenever it is changed via the frame manipulation view
@@ -88,7 +88,7 @@ namespace Atreyu.ViewModels
                 .Where(b => this.HeatMapViewModel.HeatMapData != null)
                 .Subscribe(d => this.MzSpectraViewModel.Intercept = d);
 
-            // Attach the heatmap threshold to the slider's gate, using Throttle so it doesn't spam HardDrive hits.
+            // Attach the heatmap threshold to the slider's gate, using Throttle so it doesn't seem jerky.
             this.WhenAnyValue(vm => vm.GateSliderViewModel.Gate)
                 .Throttle(TimeSpan.FromMilliseconds(200))
                 .Subscribe(this.HeatMapViewModel.UpdateThreshold);

@@ -420,17 +420,9 @@ namespace Atreyu.ViewModels
                 return;
             }
             
-            var data = this.HeatMapData.ReadData(
-                this.heatMapData.CurrentMinBin,
-                this.heatMapData.CurrentMaxBin,
-                this._currentFrame,
-                this._currentFrame,
-                this.Height,
-                this.Width,
-                (int)this._heatMapPlotModel.Axes[1].ActualMinimum,
-                (int)this._heatMapPlotModel.Axes[1].ActualMaximum);
-            data = this.GateValues(data);
-            series.Data = data;
+            this.HeatMapData.UpdateGate(thresholdLevel);
+            series.Data = this.HeatMapData.GatedFrameData;
+            this.HeatMapPlotModel.Series[0] = series;
             this.HeatMapPlotModel.InvalidatePlot(true);
         }
 

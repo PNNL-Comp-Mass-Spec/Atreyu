@@ -284,7 +284,7 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// Gets or sets the gated frame data.
+        /// Gets the gated frame data.
         /// </summary>
         public double[,] GatedFrameData
         {
@@ -424,7 +424,7 @@ namespace Atreyu.Models
             GC.SuppressFinalize(this);
         }
 
-        private void gateData()
+        private void GateData()
         {
             if (this.Gate <= 0)
             {
@@ -432,18 +432,20 @@ namespace Atreyu.Models
                 return;
             }
 
-            var temp = this.FrameData;
+            var temp = new double[this.FrameData.GetLength(0), this.FrameData.GetLength(1)];
 
             for (var x = 0; x < temp.GetLength(0); x++)
             {
                 for (var y = 0; y < temp.GetLength(1); y++)
                 {
-                    if (temp[x, y] <= this.Gate)
+                    if (this.FrameData[x, y] > this.Gate)
                     {
-                        temp[x, y] = 0;
+                        temp[x, y] = this.FrameData[x, y];
                     }
                 }
             }
+
+            this.GatedFrameData = temp;
         }
 
         /// <summary>
@@ -523,7 +525,7 @@ namespace Atreyu.Models
                 this.ValuesPerPixelX, 
                 this.ValuesPerPixelY);
 
-            this.gateData();
+            this.GateData();
 
             return this.FrameData;
         }
@@ -553,7 +555,7 @@ namespace Atreyu.Models
         public void UpdateGate(double newValue)
         {
             this.Gate = newValue;
-            this.gateData();
+            this.GateData();
         }
 
         public void UpdateScanRange(int startScanNew, int endScanNew)
