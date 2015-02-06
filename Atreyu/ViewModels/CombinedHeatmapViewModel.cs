@@ -10,6 +10,7 @@ namespace Atreyu.ViewModels
 {
     using System;
     using System.ComponentModel.Composition;
+    using System.Drawing;
     using System.Reactive.Linq;
 
     using ReactiveUI;
@@ -124,5 +125,23 @@ namespace Atreyu.ViewModels
         public ReactiveCommand<object> ZoomOutFull { get; private set; }
 
         #endregion
+
+        public Image GetImage()
+        {
+            var tic = this.TotalIonChromatogramViewModel.GetTicImage();
+            var mz = this.MzSpectraViewModel.GetMzImage();
+            var heatmap = this.HeatMapViewModel.GetHeatmapImage();
+            var alignment = 25;
+
+            var bitmap = new Bitmap(mz.Width + heatmap.Width, heatmap.Height + tic.Height + alignment);
+            using (var g = Graphics.FromImage(bitmap))
+            {
+                g.DrawImage(mz, 0, 0);
+                g.DrawImage(heatmap, mz.Width, alignment);
+                g.DrawImage(tic, mz.Width, heatmap.Height + alignment);
+            }
+
+            return bitmap;
+        }
     }
 }
