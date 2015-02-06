@@ -257,38 +257,6 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The update frame data.
-        /// </summary>
-        /// <param name="frameData">
-        /// TODO The frame data.
-        /// </param>
-        public void UpdateFrameData(Dictionary<double, int> frameData)
-        {
-            if (this._uimfData == null)
-            {
-                return;
-            }
-
-            if (frameData == null)
-            {
-                return;
-            }
-
-            var series = this.MzPlotModel.Series[0] as LineSeries;
-            if (series != null)
-            {
-                series.Points.Clear();
-                foreach (var d in frameData)
-                {
-                    series.Points.Add(new DataPoint(d.Value, d.Key));
-                    series.Points.Add(new DataPoint(double.NaN, double.NaN));
-                }
-            }
-
-            this.MzPlotModel.InvalidatePlot(true);
-        }
-
-        /// <summary>
         /// TODO The update reference.
         /// </summary>
         /// <param name="uimfData">
