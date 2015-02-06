@@ -8,17 +8,16 @@
              d:DesignHeight="127.6" d:DesignWidth="680.8">
 	<Grid>
         <Grid.RowDefinitions>
-            <RowDefinition>
-                
-            </RowDefinition>
-            <RowDefinition>
-
-            </RowDefinition>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
         <Slider Grid.Row="0" Maximum="{Binding NumFrames}" Minimum="{Binding MinNumFrame}" VerticalAlignment="Top" TickPlacement="Both" TickFrequency="5" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" AutoToolTipPlacement="TopLeft"/>
         
-        <Grid Grid.Row="1">
+        <Label Grid.Row="1" Name="FrameTypeLabel" HorizontalAlignment="Center"/>
+        
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
