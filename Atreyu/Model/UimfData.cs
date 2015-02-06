@@ -71,6 +71,8 @@ namespace Atreyu.Models
         /// </summary>
         private int frames;
 
+        private string frameType;
+
         /// <summary>
         /// TODO The gate.
         /// </summary>
@@ -264,6 +266,19 @@ namespace Atreyu.Models
             set
             {
                 this.RaiseAndSetIfChanged(ref this.frames, value);
+            }
+        }
+
+        public string FrameType
+        {
+            get
+            {
+                return this.frameType;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.frameType, value);
             }
         }
 
@@ -513,6 +528,8 @@ namespace Atreyu.Models
 
             this.FrameSlope = frameParams.GetValueDouble(FrameParamKeyType.CalibrationSlope);
             this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
+
+            this.FrameType = frameParams.GetValue(FrameParamKeyType.FrameType);
 
             this.FrameData = this._dataReader.AccumulateFrameData(
                 startFrameNumber, 
