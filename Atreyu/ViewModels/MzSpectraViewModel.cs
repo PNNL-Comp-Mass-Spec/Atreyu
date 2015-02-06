@@ -220,7 +220,7 @@ namespace Atreyu.ViewModels
                     // t = bin
                     // and t0 = intercept
                     // but what units?
-                    index = Math.Pow(this.Slope * (index - this.Intercept), 2);
+                    index = Math.Pow(this.Slope * (index - this.Intercept), 2) / 1000000;
                 }
 
                 for (int i = 0; i < this._frameData.GetLength(0); i++)
