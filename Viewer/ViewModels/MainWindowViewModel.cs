@@ -117,7 +117,7 @@ namespace Viewer.ViewModels
                 return;
             }
 
-            var image = this.CombinedHeatmapViewModel.HeatMapViewModel.GetHeatmapImage();
+            var image = this.CombinedHeatmapViewModel.GetImage();
 
             var filename = dialogue.FileName;
 
