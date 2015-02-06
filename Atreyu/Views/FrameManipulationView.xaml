@@ -15,7 +15,7 @@
 
         <Slider Grid.Row="0" Maximum="{Binding NumFrames}" Minimum="{Binding MinNumFrame}" VerticalAlignment="Top" TickPlacement="Both" TickFrequency="5" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" AutoToolTipPlacement="TopLeft"/>
         
-        <Label Grid.Row="1" Name="FrameTypeLabel" HorizontalAlignment="Center"/>
+        <Label Grid.Row="1" Name="FrameTypeLabel" Content="{Binding FrameType}" HorizontalAlignment="Center"/>
         
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
