@@ -279,7 +279,8 @@ namespace Atreyu.ViewModels
                                      IsPanEnabled = false, 
                                      IsZoomEnabled = false, 
                                      MinimumPadding = 0.05, 
-                                     Title = this.ShowMz ? "m/z" : "Bin"
+                                     Title = this.ShowMz ? "m/z" : "Bin",
+                                     StringFormat = "f2"
                                  };
             this.MzPlotModel.Axes.Add(linearAxis);
 
