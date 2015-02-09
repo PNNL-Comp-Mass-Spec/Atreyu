@@ -13,7 +13,7 @@
                         Content="Open" />
 				<Button Name="SaveButton"
                         Command="{Binding Path=SaveHeatmap}"
-                        Content="Save Heatmap (WiP)" />
+                        Content="Save Heatmap" />
             </ToolBar>
         </ToolBarTray>
         <ContentControl x:Name="CombinedHeatMapViewControl">

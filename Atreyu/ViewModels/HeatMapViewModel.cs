@@ -9,6 +9,7 @@
 namespace Atreyu.ViewModels
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Drawing;
     using System.IO;
@@ -60,9 +61,16 @@ namespace Atreyu.ViewModels
         private UimfData heatMapData;
 
         /// <summary>
-        /// The backing field for <see cref="Threshold"/>.
+        /// The backing field for <see cref="LowThreshold"/>.
         /// </summary>
-        private double threshold;
+        private double lowThreshold;
+
+        private double highThreshold;
+
+
+        private LinearAxis newXAxis;
+        private LinearAxis newYAxis;
+        private bool updatingAxesNow;
 
         #endregion
 
@@ -87,7 +95,9 @@ namespace Atreyu.ViewModels
             ////this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Subscribe(this.UpdateFrameNumber);
             ////this._eventAggregator.GetEvent<UimfFileLoadedEvent>().Subscribe(this.InitializeUimfData);
             ////this._eventAggregator.GetEvent<SumFramesChangedEvent>().Subscribe(this.SumFrames);
-            this.WhenAnyValue(vm => vm.Threshold).Subscribe(this.UpdateThreshold);
+            this.WhenAnyValue(vm => vm.LowThreshold).Subscribe(this.UpdateLowThreshold);
+            this.WhenAnyValue(vm => vm.HighThreshold).Subscribe(this.UpdateHighThreshold);
+
         }
 
         #endregion
@@ -155,16 +165,29 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Gets or sets the threshold, the value at which intensities will not be added to the map (inclusive).
         /// </summary>
-        public double Threshold
+        public double LowThreshold
         {
             get
             {
-                return this.threshold;
+                return this.lowThreshold;
             }
 
             set
             {
-                this.RaiseAndSetIfChanged(ref this.threshold, value);
+                this.RaiseAndSetIfChanged(ref this.lowThreshold, value);
+            }
+        }
+
+        public double HighThreshold
+        {
+            get
+            {
+                return this.highThreshold;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.highThreshold, value);
             }
         }
 
@@ -187,10 +210,10 @@ namespace Atreyu.ViewModels
         {
             var stream = new MemoryStream();
             PngExporter.Export(
-                this.HeatMapPlotModel, 
-                stream, 
-                (int)this.HeatMapPlotModel.Width, 
-                (int)this.HeatMapPlotModel.Height, 
+                this.HeatMapPlotModel,
+                stream,
+                (int)this.HeatMapPlotModel.Width,
+                (int)this.HeatMapPlotModel.Height,
                 OxyColors.White);
 
             Image image = new Bitmap(stream);
@@ -235,11 +258,11 @@ namespace Atreyu.ViewModels
 
             var linearColorAxis1 = new LinearColorAxis
                                        {
-                                           HighColor = OxyColors.Purple, 
-                                           LowColor = OxyColors.Black, 
-                                           Position = AxisPosition.Right, 
-                                           Minimum = 1, 
-                                           Title = "Intensity", 
+                                           HighColor = OxyColors.Purple,
+                                           LowColor = OxyColors.Black,
+                                           Position = AxisPosition.Right,
+                                           Minimum = 1,
+                                           Title = "Intensity",
                                            IsAxisVisible = this.AxisVisible
                                        };
 
@@ -247,30 +270,32 @@ namespace Atreyu.ViewModels
 
             var horizontalAxis = new LinearAxis
                                      {
-                                         Position = AxisPosition.Bottom, 
-                                         AbsoluteMinimum = 0, 
-                                         AbsoluteMaximum = this.HeatMapData.Scans, 
-                                         MinimumRange = 10, 
-                                         MaximumPadding = 0, 
-                                         Title = "Mobility Scans", 
+                                         Position = AxisPosition.Bottom,
+                                         AbsoluteMinimum = 0,
+                                         AbsoluteMaximum = this.HeatMapData.Scans,
+                                         MinimumRange = 10,
+                                         MaximumPadding = 0,
+                                         Title = "Mobility Scans",
                                          IsAxisVisible = this.AxisVisible
                                      };
+
+            horizontalAxis.AxisChanged += this.OnXAxisChange;
 
             // horizontalAxis.AxisChanged += OnXAxisChange;
             this.HeatMapPlotModel.Axes.Add(horizontalAxis);
 
             var verticalAxis = new LinearAxis
                                    {
-                                       AbsoluteMinimum = 0, 
-                                       AbsoluteMaximum = this.HeatMapData.MaxBins, 
-                                       MinimumRange = 10, 
-                                       MaximumPadding = 0, 
-                                       Title = "TOF Bins", 
-                                       TickStyle = TickStyle.Inside, 
-                                       AxisDistance = -2, 
-                                       TextColor = OxyColors.Red, 
-                                       TicklineColor = OxyColors.Red, 
-                                       Layer = AxisLayer.AboveSeries, 
+                                       AbsoluteMinimum = 0,
+                                       AbsoluteMaximum = this.HeatMapData.MaxBins,
+                                       MinimumRange = 10,
+                                       MaximumPadding = 0,
+                                       Title = "TOF Bins",
+                                       TickStyle = TickStyle.Inside,
+                                       AxisDistance = -2,
+                                       TextColor = OxyColors.Red,
+                                       TicklineColor = OxyColors.Red,
+                                       Layer = AxisLayer.AboveSeries,
                                        IsAxisVisible = this.AxisVisible
                                    };
 
@@ -279,24 +304,24 @@ namespace Atreyu.ViewModels
             this.HeatMapPlotModel.Axes.Add(verticalAxis);
 
             var data = this.HeatMapData.ReadData(
-                1, 
-                this.HeatMapData.MaxBins, 
-                this._currentFrame, 
-                this._currentFrame, 
-                this.Height, 
-                this.Width, 
-                0, 
+                1,
+                this.HeatMapData.MaxBins,
+                this._currentFrame,
+                this._currentFrame,
+                this.Height,
+                this.Width,
+                0,
                 359);
 
             data = this.GateValues(data);
 
             var heatMapSeries1 = new HeatMapSeries
                                      {
-                                         X0 = 0, 
-                                         X1 = 359, 
-                                         Y0 = 0, 
-                                         Y1 = this.HeatMapData.MaxBins, 
-                                         Data = data, 
+                                         X0 = 0,
+                                         X1 = 359,
+                                         Y0 = 0,
+                                         Y1 = this.HeatMapData.MaxBins,
+                                         Data = data,
                                          Interpolate = false
                                      };
 
@@ -328,32 +353,32 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            LinearAxis yAxis = this._heatMapPlotModel.Axes[2] as LinearAxis;
+            LinearAxis newYAxis = this._heatMapPlotModel.Axes[2] as LinearAxis;
             var series = this._heatMapPlotModel.Series[0] as HeatMapSeries;
-            var xAxis = this._heatMapPlotModel.Axes[1];
-            this.HeatMapData.CurrentMinBin = (int)yAxis.ActualMinimum;
-            this.HeatMapData.CurrentMaxBin = (int)yAxis.ActualMaximum;
+            var newXAxis = this._heatMapPlotModel.Axes[1];
+            this.HeatMapData.CurrentMinBin = (int)newYAxis.ActualMinimum;
+            this.HeatMapData.CurrentMaxBin = (int)newYAxis.ActualMaximum;
 
-            var startScan = (int)xAxis.ActualMinimum;
-            var endScan = (int)xAxis.ActualMaximum;
+            var startScan = (int)newXAxis.ActualMinimum;
+            var endScan = (int)newXAxis.ActualMaximum;
 
             if (series != null)
             {
                 await Task.Run(
                     () =>
-                        {
-                            var data = this.HeatMapData.ReadData(
-                                this.HeatMapData.CurrentMinBin, 
-                                this.HeatMapData.CurrentMaxBin, 
-                                sumFrames.StartFrame, 
-                                sumFrames.EndFrame, 
-                                this.Height, 
-                                this.Width, 
-                                startScan, 
-                                endScan);
-                            data = this.GateValues(data);
-                            series.Data = data;
-                        });
+                    {
+                        var data = this.HeatMapData.ReadData(
+                            this.HeatMapData.CurrentMinBin,
+                            this.HeatMapData.CurrentMaxBin,
+                            sumFrames.StartFrame,
+                            sumFrames.EndFrame,
+                            this.Height,
+                            this.Width,
+                            startScan,
+                            endScan);
+                        data = this.GateValues(data);
+                        series.Data = data;
+                    });
                 series.X0 = startScan;
                 series.X1 = endScan;
                 series.Y0 = this.HeatMapData.CurrentMinBin;
@@ -388,13 +413,13 @@ namespace Atreyu.ViewModels
             }
 
             var data = this.HeatMapData.ReadData(
-                this.HeatMapData.CurrentMinBin, 
-                this.HeatMapData.CurrentMaxBin, 
-                this._currentFrame, 
-                this._currentFrame, 
-                this.Height, 
-                this.Width, 
-                (int)this._heatMapPlotModel.Axes[1].ActualMinimum, 
+                this.HeatMapData.CurrentMinBin,
+                this.HeatMapData.CurrentMaxBin,
+                this._currentFrame,
+                this._currentFrame,
+                this.Height,
+                this.Width,
+                (int)this._heatMapPlotModel.Axes[1].ActualMinimum,
                 (int)this._heatMapPlotModel.Axes[1].ActualMaximum);
             data = this.GateValues(data);
             series.Data = data;
@@ -406,21 +431,42 @@ namespace Atreyu.ViewModels
             ////    .Publish(this._heatMapPlotModel.Axes[2] as LinearAxis);
         }
 
-        public void UpdateThreshold(double thresholdLevel)
+        public void UpdateLowThreshold(double thresholdLevel)
         {
-            this.Threshold = thresholdLevel;
+            this.LowThreshold = thresholdLevel;
 
             if (this.HeatMapPlotModel == null) return;
 
             if (this.HeatMapData == null) return;
-            
+
             var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
             if (series == null)
             {
                 return;
             }
-            
-            this.HeatMapData.UpdateGate(thresholdLevel);
+
+            this.HeatMapData.UpdateLowGate(thresholdLevel);
+            series.Data = this.HeatMapData.GatedFrameData;
+            this.HeatMapPlotModel.Series[0] = series;
+            this.HeatMapPlotModel.InvalidatePlot(true);
+        }
+
+
+        public void UpdateHighThreshold(double thresholdLevel)
+        {
+            this.HighThreshold = thresholdLevel;
+
+            if (this.HeatMapPlotModel == null) return;
+
+            if (this.HeatMapData == null) return;
+
+            var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
+            if (series == null)
+            {
+                return;
+            }
+
+            this.HeatMapData.UpdateHighGate(thresholdLevel);
             series.Data = this.HeatMapData.GatedFrameData;
             this.HeatMapPlotModel.Series[0] = series;
             this.HeatMapPlotModel.InvalidatePlot(true);
@@ -452,13 +498,13 @@ namespace Atreyu.ViewModels
             }
 
             var data = this.HeatMapData.ReadData(
-                this.HeatMapData.CurrentMinBin, 
-                this.HeatMapData.CurrentMaxBin, 
-                this._currentFrame, 
+                this.HeatMapData.CurrentMinBin,
+                this.HeatMapData.CurrentMaxBin,
+                this._currentFrame,
                 this._currentFrame,
                 (int)height,
-                (int)width, 
-                (int)this._heatMapPlotModel.Axes[1].ActualMinimum, 
+                (int)width,
+                (int)this._heatMapPlotModel.Axes[1].ActualMinimum,
                 (int)this._heatMapPlotModel.Axes[1].ActualMaximum);
             data = this.GateValues(data);
             series.Data = data;
@@ -484,6 +530,25 @@ namespace Atreyu.ViewModels
 
         #region Methods
 
+        protected void OnXAxisChange(object sender, AxisChangedEventArgs e)
+        {
+
+            var series = this._heatMapPlotModel.Series[0] as HeatMapSeries;
+            if (e.ChangeType == AxisChangeTypes.Reset)
+            {
+                return;
+            }
+            else
+            {
+                newXAxis = sender as LinearAxis;
+
+                HandleZoom(series);
+            }
+
+            this._heatMapPlotModel.InvalidatePlot(true);
+
+        }
+
         /// <summary>
         /// TODO The on y axis change.
         /// </summary>
@@ -505,13 +570,13 @@ namespace Atreyu.ViewModels
                 if (series != null)
                 {
                     var data = this.HeatMapData.ReadData(
-                        this.HeatMapData.CurrentMinBin, 
-                        this.HeatMapData.CurrentMaxBin, 
-                        this._currentFrame, 
-                        this._currentFrame, 
-                        this.Height, 
-                        this.Width, 
-                        StartScan, 
+                        this.HeatMapData.CurrentMinBin,
+                        this.HeatMapData.CurrentMaxBin,
+                        this._currentFrame,
+                        this._currentFrame,
+                        this.Height,
+                        this.Width,
+                        StartScan,
                         endScan);
                     data = this.GateValues(data);
                     series.Data = data;
@@ -523,33 +588,11 @@ namespace Atreyu.ViewModels
             }
             else
             {
-                LinearAxis yAxis = sender as LinearAxis;
 
-                var xAxis = this._heatMapPlotModel.Axes[1];
-                this.HeatMapData.CurrentMinBin = (int)yAxis.ActualMinimum;
-                this.HeatMapData.CurrentMaxBin = (int)yAxis.ActualMaximum;
+                newYAxis = sender as LinearAxis;
 
-                var startScan = (int)xAxis.ActualMinimum;
-                var endScan = (int)xAxis.ActualMaximum;
+                HandleZoom(series);
 
-                if (series != null)
-                {
-                    var data = this.HeatMapData.ReadData(
-                        this.HeatMapData.CurrentMinBin, 
-                        this.HeatMapData.CurrentMaxBin, 
-                        this._currentFrame, 
-                        this._currentFrame, 
-                        this.Height, 
-                        this.Width, 
-                        startScan, 
-                        endScan);
-                    data = this.GateValues(data);
-                    series.Data = data;
-                    series.X0 = startScan;
-                    series.X1 = endScan;
-                    series.Y0 = this.HeatMapData.CurrentMinBin;
-                    series.Y1 = this.HeatMapData.CurrentMaxBin;
-                }
             }
 
             this._heatMapPlotModel.InvalidatePlot(true);
@@ -558,8 +601,52 @@ namespace Atreyu.ViewModels
             ////this._eventAggregator.GetEvent<YAxisChangedEvent>().Publish(this._heatMapPlotModel.Axes[2] as LinearAxis);
         }
 
+        private void HandleZoom(HeatMapSeries series)
+        {
+
+            if (newXAxis == null)
+                return;
+
+            if (newYAxis == null)
+                return;
+
+            if (updatingAxesNow)
+                return;
+            
+            updatingAxesNow = true;
+
+            this.HeatMapData.CurrentMinBin = (int)newYAxis.ActualMinimum;
+            this.HeatMapData.CurrentMaxBin = (int)newYAxis.ActualMaximum;
+
+            var startScan = (int)newXAxis.ActualMinimum;
+            var endScan = (int)newXAxis.ActualMaximum;
+
+            if (series != null)
+            {
+                var data = this.HeatMapData.ReadData(
+                    this.HeatMapData.CurrentMinBin,
+                    this.HeatMapData.CurrentMaxBin,
+                    this._currentFrame,
+                    this._currentFrame,
+                    this.Height,
+                    this.Width,
+                    startScan,
+                    endScan);
+                data = this.GateValues(data);
+                series.Data = data;
+                series.X0 = startScan;
+                series.X1 = endScan;
+                series.Y0 = this.HeatMapData.CurrentMinBin;
+                series.Y1 = this.HeatMapData.CurrentMaxBin;
+            }
+
+            newXAxis = null;
+            newYAxis = null;
+            updatingAxesNow = false;
+
+        }
         /// <summary>
-        /// Gate values by setting anything at or below the <see cref="Threshold"/> by setting them to zero.
+        /// Gate values by setting anything at or below the <see cref="LowThreshold"/> by setting them to zero.
         /// </summary>
         /// <param name="values">
         /// The values to be gated.
@@ -569,7 +656,7 @@ namespace Atreyu.ViewModels
         /// </returns>
         private double[,] GateValues(double[,] values)
         {
-            if (this.Threshold <= 0)
+            if (this.LowThreshold <= 0)
             {
                 return values;
             }
@@ -580,7 +667,7 @@ namespace Atreyu.ViewModels
             {
                 for (var y = 0; y < temp.GetLength(1); y++)
                 {
-                    if (temp[x, y] <= this.Threshold)
+                    if (temp[x, y] <= this.LowThreshold || temp[x, y] > this.HighThreshold)
                     {
                         temp[x, y] = 0;
                     }

@@ -220,7 +220,7 @@ namespace Atreyu.ViewModels
                     // t = bin
                     // and t0 = intercept
                     // but what units?
-                    index = Math.Pow(this.Slope * (index - this.Intercept), 2);
+                    index = Math.Pow(this.Slope * (index - this.Intercept), 2) / 1000000;
                 }
 
                 for (int i = 0; i < this._frameData.GetLength(0); i++)
@@ -257,38 +257,6 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The update frame data.
-        /// </summary>
-        /// <param name="frameData">
-        /// TODO The frame data.
-        /// </param>
-        public void UpdateFrameData(Dictionary<double, int> frameData)
-        {
-            if (this._uimfData == null)
-            {
-                return;
-            }
-
-            if (frameData == null)
-            {
-                return;
-            }
-
-            var series = this.MzPlotModel.Series[0] as LineSeries;
-            if (series != null)
-            {
-                series.Points.Clear();
-                foreach (var d in frameData)
-                {
-                    series.Points.Add(new DataPoint(d.Value, d.Key));
-                    series.Points.Add(new DataPoint(double.NaN, double.NaN));
-                }
-            }
-
-            this.MzPlotModel.InvalidatePlot(true);
-        }
-
-        /// <summary>
         /// TODO The update reference.
         /// </summary>
         /// <param name="uimfData">
@@ -311,7 +279,8 @@ namespace Atreyu.ViewModels
                                      IsPanEnabled = false, 
                                      IsZoomEnabled = false, 
                                      MinimumPadding = 0.05, 
-                                     Title = this.ShowMz ? "m/z" : "Bin"
+                                     Title = this.ShowMz ? "m/z" : "Bin",
+                                     StringFormat = "f2"
                                  };
             this.MzPlotModel.Axes.Add(linearAxis);
 

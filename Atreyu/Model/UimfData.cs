@@ -71,10 +71,14 @@ namespace Atreyu.Models
         /// </summary>
         private int frames;
 
+        private string frameType;
+
         /// <summary>
         /// TODO The gate.
         /// </summary>
-        private double gate;
+        private double lowGate;
+
+        private double highGate = double.PositiveInfinity;
 
         /// <summary>
         /// TODO The gated frame data.
@@ -267,19 +271,46 @@ namespace Atreyu.Models
             }
         }
 
-        /// <summary>
-        /// Gets or sets the gate.
-        /// </summary>
-        public double Gate
+        public string FrameType
         {
             get
             {
-                return this.gate;
+                return this.frameType;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.frameType, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the gate.
+        /// </summary>
+        public double LowGate
+        {
+            get
+            {
+                return this.lowGate;
             }
 
             private set
             {
-                this.RaiseAndSetIfChanged(ref this.gate, value);
+                this.RaiseAndSetIfChanged(ref this.lowGate, value);
+            }
+        }
+
+
+        public double HighGate
+        {
+            get
+            {
+                return this.highGate;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.highGate, value);
             }
         }
 
@@ -426,7 +457,7 @@ namespace Atreyu.Models
 
         private void GateData()
         {
-            if (this.Gate <= 0)
+            if (this.LowGate <= 0)
             {
                 this.GatedFrameData = this.FrameData;
                 return;
@@ -438,7 +469,7 @@ namespace Atreyu.Models
             {
                 for (var y = 0; y < temp.GetLength(1); y++)
                 {
-                    if (this.FrameData[x, y] > this.Gate)
+                    if (this.FrameData[x, y] > this.LowGate && this.FrameData[x, y] < this.HighGate)
                     {
                         temp[x, y] = this.FrameData[x, y];
                     }
@@ -514,6 +545,8 @@ namespace Atreyu.Models
             this.FrameSlope = frameParams.GetValueDouble(FrameParamKeyType.CalibrationSlope);
             this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
 
+            this.FrameType = frameParams.GetValue(FrameParamKeyType.FrameType);
+
             this.FrameData = this._dataReader.AccumulateFrameData(
                 startFrameNumber, 
                 endFrameNumber, 
@@ -552,9 +585,15 @@ namespace Atreyu.Models
             }
         }
 
-        public void UpdateGate(double newValue)
+        public void UpdateLowGate(double newValue)
         {
-            this.Gate = newValue;
+            this.LowGate = newValue;
+            this.GateData();
+        }
+
+        public void UpdateHighGate(double newValue)
+        {
+            this.HighGate = newValue;
             this.GateData();
         }
 

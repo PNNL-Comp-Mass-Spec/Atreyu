@@ -31,6 +31,8 @@ namespace Atreyu.ViewModels
         /// </summary>
         private int currentFrame;
 
+        private string frameType;
+
         /// <summary>
         /// TODO The lowest frame number.
         /// </summary>
@@ -101,6 +103,19 @@ namespace Atreyu.ViewModels
         /// Gets or sets the end frame.
         /// </summary>
         public int EndFrame { get; set; }
+
+        public string FrameType
+        {
+            get
+            {
+                return this.frameType;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.frameType, value);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the min num frame.
