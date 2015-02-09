@@ -165,6 +165,8 @@ namespace Atreyu.ViewModels
             }
         }
 
+        public double ValuesPerPixelY { get; set; }
+
         #endregion
 
         #region Public Methods and Operators
@@ -220,7 +222,8 @@ namespace Atreyu.ViewModels
                     // t = bin
                     // and t0 = intercept
                     // but what units?
-                    index = Math.Pow(this.Slope * (index - this.Intercept), 2) / 1000000;
+                    var temp = index + (j * this.ValuesPerPixelY) - 1;// + this._startMzBin;
+                    index = Math.Pow(this.Slope * (temp - this.Intercept), 2) / 1000000;
                 }
 
                 for (int i = 0; i < this._frameData.GetLength(0); i++)
