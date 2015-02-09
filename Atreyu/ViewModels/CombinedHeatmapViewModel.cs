@@ -36,8 +36,9 @@ namespace Atreyu.ViewModels
             this.TotalIonChromatogramViewModel = new TotalIonChromatogramViewModel();
 
             this.LowValueGateSliderViewModel.ControlLabel = "Low Gate";
+            this.LowValueGateSliderViewModel.UpdateGate(0);
             this.HighValueGateSliderViewModel.ControlLabel = "High Cutoff";
-            this.HighValueGateSliderViewModel.Gate = this.HighValueGateSliderViewModel.MaximumValue;
+            this.HighValueGateSliderViewModel.UpdateGate(this.HighValueGateSliderViewModel.MaximumValue);
 
             this.ZoomOutFull = this.FrameManipulationViewModel.ZoomOutCommand;
             this.ZoomOutFull.Subscribe(x => this.HeatMapViewModel.ZoomOutFull());
@@ -102,7 +103,7 @@ namespace Atreyu.ViewModels
 
             this.WhenAnyValue(vm => vm.HighValueGateSliderViewModel.LogarithmicGate)
                 .Throttle(TimeSpan.FromMilliseconds(200))
-                .Subscribe(d => this.HeatMapViewModel.HighThreshold = d);
+                .Subscribe(this.HeatMapViewModel.UpdateHighThreshold);
 
 
             // Update the frame type on the Fram Manipulation view

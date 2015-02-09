@@ -78,7 +78,7 @@ namespace Atreyu.Models
         /// </summary>
         private double lowGate;
 
-        private double highGate;
+        private double highGate = double.PositiveInfinity;
 
         /// <summary>
         /// TODO The gated frame data.
@@ -593,7 +593,7 @@ namespace Atreyu.Models
 
         public void UpdateHighGate(double newValue)
         {
-            this.LowGate = newValue;
+            this.HighGate = newValue;
             this.GateData();
         }
 
