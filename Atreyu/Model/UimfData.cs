@@ -76,7 +76,9 @@ namespace Atreyu.Models
         /// <summary>
         /// TODO The gate.
         /// </summary>
-        private double gate;
+        private double lowGate;
+
+        private double highGate;
 
         /// <summary>
         /// TODO The gated frame data.
@@ -285,16 +287,30 @@ namespace Atreyu.Models
         /// <summary>
         /// Gets or sets the gate.
         /// </summary>
-        public double Gate
+        public double LowGate
         {
             get
             {
-                return this.gate;
+                return this.lowGate;
             }
 
             private set
             {
-                this.RaiseAndSetIfChanged(ref this.gate, value);
+                this.RaiseAndSetIfChanged(ref this.lowGate, value);
+            }
+        }
+
+
+        public double HighGate
+        {
+            get
+            {
+                return this.highGate;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.highGate, value);
             }
         }
 
@@ -441,7 +457,7 @@ namespace Atreyu.Models
 
         private void GateData()
         {
-            if (this.Gate <= 0)
+            if (this.LowGate <= 0)
             {
                 this.GatedFrameData = this.FrameData;
                 return;
@@ -453,7 +469,7 @@ namespace Atreyu.Models
             {
                 for (var y = 0; y < temp.GetLength(1); y++)
                 {
-                    if (this.FrameData[x, y] > this.Gate)
+                    if (this.FrameData[x, y] > this.LowGate && this.FrameData[x, y] < this.HighGate)
                     {
                         temp[x, y] = this.FrameData[x, y];
                     }
@@ -569,9 +585,15 @@ namespace Atreyu.Models
             }
         }
 
-        public void UpdateGate(double newValue)
+        public void UpdateLowGate(double newValue)
         {
-            this.Gate = newValue;
+            this.LowGate = newValue;
+            this.GateData();
+        }
+
+        public void UpdateHighGate(double newValue)
+        {
+            this.LowGate = newValue;
             this.GateData();
         }
 

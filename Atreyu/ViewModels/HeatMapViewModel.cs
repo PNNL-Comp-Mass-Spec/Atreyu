@@ -61,9 +61,11 @@ namespace Atreyu.ViewModels
         private UimfData heatMapData;
 
         /// <summary>
-        /// The backing field for <see cref="Threshold"/>.
+        /// The backing field for <see cref="LowThreshold"/>.
         /// </summary>
-        private double threshold;
+        private double lowThreshold;
+
+        private double highThreshold;
 
 
         private LinearAxis newXAxis;
@@ -93,7 +95,8 @@ namespace Atreyu.ViewModels
             ////this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Subscribe(this.UpdateFrameNumber);
             ////this._eventAggregator.GetEvent<UimfFileLoadedEvent>().Subscribe(this.InitializeUimfData);
             ////this._eventAggregator.GetEvent<SumFramesChangedEvent>().Subscribe(this.SumFrames);
-            this.WhenAnyValue(vm => vm.Threshold).Subscribe(this.UpdateThreshold);
+            this.WhenAnyValue(vm => vm.LowThreshold).Subscribe(this.UpdateLowThreshold);
+            this.WhenAnyValue(vm => vm.HighThreshold).Subscribe(this.UpdateHighThreshold);
 
         }
 
@@ -162,16 +165,29 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Gets or sets the threshold, the value at which intensities will not be added to the map (inclusive).
         /// </summary>
-        public double Threshold
+        public double LowThreshold
         {
             get
             {
-                return this.threshold;
+                return this.lowThreshold;
             }
 
             set
             {
-                this.RaiseAndSetIfChanged(ref this.threshold, value);
+                this.RaiseAndSetIfChanged(ref this.lowThreshold, value);
+            }
+        }
+
+        public double HighThreshold
+        {
+            get
+            {
+                return this.highThreshold;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.highThreshold, value);
             }
         }
 
@@ -415,9 +431,9 @@ namespace Atreyu.ViewModels
             ////    .Publish(this._heatMapPlotModel.Axes[2] as LinearAxis);
         }
 
-        public void UpdateThreshold(double thresholdLevel)
+        public void UpdateLowThreshold(double thresholdLevel)
         {
-            this.Threshold = thresholdLevel;
+            this.LowThreshold = thresholdLevel;
 
             if (this.HeatMapPlotModel == null) return;
 
@@ -429,7 +445,28 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            this.HeatMapData.UpdateGate(thresholdLevel);
+            this.HeatMapData.UpdateLowGate(thresholdLevel);
+            series.Data = this.HeatMapData.GatedFrameData;
+            this.HeatMapPlotModel.Series[0] = series;
+            this.HeatMapPlotModel.InvalidatePlot(true);
+        }
+
+
+        public void UpdateHighThreshold(double thresholdLevel)
+        {
+            this.HighThreshold = thresholdLevel;
+
+            if (this.HeatMapPlotModel == null) return;
+
+            if (this.HeatMapData == null) return;
+
+            var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
+            if (series == null)
+            {
+                return;
+            }
+
+            this.HeatMapData.UpdateHighGate(thresholdLevel);
             series.Data = this.HeatMapData.GatedFrameData;
             this.HeatMapPlotModel.Series[0] = series;
             this.HeatMapPlotModel.InvalidatePlot(true);
@@ -609,7 +646,7 @@ namespace Atreyu.ViewModels
 
         }
         /// <summary>
-        /// Gate values by setting anything at or below the <see cref="Threshold"/> by setting them to zero.
+        /// Gate values by setting anything at or below the <see cref="LowThreshold"/> by setting them to zero.
         /// </summary>
         /// <param name="values">
         /// The values to be gated.
@@ -619,7 +656,7 @@ namespace Atreyu.ViewModels
         /// </returns>
         private double[,] GateValues(double[,] values)
         {
-            if (this.Threshold <= 0)
+            if (this.LowThreshold <= 0)
             {
                 return values;
             }
@@ -630,7 +667,7 @@ namespace Atreyu.ViewModels
             {
                 for (var y = 0; y < temp.GetLength(1); y++)
                 {
-                    if (temp[x, y] <= this.Threshold)
+                    if (temp[x, y] <= this.LowThreshold || temp[x, y] > this.HighThreshold)
                     {
                         temp[x, y] = 0;
                     }

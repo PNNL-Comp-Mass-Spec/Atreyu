@@ -98,7 +98,11 @@ namespace Atreyu.ViewModels
             // Attach the heatmap threshold to the slider's gate, using Throttle so it doesn't seem jerky.
             this.WhenAnyValue(vm => vm.LowValueGateSliderViewModel.LogarithmicGate)
                 .Throttle(TimeSpan.FromMilliseconds(200))
-                .Subscribe(this.HeatMapViewModel.UpdateThreshold);
+                .Subscribe(this.HeatMapViewModel.UpdateLowThreshold);
+
+            this.WhenAnyValue(vm => vm.HighValueGateSliderViewModel.LogarithmicGate)
+                .Throttle(TimeSpan.FromMilliseconds(200))
+                .Subscribe(d => this.HeatMapViewModel.HighThreshold = d);
 
 
             // Update the frame type on the Fram Manipulation view
