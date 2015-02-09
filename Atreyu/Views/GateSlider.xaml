@@ -10,5 +10,6 @@
 	<Grid x:Name="LayoutRoot">
         <Slider Name="GateSliderControl" Orientation="Vertical" Maximum="{Binding MaximumValue}" TickPlacement="BottomRight" HorizontalAlignment="Left" VerticalAlignment="Stretch" />
         <Label Name="CurrentValue" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="{Binding LogarithmicGate, Mode=OneWay}" Margin="27,0,0,10" />
+        <Label Content="{Binding ControlLabel}" HorizontalAlignment="Left" Margin="27,10,0,0" VerticalAlignment="Top"/>
 	</Grid>
 </UserControl>

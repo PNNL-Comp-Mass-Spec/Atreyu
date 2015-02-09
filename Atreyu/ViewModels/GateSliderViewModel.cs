@@ -62,7 +62,7 @@ namespace Atreyu.ViewModels
                 return this.gate;
             }
 
-            private set
+            set
             {
                 this.gate = value;
                 this.RaisePropertyChanged();
