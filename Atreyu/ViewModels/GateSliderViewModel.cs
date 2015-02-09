@@ -20,6 +20,8 @@ namespace Atreyu.ViewModels
     {
         #region Fields
 
+        private string controlLabel = "Low Gate";
+
         private double logarithmicGate;
 
         /// <summary>
@@ -36,6 +38,19 @@ namespace Atreyu.ViewModels
         #endregion
 
         #region Public Properties
+
+        public string ControlLabel
+        {
+            get
+            {
+                return this.controlLabel;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.controlLabel, value);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the gate.
