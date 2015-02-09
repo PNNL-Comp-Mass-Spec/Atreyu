@@ -31,8 +31,14 @@ namespace Atreyu.ViewModels
             this.FrameManipulationViewModel = new FrameManipulationViewModel();
             this.HeatMapViewModel = new HeatMapViewModel();
             this.MzSpectraViewModel = new MzSpectraViewModel();
-            this.GateSliderViewModel = new GateSliderViewModel();
+            this.LowValueGateSliderViewModel = new GateSliderViewModel();
+            this.HighValueGateSliderViewModel = new GateSliderViewModel();
             this.TotalIonChromatogramViewModel = new TotalIonChromatogramViewModel();
+
+            this.LowValueGateSliderViewModel.ControlLabel = "Low Gate";
+            this.LowValueGateSliderViewModel.UpdateGate(0);
+            this.HighValueGateSliderViewModel.ControlLabel = "High Cutoff";
+            this.HighValueGateSliderViewModel.UpdateGate(this.HighValueGateSliderViewModel.MaximumValue);
 
             this.ZoomOutFull = this.FrameManipulationViewModel.ZoomOutCommand;
             this.ZoomOutFull.Subscribe(x => this.HeatMapViewModel.ZoomOutFull());
@@ -91,9 +97,13 @@ namespace Atreyu.ViewModels
                 .Subscribe(d => this.MzSpectraViewModel.Intercept = d);
 
             // Attach the heatmap threshold to the slider's gate, using Throttle so it doesn't seem jerky.
-            this.WhenAnyValue(vm => vm.GateSliderViewModel.LogarithmicGate)
+            this.WhenAnyValue(vm => vm.LowValueGateSliderViewModel.LogarithmicGate)
                 .Throttle(TimeSpan.FromMilliseconds(200))
-                .Subscribe(this.HeatMapViewModel.UpdateThreshold);
+                .Subscribe(this.HeatMapViewModel.UpdateLowThreshold);
+
+            this.WhenAnyValue(vm => vm.HighValueGateSliderViewModel.LogarithmicGate)
+                .Throttle(TimeSpan.FromMilliseconds(200))
+                .Subscribe(this.HeatMapViewModel.UpdateHighThreshold);
 
 
             // Update the frame type on the Fram Manipulation view
@@ -120,8 +130,9 @@ namespace Atreyu.ViewModels
         /// </summary>
         public MzSpectraViewModel MzSpectraViewModel { get; private set; }
 
-        public GateSliderViewModel GateSliderViewModel { get; private set; }
+        public GateSliderViewModel LowValueGateSliderViewModel { get; private set; }
 
+        public GateSliderViewModel HighValueGateSliderViewModel { get; private set; }
         /// <summary>
         /// Gets the total ion chromatogram view model.
         /// </summary>

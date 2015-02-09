@@ -41,7 +41,9 @@ namespace Atreyu.Views
         /// </summary>
         private MzSpectraView mzSpectraView;
 
-        private GateSlider sliderView;
+        private GateSlider LowSliderView;
+
+        private GateSlider HighSliderView;
 
         /// <summary>
         /// TODO The total ion chromatogram view.
@@ -87,10 +89,15 @@ namespace Atreyu.Views
             Grid.SetColumnSpan(this.totalIonChromatogramView, 2);
             this.MainGrid.Children.Add(this.totalIonChromatogramView);
 
-            this.sliderView = new GateSlider(this.ViewModel.GateSliderViewModel);
-            Grid.SetRow(this.sliderView, 1);
-            Grid.SetColumn(this.sliderView, 3);
-            this.MainGrid.Children.Add(this.sliderView);
+            this.LowSliderView = new GateSlider(this.ViewModel.LowValueGateSliderViewModel);
+            Grid.SetRow(this.LowSliderView, 1);
+            Grid.SetColumn(this.LowSliderView, 3);
+            this.MainGrid.Children.Add(this.LowSliderView);
+
+            this.HighSliderView = new GateSlider(this.ViewModel.HighValueGateSliderViewModel);
+            Grid.SetRow(this.HighSliderView, 1);
+            Grid.SetColumn(this.HighSliderView, 4);
+            this.MainGrid.Children.Add(this.HighSliderView);
 
             this.AllowDrop = true;
             this.PreviewDrop += this.MainTabControl_PreviewDragEnter;        
