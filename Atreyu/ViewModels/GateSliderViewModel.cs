@@ -27,6 +27,12 @@ namespace Atreyu.ViewModels
         /// </summary>
         private double gate;
 
+        private bool logMode;
+
+        private double maximumLogValue = 10000000.0;
+
+        private double maximumValue = 100000.0;
+
         #endregion
 
         #region Public Properties
@@ -61,23 +67,63 @@ namespace Atreyu.ViewModels
             }
         }
 
+        public bool LogMode
+        {
+            get
+            {
+                return this.logMode;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.logMode, value);
+            }
+        }
+
+        public double MaximumValue
+        {
+            get
+            {
+                return this.maximumValue;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.maximumValue, value);
+            }
+        }
+
+        public double MaximumLogValue
+        {
+            get
+            {
+                return this.maximumLogValue;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.maximumLogValue, value);
+            }
+        }
+
         #endregion
 
         public void UpdateGate(double value)
         {
             this.Gate = value;
-            // position will be between 0 and 100000
-            var minp = 0;
-            var maxp = 100000;
+            // position will be between 0 and whatever the Maximum is
+            const int Minp = 0;
+            var maxp = this.MaximumValue;
 
-            // The result should be between 0 an 10000000
-            var minv = 0;
-            var maxv = Math.Log(10000000);
+            // The result should be between 0 an whatever the maximum log value is
+            const int Minv = 0;
+            var maxv = Math.Log(this.MaximumLogValue);
 
             // calculate adjustment factor
-            var scale = (maxv - minv) / (maxp - minp);
+            var scale = (maxv - Minv) / (maxp - Minp);
 
-            var x = Math.Exp(minv + (scale * (value - minp)));
+            // scale it all.
+            var x = Math.Exp(Minv + (scale * (value - Minp)));
 
             this.LogarithmicGate = x;
         }
