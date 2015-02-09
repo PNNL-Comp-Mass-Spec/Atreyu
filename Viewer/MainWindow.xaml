@@ -6,6 +6,14 @@
         Width="800"
         Height="600">
     <DockPanel Name="MainDockPanel">
+         <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_Export">
+                <MenuItem Header="_Compressed w/o Gate (WiP)"/>
+                <MenuItem Header="_Compressed w/ Gate (WiP)"/>
+                <MenuItem Header="_Uncompressed w/o Gate (WiP)"/>
+                <MenuItem Header="_Uncompressed w/ Gate (WiP)"/>
+            </MenuItem>
+        </Menu>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
                 <Button Name="OpenButton"
@@ -16,6 +24,7 @@
                         Content="Save Heatmap" />
             </ToolBar>
         </ToolBarTray>
+
         <ContentControl x:Name="CombinedHeatMapViewControl">
             <ContentControl.ContentTemplate>
                 <DataTemplate>
