@@ -284,7 +284,7 @@ namespace Atreyu.ViewModels
                                      Key = "XAxisKey", 
                                      IsPanEnabled = false, 
                                      IsZoomEnabled = false, 
-                                     MinimumPadding = 0.05, 
+                                     MinimumPadding = 0.0, 
                                      Title = this.ShowMz ? "m/z" : "Bin",
                                      StringFormat = "f2"
                                  };
