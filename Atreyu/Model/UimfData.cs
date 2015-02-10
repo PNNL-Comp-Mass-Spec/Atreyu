@@ -582,7 +582,7 @@ namespace Atreyu.Models
             for (var i = 0; i < arrayLength; i++)
             {
                 tof[i] = this._dataReader.GetPixelMZ(i);
-                mz[i] = calibrator.TOFtoMZ(tof[i]);
+                mz[i] = calibrator.TOFtoMZ(tof[i]*10);
             }
 
             this.BinToMzMap = mz;
