@@ -26,6 +26,8 @@ namespace Atreyu.Models
         /// </summary>
         private DataReader _dataReader;
 
+        private double[] binToMzMap;
+
         /// <summary>
         /// TODO The current max bin.
         /// </summary>
@@ -142,6 +144,19 @@ namespace Atreyu.Models
         #endregion
 
         #region Public Properties
+
+        public double[] BinToMzMap
+        {
+            get
+            {
+                return this.binToMzMap;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.binToMzMap, value);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the current max bin.
@@ -522,10 +537,10 @@ namespace Atreyu.Models
             this.UpdateScanRange(startScanValue, endScanValue);
 
             this.TotalBins = this.CurrentMaxBin - this.CurrentMinBin + 1;
-            this.ValuesPerPixelY = this.TotalBins / (double)height;
+            this.ValuesPerPixelY = (int)(this.TotalBins / (double)height);
 
             var totalScans = this.EndScan - this.StartScan + 1;
-            this.ValuesPerPixelX = totalScans / (double)width;
+            this.ValuesPerPixelX = (int)(totalScans / (double)width);
 
             if (this.ValuesPerPixelY < 1)
             {
@@ -546,8 +561,8 @@ namespace Atreyu.Models
             this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
 
             this.FrameType = frameParams.GetValue(FrameParamKeyType.FrameType);
-
-            this.FrameData = this._dataReader.AccumulateFrameData(
+            
+            var temp = this._dataReader.AccumulateFrameData(
                 startFrameNumber, 
                 endFrameNumber, 
                 false, 
@@ -555,8 +570,21 @@ namespace Atreyu.Models
                 this.EndScan, 
                 startBin, 
                 endBin, 
-                this.ValuesPerPixelX, 
-                this.ValuesPerPixelY);
+                (int)this.ValuesPerPixelX,
+                (int)this.ValuesPerPixelY);
+
+            var arrayLength = (int)Math.Round((endBin - startBin + 1) / this.ValuesPerPixelY);
+
+            var map = new double[arrayLength];
+
+            for (var i = 0; i < arrayLength; i++)
+            {
+                map[i] = this._dataReader.GetPixelMZ(i);
+            }
+
+            this.BinToMzMap = map;
+
+            this.frameData = temp;
 
             this.GateData();
 
