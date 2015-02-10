@@ -41,7 +41,7 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// TODO The mz mode enabled.
         /// </summary>
-        private bool mzModeEnabled;
+        private bool mzModeEnabled = true;
 
         /// <summary>
         /// TODO The total number of frames.
