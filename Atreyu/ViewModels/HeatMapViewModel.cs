@@ -199,6 +199,38 @@ namespace Atreyu.ViewModels
 
         #region Public Methods and Operators
 
+        public double[,] GetCompressedDataInView()
+        {
+            var minBin = this.HeatMapData.CurrentMinBin;
+            var minScan = this.heatMapData.StartScan;
+
+            var exportData =
+                new double[this.HeatMapData.FrameData.GetLength(0) + 1, this.HeatMapData.FrameData.GetLength(1) + 1];
+
+            for (var y = 1; y < exportData.GetLength(0); y++)
+            {
+                var bin = y - 1 + minBin;
+                var mz = this.heatMapData.BinToMzMap[bin];
+                exportData[y, 0] = mz;
+            }
+
+            for (var x = 1; x < exportData.GetLength(1); x++)
+            {
+                var scan = x - 1 + minScan;
+                exportData[0, x] = scan;
+            }
+
+            for (var mz = 1; mz < exportData.GetLength(0); mz++)
+            {
+                for (var scan = 1; scan < exportData.GetLength(1); scan++)
+                {
+                    exportData[mz, scan] = this.heatMapData.FrameData[mz - 1, scan - 1];
+                }
+            }
+
+            return exportData;
+        }
+
         /// <summary>
         /// TODO The save heatmap image.
         /// </summary>
