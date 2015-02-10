@@ -113,6 +113,10 @@ namespace Atreyu.ViewModels
             //update the values per pixel so that the m/z adjusts correctly
             this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.ValuesPerPixelY)
                 .Subscribe(d => this.MzSpectraViewModel.ValuesPerPixelY = d);
+
+
+            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.BinToMzMap)
+                .Subscribe(d => this.MzSpectraViewModel.BinToMzMap = d);
         }
 
         #endregion
