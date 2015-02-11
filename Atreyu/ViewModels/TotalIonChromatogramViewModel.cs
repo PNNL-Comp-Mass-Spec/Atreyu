@@ -49,6 +49,8 @@ namespace Atreyu.ViewModels
         /// </summary>
         private double[,] _frameData;
 
+        private Dictionary<int, double> frameData;
+
         /// <summary>
         /// TODO The _start scan.
         /// </summary>
@@ -132,6 +134,17 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
+        /// Returns a dictionary of <scan, intensity> data that is currently being displayed.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IDictionary"/>.
+        /// </returns>
+        public IDictionary<int, double> GetTicData()
+        {
+            return this.frameData;
+        }
+
+        /// <summary>
         /// TODO The get tic image.
         /// </summary>
         /// <returns>
@@ -171,20 +184,20 @@ namespace Atreyu.ViewModels
                 this._endScan = 359;
             }
 
-            var frameData = new Dictionary<int, double>();
+            this.frameData = new Dictionary<int, double>();
 
             for (var i = 0; i < this._frameData.GetLength(0); i++)
             {
                 var index = i + this._startScan;
                 for (var j = 0; j < this._frameData.GetLength(1); j++)
                 {
-                    if (frameData.ContainsKey(index))
+                    if (this.frameData.ContainsKey(index))
                     {
-                        frameData[index] += this._frameData[i, j];
+                        this.frameData[index] += this._frameData[i, j];
                     }
                     else
                     {
-                        frameData.Add(index, this._frameData[i, j]);
+                        this.frameData.Add(index, this._frameData[i, j]);
                     }
                 }
             }

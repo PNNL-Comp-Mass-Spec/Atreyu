@@ -176,7 +176,7 @@ namespace Atreyu.ViewModels
         #region Public Methods and Operators
 
         /// <summary>
-        /// The returns a dictionary of <m/z, intensity> data that is currently being displayed.
+        /// Returns a dictionary of <m/z, intensity> data that is currently being displayed.
         /// </summary>
         /// <returns>
         /// The <see cref="IDictionary"/>.
