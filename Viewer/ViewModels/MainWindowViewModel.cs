@@ -18,6 +18,7 @@ namespace Viewer.ViewModels
         public ReactiveCommand<object> OpenFile { get; private set; }
         public ReactiveCommand<object> SaveHeatmap { get; private set; }
         public ReactiveCommand<object> ExportCompressedHeatmapData { get; private set; }
+        public ReactiveCommand<object> ExportCompressedMzData { get; private set; }
 
         public MainWindowViewModel()
         {
@@ -31,6 +32,9 @@ namespace Viewer.ViewModels
 
             this.ExportCompressedHeatmapData = ReactiveCommand.Create();
             this.ExportCompressedHeatmapData.Subscribe(x => this.SaveExportedHeatmapCompressedData());
+
+            this.ExportCompressedMzData = ReactiveCommand.Create();
+            this.ExportCompressedMzData.Subscribe(x => this.SaveExportedMzCompressedData());
         }
 
         /// <summary>
@@ -108,18 +112,9 @@ namespace Viewer.ViewModels
 
         private void SaveExportedHeatmapCompressedData()
         {
-            const string Filter =
-               "Comma Seperated Values (*.csv)|*.csv";
-            var dialogue = new SaveFileDialog { DefaultExt = ".csv", AddExtension = true, Filter = Filter };
+            var filename = this.GetDataFilename();
 
-            var result = dialogue.ShowDialog();
-
-            if (result != true)
-            {
-                return;
-            }
-
-            var filename = dialogue.FileName;
+            if (string.IsNullOrWhiteSpace(filename)) { return; }
             
             var temp = this.CombinedHeatmapViewModel.ExportHeatmapDataCompressed();
 
@@ -135,6 +130,41 @@ namespace Viewer.ViewModels
                     outfile.WriteLine(content);
                 }
             }
+        }
+
+        private void SaveExportedMzCompressedData()
+        {
+            var filename = this.GetDataFilename();
+
+            if (string.IsNullOrWhiteSpace(filename)) {return;}
+        
+            var temp = this.CombinedHeatmapViewModel.ExportMzDataCompressed();
+
+            using (var outfile = new StreamWriter(filename))
+            {
+                var content = "mz, intensity" + Environment.NewLine;
+                foreach (var kvp in temp)
+                {
+                    content = kvp.Key + "," + kvp.Value + Environment.NewLine;
+                }
+
+                outfile.WriteLine(content);
+            }
+        }
+
+        private string GetDataFilename()
+        {
+            const string Filter =
+               "Comma Seperated Values (*.csv)|*.csv";
+            var dialogue = new SaveFileDialog { DefaultExt = ".csv", AddExtension = true, Filter = Filter };
+
+            var result = dialogue.ShowDialog();
+
+            if (result != true)
+            {
+                return string.Empty;
+            }
+            return dialogue.FileName;
         }
 
         private void SaveHeatmapImage()

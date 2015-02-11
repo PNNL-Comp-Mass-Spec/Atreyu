@@ -181,7 +181,7 @@ namespace Atreyu.ViewModels
         /// <returns>
         /// The <see cref="IDictionary"/>.
         /// </returns>
-        public IDictionary<double, double> GetMzData()
+        public IDictionary<double, double> GetMzDataCompressed()
         {
             return this.mzFrameData;
         }
