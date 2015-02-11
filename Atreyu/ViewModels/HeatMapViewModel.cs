@@ -209,22 +209,22 @@ namespace Atreyu.ViewModels
 
             for (var y = 1; y < exportData.GetLength(0); y++)
             {
-                var bin = y - 1 + minBin;
+                var bin = y - 1;
                 var mz = this.heatMapData.BinToMzMap[bin];
-                exportData[y, 0] = mz;
+                exportData[0, y] = mz;
             }
 
             for (var x = 1; x < exportData.GetLength(1); x++)
             {
                 var scan = x - 1 + minScan;
-                exportData[0, x] = scan;
+                exportData[x, 0] = scan;
             }
 
-            for (var mz = 1; mz < exportData.GetLength(0); mz++)
+            for (var mz = 1; mz < exportData.GetLength(1); mz++)
             {
-                for (var scan = 1; scan < exportData.GetLength(1); scan++)
+                for (var scan = 1; scan < exportData.GetLength(0); scan++)
                 {
-                    exportData[mz, scan] = this.heatMapData.FrameData[mz - 1, scan - 1];
+                    exportData[scan, mz] = this.heatMapData.FrameData[scan - 1, mz - 1];
                 }
             }
 
