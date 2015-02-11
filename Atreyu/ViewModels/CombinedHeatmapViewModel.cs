@@ -150,6 +150,11 @@ namespace Atreyu.ViewModels
 
         #endregion
 
+        public double[,] ExportHeatmapDataCompressed()
+        {
+            return this.HeatMapViewModel.GetCompressedDataInView();
+        }
+
         public Image GetImage()
         {
             var tic = this.TotalIonChromatogramViewModel.GetTicImage();

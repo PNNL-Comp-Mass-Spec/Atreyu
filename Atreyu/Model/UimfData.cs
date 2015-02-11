@@ -521,6 +521,7 @@ namespace Atreyu.Models
         /// <param name="endScanValue">
         /// TODO The end scan.
         /// </param>
+        /// <param name="returnGatedData"></param>
         /// <returns>
         /// The <see cref="double[,]"/>.
         /// </returns>
@@ -532,7 +533,8 @@ namespace Atreyu.Models
             int height, 
             int width, 
             int startScanValue = 0, 
-            int endScanValue = 359)
+            int endScanValue = 359,
+            bool returnGatedData = false)
         {
             this.UpdateScanRange(startScanValue, endScanValue);
 
@@ -582,16 +584,16 @@ namespace Atreyu.Models
             for (var i = 0; i < arrayLength; i++)
             {
                 tof[i] = this._dataReader.GetPixelMZ(i);
-                mz[i] = calibrator.TOFtoMZ(tof[i]*10);
+                mz[i] = calibrator.TOFtoMZ(tof[i] * 10);
             }
 
             this.BinToMzMap = mz;
 
-            this.frameData = temp;
+            this.FrameData = temp;
 
             this.GateData();
 
-            return this.FrameData;
+            return returnGatedData ? this.GatedFrameData : this.FrameData;
         }
 
         #endregion
