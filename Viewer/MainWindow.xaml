@@ -8,12 +8,12 @@
     <DockPanel Name="MainDockPanel">
          <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_Export">
-                <MenuItem Header="_Compressed Heatmap (Mostly wWrking)" Command="{Binding Path=ExportCompressedHeatmapData}" />
+                <MenuItem Header="_Compressed Heatmap (Mostly Working)" Command="{Binding Path=ExportCompressedHeatmapData}" />
                 <MenuItem Header="_Uncompressed Heatmap (Not Implemented Yet)"/>
-                <MenuItem Header="_Compressed m/z (Not Implemented Yet"/>
-                <MenuItem Header="_Uncompressed m/z (Not Implemented Yet"/>
-                <MenuItem Header="_Compressed TiC (Not Implemented Yet"/>
-                <MenuItem Header="_Uncompressed TiC (Not Implemented Yet"/>
+                <MenuItem Header="_Compressed m/z (Not Implemented Yet)"/>
+                <MenuItem Header="_Uncompressed m/z (Not Implemented Yet)"/>
+                <MenuItem Header="_Compressed TiC (Not Implemented Yet)"/>
+                <MenuItem Header="_Uncompressed TiC (Not Implemented Yet)"/>
             </MenuItem>
         </Menu>
         <ToolBarTray DockPanel.Dock="Top">
