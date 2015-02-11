@@ -17,6 +17,7 @@ namespace Viewer.ViewModels
 
         public ReactiveCommand<object> OpenFile { get; private set; }
         public ReactiveCommand<object> SaveHeatmap { get; private set; }
+        public ReactiveCommand<object> ExportCompressedHeatmapData { get; private set; }
 
         public MainWindowViewModel()
         {
@@ -28,6 +29,8 @@ namespace Viewer.ViewModels
             this.SaveHeatmap = ReactiveCommand.Create();
             this.SaveHeatmap.Subscribe(x => this.SaveHeatmapImage());
 
+            this.ExportCompressedHeatmapData = ReactiveCommand.Create();
+            this.ExportCompressedHeatmapData.Subscribe(x => this.SaveExportedHeatmapCompressedData());
         }
 
         /// <summary>
@@ -101,6 +104,37 @@ namespace Viewer.ViewModels
 
             this.CombinedHeatmapViewModel.HeatMapViewModel.InitializeUimfData(filename);
 
+        }
+
+        private void SaveExportedHeatmapCompressedData()
+        {
+            const string Filter =
+               "Comma Seperated Values (*.csv)|*.csv";
+            var dialogue = new SaveFileDialog { DefaultExt = ".csv", AddExtension = true, Filter = Filter };
+
+            var result = dialogue.ShowDialog();
+
+            if (result != true)
+            {
+                return;
+            }
+
+            var filename = dialogue.FileName;
+            
+            var temp = this.CombinedHeatmapViewModel.ExportHeatmapDataCompressed();
+
+            using (var outfile = new StreamWriter(filename))
+            {
+                for (var x = 0; x < temp.GetLength(0); x++)
+                {
+                    var content = string.Empty;
+                    for (var y = 0; y < temp.GetLength(1); y++)
+                    {
+                        content += temp[x, y].ToString("0.00") + ",";
+                    }
+                    outfile.WriteLine(content);
+                }
+            }
         }
 
         private void SaveHeatmapImage()
