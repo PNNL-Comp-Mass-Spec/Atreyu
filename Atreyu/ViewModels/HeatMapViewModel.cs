@@ -211,13 +211,13 @@ namespace Atreyu.ViewModels
             {
                 var bin = y - 1;
                 var mz = this.heatMapData.BinToMzMap[bin];
-                exportData[0, y] = mz;
+                exportData[y, 0] = mz;
             }
 
             for (var x = 1; x < exportData.GetLength(1); x++)
             {
                 var scan = x - 1 + minScan;
-                exportData[x, 0] = scan;
+                exportData[0, x] = scan;
             }
 
             for (var mz = 1; mz < exportData.GetLength(1); mz++)
