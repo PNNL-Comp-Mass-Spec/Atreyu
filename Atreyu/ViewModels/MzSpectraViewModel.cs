@@ -54,6 +54,8 @@ namespace Atreyu.ViewModels
         /// </summary>
         private PlotModel _mzPlotModel;
 
+        private Dictionary<double, double> mzFrameData;
+
         /// <summary>
         /// TODO The _start mz bin.
         /// </summary>
@@ -174,6 +176,17 @@ namespace Atreyu.ViewModels
         #region Public Methods and Operators
 
         /// <summary>
+        /// Returns a dictionary of <m/z, intensity> data that is currently being displayed.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IDictionary"/>.
+        /// </returns>
+        public IDictionary<double, double> GetMzDataCompressed()
+        {
+            return this.mzFrameData;
+        }
+
+        /// <summary>
         /// TODO The get m/z image.
         /// </summary>
         /// <returns>
@@ -213,37 +226,30 @@ namespace Atreyu.ViewModels
 
             this._frameData = framedata;
             var frameData = new Dictionary<double, double>();
+            this.mzFrameData = new Dictionary<double, double>();
 
-            for (int j = 0; j < this._frameData.GetLength(1); j++)
+            for (var j = 0; j < this._frameData.GetLength(1); j++)
             {
                 double index = j + this._startMzBin;
-                if (this.showMz)
-                {
-                    // m/z=(K(t-t0))^2
-                    // where K = slope
-                    // t = bin
-                    // and t0 = intercept
-                    // but what units?
-                    //var temp = index + (j * this.ValuesPerPixelY) - 1;// + this._startMzBin;
-                    //index = Math.Pow(this.Slope * (temp - this.Intercept), 2) / 1000000;
-                    index = this.BinToMzMap[j];
-                }
+                var mzIndex = this.BinToMzMap[j];
+                
 
-                for (int i = 0; i < this._frameData.GetLength(0); i++)
+                for (var i = 0; i < this._frameData.GetLength(0); i++)
                 {
                     if (frameData.ContainsKey(index))
                     {
                         frameData[index] += this._frameData[i, j];
+                        this.mzFrameData[mzIndex] += this._frameData[i, j];
                     }
                     else
                     {
                         frameData.Add(index, this._frameData[i, j]);
+                        this.mzFrameData.Add(mzIndex, this._frameData[i, j]);
                     }
                 }
             }
 
             var series = this.MzPlotModel.Series[0] as LineSeries;
-            series.MarkerType = MarkerType.None;
 
             if (series.YAxis != null)
             {
@@ -253,9 +259,19 @@ namespace Atreyu.ViewModels
             if (series != null)
             {
                 series.Points.Clear();
-                foreach (var d in frameData)
+                if (this.ShowMz)
                 {
-                    series.Points.Add(new DataPoint(d.Value, d.Key));
+                    foreach (var d in this.mzFrameData)
+                    {
+                        series.Points.Add(new DataPoint(d.Value, d.Key));
+                    }
+                }
+                else
+                {
+                    foreach (var d in frameData)
+                    {
+                        series.Points.Add(new DataPoint(d.Value, d.Key));
+                    }   
                 }
             }
 

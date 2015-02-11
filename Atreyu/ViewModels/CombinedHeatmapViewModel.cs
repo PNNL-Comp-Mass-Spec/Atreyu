@@ -9,6 +9,7 @@
 namespace Atreyu.ViewModels
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Drawing;
     using System.Reactive.Linq;
@@ -153,6 +154,16 @@ namespace Atreyu.ViewModels
         public double[,] ExportHeatmapDataCompressed()
         {
             return this.HeatMapViewModel.GetCompressedDataInView();
+        }
+
+        public IDictionary<double, double> ExportMzDataCompressed()
+        {
+            return this.MzSpectraViewModel.GetMzDataCompressed();
+        }
+
+        public IDictionary<int, double> ExportTicDataCompressed()
+        {
+            return this.TotalIonChromatogramViewModel.GetTicData();
         }
 
         public Image GetImage()
