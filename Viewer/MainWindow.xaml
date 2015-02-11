@@ -10,7 +10,7 @@
                 <MenuItem Header="_Export">
                 <MenuItem Header="_Heatmap" Command="{Binding Path=ExportCompressedHeatmapData}" />
                 <MenuItem Header="_m/z" Command="{Binding Path=ExportCompressedMzData}"/>
-                <MenuItem Header="_TiC (Not Implemented Yet)"/>
+                <MenuItem Header="_TiC" Command="{Binding Path=ExportCompressedTicData}"/>
             </MenuItem>
         </Menu>
         <ToolBarTray DockPanel.Dock="Top">

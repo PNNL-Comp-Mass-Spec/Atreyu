@@ -19,6 +19,7 @@ namespace Viewer.ViewModels
         public ReactiveCommand<object> SaveHeatmap { get; private set; }
         public ReactiveCommand<object> ExportCompressedHeatmapData { get; private set; }
         public ReactiveCommand<object> ExportCompressedMzData { get; private set; }
+        public ReactiveCommand<object> ExportCompressedTicData { get; private set; }
 
         public MainWindowViewModel()
         {
@@ -35,6 +36,9 @@ namespace Viewer.ViewModels
 
             this.ExportCompressedMzData = ReactiveCommand.Create();
             this.ExportCompressedMzData.Subscribe(x => this.SaveExportedMzCompressedData());
+
+            this.ExportCompressedTicData = ReactiveCommand.Create();
+            this.ExportCompressedTicData.Subscribe(x => this.SaveExportedTicCompressedData());
         }
 
         /// <summary>
@@ -145,7 +149,27 @@ namespace Viewer.ViewModels
                 var content = "mz, intensity" + Environment.NewLine;
                 foreach (var kvp in temp)
                 {
-                    content = kvp.Key + "," + kvp.Value + Environment.NewLine;
+                    content += kvp.Key + "," + kvp.Value + Environment.NewLine;
+                }
+
+                outfile.WriteLine(content);
+            }
+        }
+
+        private void SaveExportedTicCompressedData()
+        {
+            var filename = this.GetDataFilename();
+
+            if (string.IsNullOrWhiteSpace(filename)) { return; }
+
+            var temp = this.CombinedHeatmapViewModel.ExportTicDataCompressed();
+
+            using (var outfile = new StreamWriter(filename))
+            {
+                var content = "scan, intensity" + Environment.NewLine;
+                foreach (var kvp in temp)
+                {
+                    content += kvp.Key + "," + kvp.Value + Environment.NewLine;
                 }
 
                 outfile.WriteLine(content);

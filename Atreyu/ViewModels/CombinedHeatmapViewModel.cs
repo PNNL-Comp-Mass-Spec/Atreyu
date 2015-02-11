@@ -161,6 +161,11 @@ namespace Atreyu.ViewModels
             return this.MzSpectraViewModel.GetMzDataCompressed();
         }
 
+        public IDictionary<int, double> ExportTicDataCompressed()
+        {
+            return this.TotalIonChromatogramViewModel.GetTicData();
+        }
+
         public Image GetImage()
         {
             var tic = this.TotalIonChromatogramViewModel.GetTicImage();
