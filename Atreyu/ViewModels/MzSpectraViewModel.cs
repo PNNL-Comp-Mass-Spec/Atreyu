@@ -176,6 +176,17 @@ namespace Atreyu.ViewModels
         #region Public Methods and Operators
 
         /// <summary>
+        /// The returns a dictionary of <m/z, intensity> data that is currently being displayed.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IDictionary"/>.
+        /// </returns>
+        public IDictionary<double, double> GetMzData()
+        {
+            return this.mzFrameData;
+        }
+
+        /// <summary>
         /// TODO The get m/z image.
         /// </summary>
         /// <returns>
