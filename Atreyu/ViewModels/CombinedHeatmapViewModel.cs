@@ -53,9 +53,9 @@ namespace Atreyu.ViewModels
 
             this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData).Subscribe(this.MzSpectraViewModel.UpdateReference);
 
-            // update the frame data of the TIC plot when needed
+            // update the frame data of the TIC plot when needed; apparently the Throttler should always specify the schedule.
             this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.GatedFrameData)
-                .Throttle(TimeSpan.FromMilliseconds(100))
+                .Throttle(TimeSpan.FromMilliseconds(100), RxApp.MainThreadScheduler)
                 .Subscribe(this.TotalIonChromatogramViewModel.UpdateFrameData);
 
             // Update the Framedata of the M/Z plot when needed
@@ -99,7 +99,7 @@ namespace Atreyu.ViewModels
 
             // Attach the heatmap threshold to the slider's gate, using Throttle so it doesn't seem jerky.
             this.WhenAnyValue(vm => vm.LowValueGateSliderViewModel.LogarithmicGate)
-                .Throttle(TimeSpan.FromMilliseconds(200))
+                .Throttle(TimeSpan.FromMilliseconds(200), RxApp.MainThreadScheduler)
                 .Subscribe(this.HeatMapViewModel.UpdateLowThreshold);
             
             // Update the frame type on the Fram Manipulation view
