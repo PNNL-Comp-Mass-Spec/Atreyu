@@ -9,14 +9,13 @@
 namespace Atreyu.ViewModels
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Drawing;
     using System.IO;
     using System.Threading.Tasks;
 
     using Atreyu.Models;
-
+    
     using OxyPlot;
     using OxyPlot.Axes;
     using OxyPlot.Wpf;
@@ -200,6 +199,38 @@ namespace Atreyu.ViewModels
 
         #region Public Methods and Operators
 
+        public double[,] GetCompressedDataInView()
+        {
+            var minBin = this.HeatMapData.CurrentMinBin;
+            var minScan = this.heatMapData.StartScan;
+
+            var exportData =
+                new double[this.HeatMapData.FrameData.GetLength(0) + 1, this.HeatMapData.FrameData.GetLength(1) + 1];
+
+            for (var x = 1; x < exportData.GetLength(0); x++)
+            {
+                var scan = x - 1 + minScan;
+                exportData[x, 0] = scan;
+            }
+
+            for (var y = 1; y < exportData.GetLength(1); y++)
+            {
+                var bin = y - 1;
+                var mz = this.heatMapData.BinToMzMap[bin];
+                exportData[0, y] = mz;
+            }
+
+            for (var mz = 1; mz < exportData.GetLength(1); mz++)
+            {
+                for (var scan = 1; scan < exportData.GetLength(0); scan++)
+                {
+                    exportData[scan, mz] = this.heatMapData.FrameData[scan - 1, mz - 1];
+                }
+            }
+
+            return exportData;
+        }
+
         /// <summary>
         /// TODO The save heatmap image.
         /// </summary>
@@ -311,10 +342,9 @@ namespace Atreyu.ViewModels
                 this.Height,
                 this.Width,
                 0,
-                359);
-
-            data = this.GateValues(data);
-
+                359,
+                true);
+            
             var heatMapSeries1 = new HeatMapSeries
                                      {
                                          X0 = 0,
@@ -375,8 +405,8 @@ namespace Atreyu.ViewModels
                             this.Height,
                             this.Width,
                             startScan,
-                            endScan);
-                        data = this.GateValues(data);
+                            endScan,
+                            true);
                         series.Data = data;
                     });
                 series.X0 = startScan;
@@ -420,8 +450,9 @@ namespace Atreyu.ViewModels
                 this.Height,
                 this.Width,
                 (int)this._heatMapPlotModel.Axes[1].ActualMinimum,
-                (int)this._heatMapPlotModel.Axes[1].ActualMaximum);
-            data = this.GateValues(data);
+                (int)this._heatMapPlotModel.Axes[1].ActualMaximum,
+                true);
+            
             series.Data = data;
             this.HeatMapPlotModel.InvalidatePlot(true);
 
@@ -505,8 +536,9 @@ namespace Atreyu.ViewModels
                 (int)height,
                 (int)width,
                 (int)this._heatMapPlotModel.Axes[1].ActualMinimum,
-                (int)this._heatMapPlotModel.Axes[1].ActualMaximum);
-            data = this.GateValues(data);
+                (int)this._heatMapPlotModel.Axes[1].ActualMaximum,
+                true);
+            
             series.Data = data;
             this.HeatMapPlotModel.InvalidatePlot(true);
 
@@ -577,8 +609,9 @@ namespace Atreyu.ViewModels
                         this.Height,
                         this.Width,
                         StartScan,
-                        endScan);
-                    data = this.GateValues(data);
+                        endScan,
+                        true);
+                    
                     series.Data = data;
                     series.X0 = StartScan;
                     series.X1 = endScan;
@@ -631,8 +664,9 @@ namespace Atreyu.ViewModels
                     this.Height,
                     this.Width,
                     startScan,
-                    endScan);
-                data = this.GateValues(data);
+                    endScan,
+                    true);
+                
                 series.Data = data;
                 series.X0 = startScan;
                 series.X1 = endScan;
@@ -645,38 +679,6 @@ namespace Atreyu.ViewModels
             updatingAxesNow = false;
 
         }
-        /// <summary>
-        /// Gate values by setting anything at or below the <see cref="LowThreshold"/> by setting them to zero.
-        /// </summary>
-        /// <param name="values">
-        /// The values to be gated.
-        /// </param>
-        /// <returns>
-        /// The <see cref="double[,]"/>.
-        /// </returns>
-        private double[,] GateValues(double[,] values)
-        {
-            if (this.LowThreshold <= 0)
-            {
-                return values;
-            }
-
-            var temp = values;
-
-            for (var x = 0; x < temp.GetLength(0); x++)
-            {
-                for (var y = 0; y < temp.GetLength(1); y++)
-                {
-                    if (temp[x, y] <= this.LowThreshold || temp[x, y] > this.HighThreshold)
-                    {
-                        temp[x, y] = 0;
-                    }
-                }
-            }
-
-            return temp;
-        }
-
         #endregion
     }
 }

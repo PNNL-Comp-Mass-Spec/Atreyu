@@ -26,6 +26,8 @@ namespace Atreyu.Models
         /// </summary>
         private DataReader _dataReader;
 
+        private double[] binToMzMap;
+
         /// <summary>
         /// TODO The current max bin.
         /// </summary>
@@ -142,6 +144,19 @@ namespace Atreyu.Models
         #endregion
 
         #region Public Properties
+
+        public double[] BinToMzMap
+        {
+            get
+            {
+                return this.binToMzMap;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.binToMzMap, value);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the current max bin.
@@ -506,6 +521,7 @@ namespace Atreyu.Models
         /// <param name="endScanValue">
         /// TODO The end scan.
         /// </param>
+        /// <param name="returnGatedData"></param>
         /// <returns>
         /// The <see cref="double[,]"/>.
         /// </returns>
@@ -517,15 +533,16 @@ namespace Atreyu.Models
             int height, 
             int width, 
             int startScanValue = 0, 
-            int endScanValue = 359)
+            int endScanValue = 359,
+            bool returnGatedData = false)
         {
             this.UpdateScanRange(startScanValue, endScanValue);
 
             this.TotalBins = this.CurrentMaxBin - this.CurrentMinBin + 1;
-            this.ValuesPerPixelY = this.TotalBins / (double)height;
+            this.ValuesPerPixelY = (int)(this.TotalBins / (double)height);
 
             var totalScans = this.EndScan - this.StartScan + 1;
-            this.ValuesPerPixelX = totalScans / (double)width;
+            this.ValuesPerPixelX = (int)(totalScans / (double)width);
 
             if (this.ValuesPerPixelY < 1)
             {
@@ -546,8 +563,8 @@ namespace Atreyu.Models
             this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
 
             this.FrameType = frameParams.GetValue(FrameParamKeyType.FrameType);
-
-            this.FrameData = this._dataReader.AccumulateFrameData(
+            
+            var temp = this._dataReader.AccumulateFrameData(
                 startFrameNumber, 
                 endFrameNumber, 
                 false, 
@@ -555,12 +572,28 @@ namespace Atreyu.Models
                 this.EndScan, 
                 startBin, 
                 endBin, 
-                this.ValuesPerPixelX, 
-                this.ValuesPerPixelY);
+                (int)this.ValuesPerPixelX,
+                (int)this.ValuesPerPixelY);
+
+            var arrayLength = (int)Math.Round((endBin - startBin + 1) / this.ValuesPerPixelY);
+
+            var tof = new double[arrayLength];
+            var mz = new double[arrayLength];
+            var calibrator = this._dataReader.GetMzCalibrator(frameParams);
+
+            for (var i = 0; i < arrayLength; i++)
+            {
+                tof[i] = this._dataReader.GetPixelMZ(i);
+                mz[i] = calibrator.TOFtoMZ(tof[i] * 10);
+            }
+
+            this.BinToMzMap = mz;
+
+            this.FrameData = temp;
 
             this.GateData();
 
-            return this.FrameData;
+            return returnGatedData ? this.GatedFrameData : this.FrameData;
         }
 
         #endregion
