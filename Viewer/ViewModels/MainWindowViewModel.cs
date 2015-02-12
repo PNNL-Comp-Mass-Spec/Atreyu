@@ -17,6 +17,9 @@ namespace Viewer.ViewModels
 
         public ReactiveCommand<object> OpenFile { get; private set; }
         public ReactiveCommand<object> SaveHeatmap { get; private set; }
+        public ReactiveCommand<object> ExportCompressedHeatmapData { get; private set; }
+        public ReactiveCommand<object> ExportCompressedMzData { get; private set; }
+        public ReactiveCommand<object> ExportCompressedTicData { get; private set; }
 
         public MainWindowViewModel()
         {
@@ -28,6 +31,14 @@ namespace Viewer.ViewModels
             this.SaveHeatmap = ReactiveCommand.Create();
             this.SaveHeatmap.Subscribe(x => this.SaveHeatmapImage());
 
+            this.ExportCompressedHeatmapData = ReactiveCommand.Create();
+            this.ExportCompressedHeatmapData.Subscribe(x => this.SaveExportedHeatmapCompressedData());
+
+            this.ExportCompressedMzData = ReactiveCommand.Create();
+            this.ExportCompressedMzData.Subscribe(x => this.SaveExportedMzCompressedData());
+
+            this.ExportCompressedTicData = ReactiveCommand.Create();
+            this.ExportCompressedTicData.Subscribe(x => this.SaveExportedTicCompressedData());
         }
 
         /// <summary>
@@ -101,6 +112,83 @@ namespace Viewer.ViewModels
 
             this.CombinedHeatmapViewModel.HeatMapViewModel.InitializeUimfData(filename);
 
+        }
+
+        private void SaveExportedHeatmapCompressedData()
+        {
+            var filename = this.GetDataFilename();
+
+            if (string.IsNullOrWhiteSpace(filename)) { return; }
+            
+            var temp = this.CombinedHeatmapViewModel.ExportHeatmapDataCompressed();
+
+            using (var outfile = new StreamWriter(filename))
+            {
+                for (var x = 0; x < temp.GetLength(0); x++)
+                {
+                    var content = string.Empty;
+                    for (var y = 0; y < temp.GetLength(1); y++)
+                    {
+                        content += temp[x, y].ToString("0.00") + ",";
+                    }
+                    outfile.WriteLine(content);
+                }
+            }
+        }
+
+        private void SaveExportedMzCompressedData()
+        {
+            var filename = this.GetDataFilename();
+
+            if (string.IsNullOrWhiteSpace(filename)) {return;}
+        
+            var temp = this.CombinedHeatmapViewModel.ExportMzDataCompressed();
+
+            using (var outfile = new StreamWriter(filename))
+            {
+                var content = "mz, intensity" + Environment.NewLine;
+                foreach (var kvp in temp)
+                {
+                    content += kvp.Key + "," + kvp.Value + Environment.NewLine;
+                }
+
+                outfile.WriteLine(content);
+            }
+        }
+
+        private void SaveExportedTicCompressedData()
+        {
+            var filename = this.GetDataFilename();
+
+            if (string.IsNullOrWhiteSpace(filename)) { return; }
+
+            var temp = this.CombinedHeatmapViewModel.ExportTicDataCompressed();
+
+            using (var outfile = new StreamWriter(filename))
+            {
+                var content = "scan, intensity" + Environment.NewLine;
+                foreach (var kvp in temp)
+                {
+                    content += kvp.Key + "," + kvp.Value + Environment.NewLine;
+                }
+
+                outfile.WriteLine(content);
+            }
+        }
+
+        private string GetDataFilename()
+        {
+            const string Filter =
+               "Comma Seperated Values (*.csv)|*.csv";
+            var dialogue = new SaveFileDialog { DefaultExt = ".csv", AddExtension = true, Filter = Filter };
+
+            var result = dialogue.ShowDialog();
+
+            if (result != true)
+            {
+                return string.Empty;
+            }
+            return dialogue.FileName;
         }
 
         private void SaveHeatmapImage()

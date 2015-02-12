@@ -3,9 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:y="clr-namespace:Atreyu.Views;assembly=Atreyu"
         Title="MainWindow"
-        Width="800"
-        Height="600">
+        Width="1280"
+        Height="800">
     <DockPanel Name="MainDockPanel">
+         <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_Export">
+                <MenuItem Header="_Heatmap" Command="{Binding Path=ExportCompressedHeatmapData}" />
+                <MenuItem Header="_m/z" Command="{Binding Path=ExportCompressedMzData}"/>
+                <MenuItem Header="_TiC" Command="{Binding Path=ExportCompressedTicData}"/>
+            </MenuItem>
+        </Menu>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
                 <Button Name="OpenButton"
@@ -16,6 +23,7 @@
                         Content="Save Heatmap" />
             </ToolBar>
         </ToolBarTray>
+
         <ContentControl x:Name="CombinedHeatMapViewControl">
             <ContentControl.ContentTemplate>
                 <DataTemplate>
