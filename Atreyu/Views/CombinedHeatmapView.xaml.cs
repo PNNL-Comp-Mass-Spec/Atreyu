@@ -95,9 +95,9 @@ namespace Atreyu.Views
             this.MainGrid.Children.Add(this.LowSliderView);
 
             this.HighSliderView = new GateSlider(this.ViewModel.HighValueGateSliderViewModel);
-            Grid.SetRow(this.HighSliderView, 1);
-            Grid.SetColumn(this.HighSliderView, 4);
-            this.MainGrid.Children.Add(this.HighSliderView);
+            //Grid.SetRow(this.HighSliderView, 1);
+            //Grid.SetColumn(this.HighSliderView, 4);
+            //this.MainGrid.Children.Add(this.HighSliderView);
 
             this.AllowDrop = true;
             this.PreviewDrop += this.MainTabControl_PreviewDragEnter;        

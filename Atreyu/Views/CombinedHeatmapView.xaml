@@ -12,11 +12,10 @@
             <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="3*" MinWidth="100"/>
             <ColumnDefinition Width="10*" />
             <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="1*" MinWidth="50"/>
-            <ColumnDefinition Width="1*" MinWidth="50"/>
+            <ColumnDefinition Width="1*" MinWidth="60" />
         </Grid.ColumnDefinitions>
     </Grid>
 </UserControl>

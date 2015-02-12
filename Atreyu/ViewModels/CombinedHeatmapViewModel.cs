@@ -101,12 +101,7 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.LowValueGateSliderViewModel.LogarithmicGate)
                 .Throttle(TimeSpan.FromMilliseconds(200))
                 .Subscribe(this.HeatMapViewModel.UpdateLowThreshold);
-
-            this.WhenAnyValue(vm => vm.HighValueGateSliderViewModel.LogarithmicGate)
-                .Throttle(TimeSpan.FromMilliseconds(200))
-                .Subscribe(this.HeatMapViewModel.UpdateHighThreshold);
-
-
+            
             // Update the frame type on the Fram Manipulation view
             this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.FrameType)
                 .Subscribe(s => this.FrameManipulationViewModel.FrameType = s);
