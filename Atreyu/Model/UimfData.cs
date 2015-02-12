@@ -538,6 +538,8 @@ namespace Atreyu.Models
         {
             this.UpdateScanRange(startScanValue, endScanValue);
 
+            this.CurrentMinBin = startBin < 0 ? 0 : startBin;
+
             this.TotalBins = this.CurrentMaxBin - this.CurrentMinBin + 1;
             this.ValuesPerPixelY = (int)(this.TotalBins / (double)height);
 
