@@ -35,9 +35,11 @@ namespace Atreyu.ViewModels
         #region Fields
 
         /// <summary>
-        /// TODO The _current frame.
+        /// TODO The current start frame.
         /// </summary>
-        private int _currentFrame;
+        private int currentStartFrame;
+
+        private int currentEndFrame;
 
         /// <summary>
         /// TODO The _heat map plot model.
@@ -267,7 +269,7 @@ namespace Atreyu.ViewModels
             ////this._eventAggregator.GetEvent<UimfFileChangedEvent>().Publish(this.HeatMapData);
             this._numFrames = this.HeatMapData.Frames;
 
-            this._currentFrame = 1;
+            this.currentStartFrame = 1;
             this.CurrentFile = Path.GetFileNameWithoutExtension(file);
 
             ////this._eventAggregator.GetEvent<NumberOfFramesChangedEvent>().Publish(this._numFrames);
@@ -284,7 +286,7 @@ namespace Atreyu.ViewModels
         /// </param>
         public void SetUpPlot(int frameNumber)
         {
-            this._currentFrame = frameNumber;
+            this.currentStartFrame = frameNumber;
             this.HeatMapPlotModel = new PlotModel();
 
             var linearColorAxis1 = new LinearColorAxis
@@ -337,8 +339,8 @@ namespace Atreyu.ViewModels
             var data = this.HeatMapData.ReadData(
                 1,
                 this.HeatMapData.MaxBins,
-                this._currentFrame,
-                this._currentFrame,
+                this.currentStartFrame,
+                this.currentStartFrame,
                 this.Height,
                 this.Width,
                 0,
@@ -383,6 +385,10 @@ namespace Atreyu.ViewModels
                 return;
             }
 
+            this.currentStartFrame = sumFrames.StartFrame < 1 ? 1 : sumFrames.StartFrame;
+
+            this.currentEndFrame = sumFrames.EndFrame < 1 ? 1 : sumFrames.EndFrame;
+
             LinearAxis newYAxis = this._heatMapPlotModel.Axes[2] as LinearAxis;
             var series = this._heatMapPlotModel.Series[0] as HeatMapSeries;
             var newXAxis = this._heatMapPlotModel.Axes[1];
@@ -400,8 +406,8 @@ namespace Atreyu.ViewModels
                         var data = this.HeatMapData.ReadData(
                             this.HeatMapData.CurrentMinBin,
                             this.HeatMapData.CurrentMaxBin,
-                            sumFrames.StartFrame,
-                            sumFrames.EndFrame,
+                            this.currentStartFrame,
+                            this.currentEndFrame,
                             this.Height,
                             this.Width,
                             startScan,
@@ -429,8 +435,8 @@ namespace Atreyu.ViewModels
         /// </param>
         public void UpdateFrameNumber(int frameNumber)
         {
-            this._currentFrame = frameNumber;
-
+            this.currentStartFrame = frameNumber;
+            this.currentEndFrame = frameNumber;
             if (this.HeatMapPlotModel == null)
             {
                 return;
@@ -445,8 +451,8 @@ namespace Atreyu.ViewModels
             var data = this.HeatMapData.ReadData(
                 this.HeatMapData.CurrentMinBin,
                 this.HeatMapData.CurrentMaxBin,
-                this._currentFrame,
-                this._currentFrame,
+                this.currentStartFrame,
+                this.currentStartFrame,
                 this.Height,
                 this.Width,
                 (int)this._heatMapPlotModel.Axes[1].ActualMinimum,
@@ -531,8 +537,8 @@ namespace Atreyu.ViewModels
             var data = this.HeatMapData.ReadData(
                 this.HeatMapData.CurrentMinBin,
                 this.HeatMapData.CurrentMaxBin,
-                this._currentFrame,
-                this._currentFrame,
+                this.currentStartFrame,
+                this.currentStartFrame,
                 (int)height,
                 (int)width,
                 (int)this._heatMapPlotModel.Axes[1].ActualMinimum,
@@ -555,7 +561,7 @@ namespace Atreyu.ViewModels
             this.HeatMapData.CurrentMinBin = 0;
             this.HeatMapData.CurrentMaxBin = this.HeatMapData.MaxBins;
 
-            this.SetUpPlot(this._currentFrame);
+            this.SetUpPlot(this.currentStartFrame);
         }
 
         #endregion
@@ -604,8 +610,8 @@ namespace Atreyu.ViewModels
                     var data = this.HeatMapData.ReadData(
                         this.HeatMapData.CurrentMinBin,
                         this.HeatMapData.CurrentMaxBin,
-                        this._currentFrame,
-                        this._currentFrame,
+                        this.currentStartFrame,
+                        this.currentStartFrame,
                         this.Height,
                         this.Width,
                         StartScan,
@@ -659,8 +665,8 @@ namespace Atreyu.ViewModels
                 var data = this.HeatMapData.ReadData(
                     this.HeatMapData.CurrentMinBin,
                     this.HeatMapData.CurrentMaxBin,
-                    this._currentFrame,
-                    this._currentFrame,
+                    this.currentStartFrame,
+                    this.currentStartFrame,
                     this.Height,
                     this.Width,
                     startScan,
