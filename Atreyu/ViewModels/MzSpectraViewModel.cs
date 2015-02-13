@@ -239,11 +239,18 @@ namespace Atreyu.ViewModels
                     if (frameData.ContainsKey(index))
                     {
                         frameData[index] += this._frameData[i, j];
-                        this.mzFrameData[mzIndex] += this._frameData[i, j];
                     }
                     else
                     {
                         frameData.Add(index, this._frameData[i, j]);
+                    }
+
+                    if (this.mzFrameData.ContainsKey(mzIndex))
+                    {
+                        this.mzFrameData[mzIndex] += this._frameData[i, j];
+                    }
+                    else
+                    {
                         this.mzFrameData.Add(mzIndex, this._frameData[i, j]);
                     }
                 }
