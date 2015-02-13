@@ -442,6 +442,11 @@ namespace Atreyu.ViewModels
                 return;
             }
 
+            if (this.HeatMapPlotModel.Series.Count < 1)
+            {
+                return;
+            }
+
             var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
             if (series == null)
             {

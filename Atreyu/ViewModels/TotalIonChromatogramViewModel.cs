@@ -172,12 +172,13 @@ namespace Atreyu.ViewModels
         /// </param>
         public void UpdateFrameData(double[,] Data)
         {
-            this._frameData = Data;
-            if (this._frameData == null)
+            if (Data == null)
             {
                 return;
             }
-
+            
+            this._frameData = Data;
+            
             if (this._endScan == 0)
             {
                 this._startScan = 0;
