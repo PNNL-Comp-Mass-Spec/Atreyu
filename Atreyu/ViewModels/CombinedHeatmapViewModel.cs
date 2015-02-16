@@ -101,15 +101,14 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.LowValueGateSliderViewModel.LogarithmicGate)
                 .Throttle(TimeSpan.FromMilliseconds(200), RxApp.MainThreadScheduler)
                 .Subscribe(this.HeatMapViewModel.UpdateLowThreshold);
-            
+
             // Update the frame type on the Fram Manipulation view
             this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.FrameType)
                 .Subscribe(s => this.FrameManipulationViewModel.FrameType = s);
 
-            //update the values per pixel so that the m/z adjusts correctly
+            // update the values per pixel so that the m/z adjusts correctly
             this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.ValuesPerPixelY)
                 .Subscribe(d => this.MzSpectraViewModel.ValuesPerPixelY = d);
-
 
             this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.BinToMzMap)
                 .Subscribe(d => this.MzSpectraViewModel.BinToMzMap = d);
@@ -130,37 +129,73 @@ namespace Atreyu.ViewModels
         public HeatMapViewModel HeatMapViewModel { get; private set; }
 
         /// <summary>
+        /// Gets the high value gate slider view model.
+        /// </summary>
+        public GateSliderViewModel HighValueGateSliderViewModel { get; private set; }
+
+        /// <summary>
+        /// Gets the low value gate slider view model.
+        /// </summary>
+        public GateSliderViewModel LowValueGateSliderViewModel { get; private set; }
+
+        /// <summary>
         /// Gets the mz spectra view model.
         /// </summary>
         public MzSpectraViewModel MzSpectraViewModel { get; private set; }
 
-        public GateSliderViewModel LowValueGateSliderViewModel { get; private set; }
-
-        public GateSliderViewModel HighValueGateSliderViewModel { get; private set; }
         /// <summary>
         /// Gets the total ion chromatogram view model.
         /// </summary>
         public TotalIonChromatogramViewModel TotalIonChromatogramViewModel { get; private set; }
 
+        /// <summary>
+        /// Gets the zoom out full.
+        /// </summary>
         public ReactiveCommand<object> ZoomOutFull { get; private set; }
 
         #endregion
 
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// TODO The export heatmap data compressed.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="double[,]"/>.
+        /// </returns>
         public double[,] ExportHeatmapDataCompressed()
         {
             return this.HeatMapViewModel.GetCompressedDataInView();
         }
 
+        /// <summary>
+        /// TODO The export mz data compressed.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IDictionary"/>.
+        /// </returns>
         public IDictionary<double, double> ExportMzDataCompressed()
         {
             return this.MzSpectraViewModel.GetMzDataCompressed();
         }
 
+        /// <summary>
+        /// TODO The export tic data compressed.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IDictionary"/>.
+        /// </returns>
         public IDictionary<int, double> ExportTicDataCompressed()
         {
             return this.TotalIonChromatogramViewModel.GetTicData();
         }
 
+        /// <summary>
+        /// TODO The get image.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Image"/>.
+        /// </returns>
         public Image GetImage()
         {
             var tic = this.TotalIonChromatogramViewModel.GetTicImage();
@@ -178,5 +213,7 @@ namespace Atreyu.ViewModels
 
             return bitmap;
         }
+
+        #endregion
     }
 }

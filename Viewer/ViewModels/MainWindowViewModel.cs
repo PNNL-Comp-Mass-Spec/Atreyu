@@ -1,29 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Win32;
-using ReactiveUI;
-using Atreyu.ViewModels;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MainWindowViewModel.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   TODO The main window view model.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Viewer.ViewModels
 {
+    using System;
+    using System.Drawing.Imaging;
+    using System.IO;
+
+    using Atreyu.ViewModels;
+
+    using Microsoft.Win32;
+
+    using ReactiveUI;
+
+    /// <summary>
+    /// TODO The main window view model.
+    /// </summary>
     public class MainWindowViewModel : ReactiveObject
     {
-        public CombinedHeatmapViewModel CombinedHeatmapViewModel { get; set; }
+        #region Constructors and Destructors
 
-        public ReactiveCommand<object> OpenFile { get; private set; }
-        public ReactiveCommand<object> SaveHeatmap { get; private set; }
-        public ReactiveCommand<object> ExportCompressedHeatmapData { get; private set; }
-        public ReactiveCommand<object> ExportCompressedMzData { get; private set; }
-        public ReactiveCommand<object> ExportCompressedTicData { get; private set; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindowViewModel"/> class.
+        /// </summary>
         public MainWindowViewModel()
         {
-            CombinedHeatmapViewModel = new CombinedHeatmapViewModel();
+            this.CombinedHeatmapViewModel = new CombinedHeatmapViewModel();
 
             this.OpenFile = ReactiveCommand.Create();
             this.OpenFile.Subscribe(x => this.OpenHeatmapFile());
@@ -41,6 +49,44 @@ namespace Viewer.ViewModels
             this.ExportCompressedTicData.Subscribe(x => this.SaveExportedTicCompressedData());
         }
 
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets or sets the combined heatmap view model.
+        /// </summary>
+        public CombinedHeatmapViewModel CombinedHeatmapViewModel { get; set; }
+
+        /// <summary>
+        /// Gets the export compressed heatmap data.
+        /// </summary>
+        public ReactiveCommand<object> ExportCompressedHeatmapData { get; private set; }
+
+        /// <summary>
+        /// Gets the export compressed mz data.
+        /// </summary>
+        public ReactiveCommand<object> ExportCompressedMzData { get; private set; }
+
+        /// <summary>
+        /// Gets the export compressed tic data.
+        /// </summary>
+        public ReactiveCommand<object> ExportCompressedTicData { get; private set; }
+
+        /// <summary>
+        /// Gets the open file.
+        /// </summary>
+        public ReactiveCommand<object> OpenFile { get; private set; }
+
+        /// <summary>
+        /// Gets the save heatmap.
+        /// </summary>
+        public ReactiveCommand<object> SaveHeatmap { get; private set; }
+
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// TODO The get image format.
         /// </summary>
@@ -57,10 +103,10 @@ namespace Viewer.ViewModels
         private static ImageFormat GetImageFormat(string fileName)
         {
             var extension = Path.GetExtension(fileName);
-            if (String.IsNullOrEmpty(extension))
+            if (string.IsNullOrEmpty(extension))
             {
                 throw new ArgumentException(
-                    String.Format("Unable to determine file extension for fileName: {0}", fileName));
+                    string.Format("Unable to determine file extension for fileName: {0}", fileName));
             }
 
             switch (extension.ToLower())
@@ -93,13 +139,37 @@ namespace Viewer.ViewModels
             }
         }
 
+        /// <summary>
+        /// TODO The get data filename.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        private string GetDataFilename()
+        {
+            const string Filter = "Comma Seperated Values (*.csv)|*.csv";
+            var dialogue = new SaveFileDialog { DefaultExt = ".csv", AddExtension = true, Filter = Filter };
+
+            var result = dialogue.ShowDialog();
+
+            if (result != true)
+            {
+                return string.Empty;
+            }
+
+            return dialogue.FileName;
+        }
+
+        /// <summary>
+        /// TODO The open heatmap file.
+        /// </summary>
         private void OpenHeatmapFile()
         {
             var dialogue = new OpenFileDialog
-            {
-                DefaultExt = ".uimf",
-                Filter = "Unified Ion Mobility File (*.uimf)|*.uimf"
-            };
+                               {
+                                   DefaultExt = ".uimf", 
+                                   Filter = "Unified Ion Mobility File (*.uimf)|*.uimf"
+                               };
 
             var result = dialogue.ShowDialog();
 
@@ -111,15 +181,20 @@ namespace Viewer.ViewModels
             var filename = dialogue.FileName;
 
             this.CombinedHeatmapViewModel.HeatMapViewModel.InitializeUimfData(filename);
-
         }
 
+        /// <summary>
+        /// TODO The save exported heatmap compressed data.
+        /// </summary>
         private void SaveExportedHeatmapCompressedData()
         {
             var filename = this.GetDataFilename();
 
-            if (string.IsNullOrWhiteSpace(filename)) { return; }
-            
+            if (string.IsNullOrWhiteSpace(filename))
+            {
+                return;
+            }
+
             var temp = this.CombinedHeatmapViewModel.ExportHeatmapDataCompressed();
 
             using (var outfile = new StreamWriter(filename))
@@ -131,17 +206,24 @@ namespace Viewer.ViewModels
                     {
                         content += temp[x, y].ToString("0.00") + ",";
                     }
+
                     outfile.WriteLine(content);
                 }
             }
         }
 
+        /// <summary>
+        /// TODO The save exported mz compressed data.
+        /// </summary>
         private void SaveExportedMzCompressedData()
         {
             var filename = this.GetDataFilename();
 
-            if (string.IsNullOrWhiteSpace(filename)) {return;}
-        
+            if (string.IsNullOrWhiteSpace(filename))
+            {
+                return;
+            }
+
             var temp = this.CombinedHeatmapViewModel.ExportMzDataCompressed();
 
             using (var outfile = new StreamWriter(filename))
@@ -156,11 +238,17 @@ namespace Viewer.ViewModels
             }
         }
 
+        /// <summary>
+        /// TODO The save exported tic compressed data.
+        /// </summary>
         private void SaveExportedTicCompressedData()
         {
             var filename = this.GetDataFilename();
 
-            if (string.IsNullOrWhiteSpace(filename)) { return; }
+            if (string.IsNullOrWhiteSpace(filename))
+            {
+                return;
+            }
 
             var temp = this.CombinedHeatmapViewModel.ExportTicDataCompressed();
 
@@ -176,26 +264,14 @@ namespace Viewer.ViewModels
             }
         }
 
-        private string GetDataFilename()
-        {
-            const string Filter =
-               "Comma Seperated Values (*.csv)|*.csv";
-            var dialogue = new SaveFileDialog { DefaultExt = ".csv", AddExtension = true, Filter = Filter };
-
-            var result = dialogue.ShowDialog();
-
-            if (result != true)
-            {
-                return string.Empty;
-            }
-            return dialogue.FileName;
-        }
-
+        /// <summary>
+        /// TODO The save heatmap image.
+        /// </summary>
         private void SaveHeatmapImage()
         {
             const string Filter =
-               "PNG files (*.png)|*.png" + "|JPEG files (*.jpg)|*.jpg" + "|TIFF files (*.tif)|*.tif"
-               + "|Bitmaps (*.bmp)|*.bmp";
+                "PNG files (*.png)|*.png" + "|JPEG files (*.jpg)|*.jpg" + "|TIFF files (*.tif)|*.tif"
+                + "|Bitmaps (*.bmp)|*.bmp";
             var dialogue = new SaveFileDialog { DefaultExt = ".png", AddExtension = true, Filter = Filter };
 
             var result = dialogue.ShowDialog();
@@ -212,5 +288,7 @@ namespace Viewer.ViewModels
             var format = GetImageFormat(filename);
             image.Save(filename, format);
         }
+
+        #endregion
     }
 }

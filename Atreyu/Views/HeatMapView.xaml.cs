@@ -6,18 +6,17 @@
 //   Interaction logic for HeatMapView.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Reactive.Linq;
-
 namespace Falkor.Views.Atreyu
 {
+    using System;
     using System.ComponentModel.Composition;
+    using System.Reactive.Linq;
     using System.Windows;
     using System.Windows.Controls;
-    using ReactiveUI;
 
     using global::Atreyu.ViewModels;
+
+    using ReactiveUI;
 
     /// <summary>
     /// Interaction logic for HeatMapView.xaml
@@ -25,16 +24,6 @@ namespace Falkor.Views.Atreyu
     [Export]
     public partial class HeatMapView : UserControl, IViewFor<HeatMapViewModel>
     {
-
-
- 		public HeatMapViewModel ViewModel { get; set; }
- 
-        object IViewFor.ViewModel
-        {
-            get { return ViewModel; }
-            set { ViewModel = value as HeatMapViewModel; }
-        }       
-		       
         #region Constructors and Destructors
 
         /// <summary>
@@ -51,14 +40,43 @@ namespace Falkor.Views.Atreyu
             this.InitializeComponent();
 
             // x and y are magically is assigned "this" via extension methods
-            this.WhenAnyValue(x => x.ActualHeight, y => y.ActualWidth).Throttle(TimeSpan.FromMilliseconds(200))
+            this.WhenAnyValue(x => x.ActualHeight, y => y.ActualWidth)
+                .Throttle(TimeSpan.FromMilliseconds(200))
                 .Subscribe(z => this.ViewModel.UpdatePlotSize(z.Item1, z.Item2));
         }
 
         #endregion
 
-        #region Methods
+        #region Public Properties
 
+        /// <summary>
+        /// Gets or sets the view model.
+        /// </summary>
+        public HeatMapViewModel ViewModel { get; set; }
+
+        #endregion
+
+        #region Explicit Interface Properties
+
+        /// <summary>
+        /// Gets or sets the view model.
+        /// </summary>
+        object IViewFor.ViewModel
+        {
+            get
+            {
+                return this.ViewModel;
+            }
+
+            set
+            {
+                this.ViewModel = value as HeatMapViewModel;
+            }
+        }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// TODO The on drop.
@@ -90,9 +108,6 @@ namespace Falkor.Views.Atreyu
             this.ViewModel.InitializeUimfData(files[0]);
         }
 
-       
         #endregion
-
-       
     }
 }

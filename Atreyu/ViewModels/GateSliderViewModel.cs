@@ -6,7 +6,6 @@
 //   TODO The gate slider view model.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Atreyu.ViewModels
 {
     using System;
@@ -20,25 +19,43 @@ namespace Atreyu.ViewModels
     {
         #region Fields
 
+        /// <summary>
+        /// TODO The control label.
+        /// </summary>
         private string controlLabel = "Low Gate";
-
-        private double logarithmicGate;
 
         /// <summary>
         /// TODO The gate.
         /// </summary>
         private double gate;
 
+        /// <summary>
+        /// TODO The log mode.
+        /// </summary>
         private bool logMode;
 
+        /// <summary>
+        /// TODO The logarithmic gate.
+        /// </summary>
+        private double logarithmicGate;
+
+        /// <summary>
+        /// TODO The maximum log value.
+        /// </summary>
         private double maximumLogValue = 10000000.0;
 
+        /// <summary>
+        /// TODO The maximum value.
+        /// </summary>
         private double maximumValue = 100000.0;
 
         #endregion
 
         #region Public Properties
 
+        /// <summary>
+        /// Gets or sets the control label.
+        /// </summary>
         public string ControlLabel
         {
             get
@@ -69,19 +86,9 @@ namespace Atreyu.ViewModels
             }
         }
 
-        public double LogarithmicGate
-        {
-            get
-            {
-                return this.logarithmicGate;
-            }
-
-            private set
-            {
-                this.RaiseAndSetIfChanged(ref this.logarithmicGate, value);
-            }
-        }
-
+        /// <summary>
+        /// Gets or sets a value indicating whether log mode.
+        /// </summary>
         public bool LogMode
         {
             get
@@ -95,19 +102,25 @@ namespace Atreyu.ViewModels
             }
         }
 
-        public double MaximumValue
+        /// <summary>
+        /// Gets the logarithmic gate.
+        /// </summary>
+        public double LogarithmicGate
         {
             get
             {
-                return this.maximumValue;
+                return this.logarithmicGate;
             }
 
-            set
+            private set
             {
-                this.RaiseAndSetIfChanged(ref this.maximumValue, value);
+                this.RaiseAndSetIfChanged(ref this.logarithmicGate, value);
             }
         }
 
+        /// <summary>
+        /// Gets or sets the maximum log value.
+        /// </summary>
         public double MaximumLogValue
         {
             get
@@ -121,11 +134,36 @@ namespace Atreyu.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the maximum value.
+        /// </summary>
+        public double MaximumValue
+        {
+            get
+            {
+                return this.maximumValue;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.maximumValue, value);
+            }
+        }
+
         #endregion
 
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// TODO The update gate.
+        /// </summary>
+        /// <param name="value">
+        /// TODO The value.
+        /// </param>
         public void UpdateGate(double value)
         {
             this.Gate = value;
+
             // position will be between 0 and whatever the Maximum is
             const int Minp = 0;
             var maxp = this.MaximumValue;
@@ -142,5 +180,7 @@ namespace Atreyu.ViewModels
 
             this.LogarithmicGate = x;
         }
+
+        #endregion
     }
 }

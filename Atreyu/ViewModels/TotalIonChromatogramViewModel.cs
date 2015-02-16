@@ -49,8 +49,6 @@ namespace Atreyu.ViewModels
         /// </summary>
         private double[,] _frameData;
 
-        private Dictionary<int, double> frameData;
-
         /// <summary>
         /// TODO The _start scan.
         /// </summary>
@@ -60,6 +58,11 @@ namespace Atreyu.ViewModels
         /// TODO The _tic plot model.
         /// </summary>
         private PlotModel _ticPlotModel;
+
+        /// <summary>
+        /// TODO The frame data.
+        /// </summary>
+        private Dictionary<int, double> frameData;
 
         /// <summary>
         /// TODO The _uimf data.
@@ -134,7 +137,7 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// Returns a dictionary of <scan, intensity> data that is currently being displayed.
+        /// TODO The get tic data.
         /// </summary>
         /// <returns>
         /// The <see cref="IDictionary"/>.
@@ -176,9 +179,9 @@ namespace Atreyu.ViewModels
             {
                 return;
             }
-            
+
             this._frameData = Data;
-            
+
             if (this._endScan == 0)
             {
                 this._startScan = 0;
@@ -219,7 +222,7 @@ namespace Atreyu.ViewModels
             series.BrokenLineStyle = LineStyle.Dot;
             series.BrokenLineThickness = 1;
             series.Points.Clear();
-            foreach (var d in frameData)
+            foreach (var d in this.frameData)
             {
                 series.Points.Add(new DataPoint(d.Key, d.Value));
                 series.Points.Add(new DataPoint(double.NaN, double.NaN));

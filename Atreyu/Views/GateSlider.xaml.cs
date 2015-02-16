@@ -6,7 +6,6 @@
 //   Interaction logic for GateSlider.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Atreyu.Views
 {
     using System.Windows.Controls;

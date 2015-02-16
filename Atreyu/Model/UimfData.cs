@@ -26,6 +26,9 @@ namespace Atreyu.Models
         /// </summary>
         private DataReader _dataReader;
 
+        /// <summary>
+        /// TODO The bin to mz map.
+        /// </summary>
         private double[] binToMzMap;
 
         /// <summary>
@@ -69,23 +72,29 @@ namespace Atreyu.Models
         private double frameSlope;
 
         /// <summary>
-        /// TODO The frames.
+        /// TODO The frame type.
         /// </summary>
-        private int frames;
-
         private string frameType;
 
         /// <summary>
-        /// TODO The gate.
+        /// TODO The frames.
         /// </summary>
-        private double lowGate;
-
-        private double highGate = double.PositiveInfinity;
+        private int frames;
 
         /// <summary>
         /// TODO The gated frame data.
         /// </summary>
         private double[,] gatedFrameData;
+
+        /// <summary>
+        /// TODO The high gate.
+        /// </summary>
+        private double highGate = double.PositiveInfinity;
+
+        /// <summary>
+        /// TODO The gate.
+        /// </summary>
+        private double lowGate;
 
         /// <summary>
         /// TODO The max bins.
@@ -145,6 +154,9 @@ namespace Atreyu.Models
 
         #region Public Properties
 
+        /// <summary>
+        /// Gets or sets the bin to mz map.
+        /// </summary>
         public double[] BinToMzMap
         {
             get
@@ -271,21 +283,8 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// Gets or sets the frames.
+        /// Gets or sets the frame type.
         /// </summary>
-        public int Frames
-        {
-            get
-            {
-                return this.frames;
-            }
-
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.frames, value);
-            }
-        }
-
         public string FrameType
         {
             get
@@ -300,32 +299,18 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// Gets or sets the gate.
+        /// Gets or sets the frames.
         /// </summary>
-        public double LowGate
+        public int Frames
         {
             get
             {
-                return this.lowGate;
+                return this.frames;
             }
 
-            private set
+            set
             {
-                this.RaiseAndSetIfChanged(ref this.lowGate, value);
-            }
-        }
-
-
-        public double HighGate
-        {
-            get
-            {
-                return this.highGate;
-            }
-
-            private set
-            {
-                this.RaiseAndSetIfChanged(ref this.highGate, value);
+                this.RaiseAndSetIfChanged(ref this.frames, value);
             }
         }
 
@@ -342,6 +327,38 @@ namespace Atreyu.Models
             private set
             {
                 this.RaiseAndSetIfChanged(ref this.gatedFrameData, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the high gate.
+        /// </summary>
+        public double HighGate
+        {
+            get
+            {
+                return this.highGate;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.highGate, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the gate.
+        /// </summary>
+        public double LowGate
+        {
+            get
+            {
+                return this.lowGate;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.lowGate, value);
             }
         }
 
@@ -470,30 +487,6 @@ namespace Atreyu.Models
             GC.SuppressFinalize(this);
         }
 
-        private void GateData()
-        {
-            if (this.LowGate <= 0)
-            {
-                this.GatedFrameData = this.FrameData;
-                return;
-            }
-
-            var temp = new double[this.FrameData.GetLength(0), this.FrameData.GetLength(1)];
-
-            for (var x = 0; x < temp.GetLength(0); x++)
-            {
-                for (var y = 0; y < temp.GetLength(1); y++)
-                {
-                    if (this.FrameData[x, y] > this.LowGate && this.FrameData[x, y] < this.HighGate)
-                    {
-                        temp[x, y] = this.FrameData[x, y];
-                    }
-                }
-            }
-
-            this.GatedFrameData = temp;
-        }
-
         /// <summary>
         /// TODO The read data.
         /// </summary>
@@ -521,7 +514,8 @@ namespace Atreyu.Models
         /// <param name="endScanValue">
         /// TODO The end scan.
         /// </param>
-        /// <param name="returnGatedData"></param>
+        /// <param name="returnGatedData">
+        /// </param>
         /// <returns>
         /// The <see cref="double[,]"/>.
         /// </returns>
@@ -533,7 +527,7 @@ namespace Atreyu.Models
             int height, 
             int width, 
             int startScanValue = 0, 
-            int endScanValue = 359,
+            int endScanValue = 359, 
             bool returnGatedData = false)
         {
             this.UpdateScanRange(startScanValue, endScanValue);
@@ -571,17 +565,17 @@ namespace Atreyu.Models
                 this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
 
                 this.FrameType = frameParams.GetValue(FrameParamKeyType.FrameType);
-            this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
+                this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
 
                 var temp = this._dataReader.AccumulateFrameData(
-                    startFrameNumber,
-                    endFrameNumber,
-                    false,
-                    this.StartScan,
-                    this.EndScan,
-                    startBin,
-                    endBin,
-                    (int)this.ValuesPerPixelX,
+                    startFrameNumber, 
+                    endFrameNumber, 
+                    false, 
+                    this.StartScan, 
+                    this.EndScan, 
+                    startBin, 
+                    endBin, 
+                    (int)this.ValuesPerPixelX, 
                     (int)this.ValuesPerPixelY);
 
                 var arrayLength = (int)Math.Round((endBin - startBin + 1) / this.ValuesPerPixelY);
@@ -606,6 +600,46 @@ namespace Atreyu.Models
             return returnGatedData ? this.GatedFrameData : this.FrameData;
         }
 
+        /// <summary>
+        /// TODO The update high gate.
+        /// </summary>
+        /// <param name="newValue">
+        /// TODO The new value.
+        /// </param>
+        public void UpdateHighGate(double newValue)
+        {
+            this.HighGate = newValue;
+            this.GateData();
+        }
+
+        /// <summary>
+        /// TODO The update low gate.
+        /// </summary>
+        /// <param name="newValue">
+        /// TODO The new value.
+        /// </param>
+        public void UpdateLowGate(double newValue)
+        {
+            this.LowGate = newValue;
+            this.GateData();
+        }
+
+        /// <summary>
+        /// TODO The update scan range.
+        /// </summary>
+        /// <param name="startScanNew">
+        /// TODO The start scan new.
+        /// </param>
+        /// <param name="endScanNew">
+        /// TODO The end scan new.
+        /// </param>
+        public void UpdateScanRange(int startScanNew, int endScanNew)
+        {
+            this.EndScan = endScanNew > this.Scans ? this.Scans : endScanNew;
+
+            this.StartScan = startScanNew < 0 ? 0 : startScanNew;
+        }
+
         #endregion
 
         #region Methods
@@ -628,23 +662,31 @@ namespace Atreyu.Models
             }
         }
 
-        public void UpdateLowGate(double newValue)
+        /// <summary>
+        /// TODO The gate data.
+        /// </summary>
+        private void GateData()
         {
-            this.LowGate = newValue;
-            this.GateData();
-        }
+            if (this.LowGate <= 0)
+            {
+                this.GatedFrameData = this.FrameData;
+                return;
+            }
 
-        public void UpdateHighGate(double newValue)
-        {
-            this.HighGate = newValue;
-            this.GateData();
-        }
+            var temp = new double[this.FrameData.GetLength(0), this.FrameData.GetLength(1)];
 
-        public void UpdateScanRange(int startScanNew, int endScanNew)
-        {
-            this.EndScan = endScanNew > this.Scans ? this.Scans : endScanNew;
+            for (var x = 0; x < temp.GetLength(0); x++)
+            {
+                for (var y = 0; y < temp.GetLength(1); y++)
+                {
+                    if (this.FrameData[x, y] > this.LowGate && this.FrameData[x, y] < this.HighGate)
+                    {
+                        temp[x, y] = this.FrameData[x, y];
+                    }
+                }
+            }
 
-            this.StartScan = startScanNew < 0 ? 0 : startScanNew;
+            this.GatedFrameData = temp;
         }
 
         #endregion

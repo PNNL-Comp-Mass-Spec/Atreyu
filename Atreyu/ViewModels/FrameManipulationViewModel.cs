@@ -31,6 +31,9 @@ namespace Atreyu.ViewModels
         /// </summary>
         private int currentFrame;
 
+        /// <summary>
+        /// TODO The frame type.
+        /// </summary>
         private string frameType;
 
         /// <summary>
@@ -69,7 +72,7 @@ namespace Atreyu.ViewModels
             this.SumFramesCommand = new DelegateCommand(this.SumFrames);
 
             this.ZoomOutCommand = ReactiveCommand.Create();
-            
+
             ////this._eventAggregator.GetEvent<NumberOfFramesChangedEvent>().Subscribe(this.NumFramesChanged);
             ////this._eventAggregator.GetEvent<MinimumNumberOfFrames>().Subscribe(this.MinimumNumberOfFramesChanged);
         }
@@ -104,6 +107,9 @@ namespace Atreyu.ViewModels
         /// </summary>
         public int EndFrame { get; set; }
 
+        /// <summary>
+        /// Gets or sets the frame type.
+        /// </summary>
         public string FrameType
         {
             get
@@ -196,8 +202,10 @@ namespace Atreyu.ViewModels
         /// </summary>
         public ICommand SumFramesCommand { get; private set; }
 
+        /// <summary>
+        /// Gets the zoom out command.
+        /// </summary>
         public ReactiveCommand<object> ZoomOutCommand { get; private set; }
-
 
         #endregion
 

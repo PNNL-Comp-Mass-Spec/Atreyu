@@ -54,8 +54,6 @@ namespace Atreyu.ViewModels
         /// </summary>
         private PlotModel _mzPlotModel;
 
-        private Dictionary<double, double> mzFrameData;
-
         /// <summary>
         /// TODO The _start mz bin.
         /// </summary>
@@ -70,6 +68,11 @@ namespace Atreyu.ViewModels
         /// TODO The intercept.
         /// </summary>
         private double intercept;
+
+        /// <summary>
+        /// TODO The mz frame data.
+        /// </summary>
+        private Dictionary<double, double> mzFrameData;
 
         /// <summary>
         /// TODO The show mz.
@@ -103,6 +106,9 @@ namespace Atreyu.ViewModels
 
         #region Public Properties
 
+        /// <summary>
+        /// Gets or sets the bin to mz map.
+        /// </summary>
         public double[] BinToMzMap { get; set; }
 
         /// <summary>
@@ -169,6 +175,9 @@ namespace Atreyu.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the values per pixel y.
+        /// </summary>
         public double ValuesPerPixelY { get; set; }
 
         #endregion
@@ -176,7 +185,7 @@ namespace Atreyu.ViewModels
         #region Public Methods and Operators
 
         /// <summary>
-        /// Returns a dictionary of <m/z, intensity> data that is currently being displayed.
+        /// TODO The get mz data compressed.
         /// </summary>
         /// <returns>
         /// The <see cref="IDictionary"/>.
@@ -232,7 +241,6 @@ namespace Atreyu.ViewModels
             {
                 double index = j + this._startMzBin;
                 var mzIndex = this.BinToMzMap[j];
-                
 
                 for (var i = 0; i < this._frameData.GetLength(0); i++)
                 {
@@ -278,7 +286,7 @@ namespace Atreyu.ViewModels
                     foreach (var d in frameData)
                     {
                         series.Points.Add(new DataPoint(d.Value, d.Key));
-                    }   
+                    }
                 }
             }
 
@@ -308,7 +316,7 @@ namespace Atreyu.ViewModels
                                      IsPanEnabled = false, 
                                      IsZoomEnabled = false, 
                                      MinimumPadding = 0.0, 
-                                     Title = this.ShowMz ? "m/z" : "Bin",
+                                     Title = this.ShowMz ? "m/z" : "Bin", 
                                      StringFormat = "f2"
                                  };
             this.MzPlotModel.Axes.Add(linearAxis);
