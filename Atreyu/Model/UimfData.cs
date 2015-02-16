@@ -560,38 +560,46 @@ namespace Atreyu.Models
             this.EndFrameNumber = endFrameNumber;
 
             var frameParams = this._dataReader.GetFrameParams(startFrameNumber);
+            if (frameParams == null)
+            {
+                // Frame number is out of range
+                this.FrameData = new double[0, 0];
+            }
+            else
+            {
+                this.FrameSlope = frameParams.GetValueDouble(FrameParamKeyType.CalibrationSlope);
+                this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
 
-            this.FrameSlope = frameParams.GetValueDouble(FrameParamKeyType.CalibrationSlope);
+                this.FrameType = frameParams.GetValue(FrameParamKeyType.FrameType);
             this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
 
-            this.FrameType = frameParams.GetValue(FrameParamKeyType.FrameType);
-            
-            var temp = this._dataReader.AccumulateFrameData(
-                startFrameNumber, 
-                endFrameNumber, 
-                false, 
-                this.StartScan, 
-                this.EndScan, 
-                startBin, 
-                endBin, 
-                (int)this.ValuesPerPixelX,
-                (int)this.ValuesPerPixelY);
+                var temp = this._dataReader.AccumulateFrameData(
+                    startFrameNumber,
+                    endFrameNumber,
+                    false,
+                    this.StartScan,
+                    this.EndScan,
+                    startBin,
+                    endBin,
+                    (int)this.ValuesPerPixelX,
+                    (int)this.ValuesPerPixelY);
 
-            var arrayLength = (int)Math.Round((endBin - startBin + 1) / this.ValuesPerPixelY);
+                var arrayLength = (int)Math.Round((endBin - startBin + 1) / this.ValuesPerPixelY);
 
-            var tof = new double[arrayLength];
-            var mz = new double[arrayLength];
-            var calibrator = this._dataReader.GetMzCalibrator(frameParams);
+                var tof = new double[arrayLength];
+                var mz = new double[arrayLength];
+                var calibrator = this._dataReader.GetMzCalibrator(frameParams);
 
-            for (var i = 0; i < arrayLength; i++)
-            {
-                tof[i] = this._dataReader.GetPixelMZ(i);
-                mz[i] = calibrator.TOFtoMZ(tof[i] * 10);
+                for (var i = 0; i < arrayLength; i++)
+                {
+                    tof[i] = this._dataReader.GetPixelMZ(i);
+                    mz[i] = calibrator.TOFtoMZ(tof[i] * 10);
+                }
+
+                this.BinToMzMap = mz;
+
+                this.FrameData = temp;
             }
-
-            this.BinToMzMap = mz;
-
-            this.FrameData = temp;
 
             this.GateData();
 
