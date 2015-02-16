@@ -442,6 +442,11 @@ namespace Atreyu.ViewModels
                 return;
             }
 
+            if (this.HeatMapPlotModel.Series.Count < 1)
+            {
+                return;
+            }
+
             var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
             if (series == null)
             {
@@ -643,22 +648,22 @@ namespace Atreyu.ViewModels
         private void HandleZoom(HeatMapSeries series)
         {
 
-            if (newXAxis == null)
+            if (this.newXAxis == null)
                 return;
 
-            if (newYAxis == null)
+            if (this.newYAxis == null)
                 return;
 
-            if (updatingAxesNow)
+            if (this.updatingAxesNow)
                 return;
-            
-            updatingAxesNow = true;
 
-            this.HeatMapData.CurrentMinBin = (int)newYAxis.ActualMinimum;
-            this.HeatMapData.CurrentMaxBin = (int)newYAxis.ActualMaximum;
+            this.updatingAxesNow = true;
 
-            var startScan = (int)newXAxis.ActualMinimum;
-            var endScan = (int)newXAxis.ActualMaximum;
+            this.HeatMapData.CurrentMinBin = (int)this.newYAxis.ActualMinimum;
+            this.HeatMapData.CurrentMaxBin = (int)this.newYAxis.ActualMaximum;
+
+            var startScan = (int)this.newXAxis.ActualMinimum;
+            var endScan = (int)this.newXAxis.ActualMaximum;
 
             if (series != null)
             {
@@ -680,9 +685,9 @@ namespace Atreyu.ViewModels
                 series.Y1 = this.HeatMapData.CurrentMaxBin;
             }
 
-            newXAxis = null;
-            newYAxis = null;
-            updatingAxesNow = false;
+            this.newXAxis = null;
+            this.newYAxis = null;
+            this.updatingAxesNow = false;
 
         }
         #endregion
