@@ -140,7 +140,7 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="UIMFLibrary, Version=3.0.5522.27194, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="UIMFLibrary, Version=2.1.5420.28608, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\UimfLibrary\UIMFLibrary.dll</HintPath>
     </Reference>
@@ -223,11 +223,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PreBuildEvent>xcopy /Y /S /E /D "$(SolutionDir)lib\UimfLibrary\*"  "$(TargetDir)"</PreBuildEvent>
+    <PostBuildEvent>xcopy /Y /S /E "$(SolutionDir)lib\UimfLibrary\*"  "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
