@@ -89,6 +89,10 @@ namespace Atreyu.ViewModels
         /// </summary>
         private bool updatingAxesNow;
 
+        private int height;
+
+        private int width;
+
         #endregion
 
         ///// <summary>
@@ -176,7 +180,18 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Gets or sets the height.
         /// </summary>
-        public int Height { get; set; }
+        public int Height
+        {
+            get
+            {
+                return this.height;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.height, value);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the high threshold.
@@ -213,7 +228,18 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Gets or sets the width.
         /// </summary>
-        public int Width { get; set; }
+        public int Width
+        {
+            get
+            {
+                return this.width;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.width, value);
+            }
+        }
 
         #endregion
 
