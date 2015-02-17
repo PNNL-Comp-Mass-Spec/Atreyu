@@ -784,6 +784,24 @@ namespace Atreyu.ViewModels
             ////this._eventAggregator.GetEvent<YAxisChangedEvent>().Publish(this._heatMapPlotModel.Axes[2] as LinearAxis);
         }
 
+        protected void PublishXAxisChange(object sender, AxisChangedEventArgs e)
+        {
+            var axis = sender as LinearAxis;
+            if (axis == null) return;
+            this.CurrentMinScan = (int)axis.ActualMinimum;
+            this.CurrentMaxScan = (int)axis.ActualMaximum;
+        }
+
+        protected void PublishYAxisChange(object sender, AxisChangedEventArgs e)
+        {
+            var axis = sender as LinearAxis;
+            if (axis == null) return;
+            this.CurrentMinBin = (int)axis.ActualMinimum;
+            this.CurrentMaxBin = (int)axis.ActualMaximum;
+        }
+
+
+
         /// <summary>
         /// TODO The handle zoom.
         /// </summary>
