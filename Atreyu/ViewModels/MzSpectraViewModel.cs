@@ -307,39 +307,44 @@ namespace Atreyu.ViewModels
             }
 
             this._uimfData = uimfData;
+            this.CreatePlotModel();
+        }
+
+        public void CreatePlotModel()
+        {
             this.MzPlotModel = new PlotModel();
             var linearAxis = new LinearAxis
-                                 {
-                                     Position = AxisPosition.Right, 
-                                     AbsoluteMinimum = 0, 
-                                     Key = "XAxisKey", 
-                                     IsPanEnabled = false, 
-                                     IsZoomEnabled = false, 
-                                     MinimumPadding = 0.0, 
-                                     Title = this.ShowMz ? "m/z" : "Bin", 
-                                     StringFormat = "f2"
-                                 };
+            {
+                Position = AxisPosition.Right,
+                AbsoluteMinimum = 0,
+                Key = "XAxisKey",
+                IsPanEnabled = false,
+                IsZoomEnabled = false,
+                MinimumPadding = 0.0,
+                Title = this.ShowMz ? "m/z" : "Bin",
+                StringFormat = "f2"
+            };
             this.MzPlotModel.Axes.Add(linearAxis);
 
             var linearYAxis = new LinearAxis
-                                  {
-                                      AbsoluteMinimum = 0, 
-                                      IsZoomEnabled = false, 
-                                      Position = AxisPosition.Top, 
-                                      Key = "YAxisKey", 
-                                      IsPanEnabled = false, 
-                                      MinimumPadding = 0, 
-                                      StartPosition = 1, 
-                                      EndPosition = 0, 
-                                  };
+            {
+                AbsoluteMinimum = 0,
+                IsZoomEnabled = false,
+                Position = AxisPosition.Top,
+                Key = "YAxisKey",
+                IsPanEnabled = false,
+                MinimumPadding = 0,
+                StartPosition = 1,
+                EndPosition = 0,
+            };
             this.MzPlotModel.Axes.Add(linearYAxis);
             var series = new LineSeries
-                             {
-                                 Color = OxyColors.Black, 
-                                 YAxisKey = linearAxis.Key, 
-                                 XAxisKey = linearYAxis.Key, 
-                                 StrokeThickness = 1
-                             };
+            {
+                Color = OxyColors.Black,
+                YAxisKey = linearAxis.Key,
+                XAxisKey = linearYAxis.Key,
+                StrokeThickness = 1
+            };
             this.MzPlotModel.Series.Add(series);
         }
 
