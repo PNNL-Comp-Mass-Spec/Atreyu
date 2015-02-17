@@ -59,6 +59,8 @@ namespace Atreyu.ViewModels
         /// </summary>
         private int currentStartFrame;
 
+        private double[,] dataArray;
+
         /// <summary>
         /// TODO The heat map data.
         /// </summary>
@@ -780,6 +782,24 @@ namespace Atreyu.ViewModels
             this.newXAxis = null;
             this.newYAxis = null;
             this.updatingAxesNow = false;
+        }
+
+
+
+        public void UpdateData(double[,] framedata)
+        {
+            if (framedata == null){return;}
+
+            var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
+            if (series == null)
+            {
+                return;
+            }
+
+            this.dataArray = framedata;
+
+            series.Data = this.dataArray;
+            this.HeatMapPlotModel.InvalidatePlot(true);
         }
 
         #endregion
