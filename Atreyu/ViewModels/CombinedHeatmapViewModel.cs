@@ -12,7 +12,10 @@ namespace Atreyu.ViewModels
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Drawing;
+    using System.IO;
     using System.Reactive.Linq;
+
+    using Atreyu.Models;
 
     using ReactiveUI;
 
@@ -22,6 +25,30 @@ namespace Atreyu.ViewModels
     [Export]
     public class CombinedHeatmapViewModel : ReactiveObject
     {
+        /// <summary>
+        /// TODO The current end frame.
+        /// </summary>
+        private int currentEndFrame;
+
+        /// <summary>
+        /// The name of the current file that is loaded, without path or extension.
+        /// </summary>
+        private string currentFile = "Heatmap";
+
+        /// <summary>
+        /// TODO The current start frame.
+        /// </summary>
+        private int currentStartFrame;
+
+        /// <summary>
+        ///  The data relevant to the UIMF for viewing.
+        /// </summary>
+        private UimfData uimfData;
+
+        private int width;
+
+        private int height;
+
         #region Constructors and Destructors
 
         /// <summary>
@@ -118,6 +145,56 @@ namespace Atreyu.ViewModels
 
         #region Public Properties
 
+
+        /// <summary>
+        /// Gets or sets the current file.
+        /// </summary>
+        public string CurrentFile
+        {
+            get
+            {
+                return this.currentFile;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.currentFile, value);
+            }
+        }
+
+
+        /// <summary>
+        /// Gets the height of the Heat map plot.
+        /// </summary>
+        public int Height
+        {
+            get
+            {
+                return this.height;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.height, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the width of the Heat map plot.
+        /// </summary>
+        public int Width
+        {
+            get
+            {
+                return this.width;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.width, value);
+            }
+        }
+
         /// <summary>
         /// Gets the frame manipulation view model.
         /// </summary>
@@ -212,6 +289,56 @@ namespace Atreyu.ViewModels
             }
 
             return bitmap;
+        }
+
+
+
+        /// <summary>
+        /// TODO The initialize uimf data.
+        /// </summary>
+        /// <param name="file">
+        /// TODO The file.
+        /// </param>
+        public void InitializeUimfData(string file)
+        {
+            this.uimfData = new UimfData(file) { CurrentMinBin = 0 };
+            this.uimfData.CurrentMaxBin = this.uimfData.TotalBins;
+            this.FetchSingleFrame(1);
+            this.CurrentFile = Path.GetFileNameWithoutExtension(file);
+        }
+
+
+        /// <summary>
+        /// TODO The set up plot.
+        /// </summary>
+        /// <param name="frameNumber">
+        /// TODO The frame number.
+        /// </param>
+        public void FetchSingleFrame(int frameNumber)
+        {
+            this.currentStartFrame = frameNumber;
+            this.currentEndFrame = frameNumber;
+
+            this.uimfData.ReadData(
+                1,
+                this.uimfData.MaxBins,
+                frameNumber,
+                frameNumber,
+                this.Height,
+                this.Width,
+                0,
+                359,
+                true);
+        }
+
+        public void ZoomOut()
+        {
+            this.uimfData.UpdateScanRange(0, this.uimfData.EndScan);
+
+            this.uimfData.CurrentMinBin = 0;
+            this.uimfData.CurrentMaxBin = this.uimfData.MaxBins;
+
+            this.uimfData.ReadData();
         }
 
         #endregion
