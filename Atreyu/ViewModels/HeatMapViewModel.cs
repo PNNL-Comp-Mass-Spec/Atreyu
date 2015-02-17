@@ -95,6 +95,14 @@ namespace Atreyu.ViewModels
 
         private int width;
 
+        private int currentMinBin;
+
+        private int currentMaxBin;
+
+        private int currentMinScan;
+
+        private int currentMaxScan;
+
         #endregion
 
         ///// <summary>
@@ -144,6 +152,54 @@ namespace Atreyu.ViewModels
             set
             {
                 this.RaiseAndSetIfChanged(ref this.currentFile, value);
+            }
+        }
+
+        public int CurrentMinBin
+        {
+            get
+            {
+                return this.currentMinBin;
+            }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.currentMinBin, value);
+            }
+        }
+
+        public int CurrentMaxBin
+        {
+            get
+            {
+                return this.currentMaxBin;
+            }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.currentMaxBin, value);
+            }
+        }
+
+        public int CurrentMinScan
+        {
+            get
+            {
+                return this.currentMinScan;
+            }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.currentMinScan, value);
+            }
+        }
+
+        public int CurrentMaxScan
+        {
+            get
+            {
+                return this.currentMaxScan;
+            }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.currentMaxScan, value);
             }
         }
 
