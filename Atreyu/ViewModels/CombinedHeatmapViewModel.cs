@@ -327,7 +327,7 @@ namespace Atreyu.ViewModels
                 this.Height,
                 this.Width,
                 0,
-                359,
+                this.uimfData.Scans,
                 true);
         }
 
