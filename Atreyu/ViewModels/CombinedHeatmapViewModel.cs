@@ -14,6 +14,7 @@ namespace Atreyu.ViewModels
     using System.Drawing;
     using System.IO;
     using System.Reactive.Linq;
+    using System.Threading.Tasks;
 
     using Atreyu.Models;
 
@@ -331,6 +332,39 @@ namespace Atreyu.ViewModels
                 true);
         }
 
+
+        public async void SumFrames(FrameRange sumFrames)
+        {
+            if (sumFrames == null)
+            {
+                return;
+            }
+            
+            if (this.uimfData == null)
+            {
+                return;
+            }
+
+            this.currentStartFrame = sumFrames.StartFrame < 1 ? 1 : sumFrames.StartFrame;
+
+            this.currentEndFrame = sumFrames.EndFrame < 1 ? 1 : sumFrames.EndFrame;
+                await Task.Run(
+                    () =>
+                    {
+                        this.uimfData.ReadData(
+                            this.uimfData.CurrentMinBin,
+                            this.uimfData.CurrentMaxBin,
+                            this.currentStartFrame,
+                            this.currentEndFrame,
+                            this.Height,
+                            this.Width,
+                            this.uimfData.StartScan,
+                            this.uimfData.EndScan,
+                            true);
+                    });
+        }
+
+
         public void ZoomOut()
         {
             this.uimfData.UpdateScanRange(0, this.uimfData.EndScan);
@@ -338,7 +372,7 @@ namespace Atreyu.ViewModels
             this.uimfData.CurrentMinBin = 0;
             this.uimfData.CurrentMaxBin = this.uimfData.MaxBins;
 
-            this.uimfData.ReadData();
+            this.uimfData.ReadData(true);
         }
 
         #endregion
