@@ -228,7 +228,7 @@ namespace Atreyu.Models
                 return this.endScan;
             }
 
-            private set
+            set
             {
                 this.RaiseAndSetIfChanged(ref this.endScan, value);
             }
@@ -420,14 +420,14 @@ namespace Atreyu.Models
                 return this.startscan;
             }
 
-            private set
+            set
             {
                 this.RaiseAndSetIfChanged(ref this.startscan, value);
             }
         }
 
         /// <summary>
-        /// Gets or sets the total bins.
+        /// Gets or sets the total bins currently queried.
         /// </summary>
         public int TotalBins
         {
@@ -490,6 +490,8 @@ namespace Atreyu.Models
 
         public double[,] ReadData(bool returnGatedData = false)
         {
+            if (this.CurrentMaxBin < 1) return new double[0,0];
+            if (this.endScan < 1) return new double[0, 0];
             var frameParams = this._dataReader.GetFrameParams(this.startframeNumber);
             if (frameParams == null)
             {
@@ -498,6 +500,23 @@ namespace Atreyu.Models
             }
             else
             {
+                this.TotalBins = this.CurrentMaxBin - this.CurrentMinBin + 1;
+
+                this.ValuesPerPixelY = (int)(this.TotalBins / (double)this.mostRecentHeight);
+
+                var totalScans = this.EndScan - this.StartScan + 1;
+                this.ValuesPerPixelX = (int)(totalScans / (double)this.mostRecentWidth);
+
+                if (this.ValuesPerPixelY < 1)
+                {
+                    this.ValuesPerPixelY = 1;
+                }
+
+                if (this.ValuesPerPixelX < 1)
+                {
+                    this.ValuesPerPixelX = 1;
+                }
+
                 this.FrameSlope = frameParams.GetValueDouble(FrameParamKeyType.CalibrationSlope);
                 this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
 
@@ -536,6 +555,10 @@ namespace Atreyu.Models
 
             return returnGatedData ? this.GatedFrameData : this.FrameData;
         }
+
+        private int mostRecentHeight;
+        private int mostRecentWidth;
+
 
         /// <summary>
         /// TODO The read data.
@@ -585,26 +608,10 @@ namespace Atreyu.Models
             this.CurrentMinBin = startBin < 0 ? 0 : startBin;
             this.CurrentMaxBin = endBin > this.MaxBins ? this.MaxBins : endBin;
 
-            this.TotalBins = this.CurrentMaxBin - this.CurrentMinBin + 1;
-
-            this.ValuesPerPixelY = (int)(this.TotalBins / (double)height);
-
-            var totalScans = this.EndScan - this.StartScan + 1;
-            this.ValuesPerPixelX = (int)(totalScans / (double)width);
-
-            if (this.ValuesPerPixelY < 1)
-            {
-                this.ValuesPerPixelY = 1;
-            }
-
-            if (this.ValuesPerPixelX < 1)
-            {
-                this.ValuesPerPixelX = 1;
-            }
-
             this.StartFrameNumber = startFrameNumber;
             this.EndFrameNumber = endFrameNumber;
-
+            this.mostRecentHeight = height;
+            this.mostRecentWidth = width;
             return this.ReadData(returnGatedData);
         }
 
@@ -628,6 +635,8 @@ namespace Atreyu.Models
         /// </param>
         public void UpdateLowGate(double newValue)
         {
+            if (this.frameData == null) { return; }
+
             this.LowGate = newValue;
             this.GateData();
         }
