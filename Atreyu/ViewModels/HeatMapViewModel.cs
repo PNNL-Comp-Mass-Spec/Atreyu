@@ -57,7 +57,7 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// TODO The current start frame.
         /// </summary>
-        private int currentStartFrame;
+        private int currentStartFrame = 1;
 
         private double[,] dataArray;
 
@@ -873,6 +873,15 @@ namespace Atreyu.ViewModels
             this.dataArray = framedata;
 
             series.Data = this.dataArray;
+
+            // scans
+            series.X0 = this.currentMinScan;
+            series.X1 = this.currentMaxScan;
+
+            // bins
+            series.Y0 = this.currentMinBin;
+            series.Y1 = this.currentMaxBin;
+
             this.HeatMapPlotModel.InvalidatePlot(true);
         }
 
