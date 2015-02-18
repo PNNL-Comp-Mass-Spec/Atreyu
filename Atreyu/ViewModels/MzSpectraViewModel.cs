@@ -233,6 +233,11 @@ namespace Atreyu.ViewModels
                 return;
             }
 
+            if (this.BinToMzMap == null)
+            {
+                return;
+            }
+
             this._frameData = framedata;
             var frameData = new Dictionary<double, double>();
             this.mzFrameData = new Dictionary<double, double>();
@@ -266,13 +271,13 @@ namespace Atreyu.ViewModels
 
             var series = this.MzPlotModel.Series[0] as LineSeries;
 
-            if (series.YAxis != null)
-            {
-                series.YAxis.Title = this.ShowMz ? "m/z" : "Bin";
-            }
-
             if (series != null)
             {
+                if (series.YAxis != null)
+                {
+                    series.YAxis.Title = this.ShowMz ? "m/z" : "Bin";
+                }
+
                 series.Points.Clear();
                 if (this.ShowMz)
                 {
