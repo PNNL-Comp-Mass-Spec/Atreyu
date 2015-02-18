@@ -86,76 +86,128 @@ namespace Atreyu.ViewModels
             this.HighValueGateSliderViewModel.UpdateGate(this.HighValueGateSliderViewModel.MaximumValue);
 
             this.ZoomOutFull = this.FrameManipulationViewModel.ZoomOutCommand;
-            this.ZoomOutFull.Subscribe(x => this.HeatMapViewModel.ZoomOutFull());
+            this.ZoomOutFull.Subscribe(x => this.ZoomOut());
 
             // update the uimf data for the various components
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData)
+            this.WhenAnyValue(vm => vm.UimfData)
                 .Subscribe(this.TotalIonChromatogramViewModel.UpdateReference);
 
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData)
+            this.WhenAnyValue(vm => vm.UimfData)
+                .Subscribe(this.HeatMapViewModel.UpdateReference);
+
+            this.WhenAnyValue(vm => vm.UimfData)
                 .Subscribe(this.FrameManipulationViewModel.UpdateUimf);
 
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData).Subscribe(this.MzSpectraViewModel.UpdateReference);
+            this.WhenAnyValue(vm => vm.UimfData).Subscribe(this.MzSpectraViewModel.UpdateReference);
 
             // update the frame data of the TIC plot when needed; apparently the Throttler should always specify the schedule.
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.GatedFrameData)
-                .Throttle(TimeSpan.FromMilliseconds(100), RxApp.MainThreadScheduler)
+            this.WhenAnyValue(vm => vm.UimfData.GatedFrameData)
                 .Subscribe(this.TotalIonChromatogramViewModel.UpdateFrameData);
 
             // Update the Framedata of the M/Z plot when needed
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.GatedFrameData)
+            this.WhenAnyValue(vm => vm.UimfData.GatedFrameData)
                 .Subscribe(this.MzSpectraViewModel.UpdateFrameData);
+
+            this.WhenAnyValue(vm => vm.UimfData.GatedFrameData).Subscribe(this.HeatMapViewModel.UpdateData);
 
             // update the frame whenever it is changed via the frame manipulation view
             this.WhenAnyValue(vm => vm.FrameManipulationViewModel.CurrentFrame)
-                .Subscribe(this.HeatMapViewModel.UpdateFrameNumber);
+                .Subscribe(this.FetchSingleFrame);
 
             // hook up the frame summing feature
-            this.WhenAnyValue(vm => vm.FrameManipulationViewModel.Range).Subscribe(this.HeatMapViewModel.SumFrames);
+            this.WhenAnyValue(vm => vm.FrameManipulationViewModel.Range).Subscribe(this.SumFrames);
 
             // These make the axis on the TIC update properly
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.StartScan)
+            this.WhenAnyValue(vm => vm.UimfData.StartScan)
                 .Subscribe(this.TotalIonChromatogramViewModel.ChangeStartScan);
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.EndScan)
+            this.WhenAnyValue(vm => vm.UimfData.EndScan)
                 .Subscribe(this.TotalIonChromatogramViewModel.ChangeEndScan);
 
             // These make the axis on the mz plot update properly
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.CurrentMinBin)
+            this.WhenAnyValue(vm => vm.UimfData.CurrentMinBin)
                 .Subscribe(this.MzSpectraViewModel.changeStartBin);
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.CurrentMaxBin)
+            this.WhenAnyValue(vm => vm.UimfData.CurrentMaxBin)
                 .Subscribe(this.MzSpectraViewModel.changeEndBin);
 
             // This makes the axis of the mz plot be in mz mode properly
             this.WhenAnyValue(vm => vm.FrameManipulationViewModel.MzModeEnabled)
                 .Subscribe(b => this.MzSpectraViewModel.ShowMz = b);
 
-            ////this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.MzData).Where(i => this.FrameManipulationViewModel.MzModeEnabled)
-            ////    .Subscribe(this.MzSpectraViewModel.UpdateFrameData);
-
             // These two allow the mz calculation to be done on the fly so it is fast, instead of calling the hard drive again 
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.FrameSlope)
-                .Where(b => this.HeatMapViewModel.HeatMapData != null)
+            this.WhenAnyValue(vm => vm.UimfData.FrameSlope)
+                .Where(b => this.UimfData != null)
                 .Subscribe(d => this.MzSpectraViewModel.Slope = d);
 
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.FrameIntercept)
-                .Where(b => this.HeatMapViewModel.HeatMapData != null)
+            this.WhenAnyValue(vm => vm.UimfData.FrameIntercept)
+                .Where(b => this.UimfData != null)
                 .Subscribe(d => this.MzSpectraViewModel.Intercept = d);
 
             // Attach the heatmap threshold to the slider's gate, using Throttle so it doesn't seem jerky.
             this.WhenAnyValue(vm => vm.LowValueGateSliderViewModel.LogarithmicGate)
+                .Where(b => this.UimfData != null)
                 .Throttle(TimeSpan.FromMilliseconds(200), RxApp.MainThreadScheduler)
-                .Subscribe(this.HeatMapViewModel.UpdateLowThreshold);
+                .Subscribe(this.UpdateLowGate);
 
             // Update the frame type on the Fram Manipulation view
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.FrameType)
+            this.WhenAnyValue(vm => vm.UimfData.FrameType)
                 .Subscribe(s => this.FrameManipulationViewModel.FrameType = s);
 
             // update the values per pixel so that the m/z adjusts correctly
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.ValuesPerPixelY)
+            this.WhenAnyValue(vm => vm.UimfData.ValuesPerPixelY)
                 .Subscribe(d => this.MzSpectraViewModel.ValuesPerPixelY = d);
 
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.HeatMapData.BinToMzMap)
+            this.WhenAnyValue(vm => vm.UimfData.BinToMzMap)
                 .Subscribe(d => this.MzSpectraViewModel.BinToMzMap = d);
+
+            this.WhenAnyValue(vm => vm.UimfData.BinToMzMap)
+                .Subscribe(d => this.HeatMapViewModel.BinToMzMap = d);
+
+            this.WhenAnyValue(vm => vm.HeatMapViewModel.Height).Subscribe(d => this.Height = d);
+            this.WhenAnyValue(vm => vm.HeatMapViewModel.Width).Subscribe(d => this.Width = d);
+
+            this.WhenAnyValue(
+                vm => vm.HeatMapViewModel.CurrentMinBin)
+                .Where(x => this.UimfData != null)
+                //.Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
+                .Subscribe(
+                    x =>
+                        {
+                            this.UimfData.CurrentMinBin = x;
+                            this.UimfData.ReadData(ReturnGatedData);
+                        });
+
+            this.WhenAnyValue(
+                vm => vm.HeatMapViewModel.CurrentMaxBin)
+                .Where(x => this.UimfData != null)
+                //.Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
+                .Subscribe(
+                    x =>
+                    {
+                        this.UimfData.CurrentMaxBin = x;
+                        this.UimfData.ReadData(ReturnGatedData);
+                    });
+
+            this.WhenAnyValue(
+                vm => vm.HeatMapViewModel.CurrentMinScan)
+                .Where(x => this.UimfData != null)
+                //.Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
+                .Subscribe(
+                    x =>
+                    {
+                        this.UimfData.StartScan = x;
+                        this.UimfData.ReadData(ReturnGatedData);
+                    });
+
+            this.WhenAnyValue(
+                vm => vm.HeatMapViewModel.CurrentMaxScan)
+                .Where(x => this.UimfData != null)
+                //.Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
+                .Subscribe(
+                    x =>
+                    {
+                        this.UimfData.EndScan = x;
+                        this.UimfData.ReadData(ReturnGatedData);
+                    });
         }
 
         #endregion

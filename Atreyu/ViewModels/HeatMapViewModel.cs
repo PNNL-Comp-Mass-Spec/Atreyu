@@ -103,6 +103,11 @@ namespace Atreyu.ViewModels
 
         private int currentMaxScan;
 
+        /// <summary>
+        /// Gets or sets the bin to mz map.
+        /// </summary>
+        public double[] BinToMzMap { get; set; }
+
         #endregion
 
         ///// <summary>
@@ -311,30 +316,32 @@ namespace Atreyu.ViewModels
         /// </returns>
         public double[,] GetCompressedDataInView()
         {
-            var minBin = this.HeatMapData.CurrentMinBin;
-            var minScan = this.heatMapData.StartScan;
+            var minScan = this.currentMinScan;
 
             var exportData =
-                new double[this.HeatMapData.FrameData.GetLength(0) + 1, this.HeatMapData.FrameData.GetLength(1) + 1];
+                new double[this.dataArray.GetLength(0) + 1, this.dataArray.GetLength(1) + 1];
 
+            // populate the scan numbers along one axis (the vertical)
             for (var x = 1; x < exportData.GetLength(0); x++)
             {
                 var scan = x - 1 + minScan;
                 exportData[x, 0] = scan;
             }
 
+            // populate the m/zs on the other axis
             for (var y = 1; y < exportData.GetLength(1); y++)
             {
                 var bin = y - 1;
-                var mz = this.heatMapData.BinToMzMap[bin];
+                var mz = this.BinToMzMap[bin];
                 exportData[0, y] = mz;
             }
 
+            // fill the reast of the array with the intensity values (0,0 of the array never assigned, but defaults to "0.0")
             for (var mz = 1; mz < exportData.GetLength(1); mz++)
             {
                 for (var scan = 1; scan < exportData.GetLength(0); scan++)
                 {
-                    exportData[scan, mz] = this.heatMapData.FrameData[scan - 1, mz - 1];
+                    exportData[scan, mz] = this.dataArray[scan - 1, mz - 1];
                 }
             }
 
@@ -386,15 +393,24 @@ namespace Atreyu.ViewModels
             ////this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Publish(frameNumber);
         }
 
-        /// <summary>
-        /// TODO The set up plot.
-        /// </summary>
-        /// <param name="frameNumber">
-        /// TODO The frame number.
-        /// </param>
-        public void SetUpPlot(int frameNumber)
+        public void UpdateReference(UimfData uimfData)
         {
-            this.currentStartFrame = frameNumber;
+            if (uimfData == null)
+            {
+                return;
+            }
+
+            this.heatMapData = uimfData;
+            this.currentMinBin = 1;
+            this.currentMaxBin = this.heatMapData.MaxBins;
+            this.currentMinScan = 0;
+            this.currentMaxScan = this.heatMapData.Scans;
+
+            this.SetUpPlot();
+        }
+
+        public void SetUpPlot()
+        {
             this.HeatMapPlotModel = new PlotModel();
 
             var linearColorAxis1 = new LinearColorAxis
@@ -420,7 +436,7 @@ namespace Atreyu.ViewModels
                                          IsAxisVisible = this.AxisVisible
                                      };
 
-            horizontalAxis.AxisChanged += this.OnXAxisChange;
+            horizontalAxis.AxisChanged += this.PublishXAxisChange;
 
             // horizontalAxis.AxisChanged += OnXAxisChange;
             this.HeatMapPlotModel.Axes.Add(horizontalAxis);
@@ -440,9 +456,38 @@ namespace Atreyu.ViewModels
                                        IsAxisVisible = this.AxisVisible
                                    };
 
-            verticalAxis.AxisChanged += this.OnYAxisChange;
+            verticalAxis.AxisChanged += this.PublishYAxisChange;
 
             this.HeatMapPlotModel.Axes.Add(verticalAxis);
+
+            var heatMapSeries1 = new HeatMapSeries
+            {
+                X0 = 0,
+                X1 = 359,
+                Y0 = 0,
+                Y1 = this.HeatMapData.MaxBins,
+                Interpolate = false
+            };
+
+            this.HeatMapPlotModel.Series.Add(heatMapSeries1);
+        }
+
+
+        /// <summary>
+        /// TODO The set up plot.
+        /// </summary>
+        /// <param name="frameNumber">
+        /// TODO The frame number.
+        /// </param>
+        public void SetUpPlot(int frameNumber)
+        {
+            this.currentStartFrame = frameNumber;
+            
+            this.SetUpPlot();
+
+            var series = this._heatMapPlotModel.Series[0] as HeatMapSeries;
+            
+            if (series == null) return;
 
             var data = this.HeatMapData.ReadData(
                 1, 
@@ -455,18 +500,7 @@ namespace Atreyu.ViewModels
                 359, 
                 true);
 
-            var heatMapSeries1 = new HeatMapSeries
-                                     {
-                                         X0 = 0, 
-                                         X1 = 359, 
-                                         Y0 = 0, 
-                                         Y1 = this.HeatMapData.MaxBins, 
-                                         Data = data, 
-                                         Interpolate = false
-                                     };
-
-            this.HeatMapPlotModel.Series.Add(heatMapSeries1);
-
+            series.Data = data;
             this.HeatMapPlotModel.InvalidatePlot(true);
         }
 

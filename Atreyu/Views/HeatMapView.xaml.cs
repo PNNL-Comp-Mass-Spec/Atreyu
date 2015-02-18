@@ -42,7 +42,12 @@ namespace Falkor.Views.Atreyu
             // x and y are magically is assigned "this" via extension methods
             this.WhenAnyValue(x => x.ActualHeight, y => y.ActualWidth)
                 .Throttle(TimeSpan.FromMilliseconds(200))
-                .Subscribe(z => this.ViewModel.UpdatePlotSize(z.Item1, z.Item2));
+                .Subscribe(
+                    z =>
+                        {
+                            viewModel.Height = (int)z.Item1;
+                            viewModel.Width = (int)z.Item2;
+                        });
         }
 
         #endregion

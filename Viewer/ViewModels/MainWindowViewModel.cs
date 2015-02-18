@@ -180,7 +180,7 @@ namespace Viewer.ViewModels
 
             var filename = dialogue.FileName;
 
-            this.CombinedHeatmapViewModel.HeatMapViewModel.InitializeUimfData(filename);
+            this.CombinedHeatmapViewModel.InitializeUimfData(filename);
         }
 
         /// <summary>
