@@ -18,6 +18,8 @@ namespace Atreyu.ViewModels
 
     using Atreyu.Models;
 
+    using Microsoft.Practices.Prism.PubSubEvents;
+
     using ReactiveUI;
 
     /// <summary>
@@ -26,6 +28,7 @@ namespace Atreyu.ViewModels
     [Export]
     public class CombinedHeatmapViewModel : ReactiveObject
     {
+        private const bool ReturnGatedData = true;
         /// <summary>
         /// TODO The current end frame.
         /// </summary>
@@ -42,13 +45,26 @@ namespace Atreyu.ViewModels
         private int currentStartFrame;
 
         /// <summary>
-        ///  The data relevant to the UIMF for viewing.
+        ///  The data relevant to the UIMF that is loaded.
         /// </summary>
-        private UimfData uimfData;
+        public UimfData UimfData
+        {
+            get
+            {
+                return this.uimfData;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.uimfData, value);
+            }
+        }
 
         private int width;
 
         private int height;
+
+        private UimfData uimfData;
 
         #region Constructors and Destructors
 
@@ -302,8 +318,8 @@ namespace Atreyu.ViewModels
         /// </param>
         public void InitializeUimfData(string file)
         {
-            this.uimfData = new UimfData(file) { CurrentMinBin = 0 };
-            this.uimfData.CurrentMaxBin = this.uimfData.TotalBins;
+            this.UimfData = new UimfData(file) { CurrentMinBin = 0 };
+            this.UimfData.CurrentMaxBin = this.UimfData.TotalBins;
             this.FetchSingleFrame(1);
             this.CurrentFile = Path.GetFileNameWithoutExtension(file);
         }
@@ -317,19 +333,21 @@ namespace Atreyu.ViewModels
         /// </param>
         public void FetchSingleFrame(int frameNumber)
         {
+            if (this.UimfData == null) {return;}
+
             this.currentStartFrame = frameNumber;
             this.currentEndFrame = frameNumber;
 
-            this.uimfData.ReadData(
+            this.UimfData.ReadData(
                 1,
-                this.uimfData.MaxBins,
+                this.UimfData.MaxBins,
                 frameNumber,
                 frameNumber,
                 this.Height,
                 this.Width,
                 0,
-                this.uimfData.Scans,
-                true);
+                this.UimfData.Scans,
+                ReturnGatedData);
         }
 
 
@@ -340,7 +358,7 @@ namespace Atreyu.ViewModels
                 return;
             }
             
-            if (this.uimfData == null)
+            if (this.UimfData == null)
             {
                 return;
             }
@@ -351,28 +369,34 @@ namespace Atreyu.ViewModels
                 await Task.Run(
                     () =>
                     {
-                        this.uimfData.ReadData(
-                            this.uimfData.CurrentMinBin,
-                            this.uimfData.CurrentMaxBin,
+                        this.UimfData.ReadData(
+                            this.UimfData.CurrentMinBin,
+                            this.UimfData.CurrentMaxBin,
                             this.currentStartFrame,
                             this.currentEndFrame,
                             this.Height,
                             this.Width,
-                            this.uimfData.StartScan,
-                            this.uimfData.EndScan,
-                            true);
+                            this.UimfData.StartScan,
+                            this.UimfData.EndScan,
+                            ReturnGatedData);
                     });
         }
 
+        public void UpdateLowGate(double gate)
+        {
+            if (UimfData == null) return;
+
+            this.UimfData.UpdateLowGate(gate);
+        }
 
         public void ZoomOut()
         {
-            this.uimfData.UpdateScanRange(0, this.uimfData.EndScan);
+            this.UimfData.UpdateScanRange(0, this.UimfData.Scans);
 
-            this.uimfData.CurrentMinBin = 0;
-            this.uimfData.CurrentMaxBin = this.uimfData.MaxBins;
+            this.UimfData.CurrentMinBin = 0;
+            this.UimfData.CurrentMaxBin = this.UimfData.MaxBins;
 
-            this.uimfData.ReadData(true);
+            this.UimfData.ReadData(ReturnGatedData);
         }
 
         #endregion
