@@ -63,8 +63,6 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="FrameManipulationViewModel"/> class. 
         /// </summary>
-        /// <param name="eventAggregator">
-        /// </param>
         [ImportingConstructor]
         public FrameManipulationViewModel()
         {
@@ -222,8 +220,6 @@ namespace Atreyu.ViewModels
             if (this.CurrentFrame != frameNumber)
             {
                 this.CurrentFrame = frameNumber;
-
-                ////this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Publish(frameNumber);
             }
         }
 
@@ -233,7 +229,6 @@ namespace Atreyu.ViewModels
         /// </param>
         public void UpdateFrameNumber(int frameNumber)
         {
-            ////this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Publish(frameNumber);
             this.CurrentFrame = frameNumber;
         }
 
