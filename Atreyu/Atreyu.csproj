@@ -265,7 +265,9 @@
   <ItemGroup>
     <None Include="Resources\Icon1.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /Y /S /E /D "$(SolutionDir)lib\UimfLibrary\*"  "$(TargetDir)"</PostBuildEvent>
