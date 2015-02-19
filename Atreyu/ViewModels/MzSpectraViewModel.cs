@@ -266,7 +266,7 @@ namespace Atreyu.ViewModels
             }
 
             this.frameData = framedata;
-            var frameData = new Dictionary<double, double>();
+            var frameDictionary = new Dictionary<double, double>();
             this.mzFrameData = new Dictionary<double, double>();
 
             for (var j = 0; j < this.frameData.GetLength(1); j++)
@@ -276,13 +276,13 @@ namespace Atreyu.ViewModels
 
                 for (var i = 0; i < this.frameData.GetLength(0); i++)
                 {
-                    if (frameData.ContainsKey(index))
+                    if (frameDictionary.ContainsKey(index))
                     {
-                        frameData[index] += this.frameData[i, j];
+                        frameDictionary[index] += this.frameData[i, j];
                     }
                     else
                     {
-                        frameData.Add(index, this.frameData[i, j]);
+                        frameDictionary.Add(index, this.frameData[i, j]);
                     }
 
                     if (this.mzFrameData.ContainsKey(mzIndex))
@@ -315,7 +315,7 @@ namespace Atreyu.ViewModels
                 }
                 else
                 {
-                    foreach (var d in frameData)
+                    foreach (var d in frameDictionary)
                     {
                         series.Points.Add(new DataPoint(d.Value, d.Key));
                     }
@@ -328,17 +328,17 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// TODO The update reference.
         /// </summary>
-        /// <param name="uimfData">
+        /// <param name="uimfDataNew">
         /// TODO The uimf data.
         /// </param>
-        public void UpdateReference(UimfData uimfData)
+        public void UpdateReference(UimfData uimfDataNew)
         {
-            if (uimfData == null)
+            if (uimfDataNew == null)
             {
                 return;
             }
 
-            this.uimfData = uimfData;
+            this.uimfData = uimfDataNew;
             this.CreatePlotModel();
         }
 

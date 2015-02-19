@@ -220,8 +220,8 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// TODO The update reference.
         /// </summary>
-        /// <param name="uimfData">
-        /// TODO The uimf data.
+        /// <param name="uimfDataNew">
+        /// TODO The new <see cref="UimfData"/> that is coming in.
         /// </param>
         public void UpdateReference(UimfData uimfDataNew)
         {

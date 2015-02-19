@@ -165,11 +165,6 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// Gets the open file command.
-        /// </summary>
-        public ICommand OpenFileCommand { get; private set; }
-
-        /// <summary>
         /// Gets or sets the range.
         /// </summary>
         public FrameRange Range
