@@ -119,7 +119,7 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.UimfData.EndScan).Subscribe(this.TotalIonChromatogramViewModel.ChangeEndScan);
 
             // These make the axis on the mz plot update properly
-            this.WhenAnyValue(vm => vm.UimfData.CurrentMinBin).Subscribe(this.MzSpectraViewModel.changeStartBin);
+            this.WhenAnyValue(vm => vm.UimfData.CurrentMinBin).Subscribe(this.MzSpectraViewModel.ChangeStartBin);
 
             // This makes the axis of the mz plot be in mz mode properly
             this.WhenAnyValue(vm => vm.FrameManipulationViewModel.MzModeEnabled)

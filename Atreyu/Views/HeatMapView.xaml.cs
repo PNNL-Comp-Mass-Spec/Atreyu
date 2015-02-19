@@ -6,13 +6,12 @@
 //   Interaction logic for HeatMapView.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace Falkor.Views.Atreyu
+namespace Atreyu.Views
 {
     using System;
     using System.ComponentModel.Composition;
     using System.Reactive.Linq;
     using System.Windows;
-    using System.Windows.Controls;
 
     using global::Atreyu.ViewModels;
 
@@ -22,7 +21,7 @@ namespace Falkor.Views.Atreyu
     /// Interaction logic for HeatMapView.xaml
     /// </summary>
     [Export]
-    public partial class HeatMapView : UserControl, IViewFor<HeatMapViewModel>
+    public partial class HeatMapView : IViewFor<HeatMapViewModel>
     {
         #region Constructors and Destructors
 

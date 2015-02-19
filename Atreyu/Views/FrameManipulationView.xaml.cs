@@ -6,7 +6,7 @@
 //   Interaction logic for FrameManipulationView.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace Falkor.Views.Atreyu
+namespace Atreyu.Views
 {
     using System.ComponentModel.Composition;
     using System.Windows;
@@ -20,7 +20,7 @@ namespace Falkor.Views.Atreyu
     /// Interaction logic for FrameManipulationView
     /// </summary>
     [Export]
-    public partial class FrameManipulationView : UserControl, IView
+    public partial class FrameManipulationView : IView
     {
         #region Fields
 
@@ -60,7 +60,7 @@ namespace Falkor.Views.Atreyu
         /// <param name="e">
         /// TODO The e.
         /// </param>
-        private void EndFrameTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void EndFrameTextBoxTextChanged(object sender, TextChangedEventArgs e)
         {
             var box = sender as TextBox;
 
@@ -84,7 +84,7 @@ namespace Falkor.Views.Atreyu
         /// <param name="e">
         /// TODO The e.
         /// </param>
-        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void SliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (e.NewValue > 0)
             {
@@ -101,7 +101,7 @@ namespace Falkor.Views.Atreyu
         /// <param name="e">
         /// TODO The e.
         /// </param>
-        private void StartFrameTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void StartFrameTextBoxTextChanged(object sender, TextChangedEventArgs e)
         {
             var box = sender as TextBox;
 

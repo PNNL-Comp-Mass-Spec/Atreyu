@@ -38,22 +38,22 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// TODO The _frame data.
         /// </summary>
-        private double[,] _frameData;
+        private double[,] frameData;
 
         /// <summary>
         /// TODO The _mz plot model.
         /// </summary>
-        private PlotModel _mzPlotModel;
+        private PlotModel mzPlotModel;
 
         /// <summary>
         /// TODO The _start mz bin.
         /// </summary>
-        private int _startMzBin;
+        private int startMzBin;
 
         /// <summary>
         /// TODO The _uimf data.
         /// </summary>
-        private UimfData _uimfData;
+        private UimfData uimfData;
 
         /// <summary>
         /// TODO The intercept.
@@ -85,7 +85,7 @@ namespace Atreyu.ViewModels
         [ImportingConstructor]
         public MzSpectraViewModel()
         {
-            this.WhenAnyValue(vm => vm.ShowMz).Subscribe(b => this.UpdateFrameData(this._frameData));
+            this.WhenAnyValue(vm => vm.ShowMz).Subscribe(b => this.UpdateFrameData(this.frameData));
         }
 
         #endregion
@@ -120,12 +120,12 @@ namespace Atreyu.ViewModels
         {
             get
             {
-                return this._mzPlotModel;
+                return this.mzPlotModel;
             }
 
             set
             {
-                this.RaiseAndSetIfChanged(ref this._mzPlotModel, value);
+                this.RaiseAndSetIfChanged(ref this.mzPlotModel, value);
             }
         }
 
@@ -250,7 +250,7 @@ namespace Atreyu.ViewModels
         /// </param>
         public void UpdateFrameData(double[,] framedata)
         {
-            if (this._uimfData == null)
+            if (this.uimfData == null)
             {
                 return;
             }
@@ -265,33 +265,33 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            this._frameData = framedata;
+            this.frameData = framedata;
             var frameData = new Dictionary<double, double>();
             this.mzFrameData = new Dictionary<double, double>();
 
-            for (var j = 0; j < this._frameData.GetLength(1); j++)
+            for (var j = 0; j < this.frameData.GetLength(1); j++)
             {
-                double index = j + this._startMzBin;
+                double index = j + this.startMzBin;
                 var mzIndex = this.BinToMzMap[j];
 
-                for (var i = 0; i < this._frameData.GetLength(0); i++)
+                for (var i = 0; i < this.frameData.GetLength(0); i++)
                 {
                     if (frameData.ContainsKey(index))
                     {
-                        frameData[index] += this._frameData[i, j];
+                        frameData[index] += this.frameData[i, j];
                     }
                     else
                     {
-                        frameData.Add(index, this._frameData[i, j]);
+                        frameData.Add(index, this.frameData[i, j]);
                     }
 
                     if (this.mzFrameData.ContainsKey(mzIndex))
                     {
-                        this.mzFrameData[mzIndex] += this._frameData[i, j];
+                        this.mzFrameData[mzIndex] += this.frameData[i, j];
                     }
                     else
                     {
-                        this.mzFrameData.Add(mzIndex, this._frameData[i, j]);
+                        this.mzFrameData.Add(mzIndex, this.frameData[i, j]);
                     }
                 }
             }
@@ -338,7 +338,7 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            this._uimfData = uimfData;
+            this.uimfData = uimfData;
             this.CreatePlotModel();
         }
 
@@ -348,9 +348,9 @@ namespace Atreyu.ViewModels
         /// <param name="bin">
         /// TODO The bin.
         /// </param>
-        public void changeStartBin(int bin)
+        public void ChangeStartBin(int bin)
         {
-            this._startMzBin = bin;
+            this.startMzBin = bin;
         }
 
         #endregion

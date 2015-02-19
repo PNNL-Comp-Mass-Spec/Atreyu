@@ -1,9 +1,8 @@
-﻿<UserControl x:Class="Falkor.Views.Atreyu.FrameManipulationView"
+﻿<UserControl x:Class="Atreyu.Views.FrameManipulationView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:oxy="http://oxyplot.codeplex.com"
              mc:Ignorable="d" 
              d:DesignHeight="127.6" d:DesignWidth="680.8">
 	<Grid>
@@ -13,7 +12,7 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
-        <Slider Grid.Row="0" Maximum="{Binding NumFrames}" Minimum="{Binding MinNumFrame}" VerticalAlignment="Top" TickPlacement="Both" TickFrequency="5" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" AutoToolTipPlacement="TopLeft"/>
+        <Slider Grid.Row="0" Maximum="{Binding NumFrames}" Minimum="{Binding MinNumFrame}" VerticalAlignment="Top" TickPlacement="Both" TickFrequency="5" SmallChange="1" LargeChange="10" ValueChanged="SliderValueChanged" AutoToolTipPlacement="TopLeft"/>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -32,8 +31,8 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <TextBox Grid.Column="0" x:Name="StartFrameTextBox" TextWrapping="Wrap" Text=""  TextChanged="StartFrameTextBox_TextChanged"/>
-            <TextBox Grid.Column="1"  x:Name="EndFrameTextBox"  TextWrapping="Wrap" TextChanged="EndFrameTextBox_TextChanged"/>
+            <TextBox Grid.Column="0" x:Name="StartFrameTextBox" TextWrapping="Wrap" Text=""  TextChanged="StartFrameTextBoxTextChanged"/>
+            <TextBox Grid.Column="1"  x:Name="EndFrameTextBox"  TextWrapping="Wrap" TextChanged="EndFrameTextBoxTextChanged"/>
             <Button Grid.Column="2"  x:Name="SumFramesButton" Content="Sum Frames" Command="{Binding SumFramesCommand}" HorizontalAlignment="Center" VerticalAlignment="Center"  />
             <TextBlock Grid.Column="3" TextWrapping="Wrap" Text="{Binding CurrentFrame}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <CheckBox Grid.Column="4"  Name="MzMode" IsChecked="{Binding MzModeEnabled}" Content="M/Z Mode" HorizontalAlignment="Center" VerticalAlignment="Center" />

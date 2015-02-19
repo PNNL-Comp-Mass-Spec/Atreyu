@@ -223,9 +223,9 @@ namespace Atreyu.ViewModels
         /// <param name="uimfData">
         /// TODO The uimf data.
         /// </param>
-        public void UpdateReference(UimfData uimfData)
+        public void UpdateReference(UimfData uimfDataNew)
         {
-            this.uimfData = uimfData;
+            this.uimfData = uimfDataNew;
             if (this.TicPlotModel != null)
             {
                 return;

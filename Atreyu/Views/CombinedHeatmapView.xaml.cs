@@ -8,6 +8,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Atreyu.Views
 {
+    using System;
     using System.IO;
     using System.Threading.Tasks;
     using System.Windows;
@@ -15,14 +16,12 @@ namespace Atreyu.Views
 
     using Atreyu.ViewModels;
 
-    using Falkor.Views.Atreyu;
-
     using ReactiveUI;
 
     /// <summary>
     /// Interaction logic for CombinedHeatmapView
     ///  </summary>
-    public partial class CombinedHeatmapView : UserControl, IViewFor<CombinedHeatmapViewModel>
+    public partial class CombinedHeatmapView : IViewFor<CombinedHeatmapViewModel>
     {
         #region Fields
 
@@ -61,7 +60,7 @@ namespace Atreyu.Views
         public CombinedHeatmapView()
         {
             this.InitializeComponent();
-            this.DataContextChanged += this.CombinedHeatmapView_DataContextChanged;
+            this.DataContextChanged += this.CombinedHeatmapViewDataContextChanged;
         }
 
         #endregion
@@ -106,9 +105,14 @@ namespace Atreyu.Views
         /// <param name="e">
         /// TODO The e.
         /// </param>
-        private void CombinedHeatmapView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void CombinedHeatmapViewDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             this.ViewModel = e.NewValue as CombinedHeatmapViewModel;
+
+            if (this.ViewModel == null)
+            {
+                throw new ArgumentException("arguement e is only allowed to be of type CombinedHeatmapViewModel", "e");
+            }
 
             this.heatMapView = new HeatMapView(this.ViewModel.HeatMapViewModel);
             Grid.SetColumn(this.heatMapView, 1);
@@ -172,7 +176,7 @@ namespace Atreyu.Views
         {
             var isCorrect = true;
             string[] filenames = { };
-            if (e.Data.GetDataPresent(DataFormats.FileDrop, true) == true)
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
             {
                 filenames = (string[])e.Data.GetData(DataFormats.FileDrop, true);
                 foreach (string filename in filenames)

@@ -8,7 +8,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Atreyu.ViewModels
 {
-    using System;
     using System.ComponentModel.Composition;
     using System.Drawing;
     using System.IO;
@@ -36,7 +35,7 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// TODO The _heat map plot model.
         /// </summary>
-        private PlotModel _heatMapPlotModel;
+        private PlotModel heatMapPlotModel;
 
         /// <summary>
         /// TODO The current file.
@@ -104,11 +103,6 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="HeatMapViewModel"/> class.
         /// </summary>
-        /// <param name="eventAggregator">
-        /// TODO The event aggregator.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// </exception>
         [ImportingConstructor]
         public HeatMapViewModel()
         {
@@ -231,12 +225,12 @@ namespace Atreyu.ViewModels
         {
             get
             {
-                return this._heatMapPlotModel;
+                return this.heatMapPlotModel;
             }
 
             set
             {
-                this.RaiseAndSetIfChanged(ref this._heatMapPlotModel, value);
+                this.RaiseAndSetIfChanged(ref this.heatMapPlotModel, value);
             }
         }
 
@@ -479,11 +473,11 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            this.heatMapData = uimfData;
+            this.HeatMapData = uimfData;
             this.currentMinBin = 1;
-            this.currentMaxBin = this.heatMapData.MaxBins;
+            this.currentMaxBin = this.HeatMapData.MaxBins;
             this.currentMinScan = 0;
-            this.currentMaxScan = this.heatMapData.Scans;
+            this.currentMaxScan = this.HeatMapData.Scans;
 
             this.SetUpPlot();
         }
