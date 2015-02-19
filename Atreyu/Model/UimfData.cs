@@ -25,7 +25,7 @@ namespace Atreyu.Models
         /// <summary>
         /// TODO The _data reader.
         /// </summary>
-        private DataReader _dataReader;
+        private DataReader dataReader;
 
         /// <summary>
         /// TODO The bin to mz map.
@@ -48,9 +48,9 @@ namespace Atreyu.Models
         private int endScan;
 
         /// <summary>
-        /// TODO The endframe number.
+        /// TODO The end frame number.
         /// </summary>
-        private int endframeNumber;
+        private int endFrameNumber;
 
         ///// <summary>
         ///// TODO The _start bin.
@@ -108,14 +108,14 @@ namespace Atreyu.Models
         private int scans;
 
         /// <summary>
-        /// TODO The startframe number.
+        /// TODO The start frame number.
         /// </summary>
-        private int startframeNumber;
+        private int startFrameNumber;
 
         /// <summary>
-        /// TODO The startscan.
+        /// TODO The start scan.
         /// </summary>
-        private int startscan;
+        private int startScan;
 
         /// <summary>
         /// TODO The total bins.
@@ -143,12 +143,12 @@ namespace Atreyu.Models
         /// </param>
         public UimfData(string uimfFile)
         {
-            this._dataReader = new DataReader(uimfFile);
-            var global = this._dataReader.GetGlobalParams();
-            this.Frames = this._dataReader.GetGlobalParams().NumFrames;
+            this.dataReader = new DataReader(uimfFile);
+            var global = this.dataReader.GetGlobalParams();
+            this.Frames = this.dataReader.GetGlobalParams().NumFrames;
             this.MaxBins = global.Bins;
             this.TotalBins = this.MaxBins;
-            this.Scans = this._dataReader.GetFrameParams(1).Scans;
+            this.Scans = this.dataReader.GetFrameParams(1).Scans;
         }
 
         #endregion
@@ -210,17 +210,17 @@ namespace Atreyu.Models
         {
             get
             {
-                return this.endframeNumber;
+                return this.endFrameNumber;
             }
 
             private set
             {
-                this.RaiseAndSetIfChanged(ref this.endframeNumber, value);
+                this.RaiseAndSetIfChanged(ref this.endFrameNumber, value);
             }
         }
 
         /// <summary>
-        /// Gets the end scan.
+        /// Gets or sets the end scan.
         /// </summary>
         public int EndScan
         {
@@ -348,7 +348,7 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// Gets or sets the gate.
+        /// Gets the gate.
         /// </summary>
         public double LowGate
         {
@@ -402,28 +402,28 @@ namespace Atreyu.Models
         {
             get
             {
-                return this.startframeNumber;
+                return this.startFrameNumber;
             }
 
             private set
             {
-                this.RaiseAndSetIfChanged(ref this.startframeNumber, value);
+                this.RaiseAndSetIfChanged(ref this.startFrameNumber, value);
             }
         }
 
         /// <summary>
-        /// Gets the start scan.
+        /// Gets or sets the start scan.
         /// </summary>
         public int StartScan
         {
             get
             {
-                return this.startscan;
+                return this.startScan;
             }
 
             set
             {
-                this.RaiseAndSetIfChanged(ref this.startscan, value);
+                this.RaiseAndSetIfChanged(ref this.startScan, value);
             }
         }
 
@@ -493,7 +493,7 @@ namespace Atreyu.Models
         {
             if (this.CurrentMaxBin < 1) return new double[0,0];
             if (this.endScan < 1) return new double[0, 0];
-            var frameParams = this._dataReader.GetFrameParams(this.startframeNumber);
+            var frameParams = this.dataReader.GetFrameParams(this.startFrameNumber);
             if (frameParams == null)
             {
                 // Frame number is out of range
@@ -527,8 +527,8 @@ namespace Atreyu.Models
                 await Task.Run(
                     () =>
                         {
-                            var temp = this._dataReader.AccumulateFrameData(
-                                this.startframeNumber,
+                            var temp = this.dataReader.AccumulateFrameData(
+                                this.startFrameNumber,
                                 this.EndFrameNumber,
                                 false,
                                 this.StartScan,
@@ -542,11 +542,11 @@ namespace Atreyu.Models
 
                             var tof = new double[arrayLength];
                             var mz = new double[arrayLength];
-                            var calibrator = this._dataReader.GetMzCalibrator(frameParams);
+                            var calibrator = this.dataReader.GetMzCalibrator(frameParams);
 
                             for (var i = 0; i < arrayLength; i++)
                             {
-                                tof[i] = this._dataReader.GetPixelMZ(i);
+                                tof[i] = this.dataReader.GetPixelMZ(i);
                                 mz[i] = calibrator.TOFtoMZ(tof[i] * 10);
                             }
 
@@ -574,10 +574,10 @@ namespace Atreyu.Models
         /// <param name="endBin">
         /// TODO The end bin.
         /// </param>
-        /// <param name="startFrameNumber">
+        /// <param name="startFrame">
         /// TODO The start frame number.
         /// </param>
-        /// <param name="endFrameNumber">
+        /// <param name="endFrame">
         /// TODO The end frame number.
         /// </param>
         /// <param name="height">
@@ -600,8 +600,8 @@ namespace Atreyu.Models
         public async Task<double[,]> ReadData(
             int startBin, 
             int endBin, 
-            int startFrameNumber, 
-            int endFrameNumber, 
+            int startFrame, 
+            int endFrame, 
             int height, 
             int width, 
             int startScanValue = 0, 
@@ -613,8 +613,8 @@ namespace Atreyu.Models
             this.CurrentMinBin = startBin < 0 ? 0 : startBin;
             this.CurrentMaxBin = endBin > this.MaxBins ? this.MaxBins : endBin;
 
-            this.StartFrameNumber = startFrameNumber;
-            this.EndFrameNumber = endFrameNumber;
+            this.StartFrameNumber = startFrame;
+            this.EndFrameNumber = endFrame;
             this.mostRecentHeight = height;
             this.mostRecentWidth = width;
             return await this.ReadData(returnGatedData);
@@ -676,10 +676,10 @@ namespace Atreyu.Models
         {
             if (disposing)
             {
-                if (this._dataReader != null)
+                if (this.dataReader != null)
                 {
-                    this._dataReader.Dispose();
-                    this._dataReader = null;
+                    this.dataReader.Dispose();
+                    this.dataReader = null;
                 }
             }
         }
