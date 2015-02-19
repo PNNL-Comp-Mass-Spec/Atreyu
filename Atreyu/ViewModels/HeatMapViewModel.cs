@@ -401,7 +401,7 @@ namespace Atreyu.ViewModels
             var heatMapSeries1 = new HeatMapSeries
             {
                 X0 = 0,
-                X1 = 359,
+                X1 = this.HeatMapData.Scans,
                 Y0 = 0,
                 Y1 = this.HeatMapData.MaxBins,
                 Interpolate = false
