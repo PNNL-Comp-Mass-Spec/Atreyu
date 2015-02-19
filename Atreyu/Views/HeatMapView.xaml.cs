@@ -90,14 +90,14 @@ namespace Falkor.Views.Atreyu
         /// <param name="e">
         /// TODO The e.
         /// </param>
-        protected override async void OnDrop(DragEventArgs e)
+        protected override void OnDrop(DragEventArgs e)
         {
             base.OnDrop(e);
 
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 var files = e.Data.GetData(DataFormats.FileDrop) as string[];
-                await this.HandleFileOpen(files);
+                this.HandleFileOpen(files);
             }
 
             e.Handled = true;
@@ -109,9 +109,9 @@ namespace Falkor.Views.Atreyu
         /// <param name="files">
         /// TODO The files.
         /// </param>
-        private async Task HandleFileOpen(string[] files)
+        private void HandleFileOpen(string[] files)
         {
-            await this.ViewModel.InitializeUimfData(files[0]);
+            
         }
 
         #endregion
