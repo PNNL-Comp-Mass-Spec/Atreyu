@@ -38,27 +38,27 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// TODO The _end scan.
         /// </summary>
-        private int _endScan;
+        private int endScan;
 
         /// <summary>
         /// TODO The _frame data.
         /// </summary>
-        private double[,] _frameData;
+        private double[,] frameData;
 
         /// <summary>
         /// TODO The _start scan.
         /// </summary>
-        private int _startScan;
+        private int startScan;
 
         /// <summary>
         /// TODO The _tic plot model.
         /// </summary>
-        private PlotModel _ticPlotModel;
+        private PlotModel ticPlotModel;
 
         /// <summary>
         /// TODO The frame data.
         /// </summary>
-        private Dictionary<int, double> frameData;
+        private Dictionary<int, double> frameDictionary;
 
         /// <summary>
         /// TODO The _uimf data.
@@ -72,11 +72,6 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="TotalIonChromatogramViewModel"/> class.
         /// </summary>
-        /// <param name="eventAggregator">
-        /// TODO The event aggregator.
-        /// </param>
-        /// <exception cref="NullReferenceException">
-        /// </exception>
         [ImportingConstructor]
         public TotalIonChromatogramViewModel()
         {
@@ -93,12 +88,12 @@ namespace Atreyu.ViewModels
         {
             get
             {
-                return this._ticPlotModel;
+                return this.ticPlotModel;
             }
 
             set
             {
-                this.RaiseAndSetIfChanged(ref this._ticPlotModel, value);
+                this.RaiseAndSetIfChanged(ref this.ticPlotModel, value);
             }
         }
 
@@ -114,7 +109,7 @@ namespace Atreyu.ViewModels
         /// </param>
         public void ChangeEndScan(int value)
         {
-            this._endScan = value;
+            this.endScan = value;
         }
 
         /// <summary>
@@ -125,7 +120,7 @@ namespace Atreyu.ViewModels
         /// </param>
         public void ChangeStartScan(int value)
         {
-            this._startScan = value;
+            this.startScan = value;
         }
 
         /// <summary>
@@ -136,7 +131,7 @@ namespace Atreyu.ViewModels
         /// </returns>
         public IDictionary<int, double> GetTicData()
         {
-            return this.frameData;
+            return this.frameDictionary;
         }
 
         /// <summary>
@@ -172,28 +167,28 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            this._frameData = data;
+            this.frameData = data;
 
-            if (this._endScan == 0)
+            if (this.endScan == 0)
             {
-                this._startScan = 0;
-                this._endScan = 359;
+                this.startScan = 0;
+                this.endScan = 359;
             }
 
-            this.frameData = new Dictionary<int, double>();
+            this.frameDictionary = new Dictionary<int, double>();
 
-            for (var i = 0; i < this._frameData.GetLength(0); i++)
+            for (var i = 0; i < this.frameData.GetLength(0); i++)
             {
-                var index = i + this._startScan;
-                for (var j = 0; j < this._frameData.GetLength(1); j++)
+                var index = i + this.startScan;
+                for (var j = 0; j < this.frameData.GetLength(1); j++)
                 {
-                    if (this.frameData.ContainsKey(index))
+                    if (this.frameDictionary.ContainsKey(index))
                     {
-                        this.frameData[index] += this._frameData[i, j];
+                        this.frameDictionary[index] += this.frameData[i, j];
                     }
                     else
                     {
-                        this.frameData.Add(index, this._frameData[i, j]);
+                        this.frameDictionary.Add(index, this.frameData[i, j]);
                     }
                 }
             }
@@ -214,7 +209,7 @@ namespace Atreyu.ViewModels
             series.BrokenLineStyle = LineStyle.Dot;
             series.BrokenLineThickness = 1;
             series.Points.Clear();
-            foreach (var d in this.frameData)
+            foreach (var d in this.frameDictionary)
             {
                 series.Points.Add(new DataPoint(d.Key, d.Value));
                 series.Points.Add(new DataPoint(double.NaN, double.NaN));
