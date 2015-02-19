@@ -137,8 +137,6 @@ namespace Atreyu.Views
             Grid.SetColumn(this.lowSliderView, 3);
             this.MainGrid.Children.Add(this.lowSliderView);
 
-            this.highSliderView = new GateSlider(this.ViewModel.HighValueGateSliderViewModel);
-
             // Grid.SetRow(this.HighSliderView, 1);
             // Grid.SetColumn(this.HighSliderView, 4);
             // this.MainGrid.Children.Add(this.HighSliderView);

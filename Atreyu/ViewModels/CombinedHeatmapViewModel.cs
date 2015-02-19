@@ -77,13 +77,10 @@ namespace Atreyu.ViewModels
             this.HeatMapViewModel = new HeatMapViewModel();
             this.MzSpectraViewModel = new MzSpectraViewModel();
             this.LowValueGateSliderViewModel = new GateSliderViewModel();
-            this.HighValueGateSliderViewModel = new GateSliderViewModel();
             this.TotalIonChromatogramViewModel = new TotalIonChromatogramViewModel();
 
             this.LowValueGateSliderViewModel.ControlLabel = "Low Gate";
             this.LowValueGateSliderViewModel.UpdateGate(0);
-            this.HighValueGateSliderViewModel.ControlLabel = "High Cutoff";
-            this.HighValueGateSliderViewModel.UpdateGate(this.HighValueGateSliderViewModel.MaximumValue);
 
             this.ZoomOutFull = this.FrameManipulationViewModel.ZoomOutCommand;
             this.ZoomOutFull.Select(async _ => await this.ZoomOut()).Subscribe();
@@ -291,11 +288,6 @@ namespace Atreyu.ViewModels
         /// Gets the heat map view model.
         /// </summary>
         public HeatMapViewModel HeatMapViewModel { get; private set; }
-
-        /// <summary>
-        /// Gets the high value gate slider view model.
-        /// </summary>
-        public GateSliderViewModel HighValueGateSliderViewModel { get; private set; }
 
         /// <summary>
         /// Gets the low value gate slider view model.
