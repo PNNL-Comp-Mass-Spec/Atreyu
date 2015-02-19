@@ -381,14 +381,14 @@ namespace Atreyu.ViewModels
             var tic = this.TotalIonChromatogramViewModel.GetTicImage();
             var mz = this.MzSpectraViewModel.GetMzImage();
             var heatmap = this.HeatMapViewModel.GetHeatmapImage();
-            var alignment = 25;
+            const int Alignment = 25;
 
-            var bitmap = new Bitmap(mz.Width + heatmap.Width, heatmap.Height + tic.Height + alignment);
+            var bitmap = new Bitmap(mz.Width + heatmap.Width, heatmap.Height + tic.Height + Alignment);
             using (var g = Graphics.FromImage(bitmap))
             {
                 g.DrawImage(mz, 0, 0);
-                g.DrawImage(heatmap, mz.Width, alignment);
-                g.DrawImage(tic, mz.Width, heatmap.Height + alignment);
+                g.DrawImage(heatmap, mz.Width, Alignment);
+                g.DrawImage(tic, mz.Width, heatmap.Height + Alignment);
             }
 
             return bitmap;
