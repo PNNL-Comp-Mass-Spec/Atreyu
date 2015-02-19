@@ -27,14 +27,9 @@ namespace Atreyu.Views
         #region Fields
 
         /// <summary>
-        /// TODO The high slider view.
-        /// </summary>
-        private GateSlider highSliderView;
-
-        /// <summary>
         /// TODO The low slider view.
         /// </summary>
-        private GateSlider LowSliderView;
+        private GateSlider lowSliderView;
 
         /// <summary>
         /// TODO The frame manipulation view.
@@ -137,10 +132,10 @@ namespace Atreyu.Views
             Grid.SetColumnSpan(this.totalIonChromatogramView, 2);
             this.MainGrid.Children.Add(this.totalIonChromatogramView);
 
-            this.LowSliderView = new GateSlider(this.ViewModel.LowValueGateSliderViewModel);
-            Grid.SetRow(this.LowSliderView, 1);
-            Grid.SetColumn(this.LowSliderView, 3);
-            this.MainGrid.Children.Add(this.LowSliderView);
+            this.lowSliderView = new GateSlider(this.ViewModel.LowValueGateSliderViewModel);
+            Grid.SetRow(this.lowSliderView, 1);
+            Grid.SetColumn(this.lowSliderView, 3);
+            this.MainGrid.Children.Add(this.lowSliderView);
 
             this.highSliderView = new GateSlider(this.ViewModel.HighValueGateSliderViewModel);
 

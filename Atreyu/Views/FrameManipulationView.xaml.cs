@@ -17,7 +17,7 @@ namespace Falkor.Views.Atreyu
     using Microsoft.Practices.Prism.Mvvm;
 
     /// <summary>
-    /// Interaction logic for FrameManipulationView.xaml
+    /// Interaction logic for FrameManipulationView
     /// </summary>
     [Export]
     public partial class FrameManipulationView : UserControl, IView
@@ -27,7 +27,7 @@ namespace Falkor.Views.Atreyu
         /// <summary>
         /// TODO The _view model.
         /// </summary>
-        private readonly FrameManipulationViewModel _viewModel;
+        private readonly FrameManipulationViewModel viewModel;
 
         #endregion
 
@@ -42,7 +42,7 @@ namespace Falkor.Views.Atreyu
         [ImportingConstructor]
         public FrameManipulationView(FrameManipulationViewModel viewModel)
         {
-            this._viewModel = viewModel;
+            this.viewModel = viewModel;
             this.DataContext = viewModel;
             this.InitializeComponent();
         }
@@ -70,7 +70,7 @@ namespace Falkor.Views.Atreyu
 
                 if (int.TryParse(box.Text, out value))
                 {
-                    this._viewModel.EndFrame = value;
+                    this.viewModel.EndFrame = value;
                 }
             }
         }
@@ -88,7 +88,7 @@ namespace Falkor.Views.Atreyu
         {
             if (e.NewValue > 0)
             {
-                this._viewModel.UpdateFrameNumber((int)e.NewValue);
+                this.viewModel.UpdateFrameNumber((int)e.NewValue);
             }
         }
 
@@ -111,7 +111,7 @@ namespace Falkor.Views.Atreyu
 
                 if (int.TryParse(box.Text, out value))
                 {
-                    this._viewModel.StartFrame = value;
+                    this.viewModel.StartFrame = value;
                 }
             }
         }
