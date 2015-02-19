@@ -23,11 +23,6 @@ namespace Atreyu.Models
         #region Fields
 
         /// <summary>
-        /// TODO The _data reader.
-        /// </summary>
-        private DataReader dataReader;
-
-        /// <summary>
         /// TODO The bin to mz map.
         /// </summary>
         private double[] binToMzMap;
@@ -43,14 +38,19 @@ namespace Atreyu.Models
         private int currentMinBin;
 
         /// <summary>
-        /// TODO The end scan.
+        /// TODO The _data reader.
         /// </summary>
-        private int endScan;
+        private DataReader dataReader;
 
         /// <summary>
         /// TODO The end frame number.
         /// </summary>
         private int endFrameNumber;
+
+        /// <summary>
+        /// TODO The end scan.
+        /// </summary>
+        private int endScan;
 
         ///// <summary>
         ///// TODO The _start bin.
@@ -101,6 +101,16 @@ namespace Atreyu.Models
         /// TODO The max bins.
         /// </summary>
         private int maxBins;
+
+        /// <summary>
+        /// TODO The most recent height.
+        /// </summary>
+        private int mostRecentHeight;
+
+        /// <summary>
+        /// TODO The most recent width.
+        /// </summary>
+        private int mostRecentWidth;
 
         /// <summary>
         /// TODO The scans.
@@ -488,11 +498,27 @@ namespace Atreyu.Models
             GC.SuppressFinalize(this);
         }
 
-
+        /// <summary>
+        /// TODO The read data.
+        /// </summary>
+        /// <param name="returnGatedData">
+        /// TODO The return gated data.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
         public async Task<double[,]> ReadData(bool returnGatedData = false)
         {
-            if (this.CurrentMaxBin < 1) return new double[0,0];
-            if (this.endScan < 1) return new double[0, 0];
+            if (this.CurrentMaxBin < 1)
+            {
+                return new double[0, 0];
+            }
+
+            if (this.endScan < 1)
+            {
+                return new double[0, 0];
+            }
+
             var frameParams = this.dataReader.GetFrameParams(this.startFrameNumber);
             if (frameParams == null)
             {
@@ -528,17 +554,18 @@ namespace Atreyu.Models
                     () =>
                         {
                             var temp = this.dataReader.AccumulateFrameData(
-                                this.startFrameNumber,
-                                this.EndFrameNumber,
-                                false,
-                                this.StartScan,
-                                this.EndScan,
-                                this.CurrentMinBin,
-                                this.CurrentMaxBin,
-                                (int)this.ValuesPerPixelX,
+                                this.startFrameNumber, 
+                                this.EndFrameNumber, 
+                                false, 
+                                this.StartScan, 
+                                this.EndScan, 
+                                this.CurrentMinBin, 
+                                this.CurrentMaxBin, 
+                                (int)this.ValuesPerPixelX, 
                                 (int)this.ValuesPerPixelY);
 
-                            var arrayLength = (int)Math.Round((this.CurrentMaxBin - this.currentMinBin + 1) / this.ValuesPerPixelY);
+                            var arrayLength =
+                                (int)Math.Round((this.CurrentMaxBin - this.currentMinBin + 1) / this.ValuesPerPixelY);
 
                             var tof = new double[arrayLength];
                             var mz = new double[arrayLength];
@@ -560,10 +587,6 @@ namespace Atreyu.Models
 
             return returnGatedData ? this.GatedFrameData : this.FrameData;
         }
-
-        private int mostRecentHeight;
-        private int mostRecentWidth;
-
 
         /// <summary>
         /// TODO The read data.
@@ -640,7 +663,10 @@ namespace Atreyu.Models
         /// </param>
         public void UpdateLowGate(double newValue)
         {
-            if (this.frameData == null) { return; }
+            if (this.frameData == null)
+            {
+                return;
+            }
 
             this.LowGate = newValue;
             this.GateData();

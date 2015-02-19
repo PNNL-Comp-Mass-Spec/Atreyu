@@ -27,11 +27,6 @@ namespace Atreyu.Views
         #region Fields
 
         /// <summary>
-        /// TODO The low slider view.
-        /// </summary>
-        private GateSlider lowSliderView;
-
-        /// <summary>
         /// TODO The frame manipulation view.
         /// </summary>
         private FrameManipulationView frameManipulationView;
@@ -40,6 +35,11 @@ namespace Atreyu.Views
         /// TODO The heat map view.
         /// </summary>
         private HeatMapView heatMapView;
+
+        /// <summary>
+        /// TODO The low slider view.
+        /// </summary>
+        private GateSlider lowSliderView;
 
         /// <summary>
         /// TODO The mz spectra view.
@@ -150,6 +150,9 @@ namespace Atreyu.Views
         /// <param name="fileName">
         /// TODO The file name.
         /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
         private async Task LoadFile(string fileName)
         {
             await this.ViewModel.InitializeUimfData(fileName);

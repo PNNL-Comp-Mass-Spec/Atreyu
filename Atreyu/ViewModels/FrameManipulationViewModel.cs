@@ -14,7 +14,6 @@ namespace Atreyu.ViewModels
     using Atreyu.Models;
 
     using Microsoft.Practices.Prism.Commands;
-    using Microsoft.WindowsAPICodePack.Dialogs;
 
     using ReactiveUI;
 

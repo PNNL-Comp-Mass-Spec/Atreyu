@@ -43,12 +43,40 @@ namespace Atreyu.ViewModels
         /// </summary>
         private string currentFile = "Heatmap";
 
+        /// <summary>
+        /// TODO The current max bin.
+        /// </summary>
+        private int currentMaxBin;
+
+        /// <summary>
+        /// TODO The current max scan.
+        /// </summary>
+        private int currentMaxScan;
+
+        /// <summary>
+        /// TODO The current min bin.
+        /// </summary>
+        private int currentMinBin;
+
+        /// <summary>
+        /// TODO The current min scan.
+        /// </summary>
+        private int currentMinScan;
+
+        /// <summary>
+        /// TODO The data array.
+        /// </summary>
         private double[,] dataArray;
 
         /// <summary>
         /// TODO The heat map data.
         /// </summary>
         private UimfData heatMapData;
+
+        /// <summary>
+        /// TODO The height.
+        /// </summary>
+        private int height;
 
         /// <summary>
         /// TODO The high threshold.
@@ -60,23 +88,10 @@ namespace Atreyu.ViewModels
         /// </summary>
         private double lowThreshold;
 
-
-        private int height;
-
-        private int width;
-
-        private int currentMinBin;
-
-        private int currentMaxBin;
-
-        private int currentMinScan;
-
-        private int currentMaxScan;
-
         /// <summary>
-        /// Gets or sets the bin to mz map.
+        /// TODO The width.
         /// </summary>
-        public double[] BinToMzMap { get; set; }
+        private int width;
 
         #endregion
 
@@ -109,6 +124,11 @@ namespace Atreyu.ViewModels
         public bool AxisVisible { get; set; }
 
         /// <summary>
+        /// Gets or sets the bin to mz map.
+        /// </summary>
+        public double[] BinToMzMap { get; set; }
+
+        /// <summary>
         /// Gets or sets the current file.
         /// </summary>
         public string CurrentFile
@@ -124,51 +144,67 @@ namespace Atreyu.ViewModels
             }
         }
 
-        public int CurrentMinBin
-        {
-            get
-            {
-                return this.currentMinBin;
-            }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.currentMinBin, value);
-            }
-        }
-
+        /// <summary>
+        /// Gets or sets the current max bin.
+        /// </summary>
         public int CurrentMaxBin
         {
             get
             {
                 return this.currentMaxBin;
             }
+
             set
             {
                 this.RaiseAndSetIfChanged(ref this.currentMaxBin, value);
             }
         }
 
-        public int CurrentMinScan
-        {
-            get
-            {
-                return this.currentMinScan;
-            }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.currentMinScan, value);
-            }
-        }
-
+        /// <summary>
+        /// Gets or sets the current max scan.
+        /// </summary>
         public int CurrentMaxScan
         {
             get
             {
                 return this.currentMaxScan;
             }
+
             set
             {
                 this.RaiseAndSetIfChanged(ref this.currentMaxScan, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the current min bin.
+        /// </summary>
+        public int CurrentMinBin
+        {
+            get
+            {
+                return this.currentMinBin;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.currentMinBin, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the current min scan.
+        /// </summary>
+        public int CurrentMinScan
+        {
+            get
+            {
+                return this.currentMinScan;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.currentMinScan, value);
             }
         }
 
@@ -282,8 +318,7 @@ namespace Atreyu.ViewModels
         {
             var minScan = this.currentMinScan;
 
-            var exportData =
-                new double[this.dataArray.GetLength(0) + 1, this.dataArray.GetLength(1) + 1];
+            var exportData = new double[this.dataArray.GetLength(0) + 1, this.dataArray.GetLength(1) + 1];
 
             // populate the scan numbers along one axis (the vertical)
             for (var x = 1; x < exportData.GetLength(0); x++)
@@ -332,22 +367,9 @@ namespace Atreyu.ViewModels
             return image;
         }
 
-        public void UpdateReference(UimfData uimfData)
-        {
-            if (uimfData == null)
-            {
-                return;
-            }
-
-            this.heatMapData = uimfData;
-            this.currentMinBin = 1;
-            this.currentMaxBin = this.heatMapData.MaxBins;
-            this.currentMinScan = 0;
-            this.currentMaxScan = this.heatMapData.Scans;
-
-            this.SetUpPlot();
-        }
-
+        /// <summary>
+        /// TODO The set up plot.
+        /// </summary>
         public void SetUpPlot()
         {
             this.HeatMapPlotModel = new PlotModel();
@@ -399,40 +421,29 @@ namespace Atreyu.ViewModels
             this.HeatMapPlotModel.Axes.Add(verticalAxis);
 
             var heatMapSeries1 = new HeatMapSeries
-            {
-                X0 = 0,
-                X1 = this.HeatMapData.Scans,
-                Y0 = 0,
-                Y1 = this.HeatMapData.MaxBins,
-                Interpolate = false
-            };
+                                     {
+                                         X0 = 0, 
+                                         X1 = this.HeatMapData.Scans, 
+                                         Y0 = 0, 
+                                         Y1 = this.HeatMapData.MaxBins, 
+                                         Interpolate = false
+                                     };
 
             this.HeatMapPlotModel.Series.Add(heatMapSeries1);
         }
 
-        #endregion
-
-        #region Methods
-
-        protected void PublishXAxisChange(object sender, AxisChangedEventArgs e)
-        {
-            var axis = sender as LinearAxis;
-            if (axis == null) return;
-            this.CurrentMinScan = (int)axis.ActualMinimum;
-            this.CurrentMaxScan = (int)axis.ActualMaximum;
-        }
-
-        protected void PublishYAxisChange(object sender, AxisChangedEventArgs e)
-        {
-            var axis = sender as LinearAxis;
-            if (axis == null) return;
-            this.CurrentMinBin = (int)axis.ActualMinimum;
-            this.CurrentMaxBin = (int)axis.ActualMaximum;
-        }
-
+        /// <summary>
+        /// TODO The update data.
+        /// </summary>
+        /// <param name="framedata">
+        /// TODO The framedata.
+        /// </param>
         public void UpdateData(double[,] framedata)
         {
-            if (framedata == null){return;}
+            if (framedata == null)
+            {
+                return;
+            }
 
             var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
             if (series == null)
@@ -453,6 +464,74 @@ namespace Atreyu.ViewModels
             series.Y1 = this.currentMaxBin;
 
             this.HeatMapPlotModel.InvalidatePlot(true);
+        }
+
+        /// <summary>
+        /// TODO The update reference.
+        /// </summary>
+        /// <param name="uimfData">
+        /// TODO The uimf data.
+        /// </param>
+        public void UpdateReference(UimfData uimfData)
+        {
+            if (uimfData == null)
+            {
+                return;
+            }
+
+            this.heatMapData = uimfData;
+            this.currentMinBin = 1;
+            this.currentMaxBin = this.heatMapData.MaxBins;
+            this.currentMinScan = 0;
+            this.currentMaxScan = this.heatMapData.Scans;
+
+            this.SetUpPlot();
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// TODO The publish x axis change.
+        /// </summary>
+        /// <param name="sender">
+        /// TODO The sender.
+        /// </param>
+        /// <param name="e">
+        /// TODO The e.
+        /// </param>
+        protected void PublishXAxisChange(object sender, AxisChangedEventArgs e)
+        {
+            var axis = sender as LinearAxis;
+            if (axis == null)
+            {
+                return;
+            }
+
+            this.CurrentMinScan = (int)axis.ActualMinimum;
+            this.CurrentMaxScan = (int)axis.ActualMaximum;
+        }
+
+        /// <summary>
+        /// TODO The publish y axis change.
+        /// </summary>
+        /// <param name="sender">
+        /// TODO The sender.
+        /// </param>
+        /// <param name="e">
+        /// TODO The e.
+        /// </param>
+        protected void PublishYAxisChange(object sender, AxisChangedEventArgs e)
+        {
+            var axis = sender as LinearAxis;
+            if (axis == null)
+            {
+                return;
+            }
+
+            this.CurrentMinBin = (int)axis.ActualMinimum;
+            this.CurrentMaxBin = (int)axis.ActualMaximum;
         }
 
         #endregion

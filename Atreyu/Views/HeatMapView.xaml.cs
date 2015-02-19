@@ -11,7 +11,6 @@ namespace Falkor.Views.Atreyu
     using System;
     using System.ComponentModel.Composition;
     using System.Reactive.Linq;
-    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -111,7 +110,6 @@ namespace Falkor.Views.Atreyu
         /// </param>
         private void HandleFileOpen(string[] files)
         {
-            
         }
 
         #endregion

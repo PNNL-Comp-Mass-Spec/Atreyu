@@ -8,7 +8,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Atreyu.ViewModels
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Drawing;
@@ -46,6 +45,11 @@ namespace Atreyu.ViewModels
         private double[,] frameData;
 
         /// <summary>
+        /// TODO The frame data.
+        /// </summary>
+        private Dictionary<int, double> frameDictionary;
+
+        /// <summary>
         /// TODO The _start scan.
         /// </summary>
         private int startScan;
@@ -54,11 +58,6 @@ namespace Atreyu.ViewModels
         /// TODO The _tic plot model.
         /// </summary>
         private PlotModel ticPlotModel;
-
-        /// <summary>
-        /// TODO The frame data.
-        /// </summary>
-        private Dictionary<int, double> frameDictionary;
 
         /// <summary>
         /// TODO The _uimf data.

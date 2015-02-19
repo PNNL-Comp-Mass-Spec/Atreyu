@@ -6,7 +6,6 @@
 //   TODO The main window view model.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Viewer.ViewModels
 {
     using System;
