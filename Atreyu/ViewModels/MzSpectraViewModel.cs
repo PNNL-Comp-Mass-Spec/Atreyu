@@ -36,10 +36,6 @@ namespace Atreyu.ViewModels
         #region Fields
 
         /// <summary>
-        /// <summary>
-        /// TODO The _end mz bin.
-        /// </summary>
-        private int _endMzBin;
         /// TODO The _frame data.
         /// </summary>
         private double[,] _frameData;
@@ -341,17 +337,6 @@ namespace Atreyu.ViewModels
                 StrokeThickness = 1
             };
             this.MzPlotModel.Series.Add(series);
-        }
-
-        /// <summary>
-        /// TODO The change end bin.
-        /// </summary>
-        /// <param name="bin">
-        /// TODO The bin.
-        /// </param>
-        public void changeEndBin(int bin)
-        {
-            this._endMzBin = bin;
         }
 
         /// <summary>
