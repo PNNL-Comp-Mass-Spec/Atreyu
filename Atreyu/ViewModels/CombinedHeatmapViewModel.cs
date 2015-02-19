@@ -45,7 +45,7 @@ namespace Atreyu.ViewModels
         private int currentStartFrame;
 
         /// <summary>
-        ///  The data relevant to the UIMF that is loaded.
+        ///  Gets or sets the data relevant to the UIMF that is loaded.
         /// </summary>
         public UimfData UimfData
         {
@@ -198,26 +198,26 @@ namespace Atreyu.ViewModels
                     return 0;
                 });
 
-            //zipBin.Throttle(TimeSpan.FromMilliseconds(2), RxApp.MainThreadScheduler).Select(async _ => await this.uimfData.ReadData(ReturnGatedData)).Subscribe();
-            //zipScan.Throttle(TimeSpan.FromMilliseconds(2), RxApp.MainThreadScheduler).Select(async _ => await this.uimfData.ReadData(ReturnGatedData)).Subscribe();
+            ////zipBin.Throttle(TimeSpan.FromMilliseconds(2), RxApp.MainThreadScheduler).Select(async _ => await this.uimfData.ReadData(ReturnGatedData)).Subscribe();
+            ////zipScan.Throttle(TimeSpan.FromMilliseconds(2), RxApp.MainThreadScheduler).Select(async _ => await this.uimfData.ReadData(ReturnGatedData)).Subscribe();
 
             zipBin.CombineLatest(zipScan, (x, z) => x + z).Synchronize(true)
                .Select(async _ => await this.uimfData.ReadData(ReturnGatedData))
                .Subscribe();
 
-            //var pattern = minBin.And(maxBin).And(startScan).And(endScan);
-            //var plan = pattern.Then(
-            //        (int minB, int maxB, int startS, int endS) =>
-            //        {
-            //            this.uimfData.CurrentMinBin = minB;
-            //            this.uimfData.CurrentMaxBin = maxB;
-            //            this.uimfData.StartScan = startS;
-            //            this.uimfData.EndScan = endS;
-            //            return 0;
-            //        });
+            ////var pattern = minBin.And(maxBin).And(startScan).And(endScan);
+            ////var plan = pattern.Then(
+            ////        (int minB, int maxB, int startS, int endS) =>
+            ////        {
+            ////            this.uimfData.CurrentMinBin = minB;
+            ////            this.uimfData.CurrentMaxBin = maxB;
+            ////            this.uimfData.StartScan = startS;
+            ////            this.uimfData.EndScan = endS;
+            ////            return 0;
+            ////        });
 
-            //var zippedSequence = Observable.When(plan);
-            //zippedSequence.Select(async _ => await this.uimfData.ReadData(ReturnGatedData)).Subscribe();
+            ////var zippedSequence = Observable.When(plan);
+            ////zippedSequence.Select(async _ => await this.uimfData.ReadData(ReturnGatedData)).Subscribe();
 
         }
 

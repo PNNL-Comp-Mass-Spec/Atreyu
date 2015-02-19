@@ -20,8 +20,8 @@ namespace Atreyu.Views
     using ReactiveUI;
 
     /// <summary>
-    /// Interaction logic for CombinedHeatmapView.xaml
-    /// </summary>
+    /// Interaction logic for CombinedHeatmapView
+    ///  </summary>
     public partial class CombinedHeatmapView : UserControl, IViewFor<CombinedHeatmapViewModel>
     {
         #region Fields
@@ -29,7 +29,7 @@ namespace Atreyu.Views
         /// <summary>
         /// TODO The high slider view.
         /// </summary>
-        private GateSlider HighSliderView;
+        private GateSlider highSliderView;
 
         /// <summary>
         /// TODO The low slider view.
@@ -142,13 +142,13 @@ namespace Atreyu.Views
             Grid.SetColumn(this.LowSliderView, 3);
             this.MainGrid.Children.Add(this.LowSliderView);
 
-            this.HighSliderView = new GateSlider(this.ViewModel.HighValueGateSliderViewModel);
+            this.highSliderView = new GateSlider(this.ViewModel.HighValueGateSliderViewModel);
 
             // Grid.SetRow(this.HighSliderView, 1);
             // Grid.SetColumn(this.HighSliderView, 4);
             // this.MainGrid.Children.Add(this.HighSliderView);
             this.AllowDrop = true;
-            this.PreviewDrop += this.MainTabControl_PreviewDragEnter;
+            this.PreviewDrop += this.MainTabControlPreviewDragEnter;
         }
 
         /// <summary>
@@ -161,8 +161,6 @@ namespace Atreyu.Views
         {
             await this.ViewModel.InitializeUimfData(fileName);
             this.ViewModel.FrameManipulationViewModel.CurrentFrame = 1;
-
-            // this.totalIonChromatogramViewModel.UpdateReference(this.heatMapViewModel.HeatMapData);
         }
 
         /// <summary>
@@ -174,7 +172,7 @@ namespace Atreyu.Views
         /// <param name="e">
         /// TODO The e.
         /// </param>
-        private async void MainTabControl_PreviewDragEnter(object sender, DragEventArgs e)
+        private async void MainTabControlPreviewDragEnter(object sender, DragEventArgs e)
         {
             var isCorrect = true;
             string[] filenames = { };
