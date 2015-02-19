@@ -88,7 +88,7 @@ namespace Falkor.Views.Atreyu
         {
             if (e.NewValue > 0)
             {
-                this.viewModel.UpdateFrameNumber((int)e.NewValue);
+                this.viewModel.UpdateCurrentFrameNumber((int)e.NewValue);
             }
         }
 

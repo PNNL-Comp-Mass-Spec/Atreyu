@@ -66,13 +66,9 @@ namespace Atreyu.ViewModels
         [ImportingConstructor]
         public FrameManipulationViewModel()
         {
-            this.OpenFileCommand = new DelegateCommand(this.Open);
             this.SumFramesCommand = new DelegateCommand(this.SumFrames);
 
             this.ZoomOutCommand = ReactiveCommand.Create();
-
-            ////this._eventAggregator.GetEvent<NumberOfFramesChangedEvent>().Subscribe(this.NumFramesChanged);
-            ////this._eventAggregator.GetEvent<MinimumNumberOfFrames>().Subscribe(this.MinimumNumberOfFramesChanged);
         }
 
         #endregion
@@ -224,15 +220,6 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// </summary>
-        /// <param name="frameNumber">
-        /// </param>
-        public void UpdateFrameNumber(int frameNumber)
-        {
-            this.CurrentFrame = frameNumber;
-        }
-
-        /// <summary>
         /// TODO The update uimf.
         /// </summary>
         /// <param name="uimfData">
@@ -255,47 +242,12 @@ namespace Atreyu.ViewModels
         #region Methods
 
         /// <summary>
-        /// </summary>
-        /// <param name="obj">
-        /// </param>
-        private void MinimumNumberOfFramesChanged(int obj)
-        {
-            this.MinNumFrame = obj;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="numberOfFrames">
-        /// </param>
-        private void NumFramesChanged(int numberOfFrames)
-        {
-            this.NumFrames = numberOfFrames;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private void Open()
-        {
-            var openFileDialog = new CommonOpenFileDialog { DefaultExtension = ".uimf" };
-
-            if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                string fileName = openFileDialog.FileName;
-
-                ////this._eventAggregator.GetEvent<UimfFileLoadedEvent>().Publish(fileName);
-            }
-        }
-
-        /// <summary>
-        /// 
+        /// publishes the range of frames to be summed
         /// </summary>
         private void SumFrames()
         {
-            FrameRange tempRange = new FrameRange { StartFrame = this.StartFrame, EndFrame = this.EndFrame };
+            var tempRange = new FrameRange { StartFrame = this.StartFrame, EndFrame = this.EndFrame };
             this.Range = tempRange;
-
-            ////this._eventAggregator.GetEvent<SumFramesChangedEvent>().Publish(range);
         }
 
         #endregion
