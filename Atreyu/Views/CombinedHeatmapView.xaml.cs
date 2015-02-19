@@ -9,6 +9,7 @@
 namespace Atreyu.Views
 {
     using System.IO;
+    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -156,9 +157,9 @@ namespace Atreyu.Views
         /// <param name="fileName">
         /// TODO The file name.
         /// </param>
-        private void LoadFile(string fileName)
+        private async Task LoadFile(string fileName)
         {
-            this.ViewModel.InitializeUimfData(fileName);
+            await this.ViewModel.InitializeUimfData(fileName);
             this.ViewModel.FrameManipulationViewModel.CurrentFrame = 1;
 
             // this.totalIonChromatogramViewModel.UpdateReference(this.heatMapViewModel.HeatMapData);
@@ -173,7 +174,7 @@ namespace Atreyu.Views
         /// <param name="e">
         /// TODO The e.
         /// </param>
-        private void MainTabControl_PreviewDragEnter(object sender, DragEventArgs e)
+        private async void MainTabControl_PreviewDragEnter(object sender, DragEventArgs e)
         {
             var isCorrect = true;
             string[] filenames = { };
@@ -202,7 +203,7 @@ namespace Atreyu.Views
 
             if (isCorrect)
             {
-                this.LoadFile(filenames[0]);
+                await this.LoadFile(filenames[0]);
             }
 
             e.Handled = true;

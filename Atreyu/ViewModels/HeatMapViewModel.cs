@@ -374,12 +374,12 @@ namespace Atreyu.ViewModels
         /// <param name="file">
         /// TODO The file.
         /// </param>
-        public void InitializeUimfData(string file)
+        public async Task InitializeUimfData(string file)
         {
             // this.HeatMapData.ReadFile(file);
             this.HeatMapData = new UimfData(file) { CurrentMinBin = 0 };
             this.HeatMapData.CurrentMaxBin = this.HeatMapData.TotalBins;
-            this.SetUpPlot(1);
+            await this.SetUpPlot(1);
 
             ////this._eventAggregator.GetEvent<UimfFileChangedEvent>().Publish(this.HeatMapData);
             this._numFrames = this.HeatMapData.Frames;
@@ -479,7 +479,7 @@ namespace Atreyu.ViewModels
         /// <param name="frameNumber">
         /// TODO The frame number.
         /// </param>
-        public void SetUpPlot(int frameNumber)
+        public async Task SetUpPlot(int frameNumber)
         {
             this.currentStartFrame = frameNumber;
             
@@ -489,7 +489,7 @@ namespace Atreyu.ViewModels
             
             if (series == null) return;
 
-            var data = this.HeatMapData.ReadData(
+            var data = await this.HeatMapData.ReadData(
                 1, 
                 this.HeatMapData.MaxBins, 
                 this.currentStartFrame, 
@@ -510,7 +510,7 @@ namespace Atreyu.ViewModels
         /// <param name="sumFrames">
         /// TODO The sum frames.
         /// </param>
-        public async void SumFrames(FrameRange sumFrames)
+        public async Task SumFrames(FrameRange sumFrames)
         {
             if (sumFrames == null)
             {
@@ -542,10 +542,7 @@ namespace Atreyu.ViewModels
 
             if (series != null)
             {
-                await Task.Run(
-                    () =>
-                        {
-                            var data = this.HeatMapData.ReadData(
+                            var data = await this.HeatMapData.ReadData(
                                 this.HeatMapData.CurrentMinBin, 
                                 this.HeatMapData.CurrentMaxBin, 
                                 this.currentStartFrame, 
@@ -556,7 +553,7 @@ namespace Atreyu.ViewModels
                                 endScan, 
                                 true);
                             series.Data = data;
-                        });
+                        
                 series.X0 = startScan;
                 series.X1 = endScan;
                 series.Y0 = this.HeatMapData.CurrentMinBin;
@@ -575,7 +572,7 @@ namespace Atreyu.ViewModels
         /// <param name="frameNumber">
         /// TODO The frame number.
         /// </param>
-        public void UpdateFrameNumber(int frameNumber)
+        public async Task UpdateFrameNumber(int frameNumber)
         {
             this.currentStartFrame = frameNumber;
             this.currentEndFrame = frameNumber;
@@ -595,7 +592,7 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            var data = this.HeatMapData.ReadData(
+            var data = await this.HeatMapData.ReadData(
                 this.HeatMapData.CurrentMinBin, 
                 this.HeatMapData.CurrentMaxBin, 
                 this.currentStartFrame, 
@@ -688,7 +685,7 @@ namespace Atreyu.ViewModels
         /// <param name="width">
         /// TODO The Width.
         /// </param>
-        public void UpdatePlotSize(double height, double width)
+        public async Task UpdatePlotSize(double height, double width)
         {
             this.Height = (int)height;
             this.Width = (int)width;
@@ -704,7 +701,7 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            var data = this.HeatMapData.ReadData(
+            var data = await this.HeatMapData.ReadData(
                 this.HeatMapData.CurrentMinBin, 
                 this.HeatMapData.CurrentMaxBin, 
                 this.currentStartFrame, 
@@ -727,14 +724,14 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// TODO The zoom out full.
         /// </summary>
-        public void ZoomOutFull()
+        public async Task ZoomOutFull()
         {
             this.HeatMapData.UpdateScanRange(0, this.HeatMapData.EndScan);
 
             this.HeatMapData.CurrentMinBin = 0;
             this.HeatMapData.CurrentMaxBin = this.HeatMapData.MaxBins;
 
-            this.SetUpPlot(this.currentStartFrame);
+            await this.SetUpPlot(this.currentStartFrame);
         }
 
         #endregion
@@ -750,7 +747,7 @@ namespace Atreyu.ViewModels
         /// <param name="e">
         /// TODO The e.
         /// </param>
-        protected void OnXAxisChange(object sender, AxisChangedEventArgs e)
+        protected async void OnXAxisChange(object sender, AxisChangedEventArgs e)
         {
             var series = this._heatMapPlotModel.Series[0] as HeatMapSeries;
             if (e.ChangeType == AxisChangeTypes.Reset)
@@ -761,7 +758,7 @@ namespace Atreyu.ViewModels
             {
                 this.newXAxis = sender as LinearAxis;
 
-                this.HandleZoom(series);
+                await this.HandleZoom(series);
             }
 
             this._heatMapPlotModel.InvalidatePlot(true);
@@ -776,7 +773,7 @@ namespace Atreyu.ViewModels
         /// <param name="e">
         /// TODO The e.
         /// </param>
-        protected void OnYAxisChange(object sender, AxisChangedEventArgs e)
+        protected async void OnYAxisChange(object sender, AxisChangedEventArgs e)
         {
             var series = this._heatMapPlotModel.Series[0] as HeatMapSeries;
             if (e.ChangeType == AxisChangeTypes.Reset)
@@ -787,7 +784,7 @@ namespace Atreyu.ViewModels
                 var endScan = this.HeatMapData.Scans - 1;
                 if (series != null)
                 {
-                    var data = this.HeatMapData.ReadData(
+                    var data = await this.HeatMapData.ReadData(
                         this.HeatMapData.CurrentMinBin, 
                         this.HeatMapData.CurrentMaxBin, 
                         this.currentStartFrame, 
@@ -809,7 +806,7 @@ namespace Atreyu.ViewModels
             {
                 this.newYAxis = sender as LinearAxis;
 
-                this.HandleZoom(series);
+                await this.HandleZoom(series);
             }
 
             this._heatMapPlotModel.InvalidatePlot(true);
@@ -842,7 +839,7 @@ namespace Atreyu.ViewModels
         /// <param name="series">
         /// TODO The series.
         /// </param>
-        private void HandleZoom(HeatMapSeries series)
+        private async Task HandleZoom(HeatMapSeries series)
         {
             if (this.newXAxis == null)
             {
@@ -869,7 +866,7 @@ namespace Atreyu.ViewModels
 
             if (series != null)
             {
-                var data = this.HeatMapData.ReadData(
+                var data = await this.HeatMapData.ReadData(
                     this.HeatMapData.CurrentMinBin, 
                     this.HeatMapData.CurrentMaxBin, 
                     this.currentStartFrame, 

@@ -11,6 +11,7 @@ namespace Falkor.Views.Atreyu
     using System;
     using System.ComponentModel.Composition;
     using System.Reactive.Linq;
+    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -89,14 +90,14 @@ namespace Falkor.Views.Atreyu
         /// <param name="e">
         /// TODO The e.
         /// </param>
-        protected override void OnDrop(DragEventArgs e)
+        protected override async void OnDrop(DragEventArgs e)
         {
             base.OnDrop(e);
 
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 var files = e.Data.GetData(DataFormats.FileDrop) as string[];
-                this.HandleFileOpen(files);
+                await this.HandleFileOpen(files);
             }
 
             e.Handled = true;
@@ -108,9 +109,9 @@ namespace Falkor.Views.Atreyu
         /// <param name="files">
         /// TODO The files.
         /// </param>
-        private void HandleFileOpen(string[] files)
+        private async Task HandleFileOpen(string[] files)
         {
-            this.ViewModel.InitializeUimfData(files[0]);
+            await this.ViewModel.InitializeUimfData(files[0]);
         }
 
         #endregion

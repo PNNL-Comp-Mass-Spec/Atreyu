@@ -9,6 +9,7 @@
 namespace Atreyu.Models
 {
     using System;
+    using System.Threading.Tasks;
 
     using ReactiveUI;
 
@@ -488,7 +489,7 @@ namespace Atreyu.Models
         }
 
 
-        public double[,] ReadData(bool returnGatedData = false)
+        public async Task<double[,]> ReadData(bool returnGatedData = false)
         {
             if (this.CurrentMaxBin < 1) return new double[0,0];
             if (this.endScan < 1) return new double[0, 0];
@@ -523,32 +524,36 @@ namespace Atreyu.Models
                 this.FrameType = frameParams.GetValue(FrameParamKeyType.FrameType);
                 this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
 
-                var temp = this._dataReader.AccumulateFrameData(
-                    this.startframeNumber,
-                    this.EndFrameNumber,
-                    false,
-                    this.StartScan,
-                    this.EndScan,
-                    this.CurrentMinBin,
-                    this.CurrentMaxBin,
-                    (int)this.ValuesPerPixelX,
-                    (int)this.ValuesPerPixelY);
+                await Task.Run(
+                    () =>
+                        {
+                            var temp = this._dataReader.AccumulateFrameData(
+                                this.startframeNumber,
+                                this.EndFrameNumber,
+                                false,
+                                this.StartScan,
+                                this.EndScan,
+                                this.CurrentMinBin,
+                                this.CurrentMaxBin,
+                                (int)this.ValuesPerPixelX,
+                                (int)this.ValuesPerPixelY);
 
-                var arrayLength = (int)Math.Round((this.CurrentMaxBin - this.currentMinBin + 1) / this.ValuesPerPixelY);
+                            var arrayLength = (int)Math.Round((this.CurrentMaxBin - this.currentMinBin + 1) / this.ValuesPerPixelY);
 
-                var tof = new double[arrayLength];
-                var mz = new double[arrayLength];
-                var calibrator = this._dataReader.GetMzCalibrator(frameParams);
+                            var tof = new double[arrayLength];
+                            var mz = new double[arrayLength];
+                            var calibrator = this._dataReader.GetMzCalibrator(frameParams);
 
-                for (var i = 0; i < arrayLength; i++)
-                {
-                    tof[i] = this._dataReader.GetPixelMZ(i);
-                    mz[i] = calibrator.TOFtoMZ(tof[i] * 10);
-                }
+                            for (var i = 0; i < arrayLength; i++)
+                            {
+                                tof[i] = this._dataReader.GetPixelMZ(i);
+                                mz[i] = calibrator.TOFtoMZ(tof[i] * 10);
+                            }
 
-                this.BinToMzMap = mz;
+                            this.BinToMzMap = mz;
 
-                this.FrameData = temp;
+                            this.FrameData = temp;
+                        });
             }
 
             this.GateData();
@@ -592,7 +597,7 @@ namespace Atreyu.Models
         /// <returns>
         /// The <see cref="double[,]"/>.
         /// </returns>
-        public double[,] ReadData(
+        public async Task<double[,]> ReadData(
             int startBin, 
             int endBin, 
             int startFrameNumber, 
@@ -612,7 +617,7 @@ namespace Atreyu.Models
             this.EndFrameNumber = endFrameNumber;
             this.mostRecentHeight = height;
             this.mostRecentWidth = width;
-            return this.ReadData(returnGatedData);
+            return await this.ReadData(returnGatedData);
         }
 
         /// <summary>

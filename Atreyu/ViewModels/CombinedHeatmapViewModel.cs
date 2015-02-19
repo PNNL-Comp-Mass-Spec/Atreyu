@@ -86,7 +86,7 @@ namespace Atreyu.ViewModels
             this.HighValueGateSliderViewModel.UpdateGate(this.HighValueGateSliderViewModel.MaximumValue);
 
             this.ZoomOutFull = this.FrameManipulationViewModel.ZoomOutCommand;
-            this.ZoomOutFull.Subscribe(x => this.ZoomOut());
+            this.ZoomOutFull.Select(async _ => await this.ZoomOut()).Subscribe();
 
             // update the uimf data for the various components
             this.WhenAnyValue(vm => vm.UimfData)
@@ -112,7 +112,8 @@ namespace Atreyu.ViewModels
 
             // update the frame whenever it is changed via the frame manipulation view
             this.WhenAnyValue(vm => vm.FrameManipulationViewModel.CurrentFrame)
-                .Subscribe(this.FetchSingleFrame);
+                .Select(async x => await this.FetchSingleFrame(x))
+                .Subscribe();
 
             // hook up the frame summing feature
             this.WhenAnyValue(vm => vm.FrameManipulationViewModel.Range).Subscribe(this.SumFrames);
@@ -165,49 +166,61 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.HeatMapViewModel.Height).Subscribe(d => this.Height = d);
             this.WhenAnyValue(vm => vm.HeatMapViewModel.Width).Subscribe(d => this.Width = d);
 
-            this.WhenAnyValue(
-                vm => vm.HeatMapViewModel.CurrentMinBin)
-                .Where(x => this.UimfData != null)
-                //.Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
-                .Subscribe(
-                    x =>
-                        {
-                            this.UimfData.CurrentMinBin = x;
-                            this.UimfData.ReadData(ReturnGatedData);
-                        });
+            var minBin =
+                HeatMapViewModel.WhenAnyValue(vm => vm.CurrentMinBin)
+                    .Where(b => this.UimfData != null);
 
-            this.WhenAnyValue(
-                vm => vm.HeatMapViewModel.CurrentMaxBin)
-                .Where(x => this.UimfData != null)
-                //.Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
-                .Subscribe(
-                    x =>
-                    {
-                        this.UimfData.CurrentMaxBin = x;
-                        this.UimfData.ReadData(ReturnGatedData);
-                    });
+            var maxBin =
+                HeatMapViewModel.WhenAnyValue(vm => vm.CurrentMaxBin)
+                    .Where(b => this.UimfData != null);
 
-            this.WhenAnyValue(
-                vm => vm.HeatMapViewModel.CurrentMinScan)
-                .Where(x => this.UimfData != null)
-                //.Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
-                .Subscribe(
-                    x =>
-                    {
-                        this.UimfData.StartScan = x;
-                        this.UimfData.ReadData(ReturnGatedData);
-                    });
+            var zipBin = minBin.Zip(
+                maxBin,
+                delegate(int i, int i1)
+                {
+                    this.UimfData.CurrentMinBin = i;
+                    this.UimfData.CurrentMaxBin = i1;
+                    return 0;
+                });
 
-            this.WhenAnyValue(
-                vm => vm.HeatMapViewModel.CurrentMaxScan)
-                .Where(x => this.UimfData != null)
-                //.Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
-                .Subscribe(
-                    x =>
-                    {
-                        this.UimfData.EndScan = x;
-                        this.UimfData.ReadData(ReturnGatedData);
-                    });
+            var startScan =
+                HeatMapViewModel.WhenAnyValue(vm => vm.CurrentMinScan)
+                    .Where(b => this.UimfData != null);
+
+            var endScan =
+                HeatMapViewModel.WhenAnyValue(vm => vm.CurrentMaxScan)
+                    .Where(b => this.UimfData != null);
+
+            var zipScan = startScan.Zip(
+                endScan,
+                delegate(int i, int i1)
+                {
+                    this.UimfData.StartScan = i;
+                    this.uimfData.EndScan = i1;
+                    return 0;
+                });
+
+            //zipBin.Throttle(TimeSpan.FromMilliseconds(2), RxApp.MainThreadScheduler).Select(async _ => await this.uimfData.ReadData(ReturnGatedData)).Subscribe();
+            //zipScan.Throttle(TimeSpan.FromMilliseconds(2), RxApp.MainThreadScheduler).Select(async _ => await this.uimfData.ReadData(ReturnGatedData)).Subscribe();
+
+            zipBin.CombineLatest(zipScan, (x, z) => x + z).Synchronize(true)
+               .Select(async _ => await this.uimfData.ReadData(ReturnGatedData))
+               .Subscribe();
+
+            //var pattern = minBin.And(maxBin).And(startScan).And(endScan);
+            //var plan = pattern.Then(
+            //        (int minB, int maxB, int startS, int endS) =>
+            //        {
+            //            this.uimfData.CurrentMinBin = minB;
+            //            this.uimfData.CurrentMaxBin = maxB;
+            //            this.uimfData.StartScan = startS;
+            //            this.uimfData.EndScan = endS;
+            //            return 0;
+            //        });
+
+            //var zippedSequence = Observable.When(plan);
+            //zippedSequence.Select(async _ => await this.uimfData.ReadData(ReturnGatedData)).Subscribe();
+
         }
 
         #endregion
@@ -231,6 +244,13 @@ namespace Atreyu.ViewModels
             }
         }
 
+        private void UpdateViewRegion(int minBin, int maxBin, int minScan, int maxScan)
+        {
+            this.uimfData.CurrentMinBin = minBin;
+            this.uimfData.CurrentMaxBin = maxBin;
+            this.uimfData.StartScan = minScan;
+            this.uimfData.EndScan = maxScan;
+        }
 
         /// <summary>
         /// Gets the height of the Heat map plot.
@@ -368,11 +388,11 @@ namespace Atreyu.ViewModels
         /// <param name="file">
         /// TODO The file.
         /// </param>
-        public void InitializeUimfData(string file)
+        public async Task InitializeUimfData(string file)
         {
             this.UimfData = new UimfData(file) { CurrentMinBin = 0 };
             this.UimfData.CurrentMaxBin = this.UimfData.TotalBins;
-            this.FetchSingleFrame(1);
+            await this.FetchSingleFrame(1);
             this.CurrentFile = Path.GetFileNameWithoutExtension(file);
         }
 
@@ -383,14 +403,14 @@ namespace Atreyu.ViewModels
         /// <param name="frameNumber">
         /// TODO The frame number.
         /// </param>
-        public void FetchSingleFrame(int frameNumber)
+        public async Task FetchSingleFrame(int frameNumber)
         {
             if (this.UimfData == null) {return;}
 
             this.currentStartFrame = frameNumber;
             this.currentEndFrame = frameNumber;
 
-            this.UimfData.ReadData(
+            await this.UimfData.ReadData(
                 1,
                 this.UimfData.MaxBins,
                 frameNumber,
@@ -418,10 +438,7 @@ namespace Atreyu.ViewModels
             this.currentStartFrame = sumFrames.StartFrame < 1 ? 1 : sumFrames.StartFrame;
 
             this.currentEndFrame = sumFrames.EndFrame < 1 ? 1 : sumFrames.EndFrame;
-                await Task.Run(
-                    () =>
-                    {
-                        this.UimfData.ReadData(
+                        await this.UimfData.ReadData(
                             this.UimfData.CurrentMinBin,
                             this.UimfData.CurrentMaxBin,
                             this.currentStartFrame,
@@ -431,7 +448,6 @@ namespace Atreyu.ViewModels
                             this.UimfData.StartScan,
                             this.UimfData.EndScan,
                             ReturnGatedData);
-                    });
         }
 
         public void UpdateLowGate(double gate)
@@ -441,14 +457,14 @@ namespace Atreyu.ViewModels
             this.UimfData.UpdateLowGate(gate);
         }
 
-        public void ZoomOut()
+        public async Task ZoomOut()
         {
             this.UimfData.UpdateScanRange(0, this.UimfData.Scans);
 
             this.UimfData.CurrentMinBin = 0;
             this.UimfData.CurrentMaxBin = this.UimfData.MaxBins;
 
-            this.UimfData.ReadData(ReturnGatedData);
+            await this.UimfData.ReadData(ReturnGatedData);
         }
 
         #endregion
