@@ -36,10 +36,6 @@ namespace Atreyu.ViewModels
         #region Fields
 
         /// <summary>
-        /// TODO The _current frame number.
-        /// </summary>
-        ////private int _currentFrameNumber;
-        /// <summary>
         /// TODO The _end scan.
         /// </summary>
         private int _endScan;
@@ -84,10 +80,6 @@ namespace Atreyu.ViewModels
         [ImportingConstructor]
         public TotalIonChromatogramViewModel()
         {
-            // this._eventAggregator = eventAggregator;
-            // this._eventAggregator.GetEvent<UimfFileChangedEvent>().Subscribe(this.UpdateReference, true);
-            // this._eventAggregator.GetEvent<XAxisChangedEvent>().Subscribe(this.UpdateAxes, true);
-            // this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Subscribe(this.UpdateFrameNumber, true);
         }
 
         #endregion
@@ -170,17 +162,17 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// TODO The update frame data.
         /// </summary>
-        /// <param name="Data">
+        /// <param name="data">
         /// The Data.
         /// </param>
-        public void UpdateFrameData(double[,] Data)
+        public void UpdateFrameData(double[,] data)
         {
-            if (Data == null)
+            if (data == null)
             {
                 return;
             }
 
-            this._frameData = Data;
+            this._frameData = data;
 
             if (this._endScan == 0)
             {
@@ -271,83 +263,6 @@ namespace Atreyu.ViewModels
             var series = new LineSeries { Color = OxyColors.Black, };
 
             this.TicPlotModel.Series.Add(series);
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// TODO The on x axis changed.
-        /// </summary>
-        /// <param name="sender">
-        /// TODO The sender.
-        /// </param>
-        /// <param name="e">
-        /// TODO The e.
-        /// </param>
-        protected void OnXAxisChanged(object sender, AxisChangedEventArgs e)
-        {
-        }
-
-        /// <summary>
-        /// TODO The on y axis change.
-        /// </summary>
-        /// <param name="sender">
-        /// TODO The sender.
-        /// </param>
-        /// <param name="e">
-        /// TODO The e.
-        /// </param>
-        protected void OnYAxisChange(object sender, AxisChangedEventArgs e)
-        {
-        }
-
-        /// <summary>
-        /// TODO The update axes.
-        /// </summary>
-        /// <param name="linearAxis">
-        /// TODO The linear axis.
-        /// </param>
-        private void UpdateAxes(LinearAxis linearAxis)
-        {
-            var xAxis = this.TicPlotModel.Axes[0] as LinearAxis;
-            this._startScan = (int)linearAxis.ActualMinimum;
-            this._endScan = (int)linearAxis.ActualMaximum;
-
-            xAxis.AbsoluteMaximum = this._endScan;
-            xAxis.Minimum = this._startScan;
-            xAxis.Maximum = this._endScan;
-            this._frameData = this.uimfData.FrameData;
-            if (this._frameData != null)
-            {
-                Dictionary<int, double> frameData = new Dictionary<int, double>();
-
-                for (int i = 0; i < this._frameData.GetLength(0); i++)
-                {
-                    var index = i + this._startScan;
-                    for (int j = 0; j < this._frameData.GetLength(1); j++)
-                    {
-                        if (frameData.ContainsKey(index))
-                        {
-                            frameData[index] += this._frameData[i, j];
-                        }
-                        else
-                        {
-                            frameData.Add(index, this._frameData[i, j]);
-                        }
-                    }
-                }
-
-                var series = this.TicPlotModel.Series[0] as LineSeries;
-                series.Points.Clear();
-                foreach (var d in frameData)
-                {
-                    series.Points.Add(new DataPoint(d.Key, d.Value));
-                }
-
-                this.TicPlotModel.InvalidatePlot(true);
-            }
         }
 
         #endregion
