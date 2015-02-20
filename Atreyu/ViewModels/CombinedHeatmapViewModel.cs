@@ -76,6 +76,7 @@ namespace Atreyu.ViewModels
         /// </summary>
         public CombinedHeatmapViewModel()
         {
+            // I wonder if I should break this up a little, as it is over 100 lines and breaking them up logically might make it more readable and maintainable
             this.FrameManipulationViewModel = new FrameManipulationViewModel();
             this.HeatMapViewModel = new HeatMapViewModel();
             this.MzSpectraViewModel = new MzSpectraViewModel();
@@ -137,7 +138,7 @@ namespace Atreyu.ViewModels
             // Attach the heatmap threshold to the slider's gate, using Throttle so it doesn't seem jerky.
             this.WhenAnyValue(vm => vm.LowValueGateSliderViewModel.LogarithmicGate)
                 .Where(b => this.UimfData != null)
-                .Throttle(TimeSpan.FromMilliseconds(200), RxApp.MainThreadScheduler)
+                .Throttle(TimeSpan.FromMilliseconds(50), RxApp.MainThreadScheduler)
                 .Subscribe(this.UpdateLowGate);
 
             // Update the frame type on the Fram Manipulation view
