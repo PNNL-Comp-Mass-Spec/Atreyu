@@ -9,6 +9,7 @@
 namespace Atreyu.Models
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Net.Sockets;
     using System.Reactive.Linq;
     using System.Threading;
@@ -110,7 +111,7 @@ namespace Atreyu.Models
         /// </summary>
         private int mostRecentWidth;
 
-        private ReactiveList<Range> rangeUpdateList;
+        private ConcurrentQueue<Range> rangeUpdateList;
 
         /// <summary>
         /// TODO The scans.
@@ -154,18 +155,18 @@ namespace Atreyu.Models
         /// </param>
         public UimfData(string uimfFile)
         {
-            this.RangeUpdateList = new ReactiveList<Range>();
+            this.RangeUpdateList = new ConcurrentQueue<Range>();
             this.dataReader = new DataReader(uimfFile);
             var global = this.dataReader.GetGlobalParams();
             this.Frames = this.dataReader.GetGlobalParams().NumFrames;
             this.MaxBins = global.Bins;
             this.TotalBins = this.MaxBins;
             this.Scans = this.dataReader.GetFrameParams(1).Scans;
-
-            this.RangeUpdateList.ActOnEveryObject(async range => await this.ProcessRangeData(range), range => { });
+            this.checking = false;
         }
 
         #endregion
+        private bool checking;
 
         #region Public Properties
 
@@ -184,9 +185,7 @@ namespace Atreyu.Models
                 this.RaiseAndSetIfChanged(ref this.binToMzMap, value);
             }
         }
-
-        private CancellationTokenSource cts;
-
+        
         /// <summary>
         /// Gets or sets the current max bin.
         /// </summary>
@@ -395,7 +394,7 @@ namespace Atreyu.Models
             }
         }
 
-        public ReactiveList<Range> RangeUpdateList
+        public ConcurrentQueue<Range> RangeUpdateList
         {
             get
             {
@@ -506,35 +505,27 @@ namespace Atreyu.Models
 
         #endregion
 
-        private async Task ProcessRangeData(Range range)
+        public async Task CheckQueue()
         {
-            if (this.cts != null)
+            if (this.checking)
             {
-                this.cts.Cancel();
+                return;
             }
 
-            var newCts = new CancellationTokenSource();
-            this.cts = newCts;
+            this.checking = true;
+            Range currentRange;
             
-            try
+            while (this.RangeUpdateList.TryDequeue(out currentRange))
             {
-                while (!this.RangeUpdateList.IsEmpty)
-                {
-                    await this.ProcessRangeData(range, this.cts.Token);
-                }
-            }
-            catch (OperationCanceledException)
-            {
-                // Do nothing because it is fine that it was canceled
+                this.ProcessData(currentRange);
             }
 
-            if (this.cts == newCts)
-            {
-                this.cts = null;
-            }
+            await this.ReadData();
+
+            this.checking = false;
         }
 
-        private async Task ProcessRangeData(Range range, CancellationToken ct)
+        private void ProcessData(Range range)
         {
               switch (range.RangeType)
                 {
@@ -573,12 +564,6 @@ namespace Atreyu.Models
                             "Currently ProcessRangeData only supports types of BinRange, FrameRange, and ScanRange, "
                             + "but you passed something else and it scared us too much to continue.");
                 }
-
-              this.RangeUpdateList.Remove(range);
-            
-              ct.ThrowIfCancellationRequested();
-
-            await this.ReadData(ct);
         }
 
         #region Public Methods and Operators
@@ -603,7 +588,7 @@ namespace Atreyu.Models
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        public async Task<double[,]> ReadData(CancellationToken ct, bool returnGatedData = false)
+        public async Task<double[,]> ReadData(bool returnGatedData = false)
         {
             if (this.CurrentMaxBin < 1)
             {
@@ -616,7 +601,7 @@ namespace Atreyu.Models
             }
 
             var frameParams = this.dataReader.GetFrameParams(this.startFrameNumber);
-            ct.ThrowIfCancellationRequested();
+
             if (frameParams == null)
             {
                 // Frame number is out of range
@@ -650,7 +635,6 @@ namespace Atreyu.Models
                 await Task.Run(
                     () =>
                         {
-                            ct.ThrowIfCancellationRequested();
                             var temp = this.dataReader.AccumulateFrameData(
                                 this.startFrameNumber, 
                                 this.EndFrameNumber, 
@@ -661,8 +645,6 @@ namespace Atreyu.Models
                                 this.CurrentMaxBin, 
                                 (int)this.ValuesPerPixelX, 
                                 (int)this.ValuesPerPixelY);
-
-                            ct.ThrowIfCancellationRequested();
 
                             var arrayLength =
                                 (int)Math.Round((this.CurrentMaxBin - this.currentMinBin + 1) / this.ValuesPerPixelY);
@@ -680,8 +662,7 @@ namespace Atreyu.Models
                             this.BinToMzMap = mz;
 
                             this.FrameData = temp;
-                        }, 
-                    ct);
+                        });
             }
 
             this.GateData();
@@ -729,8 +710,7 @@ namespace Atreyu.Models
             int startFrame, 
             int endFrame, 
             int height, 
-            int width, 
-            CancellationToken ct, 
+            int width,
             int startScanValue = 0, 
             int endScanValue = 359, 
             bool returnGatedData = false)
@@ -744,7 +724,7 @@ namespace Atreyu.Models
             this.EndFrameNumber = endFrame;
             this.mostRecentHeight = height;
             this.mostRecentWidth = width;
-            return await this.ReadData(ct, returnGatedData);
+            return await this.ReadData(returnGatedData);
         }
 
         /// <summary>
