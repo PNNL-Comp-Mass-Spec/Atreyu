@@ -1,49 +1,49 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FrameRange.cs" company="">
+// <copyright file="ScanRange.cs" company="">
 //   
 // </copyright>
 // <summary>
-//   TODO The frame range.
+//   TODO The scan range.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Atreyu.Models
 {
     using System;
-    using System.Windows.Controls;
 
     using ReactiveUI;
 
     /// <summary>
-    /// TODO The frame range.
+    /// TODO The scan range.
     /// </summary>
-    public class FrameRange : Range, IEquatable<FrameRange>
+    public class ScanRange : Range, IEquatable<ScanRange>
     {
         #region Fields
 
         /// <summary>
-        /// TODO The end frame.
+        /// TODO The end scan.
         /// </summary>
-        private int endFrame;
+        private int endScan;
 
         /// <summary>
-        /// TODO The start frame.
+        /// TODO The start scan.
         /// </summary>
-        private int startFrame;
+        private int startScan;
 
         #endregion
 
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FrameRange"/> class.
+        /// Initializes a new instance of the <see cref="ScanRange"/> class.
         /// </summary>
-        public FrameRange()
-            : base(RangeType.FrameRange)
+        public ScanRange()
+            : base(RangeType.ScanRange)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FrameRange"/> class.
+        /// Initializes a new instance of the <see cref="ScanRange"/> class.
         /// </summary>
         /// <param name="start">
         /// TODO The start.
@@ -51,11 +51,11 @@ namespace Atreyu.Models
         /// <param name="end">
         /// TODO The end.
         /// </param>
-        public FrameRange(int start, int end)
-            : base(RangeType.FrameRange)
+        public ScanRange(int start, int end)
+            : base(RangeType.ScanRange)
         {
-            this.StartFrame = start;
-            this.EndFrame = end;
+            this.StartScan = start;
+            this.EndScan = end;
         }
 
         #endregion
@@ -63,42 +63,42 @@ namespace Atreyu.Models
         #region Public Properties
 
         /// <summary>
-        /// Gets or sets the end frame.
+        /// Gets or sets the end scan.
         /// </summary>
-        public int EndFrame
+        public int EndScan
         {
             get
             {
-                return this.endFrame;
+                return this.endScan;
             }
 
             set
             {
-                this.RaiseAndSetIfChanged(ref this.endFrame, value);
+                this.RaiseAndSetIfChanged(ref this.endScan, value);
             }
         }
 
         /// <summary>
-        /// Gets or sets the start frame.
+        /// Gets or sets the start scan.
         /// </summary>
-        public int StartFrame
+        public int StartScan
         {
             get
             {
-                return this.startFrame;
+                return this.startScan;
             }
 
             set
             {
-                this.RaiseAndSetIfChanged(ref this.startFrame, value);
+                this.RaiseAndSetIfChanged(ref this.startScan, value);
             }
         }
 
         #endregion
 
-        public bool Equals(FrameRange other)
+        public bool Equals(ScanRange other)
         {
-            return this.StartFrame == other.StartFrame && this.EndFrame == other.EndFrame;
+            return this.StartScan == other.StartScan && this.EndScan == other.EndScan;
         }
     }
 }

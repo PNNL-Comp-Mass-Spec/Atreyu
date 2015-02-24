@@ -9,6 +9,9 @@
 namespace Atreyu.Models
 {
     using System;
+    using System.Net.Sockets;
+    using System.Reactive.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using ReactiveUI;
@@ -51,11 +54,6 @@ namespace Atreyu.Models
         /// TODO The end scan.
         /// </summary>
         private int endScan;
-
-        ///// <summary>
-        ///// TODO The _start bin.
-        ///// </summary>
-        // private int _startBin;
 
         /// <summary>
         /// TODO The frame data.
@@ -112,6 +110,8 @@ namespace Atreyu.Models
         /// </summary>
         private int mostRecentWidth;
 
+        private ReactiveList<Range> rangeUpdateList;
+
         /// <summary>
         /// TODO The scans.
         /// </summary>
@@ -150,15 +150,19 @@ namespace Atreyu.Models
         /// Initializes a new instance of the <see cref="UimfData"/> class. 
         /// </summary>
         /// <param name="uimfFile">
+        /// The data file that this will rely on for it's entire existence, you want a different file? Create a new class.
         /// </param>
         public UimfData(string uimfFile)
         {
+            this.RangeUpdateList = new ReactiveList<Range>();
             this.dataReader = new DataReader(uimfFile);
             var global = this.dataReader.GetGlobalParams();
             this.Frames = this.dataReader.GetGlobalParams().NumFrames;
             this.MaxBins = global.Bins;
             this.TotalBins = this.MaxBins;
             this.Scans = this.dataReader.GetFrameParams(1).Scans;
+
+            this.RangeUpdateList.ActOnEveryObject(async range => await this.ProcessRangeData(range), range => { });
         }
 
         #endregion
@@ -180,6 +184,8 @@ namespace Atreyu.Models
                 this.RaiseAndSetIfChanged(ref this.binToMzMap, value);
             }
         }
+
+        private CancellationTokenSource cts;
 
         /// <summary>
         /// Gets or sets the current max bin.
@@ -389,6 +395,19 @@ namespace Atreyu.Models
             }
         }
 
+        public ReactiveList<Range> RangeUpdateList
+        {
+            get
+            {
+                return this.rangeUpdateList;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.rangeUpdateList, value);
+            }
+        }
+
         /// <summary>
         /// Gets or sets the scans.
         /// </summary>
@@ -487,6 +506,81 @@ namespace Atreyu.Models
 
         #endregion
 
+        private async Task ProcessRangeData(Range range)
+        {
+            if (this.cts != null)
+            {
+                this.cts.Cancel();
+            }
+
+            var newCts = new CancellationTokenSource();
+            this.cts = newCts;
+            
+            try
+            {
+                while (!this.RangeUpdateList.IsEmpty)
+                {
+                    await this.ProcessRangeData(range, this.cts.Token);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                // Do nothing because it is fine that it was canceled
+            }
+
+            if (this.cts == newCts)
+            {
+                this.cts = null;
+            }
+        }
+
+        private async Task ProcessRangeData(Range range, CancellationToken ct)
+        {
+              switch (range.RangeType)
+                {
+                    case RangeType.BinRange:
+                        var binRange = range as BinRange;
+                        if (binRange == null)
+                        {
+                            throw new ArgumentException("Range has it's RangeType set to BinRange but cannot be cast to BinRange", "range");
+                        }
+
+                        this.CurrentMinBin = binRange.StartBin;
+                        this.CurrentMaxBin = binRange.EndBin;
+                        break;
+                    case RangeType.FrameRange:
+                      var frameRange = range as FrameRange;
+                        if (frameRange == null)
+                        {
+                            throw new ArgumentException("Range has it's RangeType set to FrameRange but cannot be cast to FrameRange", "range");
+                        }
+
+                        this.StartFrameNumber = frameRange.StartFrame;
+                        this.EndFrameNumber = frameRange.EndFrame;
+                        break;
+                    case RangeType.ScanRange:
+                      var scanRange = range as ScanRange;
+                      if (scanRange == null)
+                        {
+                            throw new ArgumentException("Range has it's RangeType set to ScanRange but cannot be cast to ScanRange", "range");
+                        }
+
+                      this.StartScan = scanRange.StartScan;
+                      this.EndScan = scanRange.EndScan;
+                        break;
+                    default:
+                        throw new NotImplementedException(
+                            "Currently ProcessRangeData only supports types of BinRange, FrameRange, and ScanRange, "
+                            + "but you passed something else and it scared us too much to continue.");
+                }
+
+              this.RangeUpdateList.Remove(range);
+            
+              ct.ThrowIfCancellationRequested();
+
+            await this.ReadData(ct);
+        }
+
         #region Public Methods and Operators
 
         /// <summary>
@@ -501,13 +595,15 @@ namespace Atreyu.Models
         /// <summary>
         /// TODO The read data.
         /// </summary>
+        /// <param name="ct">
+        /// </param>
         /// <param name="returnGatedData">
         /// TODO The return gated data.
         /// </param>
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        public async Task<double[,]> ReadData(bool returnGatedData = false)
+        public async Task<double[,]> ReadData(CancellationToken ct, bool returnGatedData = false)
         {
             if (this.CurrentMaxBin < 1)
             {
@@ -520,6 +616,7 @@ namespace Atreyu.Models
             }
 
             var frameParams = this.dataReader.GetFrameParams(this.startFrameNumber);
+            ct.ThrowIfCancellationRequested();
             if (frameParams == null)
             {
                 // Frame number is out of range
@@ -553,6 +650,7 @@ namespace Atreyu.Models
                 await Task.Run(
                     () =>
                         {
+                            ct.ThrowIfCancellationRequested();
                             var temp = this.dataReader.AccumulateFrameData(
                                 this.startFrameNumber, 
                                 this.EndFrameNumber, 
@@ -563,6 +661,8 @@ namespace Atreyu.Models
                                 this.CurrentMaxBin, 
                                 (int)this.ValuesPerPixelX, 
                                 (int)this.ValuesPerPixelY);
+
+                            ct.ThrowIfCancellationRequested();
 
                             var arrayLength =
                                 (int)Math.Round((this.CurrentMaxBin - this.currentMinBin + 1) / this.ValuesPerPixelY);
@@ -580,7 +680,8 @@ namespace Atreyu.Models
                             this.BinToMzMap = mz;
 
                             this.FrameData = temp;
-                        });
+                        }, 
+                    ct);
             }
 
             this.GateData();
@@ -609,6 +710,8 @@ namespace Atreyu.Models
         /// <param name="width">
         /// TODO The width.
         /// </param>
+        /// <param name="ct">
+        /// </param>
         /// <param name="startScanValue">
         /// TODO The start scan.
         /// </param>
@@ -627,6 +730,7 @@ namespace Atreyu.Models
             int endFrame, 
             int height, 
             int width, 
+            CancellationToken ct, 
             int startScanValue = 0, 
             int endScanValue = 359, 
             bool returnGatedData = false)
@@ -640,7 +744,7 @@ namespace Atreyu.Models
             this.EndFrameNumber = endFrame;
             this.mostRecentHeight = height;
             this.mostRecentWidth = width;
-            return await this.ReadData(returnGatedData);
+            return await this.ReadData(ct, returnGatedData);
         }
 
         /// <summary>

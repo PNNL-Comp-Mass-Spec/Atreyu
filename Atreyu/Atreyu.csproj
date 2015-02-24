@@ -187,7 +187,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\BinRange.cs" />
     <Compile Include="Models\FrameRange.cs" />
+    <Compile Include="Models\Range.cs" />
+    <Compile Include="Models\RangeType.cs" />
+    <Compile Include="Models\ScanRange.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegionNames.cs" />
     <Compile Include="ViewModels\CombinedHeatmapViewModel.cs" />

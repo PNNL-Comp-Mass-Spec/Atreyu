@@ -14,6 +14,8 @@ namespace Atreyu.ViewModels
     using System.Drawing;
     using System.IO;
     using System.Reactive.Linq;
+    using System.Runtime.InteropServices;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using Atreyu.Models;
@@ -67,6 +69,8 @@ namespace Atreyu.ViewModels
         /// </summary>
         private int width;
 
+        private CancellationTokenSource cts;
+
         #endregion
 
         #region Constructors and Destructors
@@ -87,7 +91,7 @@ namespace Atreyu.ViewModels
             this.LowValueGateSliderViewModel.UpdateGate(0);
 
             this.ZoomOutFull = this.FrameManipulationViewModel.ZoomOutCommand;
-            this.ZoomOutFull.Select(async _ => await this.ZoomOut()).Subscribe();
+            this.ZoomOutFull.Subscribe(_ => this.ZoomOut());
 
             // update the uimf data for the various components
             this.WhenAnyValue(vm => vm.UimfData).Subscribe(this.TotalIonChromatogramViewModel.UpdateReference);
@@ -155,39 +159,47 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.HeatMapViewModel.Height).Subscribe(d => this.Height = d);
             this.WhenAnyValue(vm => vm.HeatMapViewModel.Width).Subscribe(d => this.Width = d);
 
-            var minBin = this.HeatMapViewModel.WhenAnyValue(vm => vm.CurrentMinBin).Where(b => this.UimfData != null);
+            this.HeatMapViewModel.WhenAnyValue(hm => hm.CurrentBinRange)
+                .Where(_ => this.UimfData != null && this.HeatMapViewModel.CurrentBinRange != null)
+                .Subscribe(x => this.UimfData.RangeUpdateList.Add(x));
 
-            var maxBin = this.HeatMapViewModel.WhenAnyValue(vm => vm.CurrentMaxBin).Where(b => this.UimfData != null);
+            this.HeatMapViewModel.WhenAnyValue(hm => hm.CurrentScanRange)
+                .Where(_ => this.UimfData != null && this.HeatMapViewModel.CurrentScanRange != null)
+                .Subscribe(x => this.UimfData.RangeUpdateList.Add(x));
 
-            var zipBin = minBin.Zip(
-                maxBin, 
-                delegate(int i, int i1)
-                    {
-                        this.UimfData.CurrentMinBin = i;
-                        this.UimfData.CurrentMaxBin = i1;
-                        return 0;
-                    });
 
-            var startScan = this.HeatMapViewModel.WhenAnyValue(vm => vm.CurrentMinScan)
-                .Where(b => this.UimfData != null);
+            ////var minBin = this.HeatMapViewModel.WhenAnyValue(vm => vm.CurrentMinBin).Where(b => this.UimfData != null);
 
-            var endScan = this.HeatMapViewModel.WhenAnyValue(vm => vm.CurrentMaxScan).Where(b => this.UimfData != null);
+            ////var maxBin = this.HeatMapViewModel.WhenAnyValue(vm => vm.CurrentMaxBin).Where(b => this.UimfData != null);
 
-            var zipScan = startScan.Zip(
-                endScan, 
-                delegate(int i, int i1)
-                    {
-                        this.UimfData.StartScan = i;
-                        this.uimfData.EndScan = i1;
-                        return 0;
-                    });
+            ////var zipBin = minBin.Zip(
+            ////    maxBin, 
+            ////    delegate(int i, int i1)
+            ////        {
+            ////            this.UimfData.CurrentMinBin = i;
+            ////            this.UimfData.CurrentMaxBin = i1;
+            ////            return 0;
+            ////        });
+
+            ////var startScan = this.HeatMapViewModel.WhenAnyValue(vm => vm.CurrentMinScan)
+            ////    .Where(b => this.UimfData != null);
+
+            ////var endScan = this.HeatMapViewModel.WhenAnyValue(vm => vm.CurrentMaxScan).Where(b => this.UimfData != null);
+
+            ////var zipScan = startScan.Zip(
+            ////    endScan, 
+            ////    delegate(int i, int i1)
+            ////        {
+            ////            this.UimfData.StartScan = i;
+            ////            this.uimfData.EndScan = i1;
+            ////            return 0;
+            ////        });
 
             ////zipBin.Throttle(TimeSpan.FromMilliseconds(2), RxApp.MainThreadScheduler).Select(async _ => await this.uimfData.ReadData(ReturnGatedData)).Subscribe();
             ////zipScan.Throttle(TimeSpan.FromMilliseconds(2), RxApp.MainThreadScheduler).Select(async _ => await this.uimfData.ReadData(ReturnGatedData)).Subscribe();
-            zipBin.CombineLatest(zipScan, (x, z) => x + z)
-                .Synchronize(true)
-                .Select(async _ => await this.uimfData.ReadData(ReturnGatedData))
-                .Subscribe();
+            ////zipBin.CombineLatest(zipScan, (x, z) => x + z)
+            ////    .Select(async _ => await this.RefreshData())
+            ////    .Subscribe();
 
             ////var pattern = minBin.And(maxBin).And(startScan).And(endScan);
             ////var plan = pattern.Then(
@@ -355,20 +367,41 @@ namespace Atreyu.ViewModels
                 return;
             }
 
+            if (this.cts != null)
+            {
+                this.cts.Cancel();
+            }
+
+            var newCts = new CancellationTokenSource();
+            this.cts = newCts;
+
             this.currentStartFrame = frameNumber;
             this.currentEndFrame = frameNumber;
 
-            await
-                this.UimfData.ReadData(
-                    1, 
-                    this.UimfData.MaxBins, 
-                    frameNumber, 
-                    frameNumber, 
-                    this.Height, 
-                    this.Width, 
-                    0, 
-                    this.UimfData.Scans, 
-                    ReturnGatedData);
+            try
+            {
+                await
+                    this.UimfData.ReadData(
+                        1,
+                        this.UimfData.MaxBins,
+                        frameNumber,
+                        frameNumber,
+                        this.Height,
+                        this.Width,
+                        this.cts.Token,
+                        0,
+                        this.UimfData.Scans,
+                        ReturnGatedData);
+            }
+            catch (OperationCanceledException)
+            {
+                // Do nothing because it is fine that it was canceled
+            }
+
+            if (this.cts == newCts)
+            {
+                this.cts = null;
+            }
         }
 
         /// <summary>
@@ -416,7 +449,7 @@ namespace Atreyu.ViewModels
         /// TODO The sum frames.
         /// </summary>
         /// <param name="sumFrames">
-        /// TODO The sum frames.
+        /// The frame range to sum.
         /// </param>
         public async void SumFrames(FrameRange sumFrames)
         {
@@ -429,21 +462,43 @@ namespace Atreyu.ViewModels
             {
                 return;
             }
+            
+            if (this.cts != null)
+            {
+                this.cts.Cancel();
+            }
+
+            var newCts = new CancellationTokenSource();
+            this.cts = newCts;
 
             this.currentStartFrame = sumFrames.StartFrame < 1 ? 1 : sumFrames.StartFrame;
 
             this.currentEndFrame = sumFrames.EndFrame < 1 ? 1 : sumFrames.EndFrame;
-            await
-                this.UimfData.ReadData(
-                    this.UimfData.CurrentMinBin, 
-                    this.UimfData.CurrentMaxBin, 
-                    this.currentStartFrame, 
-                    this.currentEndFrame, 
-                    this.Height, 
-                    this.Width, 
-                    this.UimfData.StartScan, 
-                    this.UimfData.EndScan, 
-                    ReturnGatedData);
+
+            try
+            {
+                await
+                    this.UimfData.ReadData(
+                        this.UimfData.CurrentMinBin,
+                        this.UimfData.CurrentMaxBin,
+                        this.currentStartFrame,
+                        this.currentEndFrame,
+                        this.Height,
+                        this.Width,
+                        this.cts.Token,
+                        this.UimfData.StartScan,
+                        this.UimfData.EndScan,
+                        ReturnGatedData);
+            }
+            catch (OperationCanceledException)
+            {
+                // Do nothing because it is fine that it was canceled
+            }
+
+            if (this.cts == newCts)
+            {
+                this.cts = null;
+            }
         }
 
         /// <summary>
@@ -468,14 +523,13 @@ namespace Atreyu.ViewModels
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        public async Task ZoomOut()
+        public void ZoomOut()
         {
-            this.UimfData.UpdateScanRange(0, this.UimfData.Scans);
+            var scanRange = new ScanRange(0, this.UimfData.Scans);
+            var binRange = new BinRange(0, this.UimfData.MaxBins);
 
-            this.UimfData.CurrentMinBin = 0;
-            this.UimfData.CurrentMaxBin = this.UimfData.MaxBins;
-
-            await this.UimfData.ReadData(ReturnGatedData);
+            this.UimfData.RangeUpdateList.Add(scanRange);
+            this.UimfData.RangeUpdateList.Add(binRange);
         }
 
         #endregion

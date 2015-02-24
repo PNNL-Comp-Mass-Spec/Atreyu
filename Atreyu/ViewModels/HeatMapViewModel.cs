@@ -92,6 +92,10 @@ namespace Atreyu.ViewModels
         /// </summary>
         private int width;
 
+        private BinRange currentBinRange;
+
+        private ScanRange currentScanRange;
+
         #endregion
 
         ///// <summary>
@@ -121,6 +125,30 @@ namespace Atreyu.ViewModels
         /// Gets or sets the bin to mz map.
         /// </summary>
         public double[] BinToMzMap { get; set; }
+
+        public BinRange CurrentBinRange
+        {
+            get
+            {
+                return this.currentBinRange;
+            }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.currentBinRange, value);
+            }
+        }
+
+        public ScanRange CurrentScanRange
+        {
+            get
+            {
+                return this.currentScanRange;
+            }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.currentScanRange, value);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the current file.
@@ -503,6 +531,7 @@ namespace Atreyu.ViewModels
                 return;
             }
 
+            this.CurrentScanRange = new ScanRange((int)axis.ActualMinimum, (int)axis.ActualMaximum);
             this.CurrentMinScan = (int)axis.ActualMinimum;
             this.CurrentMaxScan = (int)axis.ActualMaximum;
         }
@@ -524,6 +553,7 @@ namespace Atreyu.ViewModels
                 return;
             }
 
+            this.CurrentBinRange = new BinRange((int)axis.ActualMinimum, (int)axis.ActualMaximum);
             this.CurrentMinBin = (int)axis.ActualMinimum;
             this.CurrentMaxBin = (int)axis.ActualMaximum;
         }
