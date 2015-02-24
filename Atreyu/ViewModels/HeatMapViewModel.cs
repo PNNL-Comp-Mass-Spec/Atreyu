@@ -338,7 +338,7 @@ namespace Atreyu.ViewModels
         /// </returns>
         public double[,] GetCompressedDataInView()
         {
-            var minScan = this.currentMinScan;
+            var minScan = this.CurrentMinScan;
 
             var exportData = new double[this.dataArray.GetLength(0) + 1, this.dataArray.GetLength(1) + 1];
 
@@ -478,12 +478,17 @@ namespace Atreyu.ViewModels
             series.Data = this.dataArray;
 
             // scans
-            series.X0 = this.currentMinScan;
-            series.X1 = this.currentMaxScan;
+            series.X0 = this.CurrentMinScan;
+            series.X1 = this.CurrentMaxScan;
 
             // bins
-            series.Y0 = this.currentMinBin;
-            series.Y1 = this.currentMaxBin;
+            series.Y0 = this.CurrentMinBin;
+            series.Y1 = this.CurrentMaxBin;
+
+            if (this.CurrentMinScan == 0 && this.CurrentMinBin == 0)
+            {
+                this.heatMapPlotModel.ResetAllAxes();
+            }
 
             this.HeatMapPlotModel.InvalidatePlot(true);
         }
@@ -502,10 +507,10 @@ namespace Atreyu.ViewModels
             }
 
             this.HeatMapData = uimfData;
-            this.currentMinBin = 1;
-            this.currentMaxBin = this.HeatMapData.MaxBins;
-            this.currentMinScan = 0;
-            this.currentMaxScan = this.HeatMapData.Scans;
+            this.CurrentMinBin = 1;
+            this.CurrentMaxBin = this.HeatMapData.MaxBins;
+            this.CurrentMinScan = 0;
+            this.CurrentMaxScan = this.HeatMapData.Scans;
 
             this.SetUpPlot();
         }
@@ -532,8 +537,6 @@ namespace Atreyu.ViewModels
             }
 
             this.CurrentScanRange = new ScanRange((int)axis.ActualMinimum, (int)axis.ActualMaximum);
-            this.CurrentMinScan = (int)axis.ActualMinimum;
-            this.CurrentMaxScan = (int)axis.ActualMaximum;
         }
 
         /// <summary>
@@ -554,8 +557,6 @@ namespace Atreyu.ViewModels
             }
 
             this.CurrentBinRange = new BinRange((int)axis.ActualMinimum, (int)axis.ActualMaximum);
-            this.CurrentMinBin = (int)axis.ActualMinimum;
-            this.CurrentMaxBin = (int)axis.ActualMaximum;
         }
 
         #endregion

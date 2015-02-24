@@ -124,6 +124,12 @@ namespace Atreyu.ViewModels
             // These make the axis on the mz plot update properly
             this.WhenAnyValue(vm => vm.UimfData.CurrentMinBin).Subscribe(this.MzSpectraViewModel.ChangeStartBin);
 
+            // Update the Heatmap axes
+            this.WhenAnyValue(vm => vm.UimfData.StartScan).Subscribe(i => this.HeatMapViewModel.CurrentMinScan = i);
+            this.WhenAnyValue(vm => vm.UimfData.EndScan).Subscribe(i => this.HeatMapViewModel.CurrentMaxScan = i);
+            this.WhenAnyValue(vm => vm.UimfData.CurrentMinBin).Subscribe(i => this.HeatMapViewModel.CurrentMinBin = i);
+            this.WhenAnyValue(vm => vm.UimfData.CurrentMaxBin).Subscribe(i => this.HeatMapViewModel.CurrentMaxBin = i);
+
             // This makes the axis of the mz plot be in mz mode properly
             this.WhenAnyValue(vm => vm.FrameManipulationViewModel.MzModeEnabled)
                 .Subscribe(b => this.MzSpectraViewModel.ShowMz = b);
@@ -153,7 +159,7 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.UimfData.BinToMzMap).Subscribe(d => this.MzSpectraViewModel.BinToMzMap = d);
 
             this.WhenAnyValue(vm => vm.UimfData.BinToMzMap).Subscribe(d => this.HeatMapViewModel.BinToMzMap = d);
-
+            
             this.WhenAnyValue(vm => vm.HeatMapViewModel.Height).Subscribe(d => this.Height = d);
             this.WhenAnyValue(vm => vm.HeatMapViewModel.Width).Subscribe(d => this.Width = d);
 
@@ -172,55 +178,6 @@ namespace Atreyu.ViewModels
                     this.UimfData.RangeUpdateList.Enqueue(x);
                     await this.uimfData.CheckQueue();
                 }).Subscribe();
-
-
-
-            ////var minBin = this.HeatMapViewModel.WhenAnyValue(vm => vm.CurrentMinBin).Where(b => this.UimfData != null);
-
-            ////var maxBin = this.HeatMapViewModel.WhenAnyValue(vm => vm.CurrentMaxBin).Where(b => this.UimfData != null);
-
-            ////var zipBin = minBin.Zip(
-            ////    maxBin, 
-            ////    delegate(int i, int i1)
-            ////        {
-            ////            this.UimfData.CurrentMinBin = i;
-            ////            this.UimfData.CurrentMaxBin = i1;
-            ////            return 0;
-            ////        });
-
-            ////var startScan = this.HeatMapViewModel.WhenAnyValue(vm => vm.CurrentMinScan)
-            ////    .Where(b => this.UimfData != null);
-
-            ////var endScan = this.HeatMapViewModel.WhenAnyValue(vm => vm.CurrentMaxScan).Where(b => this.UimfData != null);
-
-            ////var zipScan = startScan.Zip(
-            ////    endScan, 
-            ////    delegate(int i, int i1)
-            ////        {
-            ////            this.UimfData.StartScan = i;
-            ////            this.uimfData.EndScan = i1;
-            ////            return 0;
-            ////        });
-
-            ////zipBin.Throttle(TimeSpan.FromMilliseconds(2), RxApp.MainThreadScheduler).Select(async _ => await this.uimfData.ReadData(ReturnGatedData)).Subscribe();
-            ////zipScan.Throttle(TimeSpan.FromMilliseconds(2), RxApp.MainThreadScheduler).Select(async _ => await this.uimfData.ReadData(ReturnGatedData)).Subscribe();
-            ////zipBin.CombineLatest(zipScan, (x, z) => x + z)
-            ////    .Select(async _ => await this.RefreshData())
-            ////    .Subscribe();
-
-            ////var pattern = minBin.And(maxBin).And(startScan).And(endScan);
-            ////var plan = pattern.Then(
-            ////        (int minB, int maxB, int startS, int endS) =>
-            ////        {
-            ////            this.uimfData.CurrentMinBin = minB;
-            ////            this.uimfData.CurrentMaxBin = maxB;
-            ////            this.uimfData.StartScan = startS;
-            ////            this.uimfData.EndScan = endS;
-            ////            return 0;
-            ////        });
-
-            ////var zippedSequence = Observable.When(plan);
-            ////zippedSequence.Select(async _ => await this.uimfData.ReadData(ReturnGatedData)).Subscribe();
         }
 
         #endregion
