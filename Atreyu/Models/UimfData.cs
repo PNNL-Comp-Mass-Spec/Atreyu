@@ -660,7 +660,8 @@ namespace Atreyu.Models
                                 this.CurrentMinBin, 
                                 this.CurrentMaxBin, 
                                 (int)this.ValuesPerPixelX, 
-                                (int)this.ValuesPerPixelY);
+                                (int)this.ValuesPerPixelY,
+                                ct);
 
                             ct.ThrowIfCancellationRequested();
 
