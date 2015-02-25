@@ -14,7 +14,6 @@ namespace Atreyu.ViewModels
     using Atreyu.Models;
 
     using Microsoft.Practices.Prism.Commands;
-    using Microsoft.WindowsAPICodePack.Dialogs;
 
     using ReactiveUI;
 
@@ -63,18 +62,12 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="FrameManipulationViewModel"/> class. 
         /// </summary>
-        /// <param name="eventAggregator">
-        /// </param>
         [ImportingConstructor]
         public FrameManipulationViewModel()
         {
-            this.OpenFileCommand = new DelegateCommand(this.Open);
             this.SumFramesCommand = new DelegateCommand(this.SumFrames);
 
             this.ZoomOutCommand = ReactiveCommand.Create();
-
-            ////this._eventAggregator.GetEvent<NumberOfFramesChangedEvent>().Subscribe(this.NumFramesChanged);
-            ////this._eventAggregator.GetEvent<MinimumNumberOfFrames>().Subscribe(this.MinimumNumberOfFramesChanged);
         }
 
         #endregion
@@ -172,11 +165,6 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// Gets the open file command.
-        /// </summary>
-        public ICommand OpenFileCommand { get; private set; }
-
-        /// <summary>
         /// Gets or sets the range.
         /// </summary>
         public FrameRange Range
@@ -219,22 +207,7 @@ namespace Atreyu.ViewModels
         /// </param>
         public void UpdateCurrentFrameNumber(int frameNumber)
         {
-            if (this.CurrentFrame != frameNumber)
-            {
-                this.CurrentFrame = frameNumber;
-
-                ////this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Publish(frameNumber);
-            }
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="frameNumber">
-        /// </param>
-        public void UpdateFrameNumber(int frameNumber)
-        {
-            ////this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Publish(frameNumber);
-            this.CurrentFrame = frameNumber;
+           this.CurrentFrame = frameNumber;
         }
 
         /// <summary>
@@ -260,47 +233,12 @@ namespace Atreyu.ViewModels
         #region Methods
 
         /// <summary>
-        /// </summary>
-        /// <param name="obj">
-        /// </param>
-        private void MinimumNumberOfFramesChanged(int obj)
-        {
-            this.MinNumFrame = obj;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="numberOfFrames">
-        /// </param>
-        private void NumFramesChanged(int numberOfFrames)
-        {
-            this.NumFrames = numberOfFrames;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private void Open()
-        {
-            var openFileDialog = new CommonOpenFileDialog { DefaultExtension = ".uimf" };
-
-            if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                string fileName = openFileDialog.FileName;
-
-                ////this._eventAggregator.GetEvent<UimfFileLoadedEvent>().Publish(fileName);
-            }
-        }
-
-        /// <summary>
-        /// 
+        /// publishes the range of frames to be summed
         /// </summary>
         private void SumFrames()
         {
-            FrameRange tempRange = new FrameRange { StartFrame = this.StartFrame, EndFrame = this.EndFrame };
+            var tempRange = new FrameRange { StartFrame = this.StartFrame, EndFrame = this.EndFrame };
             this.Range = tempRange;
-
-            ////this._eventAggregator.GetEvent<SumFramesChangedEvent>().Publish(range);
         }
 
         #endregion

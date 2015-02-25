@@ -9,6 +9,8 @@
 namespace Atreyu.Models
 {
     using System;
+    using System.Collections.Concurrent;
+    using System.Threading.Tasks;
 
     using ReactiveUI;
 
@@ -22,14 +24,14 @@ namespace Atreyu.Models
         #region Fields
 
         /// <summary>
-        /// TODO The _data reader.
-        /// </summary>
-        private DataReader _dataReader;
-
-        /// <summary>
         /// TODO The bin to mz map.
         /// </summary>
         private double[] binToMzMap;
+
+        /// <summary>
+        /// TODO The checking.
+        /// </summary>
+        private bool checking;
 
         /// <summary>
         /// TODO The current max bin.
@@ -42,19 +44,19 @@ namespace Atreyu.Models
         private int currentMinBin;
 
         /// <summary>
+        /// TODO The _data reader.
+        /// </summary>
+        private DataReader dataReader;
+
+        /// <summary>
+        /// TODO The end frame number.
+        /// </summary>
+        private int endFrameNumber;
+
+        /// <summary>
         /// TODO The end scan.
         /// </summary>
         private int endScan;
-
-        /// <summary>
-        /// TODO The endframe number.
-        /// </summary>
-        private int endframeNumber;
-
-        ///// <summary>
-        ///// TODO The _start bin.
-        ///// </summary>
-        // private int _startBin;
 
         /// <summary>
         /// TODO The frame data.
@@ -102,19 +104,34 @@ namespace Atreyu.Models
         private int maxBins;
 
         /// <summary>
+        /// TODO The most recent height.
+        /// </summary>
+        private int mostRecentHeight;
+
+        /// <summary>
+        /// TODO The most recent width.
+        /// </summary>
+        private int mostRecentWidth;
+
+        /// <summary>
+        /// TODO The range update list.
+        /// </summary>
+        private ConcurrentQueue<Range> rangeUpdateList;
+
+        /// <summary>
         /// TODO The scans.
         /// </summary>
         private int scans;
 
         /// <summary>
-        /// TODO The startframe number.
+        /// TODO The start frame number.
         /// </summary>
-        private int startframeNumber;
+        private int startFrameNumber;
 
         /// <summary>
-        /// TODO The startscan.
+        /// TODO The start scan.
         /// </summary>
-        private int startscan;
+        private int startScan;
 
         /// <summary>
         /// TODO The total bins.
@@ -139,15 +156,18 @@ namespace Atreyu.Models
         /// Initializes a new instance of the <see cref="UimfData"/> class. 
         /// </summary>
         /// <param name="uimfFile">
+        /// The data file that this will rely on for it's entire existence, you want a different file? Create a new class.
         /// </param>
         public UimfData(string uimfFile)
         {
-            this._dataReader = new DataReader(uimfFile);
-            var global = this._dataReader.GetGlobalParams();
-            this.Frames = this._dataReader.GetGlobalParams().NumFrames;
+            this.RangeUpdateList = new ConcurrentQueue<Range>();
+            this.dataReader = new DataReader(uimfFile);
+            var global = this.dataReader.GetGlobalParams();
+            this.Frames = this.dataReader.GetGlobalParams().NumFrames;
             this.MaxBins = global.Bins;
             this.TotalBins = this.MaxBins;
-            this.Scans = this._dataReader.GetFrameParams(1).Scans;
+            this.Scans = this.dataReader.GetFrameParams(1).Scans;
+            this.checking = false;
         }
 
         #endregion
@@ -209,17 +229,17 @@ namespace Atreyu.Models
         {
             get
             {
-                return this.endframeNumber;
+                return this.endFrameNumber;
             }
 
             private set
             {
-                this.RaiseAndSetIfChanged(ref this.endframeNumber, value);
+                this.RaiseAndSetIfChanged(ref this.endFrameNumber, value);
             }
         }
 
         /// <summary>
-        /// Gets the end scan.
+        /// Gets or sets the end scan.
         /// </summary>
         public int EndScan
         {
@@ -347,7 +367,7 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// Gets or sets the gate.
+        /// Gets the gate.
         /// </summary>
         public double LowGate
         {
@@ -379,6 +399,22 @@ namespace Atreyu.Models
         }
 
         /// <summary>
+        /// Gets the range update list.
+        /// </summary>
+        public ConcurrentQueue<Range> RangeUpdateList
+        {
+            get
+            {
+                return this.rangeUpdateList;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.rangeUpdateList, value);
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the scans.
         /// </summary>
         public int Scans
@@ -401,28 +437,28 @@ namespace Atreyu.Models
         {
             get
             {
-                return this.startframeNumber;
+                return this.startFrameNumber;
             }
 
             private set
             {
-                this.RaiseAndSetIfChanged(ref this.startframeNumber, value);
+                this.RaiseAndSetIfChanged(ref this.startFrameNumber, value);
             }
         }
 
         /// <summary>
-        /// Gets the start scan.
+        /// Gets or sets the start scan.
         /// </summary>
         public int StartScan
         {
             get
             {
-                return this.startscan;
+                return this.startScan;
             }
 
             set
             {
-                this.RaiseAndSetIfChanged(ref this.startscan, value);
+                this.RaiseAndSetIfChanged(ref this.startScan, value);
             }
         }
 
@@ -479,6 +515,33 @@ namespace Atreyu.Models
         #region Public Methods and Operators
 
         /// <summary>
+        /// TODO The check queue.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public async Task CheckQueue()
+        {
+            if (this.checking)
+            {
+                return;
+            }
+
+            this.checking = true;
+            Range currentRange;
+
+            while (this.RangeUpdateList.TryDequeue(out currentRange))
+            {
+                this.ProcessData(currentRange);
+                await Task.Delay(1);
+            }
+
+            await this.ReadData();
+
+            this.checking = false;
+        }
+
+        /// <summary>
         /// TODO The dispose.
         /// </summary>
         public void Dispose()
@@ -487,12 +550,29 @@ namespace Atreyu.Models
             GC.SuppressFinalize(this);
         }
 
-
-        public double[,] ReadData(bool returnGatedData = false)
+        /// <summary>
+        /// TODO The read data.
+        /// </summary>
+        /// <param name="returnGatedData">
+        /// TODO The return gated data.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public async Task<double[,]> ReadData(bool returnGatedData = false)
         {
-            if (this.CurrentMaxBin < 1) return new double[0,0];
-            if (this.endScan < 1) return new double[0, 0];
-            var frameParams = this._dataReader.GetFrameParams(this.startframeNumber);
+            if (this.CurrentMaxBin < 1)
+            {
+                return new double[0, 0];
+            }
+
+            if (this.endScan < 1)
+            {
+                return new double[0, 0];
+            }
+
+            var frameParams = this.dataReader.GetFrameParams(this.startFrameNumber);
+
             if (frameParams == null)
             {
                 // Frame number is out of range
@@ -523,42 +603,43 @@ namespace Atreyu.Models
                 this.FrameType = frameParams.GetValue(FrameParamKeyType.FrameType);
                 this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
 
-                var temp = this._dataReader.AccumulateFrameData(
-                    this.startframeNumber,
-                    this.EndFrameNumber,
-                    false,
-                    this.StartScan,
-                    this.EndScan,
-                    this.CurrentMinBin,
-                    this.CurrentMaxBin,
-                    (int)this.ValuesPerPixelX,
-                    (int)this.ValuesPerPixelY);
+                await Task.Run(
+                    () =>
+                        {
+                            var temp = this.dataReader.AccumulateFrameData(
+                                this.startFrameNumber, 
+                                this.EndFrameNumber, 
+                                false, 
+                                this.StartScan, 
+                                this.EndScan, 
+                                this.CurrentMinBin, 
+                                this.CurrentMaxBin, 
+                                (int)this.ValuesPerPixelX, 
+                                (int)this.ValuesPerPixelY);
 
-                var arrayLength = (int)Math.Round((this.CurrentMaxBin - this.currentMinBin + 1) / this.ValuesPerPixelY);
+                            var arrayLength =
+                                (int)Math.Round((this.CurrentMaxBin - this.currentMinBin + 1) / this.ValuesPerPixelY);
 
-                var tof = new double[arrayLength];
-                var mz = new double[arrayLength];
-                var calibrator = this._dataReader.GetMzCalibrator(frameParams);
+                            var tof = new double[arrayLength];
+                            var mz = new double[arrayLength];
+                            var calibrator = this.dataReader.GetMzCalibrator(frameParams);
 
-                for (var i = 0; i < arrayLength; i++)
-                {
-                    tof[i] = this._dataReader.GetPixelMZ(i);
-                    mz[i] = calibrator.TOFtoMZ(tof[i] * 10);
-                }
+                            for (var i = 0; i < arrayLength; i++)
+                            {
+                                tof[i] = this.dataReader.GetPixelMZ(i);
+                                mz[i] = calibrator.TOFtoMZ(tof[i] * 10);
+                            }
 
-                this.BinToMzMap = mz;
+                            this.BinToMzMap = mz;
 
-                this.FrameData = temp;
+                            this.FrameData = temp;
+                        });
             }
 
             this.GateData();
 
             return returnGatedData ? this.GatedFrameData : this.FrameData;
         }
-
-        private int mostRecentHeight;
-        private int mostRecentWidth;
-
 
         /// <summary>
         /// TODO The read data.
@@ -569,10 +650,10 @@ namespace Atreyu.Models
         /// <param name="endBin">
         /// TODO The end bin.
         /// </param>
-        /// <param name="startFrameNumber">
+        /// <param name="startFrame">
         /// TODO The start frame number.
         /// </param>
-        /// <param name="endFrameNumber">
+        /// <param name="endFrame">
         /// TODO The end frame number.
         /// </param>
         /// <param name="height">
@@ -592,11 +673,11 @@ namespace Atreyu.Models
         /// <returns>
         /// The <see cref="double[,]"/>.
         /// </returns>
-        public double[,] ReadData(
+        public async Task<double[,]> ReadData(
             int startBin, 
             int endBin, 
-            int startFrameNumber, 
-            int endFrameNumber, 
+            int startFrame, 
+            int endFrame, 
             int height, 
             int width, 
             int startScanValue = 0, 
@@ -608,11 +689,11 @@ namespace Atreyu.Models
             this.CurrentMinBin = startBin < 0 ? 0 : startBin;
             this.CurrentMaxBin = endBin > this.MaxBins ? this.MaxBins : endBin;
 
-            this.StartFrameNumber = startFrameNumber;
-            this.EndFrameNumber = endFrameNumber;
+            this.StartFrameNumber = startFrame;
+            this.EndFrameNumber = endFrame;
             this.mostRecentHeight = height;
             this.mostRecentWidth = width;
-            return this.ReadData(returnGatedData);
+            return await this.ReadData(returnGatedData);
         }
 
         /// <summary>
@@ -635,7 +716,10 @@ namespace Atreyu.Models
         /// </param>
         public void UpdateLowGate(double newValue)
         {
-            if (this.frameData == null) { return; }
+            if (this.frameData == null)
+            {
+                return;
+            }
 
             this.LowGate = newValue;
             this.GateData();
@@ -671,10 +755,10 @@ namespace Atreyu.Models
         {
             if (disposing)
             {
-                if (this._dataReader != null)
+                if (this.dataReader != null)
                 {
-                    this._dataReader.Dispose();
-                    this._dataReader = null;
+                    this.dataReader.Dispose();
+                    this.dataReader = null;
                 }
             }
         }
@@ -704,6 +788,63 @@ namespace Atreyu.Models
             }
 
             this.GatedFrameData = temp;
+        }
+
+        /// <summary>
+        /// TODO The process data.
+        /// </summary>
+        /// <param name="range">
+        /// TODO The range.
+        /// </param>
+        /// <exception cref="ArgumentException">
+        /// </exception>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
+        private void ProcessData(Range range)
+        {
+            switch (range.RangeType)
+            {
+                case RangeType.BinRange:
+                    var binRange = range as BinRange;
+                    if (binRange == null)
+                    {
+                        throw new ArgumentException(
+                            "Range has it's RangeType set to BinRange but cannot be cast to BinRange", 
+                            "range");
+                    }
+
+                    this.CurrentMinBin = binRange.StartBin;
+                    this.CurrentMaxBin = binRange.EndBin;
+                    break;
+                case RangeType.FrameRange:
+                    var frameRange = range as FrameRange;
+                    if (frameRange == null)
+                    {
+                        throw new ArgumentException(
+                            "Range has it's RangeType set to FrameRange but cannot be cast to FrameRange", 
+                            "range");
+                    }
+
+                    this.StartFrameNumber = frameRange.StartFrame;
+                    this.EndFrameNumber = frameRange.EndFrame;
+                    break;
+                case RangeType.ScanRange:
+                    var scanRange = range as ScanRange;
+                    if (scanRange == null)
+                    {
+                        throw new ArgumentException(
+                            "Range has it's RangeType set to ScanRange but cannot be cast to ScanRange", 
+                            "range");
+                    }
+
+                    this.StartScan = scanRange.StartScan;
+                    this.EndScan = scanRange.EndScan;
+                    break;
+                default:
+                    throw new NotImplementedException(
+                        "Currently ProcessRangeData only supports types of BinRange, FrameRange, and ScanRange, "
+                        + "but you passed something else and it scared us too much to continue.");
+            }
         }
 
         #endregion

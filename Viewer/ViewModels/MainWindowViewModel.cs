@@ -6,12 +6,13 @@
 //   TODO The main window view model.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Viewer.ViewModels
 {
     using System;
     using System.Drawing.Imaging;
     using System.IO;
+    using System.Reactive.Linq;
+    using System.Threading.Tasks;
 
     using Atreyu.ViewModels;
 
@@ -34,7 +35,7 @@ namespace Viewer.ViewModels
             this.CombinedHeatmapViewModel = new CombinedHeatmapViewModel();
 
             this.OpenFile = ReactiveCommand.Create();
-            this.OpenFile.Subscribe(x => this.OpenHeatmapFile());
+            this.OpenFile.Select(async _ => await this.OpenHeatmapFile()).Subscribe();
 
             this.SaveHeatmap = ReactiveCommand.Create();
             this.SaveHeatmap.Subscribe(x => this.SaveHeatmapImage());
@@ -163,7 +164,10 @@ namespace Viewer.ViewModels
         /// <summary>
         /// TODO The open heatmap file.
         /// </summary>
-        private void OpenHeatmapFile()
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        private async Task OpenHeatmapFile()
         {
             var dialogue = new OpenFileDialog
                                {
@@ -180,7 +184,7 @@ namespace Viewer.ViewModels
 
             var filename = dialogue.FileName;
 
-            this.CombinedHeatmapViewModel.InitializeUimfData(filename);
+            await this.CombinedHeatmapViewModel.InitializeUimfData(filename);
         }
 
         /// <summary>

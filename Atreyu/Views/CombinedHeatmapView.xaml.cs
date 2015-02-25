@@ -8,32 +8,22 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Atreyu.Views
 {
+    using System;
     using System.IO;
+    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
 
     using Atreyu.ViewModels;
 
-    using Falkor.Views.Atreyu;
-
     using ReactiveUI;
 
     /// <summary>
-    /// Interaction logic for CombinedHeatmapView.xaml
-    /// </summary>
-    public partial class CombinedHeatmapView : UserControl, IViewFor<CombinedHeatmapViewModel>
+    /// Interaction logic for CombinedHeatmapView
+    ///  </summary>
+    public partial class CombinedHeatmapView : IViewFor<CombinedHeatmapViewModel>
     {
         #region Fields
-
-        /// <summary>
-        /// TODO The high slider view.
-        /// </summary>
-        private GateSlider HighSliderView;
-
-        /// <summary>
-        /// TODO The low slider view.
-        /// </summary>
-        private GateSlider LowSliderView;
 
         /// <summary>
         /// TODO The frame manipulation view.
@@ -44,6 +34,11 @@ namespace Atreyu.Views
         /// TODO The heat map view.
         /// </summary>
         private HeatMapView heatMapView;
+
+        /// <summary>
+        /// TODO The low slider view.
+        /// </summary>
+        private GateSlider lowSliderView;
 
         /// <summary>
         /// TODO The mz spectra view.
@@ -65,7 +60,9 @@ namespace Atreyu.Views
         public CombinedHeatmapView()
         {
             this.InitializeComponent();
-            this.DataContextChanged += this.CombinedHeatmapView_DataContextChanged;
+            this.DataContextChanged += this.CombinedHeatmapViewDataContextChanged;
+            this.AllowDrop = true;
+            this.PreviewDrop += this.CombinedHeatmapViewPreviewDrop;
         }
 
         #endregion
@@ -110,9 +107,14 @@ namespace Atreyu.Views
         /// <param name="e">
         /// TODO The e.
         /// </param>
-        private void CombinedHeatmapView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void CombinedHeatmapViewDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             this.ViewModel = e.NewValue as CombinedHeatmapViewModel;
+
+            if (this.ViewModel == null)
+            {
+                throw new ArgumentException("arguement e is only allowed to be of type CombinedHeatmapViewModel", "e");
+            }
 
             this.heatMapView = new HeatMapView(this.ViewModel.HeatMapViewModel);
             Grid.SetColumn(this.heatMapView, 1);
@@ -136,18 +138,47 @@ namespace Atreyu.Views
             Grid.SetColumnSpan(this.totalIonChromatogramView, 2);
             this.MainGrid.Children.Add(this.totalIonChromatogramView);
 
-            this.LowSliderView = new GateSlider(this.ViewModel.LowValueGateSliderViewModel);
-            Grid.SetRow(this.LowSliderView, 1);
-            Grid.SetColumn(this.LowSliderView, 3);
-            this.MainGrid.Children.Add(this.LowSliderView);
-
-            this.HighSliderView = new GateSlider(this.ViewModel.HighValueGateSliderViewModel);
+            this.lowSliderView = new GateSlider(this.ViewModel.LowValueGateSliderViewModel);
+            Grid.SetRow(this.lowSliderView, 1);
+            Grid.SetColumn(this.lowSliderView, 3);
+            this.MainGrid.Children.Add(this.lowSliderView);
 
             // Grid.SetRow(this.HighSliderView, 1);
             // Grid.SetColumn(this.HighSliderView, 4);
             // this.MainGrid.Children.Add(this.HighSliderView);
             this.AllowDrop = true;
-            this.PreviewDrop += this.MainTabControl_PreviewDragEnter;
+            this.PreviewDrop += this.MainTabControlPreviewDragEnter;
+        }
+
+        /// <summary>
+        /// TODO The combined heatmap view preview drop.
+        /// </summary>
+        /// <param name="sender">
+        /// TODO The sender.
+        /// </param>
+        /// <param name="e">
+        /// TODO The e.
+        /// </param>
+        private async void CombinedHeatmapViewPreviewDrop(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop, true))
+            {
+                return;
+            }
+
+            var droppedFilePaths = e.Data.GetData(DataFormats.FileDrop, true) as string[];
+            if (droppedFilePaths == null || droppedFilePaths.Length < 1)
+            {
+                return;
+            }
+
+            var file = droppedFilePaths[0];
+            if (!File.Exists(file))
+            {
+                return;
+            }
+
+            await this.ViewModel.InitializeUimfData(file);
         }
 
         /// <summary>
@@ -156,12 +187,13 @@ namespace Atreyu.Views
         /// <param name="fileName">
         /// TODO The file name.
         /// </param>
-        private void LoadFile(string fileName)
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        private async Task LoadFile(string fileName)
         {
-            this.ViewModel.InitializeUimfData(fileName);
+            await this.ViewModel.InitializeUimfData(fileName);
             this.ViewModel.FrameManipulationViewModel.CurrentFrame = 1;
-
-            // this.totalIonChromatogramViewModel.UpdateReference(this.heatMapViewModel.HeatMapData);
         }
 
         /// <summary>
@@ -173,11 +205,11 @@ namespace Atreyu.Views
         /// <param name="e">
         /// TODO The e.
         /// </param>
-        private void MainTabControl_PreviewDragEnter(object sender, DragEventArgs e)
+        private async void MainTabControlPreviewDragEnter(object sender, DragEventArgs e)
         {
             var isCorrect = true;
             string[] filenames = { };
-            if (e.Data.GetDataPresent(DataFormats.FileDrop, true) == true)
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
             {
                 filenames = (string[])e.Data.GetData(DataFormats.FileDrop, true);
                 foreach (string filename in filenames)
@@ -202,7 +234,7 @@ namespace Atreyu.Views
 
             if (isCorrect)
             {
-                this.LoadFile(filenames[0]);
+                await this.LoadFile(filenames[0]);
             }
 
             e.Handled = true;

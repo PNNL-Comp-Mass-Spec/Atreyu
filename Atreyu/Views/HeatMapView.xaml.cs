@@ -6,15 +6,14 @@
 //   Interaction logic for HeatMapView.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace Falkor.Views.Atreyu
+namespace Atreyu.Views
 {
     using System;
     using System.ComponentModel.Composition;
     using System.Reactive.Linq;
     using System.Windows;
-    using System.Windows.Controls;
 
-    using global::Atreyu.ViewModels;
+    using Atreyu.ViewModels;
 
     using ReactiveUI;
 
@@ -22,7 +21,7 @@ namespace Falkor.Views.Atreyu
     /// Interaction logic for HeatMapView.xaml
     /// </summary>
     [Export]
-    public partial class HeatMapView : UserControl, IViewFor<HeatMapViewModel>
+    public partial class HeatMapView : IViewFor<HeatMapViewModel>
     {
         #region Constructors and Destructors
 
@@ -77,40 +76,6 @@ namespace Falkor.Views.Atreyu
             {
                 this.ViewModel = value as HeatMapViewModel;
             }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// TODO The on drop.
-        /// </summary>
-        /// <param name="e">
-        /// TODO The e.
-        /// </param>
-        protected override void OnDrop(DragEventArgs e)
-        {
-            base.OnDrop(e);
-
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                var files = e.Data.GetData(DataFormats.FileDrop) as string[];
-                this.HandleFileOpen(files);
-            }
-
-            e.Handled = true;
-        }
-
-        /// <summary>
-        /// TODO The handle file open.
-        /// </summary>
-        /// <param name="files">
-        /// TODO The files.
-        /// </param>
-        private void HandleFileOpen(string[] files)
-        {
-            this.ViewModel.InitializeUimfData(files[0]);
         }
 
         #endregion

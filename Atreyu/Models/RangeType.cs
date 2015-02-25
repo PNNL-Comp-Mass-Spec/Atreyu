@@ -1,30 +1,31 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FrameRange.cs" company="">
+// <copyright file="RangeType.cs" company="">
 //   
 // </copyright>
 // <summary>
-//   TODO The frame range.
+//   TODO The range type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Atreyu.Models
 {
     /// <summary>
-    /// TODO The frame range.
+    /// TODO The range type.
     /// </summary>
-    public class FrameRange
+    public enum RangeType
     {
-        #region Public Properties
+        /// <summary>
+        /// The bin range.
+        /// </summary>
+        BinRange, 
 
         /// <summary>
-        /// Gets or sets the end frame.
+        /// The frame range.
         /// </summary>
-        public int EndFrame { get; set; }
+        FrameRange, 
 
         /// <summary>
-        /// Gets or sets the start frame.
+        /// The scan range.
         /// </summary>
-        public int StartFrame { get; set; }
-
-        #endregion
+        ScanRange
     }
 }

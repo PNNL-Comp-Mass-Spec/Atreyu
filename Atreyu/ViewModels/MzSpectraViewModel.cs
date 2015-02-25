@@ -36,33 +36,9 @@ namespace Atreyu.ViewModels
         #region Fields
 
         /// <summary>
-        /// TODO The _current frame number.
-        /// </summary>
-        ////private int _currentFrameNumber;
-        /// <summary>
-        /// TODO The _end mz bin.
-        /// </summary>
-        private int _endMzBin;
-
-        /// <summary>
         /// TODO The _frame data.
         /// </summary>
-        private double[,] _frameData;
-
-        /// <summary>
-        /// TODO The _mz plot model.
-        /// </summary>
-        private PlotModel _mzPlotModel;
-
-        /// <summary>
-        /// TODO The _start mz bin.
-        /// </summary>
-        private int _startMzBin;
-
-        /// <summary>
-        /// TODO The _uimf data.
-        /// </summary>
-        private UimfData _uimfData;
+        private double[,] frameData;
 
         /// <summary>
         /// TODO The intercept.
@@ -75,6 +51,11 @@ namespace Atreyu.ViewModels
         private Dictionary<double, double> mzFrameData;
 
         /// <summary>
+        /// TODO The _mz plot model.
+        /// </summary>
+        private PlotModel mzPlotModel;
+
+        /// <summary>
         /// TODO The show mz.
         /// </summary>
         private bool showMz;
@@ -83,6 +64,16 @@ namespace Atreyu.ViewModels
         /// TODO The slope.
         /// </summary>
         private double slope;
+
+        /// <summary>
+        /// TODO The _start mz bin.
+        /// </summary>
+        private int startMzBin;
+
+        /// <summary>
+        /// TODO The _uimf data.
+        /// </summary>
+        private UimfData uimfData;
 
         #endregion
 
@@ -94,12 +85,7 @@ namespace Atreyu.ViewModels
         [ImportingConstructor]
         public MzSpectraViewModel()
         {
-            this.WhenAnyValue(vm => vm.ShowMz).Subscribe(b => this.UpdateFrameData(this._frameData));
-
-            ////this._eventAggregator = eventAggregator;
-            ////this._eventAggregator.GetEvent<UimfFileChangedEvent>().Subscribe(this.UpdateReference, true);
-            ////this._eventAggregator.GetEvent<YAxisChangedEvent>().Subscribe(this.UpdateXAxis, true);
-            ////this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Subscribe(this.UpdateFrameNumber, true);
+            this.WhenAnyValue(vm => vm.ShowMz).Subscribe(b => this.UpdateFrameData(this.frameData));
         }
 
         #endregion
@@ -134,12 +120,12 @@ namespace Atreyu.ViewModels
         {
             get
             {
-                return this._mzPlotModel;
+                return this.mzPlotModel;
             }
 
             set
             {
-                this.RaiseAndSetIfChanged(ref this._mzPlotModel, value);
+                this.RaiseAndSetIfChanged(ref this.mzPlotModel, value);
             }
         }
 
@@ -185,6 +171,58 @@ namespace Atreyu.ViewModels
         #region Public Methods and Operators
 
         /// <summary>
+        /// TODO The change start bin.
+        /// </summary>
+        /// <param name="bin">
+        /// TODO The bin.
+        /// </param>
+        public void ChangeStartBin(int bin)
+        {
+            this.startMzBin = bin;
+        }
+
+        /// <summary>
+        /// TODO The create plot model.
+        /// </summary>
+        public void CreatePlotModel()
+        {
+            this.MzPlotModel = new PlotModel();
+            var linearAxis = new LinearAxis
+                                 {
+                                     Position = AxisPosition.Right, 
+                                     AbsoluteMinimum = 0, 
+                                     Key = "XAxisKey", 
+                                     IsPanEnabled = false, 
+                                     IsZoomEnabled = false, 
+                                     MinimumPadding = 0.0, 
+                                     Title = this.ShowMz ? "m/z" : "Bin", 
+                                     StringFormat = "f2"
+                                 };
+            this.MzPlotModel.Axes.Add(linearAxis);
+
+            var linearYAxis = new LinearAxis
+                                  {
+                                      AbsoluteMinimum = 0, 
+                                      IsZoomEnabled = false, 
+                                      Position = AxisPosition.Top, 
+                                      Key = "YAxisKey", 
+                                      IsPanEnabled = false, 
+                                      MinimumPadding = 0, 
+                                      StartPosition = 1, 
+                                      EndPosition = 0, 
+                                  };
+            this.MzPlotModel.Axes.Add(linearYAxis);
+            var series = new LineSeries
+                             {
+                                 Color = OxyColors.Black, 
+                                 YAxisKey = linearAxis.Key, 
+                                 XAxisKey = linearYAxis.Key, 
+                                 StrokeThickness = 1
+                             };
+            this.MzPlotModel.Series.Add(series);
+        }
+
+        /// <summary>
         /// TODO The get mz data compressed.
         /// </summary>
         /// <returns>
@@ -219,11 +257,11 @@ namespace Atreyu.ViewModels
         /// TODO The update frame number.
         /// </summary>
         /// <param name="framedata">
-        /// The framedata.
+        /// The frame data.
         /// </param>
         public void UpdateFrameData(double[,] framedata)
         {
-            if (this._uimfData == null)
+            if (this.uimfData == null)
             {
                 return;
             }
@@ -238,33 +276,33 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            this._frameData = framedata;
-            var frameData = new Dictionary<double, double>();
+            this.frameData = framedata;
+            var frameDictionary = new Dictionary<double, double>();
             this.mzFrameData = new Dictionary<double, double>();
 
-            for (var j = 0; j < this._frameData.GetLength(1); j++)
+            for (var j = 0; j < this.frameData.GetLength(1); j++)
             {
-                double index = j + this._startMzBin;
+                double index = j + this.startMzBin;
                 var mzIndex = this.BinToMzMap[j];
 
-                for (var i = 0; i < this._frameData.GetLength(0); i++)
+                for (var i = 0; i < this.frameData.GetLength(0); i++)
                 {
-                    if (frameData.ContainsKey(index))
+                    if (frameDictionary.ContainsKey(index))
                     {
-                        frameData[index] += this._frameData[i, j];
+                        frameDictionary[index] += this.frameData[i, j];
                     }
                     else
                     {
-                        frameData.Add(index, this._frameData[i, j]);
+                        frameDictionary.Add(index, this.frameData[i, j]);
                     }
 
                     if (this.mzFrameData.ContainsKey(mzIndex))
                     {
-                        this.mzFrameData[mzIndex] += this._frameData[i, j];
+                        this.mzFrameData[mzIndex] += this.frameData[i, j];
                     }
                     else
                     {
-                        this.mzFrameData.Add(mzIndex, this._frameData[i, j]);
+                        this.mzFrameData.Add(mzIndex, this.frameData[i, j]);
                     }
                 }
             }
@@ -288,7 +326,7 @@ namespace Atreyu.ViewModels
                 }
                 else
                 {
-                    foreach (var d in frameData)
+                    foreach (var d in frameDictionary)
                     {
                         series.Points.Add(new DataPoint(d.Value, d.Key));
                     }
@@ -301,130 +339,18 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// TODO The update reference.
         /// </summary>
-        /// <param name="uimfData">
+        /// <param name="uimfDataNew">
         /// TODO The uimf data.
         /// </param>
-        public void UpdateReference(UimfData uimfData)
+        public void UpdateReference(UimfData uimfDataNew)
         {
-            if (uimfData == null)
+            if (uimfDataNew == null)
             {
                 return;
             }
 
-            this._uimfData = uimfData;
+            this.uimfData = uimfDataNew;
             this.CreatePlotModel();
-        }
-
-        public void CreatePlotModel()
-        {
-            this.MzPlotModel = new PlotModel();
-            var linearAxis = new LinearAxis
-            {
-                Position = AxisPosition.Right,
-                AbsoluteMinimum = 0,
-                Key = "XAxisKey",
-                IsPanEnabled = false,
-                IsZoomEnabled = false,
-                MinimumPadding = 0.0,
-                Title = this.ShowMz ? "m/z" : "Bin",
-                StringFormat = "f2"
-            };
-            this.MzPlotModel.Axes.Add(linearAxis);
-
-            var linearYAxis = new LinearAxis
-            {
-                AbsoluteMinimum = 0,
-                IsZoomEnabled = false,
-                Position = AxisPosition.Top,
-                Key = "YAxisKey",
-                IsPanEnabled = false,
-                MinimumPadding = 0,
-                StartPosition = 1,
-                EndPosition = 0,
-            };
-            this.MzPlotModel.Axes.Add(linearYAxis);
-            var series = new LineSeries
-            {
-                Color = OxyColors.Black,
-                YAxisKey = linearAxis.Key,
-                XAxisKey = linearYAxis.Key,
-                StrokeThickness = 1
-            };
-            this.MzPlotModel.Series.Add(series);
-        }
-
-        /// <summary>
-        /// TODO The change end bin.
-        /// </summary>
-        /// <param name="bin">
-        /// TODO The bin.
-        /// </param>
-        public void changeEndBin(int bin)
-        {
-            this._endMzBin = bin;
-        }
-
-        /// <summary>
-        /// TODO The change start bin.
-        /// </summary>
-        /// <param name="bin">
-        /// TODO The bin.
-        /// </param>
-        public void changeStartBin(int bin)
-        {
-            this._startMzBin = bin;
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// TODO The update x axis.
-        /// </summary>
-        /// <param name="linearAxis">
-        /// TODO The linear axis.
-        /// </param>
-        private void UpdateXAxis(LinearAxis linearAxis)
-        {
-            var xAxis = this.MzPlotModel.Axes[0] as LinearAxis;
-            this._startMzBin = (int)linearAxis.ActualMinimum;
-            this._endMzBin = (int)linearAxis.ActualMaximum;
-
-            xAxis.AbsoluteMaximum = this._endMzBin;
-            this._frameData = this._uimfData.FrameData;
-            if (this._frameData != null)
-            {
-                Dictionary<int, double> frameData = new Dictionary<int, double>();
-
-                for (int j = 0; j < this._frameData.GetLength(1); j++)
-                {
-                    var index = j + this._startMzBin;
-                    for (int i = 0; i < this._frameData.GetLength(0); i++)
-                    {
-                        if (frameData.ContainsKey(index))
-                        {
-                            frameData[index] += this._frameData[i, j];
-                        }
-                        else
-                        {
-                            frameData.Add(index, this._frameData[i, j]);
-                        }
-                    }
-                }
-
-                var series = this.MzPlotModel.Series[0] as LineSeries;
-                if (series != null)
-                {
-                    series.Points.Clear();
-                    foreach (var d in frameData)
-                    {
-                        series.Points.Add(new DataPoint(d.Key, d.Value));
-                    }
-                }
-
-                this.MzPlotModel.InvalidatePlot(true);
-            }
         }
 
         #endregion

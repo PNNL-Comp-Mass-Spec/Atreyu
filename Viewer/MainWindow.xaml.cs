@@ -8,8 +8,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Viewer
 {
-    using System.Windows;
-
     using ReactiveUI;
 
     using Viewer.ViewModels;
@@ -17,7 +15,7 @@ namespace Viewer
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, IViewFor<MainWindowViewModel>
+    public partial class MainWindow : IViewFor<MainWindowViewModel>
     {
         #region Constructors and Destructors
 
