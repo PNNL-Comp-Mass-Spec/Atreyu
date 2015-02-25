@@ -10,6 +10,7 @@ namespace Atreyu.Models
 {
     using System;
     using System.Collections.Concurrent;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using ReactiveUI;
@@ -533,6 +534,7 @@ namespace Atreyu.Models
             while (this.RangeUpdateList.TryDequeue(out currentRange))
             {
                 this.ProcessData(currentRange);
+                await Task.Delay(1);
             }
 
             await this.ReadData();

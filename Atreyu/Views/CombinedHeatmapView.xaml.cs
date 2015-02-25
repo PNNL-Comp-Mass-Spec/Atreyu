@@ -61,6 +61,30 @@ namespace Atreyu.Views
         {
             this.InitializeComponent();
             this.DataContextChanged += this.CombinedHeatmapViewDataContextChanged;
+            this.AllowDrop = true;
+            this.PreviewDrop += this.CombinedHeatmapViewPreviewDrop;
+        }
+
+        async void CombinedHeatmapViewPreviewDrop(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop, true))
+            {
+                return;
+            }
+
+            var droppedFilePaths = e.Data.GetData(DataFormats.FileDrop, true) as string[];
+            if (droppedFilePaths == null || droppedFilePaths.Length < 1)
+            {
+                return;
+            }
+
+            var file = droppedFilePaths[0];
+            if (!File.Exists(file))
+            {
+                return;
+            }
+
+            await this.ViewModel.InitializeUimfData(file);
         }
 
         #endregion
