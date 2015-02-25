@@ -9,7 +9,6 @@
 namespace Atreyu.Models
 {
     using System;
-    using System.Windows.Controls;
 
     using ReactiveUI;
 
@@ -96,9 +95,22 @@ namespace Atreyu.Models
 
         #endregion
 
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// TODO The equals.
+        /// </summary>
+        /// <param name="other">
+        /// TODO The other.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         public bool Equals(FrameRange other)
         {
             return this.StartFrame == other.StartFrame && this.EndFrame == other.EndFrame;
         }
+
+        #endregion
     }
 }

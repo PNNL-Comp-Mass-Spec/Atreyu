@@ -33,9 +33,9 @@ namespace Atreyu.ViewModels
         #region Fields
 
         /// <summary>
-        /// TODO The _heat map plot model.
+        /// TODO The current bin range.
         /// </summary>
-        private PlotModel heatMapPlotModel;
+        private BinRange currentBinRange;
 
         /// <summary>
         /// TODO The current file.
@@ -63,6 +63,11 @@ namespace Atreyu.ViewModels
         private int currentMinScan;
 
         /// <summary>
+        /// TODO The current scan range.
+        /// </summary>
+        private ScanRange currentScanRange;
+
+        /// <summary>
         /// TODO The data array.
         /// </summary>
         private double[,] dataArray;
@@ -71,6 +76,11 @@ namespace Atreyu.ViewModels
         /// TODO The heat map data.
         /// </summary>
         private UimfData heatMapData;
+
+        /// <summary>
+        /// TODO The _heat map plot model.
+        /// </summary>
+        private PlotModel heatMapPlotModel;
 
         /// <summary>
         /// TODO The height.
@@ -91,10 +101,6 @@ namespace Atreyu.ViewModels
         /// TODO The width.
         /// </summary>
         private int width;
-
-        private BinRange currentBinRange;
-
-        private ScanRange currentScanRange;
 
         #endregion
 
@@ -126,27 +132,19 @@ namespace Atreyu.ViewModels
         /// </summary>
         public double[] BinToMzMap { get; set; }
 
+        /// <summary>
+        /// Gets or sets the current bin range.
+        /// </summary>
         public BinRange CurrentBinRange
         {
             get
             {
                 return this.currentBinRange;
             }
+
             set
             {
                 this.RaiseAndSetIfChanged(ref this.currentBinRange, value);
-            }
-        }
-
-        public ScanRange CurrentScanRange
-        {
-            get
-            {
-                return this.currentScanRange;
-            }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.currentScanRange, value);
             }
         }
 
@@ -227,6 +225,22 @@ namespace Atreyu.ViewModels
             set
             {
                 this.RaiseAndSetIfChanged(ref this.currentMinScan, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the current scan range.
+        /// </summary>
+        public ScanRange CurrentScanRange
+        {
+            get
+            {
+                return this.currentScanRange;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.currentScanRange, value);
             }
         }
 

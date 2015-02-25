@@ -14,8 +14,6 @@ namespace Atreyu.ViewModels
     using System.Drawing;
     using System.IO;
     using System.Reactive.Linq;
-    using System.Runtime.InteropServices;
-    using System.Threading;
     using System.Threading.Tasks;
 
     using Atreyu.Models;
@@ -159,25 +157,27 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.UimfData.BinToMzMap).Subscribe(d => this.MzSpectraViewModel.BinToMzMap = d);
 
             this.WhenAnyValue(vm => vm.UimfData.BinToMzMap).Subscribe(d => this.HeatMapViewModel.BinToMzMap = d);
-            
+
             this.WhenAnyValue(vm => vm.HeatMapViewModel.Height).Subscribe(d => this.Height = d);
             this.WhenAnyValue(vm => vm.HeatMapViewModel.Width).Subscribe(d => this.Width = d);
 
             this.HeatMapViewModel.WhenAnyValue(hm => hm.CurrentBinRange)
                 .Where(_ => this.UimfData != null && this.HeatMapViewModel.CurrentBinRange != null)
-                .Select(async x =>
-                {
-                    this.UimfData.RangeUpdateList.Enqueue(x);
-                    await this.uimfData.CheckQueue();
-                }).Subscribe();
+                .Select(
+                    async x =>
+                        {
+                            this.UimfData.RangeUpdateList.Enqueue(x);
+                            await this.uimfData.CheckQueue();
+                        }).Subscribe();
 
             this.HeatMapViewModel.WhenAnyValue(hm => hm.CurrentScanRange)
                 .Where(_ => this.UimfData != null && this.HeatMapViewModel.CurrentScanRange != null)
-                .Select(async x =>
-                {
-                    this.UimfData.RangeUpdateList.Enqueue(x);
-                    await this.uimfData.CheckQueue();
-                }).Subscribe();
+                .Select(
+                    async x =>
+                        {
+                            this.UimfData.RangeUpdateList.Enqueue(x);
+                            await this.uimfData.CheckQueue();
+                        }).Subscribe();
         }
 
         #endregion
@@ -329,17 +329,17 @@ namespace Atreyu.ViewModels
             this.currentStartFrame = frameNumber;
             this.currentEndFrame = frameNumber;
 
-                await
-                    this.UimfData.ReadData(
-                        1,
-                        this.UimfData.MaxBins,
-                        frameNumber,
-                        frameNumber,
-                        this.Height,
-                        this.Width,
-                        0,
-                        this.UimfData.Scans,
-                        ReturnGatedData);
+            await
+                this.UimfData.ReadData(
+                    1, 
+                    this.UimfData.MaxBins, 
+                    frameNumber, 
+                    frameNumber, 
+                    this.Height, 
+                    this.Width, 
+                    0, 
+                    this.UimfData.Scans, 
+                    ReturnGatedData);
         }
 
         /// <summary>
@@ -405,17 +405,17 @@ namespace Atreyu.ViewModels
 
             this.currentEndFrame = sumFrames.EndFrame < 1 ? 1 : sumFrames.EndFrame;
 
-                await
-                    this.UimfData.ReadData(
-                        this.UimfData.CurrentMinBin,
-                        this.UimfData.CurrentMaxBin,
-                        this.currentStartFrame,
-                        this.currentEndFrame,
-                        this.Height,
-                        this.Width,
-                        this.UimfData.StartScan,
-                        this.UimfData.EndScan,
-                        ReturnGatedData);
+            await
+                this.UimfData.ReadData(
+                    this.UimfData.CurrentMinBin, 
+                    this.UimfData.CurrentMaxBin, 
+                    this.currentStartFrame, 
+                    this.currentEndFrame, 
+                    this.Height, 
+                    this.Width, 
+                    this.UimfData.StartScan, 
+                    this.UimfData.EndScan, 
+                    ReturnGatedData);
         }
 
         /// <summary>
@@ -448,33 +448,6 @@ namespace Atreyu.ViewModels
             this.UimfData.RangeUpdateList.Enqueue(scanRange);
             this.UimfData.RangeUpdateList.Enqueue(binRange);
             await this.UimfData.CheckQueue();
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// TODO The update view region.
-        /// </summary>
-        /// <param name="minBin">
-        /// TODO The min bin.
-        /// </param>
-        /// <param name="maxBin">
-        /// TODO The max bin.
-        /// </param>
-        /// <param name="minScan">
-        /// TODO The min scan.
-        /// </param>
-        /// <param name="maxScan">
-        /// TODO The max scan.
-        /// </param>
-        private void UpdateViewRegion(int minBin, int maxBin, int minScan, int maxScan)
-        {
-            this.uimfData.CurrentMinBin = minBin;
-            this.uimfData.CurrentMaxBin = maxBin;
-            this.uimfData.StartScan = minScan;
-            this.uimfData.EndScan = maxScan;
         }
 
         #endregion

@@ -41,21 +41,6 @@ namespace Atreyu.ViewModels
         private double[,] frameData;
 
         /// <summary>
-        /// TODO The _mz plot model.
-        /// </summary>
-        private PlotModel mzPlotModel;
-
-        /// <summary>
-        /// TODO The _start mz bin.
-        /// </summary>
-        private int startMzBin;
-
-        /// <summary>
-        /// TODO The _uimf data.
-        /// </summary>
-        private UimfData uimfData;
-
-        /// <summary>
         /// TODO The intercept.
         /// </summary>
         private double intercept;
@@ -66,6 +51,11 @@ namespace Atreyu.ViewModels
         private Dictionary<double, double> mzFrameData;
 
         /// <summary>
+        /// TODO The _mz plot model.
+        /// </summary>
+        private PlotModel mzPlotModel;
+
+        /// <summary>
         /// TODO The show mz.
         /// </summary>
         private bool showMz;
@@ -74,6 +64,16 @@ namespace Atreyu.ViewModels
         /// TODO The slope.
         /// </summary>
         private double slope;
+
+        /// <summary>
+        /// TODO The _start mz bin.
+        /// </summary>
+        private int startMzBin;
+
+        /// <summary>
+        /// TODO The _uimf data.
+        /// </summary>
+        private UimfData uimfData;
 
         #endregion
 
@@ -169,6 +169,17 @@ namespace Atreyu.ViewModels
         #endregion
 
         #region Public Methods and Operators
+
+        /// <summary>
+        /// TODO The change start bin.
+        /// </summary>
+        /// <param name="bin">
+        /// TODO The bin.
+        /// </param>
+        public void ChangeStartBin(int bin)
+        {
+            this.startMzBin = bin;
+        }
 
         /// <summary>
         /// TODO The create plot model.
@@ -340,17 +351,6 @@ namespace Atreyu.ViewModels
 
             this.uimfData = uimfDataNew;
             this.CreatePlotModel();
-        }
-
-        /// <summary>
-        /// TODO The change start bin.
-        /// </summary>
-        /// <param name="bin">
-        /// TODO The bin.
-        /// </param>
-        public void ChangeStartBin(int bin)
-        {
-            this.startMzBin = bin;
         }
 
         #endregion

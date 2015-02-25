@@ -10,7 +10,7 @@ namespace Atreyu.Views
 {
     using System.ComponentModel.Composition;
 
-    using global::Atreyu.ViewModels;
+    using Atreyu.ViewModels;
 
     /// <summary>
     /// Interaction logic for TotalIonChromatogramView.xaml

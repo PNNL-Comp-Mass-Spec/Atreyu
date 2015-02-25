@@ -10,9 +10,6 @@ namespace Atreyu.Models
 {
     using System;
     using System.Collections.Concurrent;
-    using System.Net.Sockets;
-    using System.Reactive.Linq;
-    using System.Threading;
     using System.Threading.Tasks;
 
     using ReactiveUI;
@@ -30,6 +27,11 @@ namespace Atreyu.Models
         /// TODO The bin to mz map.
         /// </summary>
         private double[] binToMzMap;
+
+        /// <summary>
+        /// TODO The checking.
+        /// </summary>
+        private bool checking;
 
         /// <summary>
         /// TODO The current max bin.
@@ -111,6 +113,9 @@ namespace Atreyu.Models
         /// </summary>
         private int mostRecentWidth;
 
+        /// <summary>
+        /// TODO The range update list.
+        /// </summary>
         private ConcurrentQueue<Range> rangeUpdateList;
 
         /// <summary>
@@ -166,7 +171,6 @@ namespace Atreyu.Models
         }
 
         #endregion
-        private bool checking;
 
         #region Public Properties
 
@@ -185,7 +189,7 @@ namespace Atreyu.Models
                 this.RaiseAndSetIfChanged(ref this.binToMzMap, value);
             }
         }
-        
+
         /// <summary>
         /// Gets or sets the current max bin.
         /// </summary>
@@ -394,6 +398,9 @@ namespace Atreyu.Models
             }
         }
 
+        /// <summary>
+        /// Gets the range update list.
+        /// </summary>
         public ConcurrentQueue<Range> RangeUpdateList
         {
             get
@@ -505,6 +512,14 @@ namespace Atreyu.Models
 
         #endregion
 
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// TODO The check queue.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
         public async Task CheckQueue()
         {
             if (this.checking)
@@ -514,7 +529,7 @@ namespace Atreyu.Models
 
             this.checking = true;
             Range currentRange;
-            
+
             while (this.RangeUpdateList.TryDequeue(out currentRange))
             {
                 this.ProcessData(currentRange);
@@ -524,49 +539,6 @@ namespace Atreyu.Models
 
             this.checking = false;
         }
-
-        private void ProcessData(Range range)
-        {
-              switch (range.RangeType)
-                {
-                    case RangeType.BinRange:
-                        var binRange = range as BinRange;
-                        if (binRange == null)
-                        {
-                            throw new ArgumentException("Range has it's RangeType set to BinRange but cannot be cast to BinRange", "range");
-                        }
-
-                        this.CurrentMinBin = binRange.StartBin;
-                        this.CurrentMaxBin = binRange.EndBin;
-                        break;
-                    case RangeType.FrameRange:
-                      var frameRange = range as FrameRange;
-                        if (frameRange == null)
-                        {
-                            throw new ArgumentException("Range has it's RangeType set to FrameRange but cannot be cast to FrameRange", "range");
-                        }
-
-                        this.StartFrameNumber = frameRange.StartFrame;
-                        this.EndFrameNumber = frameRange.EndFrame;
-                        break;
-                    case RangeType.ScanRange:
-                      var scanRange = range as ScanRange;
-                      if (scanRange == null)
-                        {
-                            throw new ArgumentException("Range has it's RangeType set to ScanRange but cannot be cast to ScanRange", "range");
-                        }
-
-                      this.StartScan = scanRange.StartScan;
-                      this.EndScan = scanRange.EndScan;
-                        break;
-                    default:
-                        throw new NotImplementedException(
-                            "Currently ProcessRangeData only supports types of BinRange, FrameRange, and ScanRange, "
-                            + "but you passed something else and it scared us too much to continue.");
-                }
-        }
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// TODO The dispose.
@@ -580,8 +552,6 @@ namespace Atreyu.Models
         /// <summary>
         /// TODO The read data.
         /// </summary>
-        /// <param name="ct">
-        /// </param>
         /// <param name="returnGatedData">
         /// TODO The return gated data.
         /// </param>
@@ -691,8 +661,6 @@ namespace Atreyu.Models
         /// <param name="width">
         /// TODO The width.
         /// </param>
-        /// <param name="ct">
-        /// </param>
         /// <param name="startScanValue">
         /// TODO The start scan.
         /// </param>
@@ -710,7 +678,7 @@ namespace Atreyu.Models
             int startFrame, 
             int endFrame, 
             int height, 
-            int width,
+            int width, 
             int startScanValue = 0, 
             int endScanValue = 359, 
             bool returnGatedData = false)
@@ -819,6 +787,63 @@ namespace Atreyu.Models
             }
 
             this.GatedFrameData = temp;
+        }
+
+        /// <summary>
+        /// TODO The process data.
+        /// </summary>
+        /// <param name="range">
+        /// TODO The range.
+        /// </param>
+        /// <exception cref="ArgumentException">
+        /// </exception>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
+        private void ProcessData(Range range)
+        {
+            switch (range.RangeType)
+            {
+                case RangeType.BinRange:
+                    var binRange = range as BinRange;
+                    if (binRange == null)
+                    {
+                        throw new ArgumentException(
+                            "Range has it's RangeType set to BinRange but cannot be cast to BinRange", 
+                            "range");
+                    }
+
+                    this.CurrentMinBin = binRange.StartBin;
+                    this.CurrentMaxBin = binRange.EndBin;
+                    break;
+                case RangeType.FrameRange:
+                    var frameRange = range as FrameRange;
+                    if (frameRange == null)
+                    {
+                        throw new ArgumentException(
+                            "Range has it's RangeType set to FrameRange but cannot be cast to FrameRange", 
+                            "range");
+                    }
+
+                    this.StartFrameNumber = frameRange.StartFrame;
+                    this.EndFrameNumber = frameRange.EndFrame;
+                    break;
+                case RangeType.ScanRange:
+                    var scanRange = range as ScanRange;
+                    if (scanRange == null)
+                    {
+                        throw new ArgumentException(
+                            "Range has it's RangeType set to ScanRange but cannot be cast to ScanRange", 
+                            "range");
+                    }
+
+                    this.StartScan = scanRange.StartScan;
+                    this.EndScan = scanRange.EndScan;
+                    break;
+                default:
+                    throw new NotImplementedException(
+                        "Currently ProcessRangeData only supports types of BinRange, FrameRange, and ScanRange, "
+                        + "but you passed something else and it scared us too much to continue.");
+            }
         }
 
         #endregion

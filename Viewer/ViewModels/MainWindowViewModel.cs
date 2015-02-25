@@ -164,6 +164,9 @@ namespace Viewer.ViewModels
         /// <summary>
         /// TODO The open heatmap file.
         /// </summary>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
         private async Task OpenHeatmapFile()
         {
             var dialogue = new OpenFileDialog

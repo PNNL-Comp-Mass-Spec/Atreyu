@@ -12,7 +12,7 @@ namespace Atreyu.Views
     using System.Windows;
     using System.Windows.Controls;
 
-    using global::Atreyu.ViewModels;
+    using Atreyu.ViewModels;
 
     using Microsoft.Practices.Prism.Mvvm;
 

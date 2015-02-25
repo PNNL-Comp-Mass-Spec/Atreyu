@@ -13,7 +13,7 @@ namespace Atreyu.Views
     using System.Reactive.Linq;
     using System.Windows;
 
-    using global::Atreyu.ViewModels;
+    using Atreyu.ViewModels;
 
     using ReactiveUI;
 

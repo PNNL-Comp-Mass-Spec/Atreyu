@@ -6,7 +6,6 @@
 //   TODO The scan range.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Atreyu.Models
 {
     using System;
@@ -96,9 +95,22 @@ namespace Atreyu.Models
 
         #endregion
 
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// TODO The equals.
+        /// </summary>
+        /// <param name="other">
+        /// TODO The other.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         public bool Equals(ScanRange other)
         {
             return this.StartScan == other.StartScan && this.EndScan == other.EndScan;
         }
+
+        #endregion
     }
 }
