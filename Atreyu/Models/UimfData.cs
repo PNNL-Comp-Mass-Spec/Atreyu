@@ -10,7 +10,6 @@ namespace Atreyu.Models
 {
     using System;
     using System.Collections.Concurrent;
-    using System.Threading;
     using System.Threading.Tasks;
 
     using ReactiveUI;

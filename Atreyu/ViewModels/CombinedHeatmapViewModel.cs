@@ -178,8 +178,6 @@ namespace Atreyu.ViewModels
                             this.UimfData.RangeUpdateList.Enqueue(x);
                             await this.uimfData.CheckQueue();
                         }).Subscribe();
-
-
         }
 
         #endregion

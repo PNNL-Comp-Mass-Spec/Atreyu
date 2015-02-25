@@ -65,28 +65,6 @@ namespace Atreyu.Views
             this.PreviewDrop += this.CombinedHeatmapViewPreviewDrop;
         }
 
-        async void CombinedHeatmapViewPreviewDrop(object sender, DragEventArgs e)
-        {
-            if (!e.Data.GetDataPresent(DataFormats.FileDrop, true))
-            {
-                return;
-            }
-
-            var droppedFilePaths = e.Data.GetData(DataFormats.FileDrop, true) as string[];
-            if (droppedFilePaths == null || droppedFilePaths.Length < 1)
-            {
-                return;
-            }
-
-            var file = droppedFilePaths[0];
-            if (!File.Exists(file))
-            {
-                return;
-            }
-
-            await this.ViewModel.InitializeUimfData(file);
-        }
-
         #endregion
 
         #region Public Properties
@@ -170,6 +148,37 @@ namespace Atreyu.Views
             // this.MainGrid.Children.Add(this.HighSliderView);
             this.AllowDrop = true;
             this.PreviewDrop += this.MainTabControlPreviewDragEnter;
+        }
+
+        /// <summary>
+        /// TODO The combined heatmap view preview drop.
+        /// </summary>
+        /// <param name="sender">
+        /// TODO The sender.
+        /// </param>
+        /// <param name="e">
+        /// TODO The e.
+        /// </param>
+        private async void CombinedHeatmapViewPreviewDrop(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop, true))
+            {
+                return;
+            }
+
+            var droppedFilePaths = e.Data.GetData(DataFormats.FileDrop, true) as string[];
+            if (droppedFilePaths == null || droppedFilePaths.Length < 1)
+            {
+                return;
+            }
+
+            var file = droppedFilePaths[0];
+            if (!File.Exists(file))
+            {
+                return;
+            }
+
+            await this.ViewModel.InitializeUimfData(file);
         }
 
         /// <summary>
