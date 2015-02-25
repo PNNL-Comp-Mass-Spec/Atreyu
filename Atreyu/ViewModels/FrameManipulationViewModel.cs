@@ -207,10 +207,7 @@ namespace Atreyu.ViewModels
         /// </param>
         public void UpdateCurrentFrameNumber(int frameNumber)
         {
-            if (this.CurrentFrame != frameNumber)
-            {
-                this.CurrentFrame = frameNumber;
-            }
+           this.CurrentFrame = frameNumber;
         }
 
         /// <summary>

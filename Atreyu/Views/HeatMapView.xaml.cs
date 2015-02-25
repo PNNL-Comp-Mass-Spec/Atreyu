@@ -79,38 +79,5 @@ namespace Atreyu.Views
         }
 
         #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// TODO The on drop.
-        /// </summary>
-        /// <param name="e">
-        /// TODO The e.
-        /// </param>
-        protected override void OnDrop(DragEventArgs e)
-        {
-            base.OnDrop(e);
-
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                var files = e.Data.GetData(DataFormats.FileDrop) as string[];
-                this.HandleFileOpen(files);
-            }
-
-            e.Handled = true;
-        }
-
-        /// <summary>
-        /// TODO The handle file open.
-        /// </summary>
-        /// <param name="files">
-        /// TODO The files.
-        /// </param>
-        private void HandleFileOpen(string[] files)
-        {
-        }
-
-        #endregion
     }
 }
