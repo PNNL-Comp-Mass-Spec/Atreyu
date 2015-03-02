@@ -44,7 +44,7 @@ namespace Atreyu.Models
         private int currentMinBin;
 
         /// <summary>
-        /// TODO The _data reader.
+        /// TODO The data reader.
         /// </summary>
         private DataReader dataReader;
 
@@ -175,7 +175,7 @@ namespace Atreyu.Models
         #region Public Properties
 
         /// <summary>
-        /// Gets or sets the bin to mz map.
+        /// Gets the bin to mz map.
         /// </summary>
         public double[] BinToMzMap
         {
@@ -184,7 +184,7 @@ namespace Atreyu.Models
                 return this.binToMzMap;
             }
 
-            set
+            private set
             {
                 this.RaiseAndSetIfChanged(ref this.binToMzMap, value);
             }
@@ -255,7 +255,7 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// Gets or sets the frame data.
+        /// Gets the frame data.
         /// </summary>
         public double[,] FrameData
         {
@@ -264,7 +264,7 @@ namespace Atreyu.Models
                 return this.frameData;
             }
 
-            set
+            private set
             {
                 this.RaiseAndSetIfChanged(ref this.frameData, value);
             }
@@ -303,7 +303,7 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// Gets or sets the frame type.
+        /// Gets the frame type.
         /// </summary>
         public string FrameType
         {
@@ -312,14 +312,14 @@ namespace Atreyu.Models
                 return this.frameType;
             }
 
-            set
+            private set
             {
                 this.RaiseAndSetIfChanged(ref this.frameType, value);
             }
         }
 
         /// <summary>
-        /// Gets or sets the frames.
+        /// Gets the frames.
         /// </summary>
         public int Frames
         {
@@ -328,7 +328,7 @@ namespace Atreyu.Models
                 return this.frames;
             }
 
-            set
+            private set
             {
                 this.RaiseAndSetIfChanged(ref this.frames, value);
             }
@@ -415,7 +415,7 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// Gets or sets the scans.
+        /// Gets the scans.
         /// </summary>
         public int Scans
         {
@@ -424,7 +424,7 @@ namespace Atreyu.Models
                 return this.scans;
             }
 
-            set
+            private set
             {
                 this.RaiseAndSetIfChanged(ref this.scans, value);
             }
@@ -463,7 +463,7 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// Gets or sets the total bins currently queried.
+        /// Gets the total bins currently queried.
         /// </summary>
         public int TotalBins
         {
@@ -472,14 +472,14 @@ namespace Atreyu.Models
                 return this.totalBins;
             }
 
-            set
+            private set
             {
                 this.RaiseAndSetIfChanged(ref this.totalBins, value);
             }
         }
 
         /// <summary>
-        /// Gets or sets the values per pixel x.
+        /// Gets the values per pixel x.
         /// </summary>
         public double ValuesPerPixelX
         {
@@ -488,14 +488,14 @@ namespace Atreyu.Models
                 return this.valuesPerPixelX;
             }
 
-            set
+            private set
             {
                 this.RaiseAndSetIfChanged(ref this.valuesPerPixelX, value);
             }
         }
 
         /// <summary>
-        /// Gets or sets the values per pixel y.
+        /// Gets the values per pixel y.
         /// </summary>
         public double ValuesPerPixelY
         {
@@ -504,7 +504,7 @@ namespace Atreyu.Models
                 return this.valuesPerPixelY;
             }
 
-            set
+            private set
             {
                 this.RaiseAndSetIfChanged(ref this.valuesPerPixelY, value);
             }
