@@ -12,8 +12,11 @@ namespace Atreyu.ViewModels
     using System.ComponentModel.Composition;
     using System.Drawing;
     using System.IO;
+    using System.Linq;
 
     using Atreyu.Models;
+
+    using MagnitudeConcavityPeakFinder;
 
     using OxyPlot;
     using OxyPlot.Axes;
@@ -23,6 +26,7 @@ namespace Atreyu.ViewModels
 
     using LinearAxis = OxyPlot.Axes.LinearAxis;
     using LineSeries = OxyPlot.Series.LineSeries;
+    using TextAnnotation = OxyPlot.Annotations.TextAnnotation;
 
     // using Falkor.Events.Atreyu;
 
@@ -214,6 +218,8 @@ namespace Atreyu.ViewModels
                 series.Points.Add(new DataPoint(double.NaN, double.NaN));
             }
 
+            this.FindPeaks();
+
             this.TicPlotModel.InvalidatePlot(true);
         }
 
@@ -248,6 +254,7 @@ namespace Atreyu.ViewModels
                                       IsZoomEnabled = false, 
                                       AbsoluteMinimum = 0, 
                                       MinimumPadding = 0.1, 
+                                      MaximumPadding = 0.1,
                                       IsPanEnabled = false, 
                                       IsAxisVisible = false, 
                                       Title = "Intensity"
@@ -260,5 +267,51 @@ namespace Atreyu.ViewModels
         }
 
         #endregion
+
+
+        private void FindPeaks()
+        {
+            this.ticPlotModel.Annotations.Clear();
+            var peakDetector = new PeakDetector();
+
+            var finderOptions = PeakDetector.GetDefaultSICPeakFinderOptions();
+
+            List<double> smoothedY;
+
+            ////var highestPoint = this.frameDictionary.OrderByDescending(kvp => kvp.Value).First();
+            ////var lastPoint = this.frameDictionary.OrderByDescending(kvp => kvp.Key).Last();
+            ////var firstPoint = this.frameDictionary.OrderByDescending(kvp => kvp.Key).First();
+
+            // I am not sure what this does and need to talk to Matt Monroe, but in the example exe file that came with the library
+            // they used half of the length of the list in their previous examples and this seems to work on teh zoomed out version
+            // but not when we zoom in, it seems like an offset problem.
+            var originalpeakLocation = this.frameDictionary.Count / 2;
+
+            var peaks = peakDetector.FindPeaks(
+                finderOptions,
+                this.frameDictionary.ToList(),
+                originalpeakLocation,
+                out smoothedY);
+
+            foreach (var peak in peaks)
+            {
+                ////if (!peak.IsValid)
+                ////{
+                ////    continue;
+                ////}
+
+                double intensity;
+                if (!this.frameDictionary.TryGetValue(peak.LocationIndex, out intensity))
+                {
+                    intensity = 50;
+                }
+                
+                var annotation = new TextAnnotation { Text = "PEAK!", TextPosition = new DataPoint(peak.LocationIndex, intensity) };
+
+                this.ticPlotModel.Annotations.Add(annotation);
+            }
+
+        }
+
     }
 }
