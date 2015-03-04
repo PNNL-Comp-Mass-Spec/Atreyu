@@ -8,6 +8,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Atreyu.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.ComponentModel.DataAnnotations;
@@ -318,7 +319,67 @@ namespace Atreyu.ViewModels
                     intensity = 50;
                 }
                 
-                var annotation = new TextAnnotation { Text = "PEAK!", TextPosition = new DataPoint(peak.LocationIndex, intensity / 2) };
+                var halfmax = intensity / 2.0;
+
+                var leftEdge = peak.LeftEdge;
+                double leftEdgeIntensity;
+
+
+                var peakDataset = this.frameDictionary.Where(x => x.Key >= peak.LeftEdge && x.Key <= peak.RightEdge).ToList();
+
+                // find the left mid point
+                KeyValuePair<int, double> prevPoint;
+                var currPoint = new KeyValuePair<int, double>(0,0);
+                double leftMidpoint = 0;
+                for (var i = 0; i < peakDataset.Count; i++)
+                {
+                    prevPoint = currPoint;
+                    currPoint = peakDataset[i];
+
+
+                    if (smoothedY[currPoint.Key] < halfmax)
+                    {
+                        continue;
+                    }
+
+                    var TOLERANCE = 0.01;
+                    if (Math.Abs(smoothedY[currPoint.Key] - halfmax) < TOLERANCE)
+                    {
+                        leftMidpoint = currPoint.Key;
+                        break;
+                    }
+                    ////var slope = (prevPoint.Key - currPoint.Key) / (prevPoint.Value - currPoint.Value);
+
+                    double a1 = prevPoint.Key;
+                    double a2 = currPoint.Key;
+                    double c = halfmax;
+                    double b1 = prevPoint.Value;
+                    double b2 = currPoint.Value;
+
+                    leftMidpoint = a1 + ((a2 - a1) * ((c - b1) / (b2 - b1)));
+                    break;
+                }
+
+                var pointAnnotation1 = new OxyPlot.Annotations.PointAnnotation
+                                           {
+                                               X = leftMidpoint,
+                                               Y = halfmax,
+                                               Text = "Left",
+                                               ToolTip =
+                                                   "Left mid Point Found at "
+                                                   + leftMidpoint
+                                           };
+                this.ticPlotModel.Annotations.Add(pointAnnotation1);
+
+                double rightMidPoint;
+                ////for (var i = peak.LocationIndex; i < )
+
+
+                this.frameDictionary.TryGetValue(leftEdge, out leftEdgeIntensity);
+
+                var annotationText = "PEAK!" + Environment.NewLine + "TWO LINES!";
+
+                var annotation = new TextAnnotation { Text = annotationText, TextPosition = new DataPoint(peak.LocationIndex, (int)halfmax) };
 
                 this.ticPlotModel.Annotations.Add(annotation);
             }
