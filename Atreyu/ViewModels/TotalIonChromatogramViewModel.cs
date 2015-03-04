@@ -10,9 +10,11 @@ namespace Atreyu.ViewModels
 {
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
+    using System.ComponentModel.DataAnnotations;
     using System.Drawing;
     using System.IO;
     using System.Linq;
+    using System.Linq.Expressions;
 
     using Atreyu.Models;
 
@@ -278,35 +280,45 @@ namespace Atreyu.ViewModels
 
             List<double> smoothedY;
 
-            ////var highestPoint = this.frameDictionary.OrderByDescending(kvp => kvp.Value).First();
-            ////var lastPoint = this.frameDictionary.OrderByDescending(kvp => kvp.Key).Last();
-            ////var firstPoint = this.frameDictionary.OrderByDescending(kvp => kvp.Key).First();
+            // this is a hack to make the library work and return the proper location index
+            double junk;
+            for (var i = 0; i < this.uimfData.Scans; i++)
+            {
+                if (!this.frameDictionary.TryGetValue(i, out junk))
+                {
+                    this.frameDictionary.Add(i, 0);
+                }
+            }
 
             // I am not sure what this does and need to talk to Matt Monroe, but in the example exe file that came with the library
             // they used half of the length of the list in their previous examples and this seems to work on teh zoomed out version
             // but not when we zoom in, it seems like an offset problem.
             var originalpeakLocation = this.frameDictionary.Count / 2;
 
+            // The idea behind this is to always give the key of the mid point of the list, but this causes the finder to blow up.
+            ////var originalpeakLocation = this.frameDictionary.First().Key + (this.frameDictionary.Count / 2);
+
             var peaks = peakDetector.FindPeaks(
                 finderOptions,
-                this.frameDictionary.ToList(),
+                this.frameDictionary.OrderBy(x => x.Key).ToList(),
                 originalpeakLocation,
                 out smoothedY);
 
+
+
             foreach (var peak in peaks)
             {
-                ////if (!peak.IsValid)
-                ////{
-                ////    continue;
-                ////}
+                ////var firstpoint = this.frameDictionary.First();
+
+                var index = peak.LocationIndex; // + firstpoint.Key; 
 
                 double intensity;
-                if (!this.frameDictionary.TryGetValue(peak.LocationIndex, out intensity))
+                if (!this.frameDictionary.TryGetValue(index, out intensity))
                 {
                     intensity = 50;
                 }
                 
-                var annotation = new TextAnnotation { Text = "PEAK!", TextPosition = new DataPoint(peak.LocationIndex, intensity) };
+                var annotation = new TextAnnotation { Text = "PEAK!", TextPosition = new DataPoint(peak.LocationIndex, intensity / 2) };
 
                 this.ticPlotModel.Annotations.Add(annotation);
             }
