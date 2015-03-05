@@ -13,6 +13,7 @@ namespace Atreyu.ViewModels
     using System.ComponentModel.Composition;
     using System.ComponentModel.DataAnnotations;
     using System.Drawing;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Linq.Expressions;
@@ -328,14 +329,13 @@ namespace Atreyu.ViewModels
                 var peakDataset = this.frameDictionary.Where(x => x.Key >= peak.LeftEdge && x.Key <= peak.RightEdge).ToList();
 
                 // find the left mid point
-                KeyValuePair<int, double> prevPoint;
                 var currPoint = new KeyValuePair<int, double>(0,0);
                 double leftMidpoint = 0;
                 double rightMidPoint = 0;
                 for (var i = 0; i < peakDataset.Count; i++)
                 {
                     const double Tolerance = 0.01;
-                    prevPoint = currPoint;
+                    var prevPoint = currPoint;
                     currPoint = peakDataset[i];
 
                     if (Math.Abs(leftMidpoint) < Tolerance)
@@ -388,6 +388,8 @@ namespace Atreyu.ViewModels
 
                 }
 
+                var resolution = peak.LocationIndex/ (rightMidPoint - leftMidpoint);
+                
                 var pointAnnotation1 = new OxyPlot.Annotations.PointAnnotation
                                            {
                                                X = leftMidpoint,
@@ -397,7 +399,7 @@ namespace Atreyu.ViewModels
                                                    "Left mid Point Found at "
                                                    + leftMidpoint
                                            };
-                this.ticPlotModel.Annotations.Add(pointAnnotation1);
+                ////this.ticPlotModel.Annotations.Add(pointAnnotation1);
 
                 var pointAnnotation2 = new OxyPlot.Annotations.PointAnnotation
                 {
@@ -408,16 +410,22 @@ namespace Atreyu.ViewModels
                         "right mid Point Found at "
                         + rightMidPoint
                 };
-                this.ticPlotModel.Annotations.Add(pointAnnotation2);
+                ////this.ticPlotModel.Annotations.Add(pointAnnotation2);
+                var resolutionString = resolution.ToString("F1", CultureInfo.InvariantCulture);
+                var annotationText = "Peak Location:" + peak.LocationIndex + Environment.NewLine
+                    + "Intensity:" + intensity + Environment.NewLine
+                    + "Resolution:" + resolutionString;
+                var annotation = new TextAnnotation { Text = annotationText, TextPosition = new DataPoint(peak.LocationIndex, (int)(intensity / 3)) };
+                ////this.ticPlotModel.Annotations.Add(annotation);
 
-
-                this.frameDictionary.TryGetValue(leftEdge, out leftEdgeIntensity);
-
-                var annotationText = "PEAK!" + Environment.NewLine + "TWO LINES!";
-
-                var annotation = new TextAnnotation { Text = annotationText, TextPosition = new DataPoint(peak.LocationIndex, (int)halfmax) };
-
-                this.ticPlotModel.Annotations.Add(annotation);
+                var peakPoint = new OxyPlot.Annotations.PointAnnotation
+                                    {
+                                        Text = "R=" + resolutionString,
+                                        X = peak.LocationIndex,
+                                        Y = intensity / 2.5,
+                                        ToolTip = annotationText
+                                    };
+                this.ticPlotModel.Annotations.Add(peakPoint);
             }
 
         }
