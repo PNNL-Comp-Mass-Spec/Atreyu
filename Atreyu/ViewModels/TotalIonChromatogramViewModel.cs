@@ -331,33 +331,61 @@ namespace Atreyu.ViewModels
                 KeyValuePair<int, double> prevPoint;
                 var currPoint = new KeyValuePair<int, double>(0,0);
                 double leftMidpoint = 0;
+                double rightMidPoint = 0;
                 for (var i = 0; i < peakDataset.Count; i++)
                 {
+                    const double Tolerance = 0.01;
                     prevPoint = currPoint;
                     currPoint = peakDataset[i];
 
+                    if (Math.Abs(leftMidpoint) < Tolerance)
+                    { 
+                        if (smoothedY[currPoint.Key] < halfmax)
+                        {
+                            continue;
+                        }
 
-                    if (smoothedY[currPoint.Key] < halfmax)
-                    {
+                        if (Math.Abs(smoothedY[currPoint.Key] - halfmax) < Tolerance)
+                        {
+                            leftMidpoint = currPoint.Key;
+                            continue;
+                        }
+                        ////var slope = (prevPoint.Key - currPoint.Key) / (prevPoint.Value - currPoint.Value);
+
+                        double a1 = prevPoint.Key;
+                        double a2 = currPoint.Key;
+                        double c = halfmax;
+                        double b1 = smoothedY[prevPoint.Key];
+                        double b2 = smoothedY[currPoint.Key];
+
+                        leftMidpoint = a1 + ((a2 - a1) * ((c - b1) / (b2 - b1)));
                         continue;
                     }
 
-                    var TOLERANCE = 0.01;
-                    if (Math.Abs(smoothedY[currPoint.Key] - halfmax) < TOLERANCE)
+                    if (Math.Abs(rightMidPoint) < Tolerance)
                     {
-                        leftMidpoint = currPoint.Key;
-                        break;
+                        if (smoothedY[currPoint.Key] > halfmax)
+                        {
+                            continue;
+                        }
+
+                        if (Math.Abs(smoothedY[currPoint.Key] - halfmax) < Tolerance)
+                        {
+                            rightMidPoint = currPoint.Key;
+                            continue;
+                        }
+                        ////var slope = (prevPoint.Key - currPoint.Key) / (prevPoint.Value - currPoint.Value);
+
+                        double a1 = prevPoint.Key;
+                        double a2 = currPoint.Key;
+                        double c = halfmax;
+                        double b1 = smoothedY[prevPoint.Key];
+                        double b2 = smoothedY[currPoint.Key];
+
+                        rightMidPoint = a1 + ((a2 - a1) * ((c - b1) / (b2 - b1)));
+                        continue;
                     }
-                    ////var slope = (prevPoint.Key - currPoint.Key) / (prevPoint.Value - currPoint.Value);
 
-                    double a1 = prevPoint.Key;
-                    double a2 = currPoint.Key;
-                    double c = halfmax;
-                    double b1 = prevPoint.Value;
-                    double b2 = currPoint.Value;
-
-                    leftMidpoint = a1 + ((a2 - a1) * ((c - b1) / (b2 - b1)));
-                    break;
                 }
 
                 var pointAnnotation1 = new OxyPlot.Annotations.PointAnnotation
@@ -371,8 +399,16 @@ namespace Atreyu.ViewModels
                                            };
                 this.ticPlotModel.Annotations.Add(pointAnnotation1);
 
-                double rightMidPoint;
-                ////for (var i = peak.LocationIndex; i < )
+                var pointAnnotation2 = new OxyPlot.Annotations.PointAnnotation
+                {
+                    X = rightMidPoint,
+                    Y = halfmax,
+                    Text = "right",
+                    ToolTip =
+                        "right mid Point Found at "
+                        + rightMidPoint
+                };
+                this.ticPlotModel.Annotations.Add(pointAnnotation2);
 
 
                 this.frameDictionary.TryGetValue(leftEdge, out leftEdgeIntensity);
