@@ -284,26 +284,26 @@ namespace Atreyu.ViewModels
 
             List<double> smoothedY;
 
+            // Create a new dictionary so we don't modify the original one
+            var tempFrameDict = new Dictionary<int, double>(this.uimfData.Scans);
+
             // this is a hack to make the library work and return the proper location index
             double junk;
             for (var i = 0; i < this.uimfData.Scans; i++)
             {
-                if (!this.frameDictionary.TryGetValue(i, out junk))
-                {
-                    this.frameDictionary.Add(i, 0);
-                }
+                tempFrameDict.Add(i, this.frameDictionary.TryGetValue(i, out junk) ? junk : 0);
             }
 
             // I am not sure what this does and need to talk to Matt Monroe, but in the example exe file that came with the library
             // they used half of the length of the list in their previous examples and this seems to work on teh zoomed out version
             // but not when we zoom in, it seems like an offset problem.
-            var originalpeakLocation = this.frameDictionary.Count / 2;
+            var originalpeakLocation = tempFrameDict.Count / 2;
 
             // The idea behind this is to always give the key of the mid point of the list, but this causes the finder to blow up.
             ////var originalpeakLocation = this.frameDictionary.First().Key + (this.frameDictionary.Count / 2);
             var peaks = peakDetector.FindPeaks(
-                finderOptions, 
-                this.frameDictionary.OrderBy(x => x.Key).ToList(), 
+                finderOptions,
+                tempFrameDict.OrderBy(x => x.Key).ToList(), 
                 originalpeakLocation, 
                 out smoothedY);
 
@@ -313,7 +313,7 @@ namespace Atreyu.ViewModels
                 var index = peak.LocationIndex; // + firstpoint.Key; 
 
                 double intensity;
-                if (!this.frameDictionary.TryGetValue(index, out intensity))
+                if (!tempFrameDict.TryGetValue(index, out intensity))
                 {
                     intensity = 50;
                 }
@@ -321,7 +321,7 @@ namespace Atreyu.ViewModels
                 var halfmax = intensity / 2.0;
                 
                 var peakDataset =
-                    this.frameDictionary.Where(x => x.Key >= peak.LeftEdge && x.Key <= peak.RightEdge).ToList();
+                    tempFrameDict.Where(x => x.Key >= peak.LeftEdge && x.Key <= peak.RightEdge).ToList();
 
                 // find the left mid point
                 var currPoint = new KeyValuePair<int, double>(0, 0);
