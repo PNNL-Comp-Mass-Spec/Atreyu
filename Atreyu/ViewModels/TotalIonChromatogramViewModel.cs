@@ -12,9 +12,13 @@ namespace Atreyu.ViewModels
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Drawing;
+    using System.Globalization;
     using System.IO;
+    using System.Linq;
 
     using Atreyu.Models;
+
+    using MagnitudeConcavityPeakFinder;
 
     using OxyPlot;
     using OxyPlot.Axes;
@@ -24,6 +28,7 @@ namespace Atreyu.ViewModels
 
     using LinearAxis = OxyPlot.Axes.LinearAxis;
     using LineSeries = OxyPlot.Series.LineSeries;
+    using TextAnnotation = OxyPlot.Annotations.TextAnnotation;
 
     // using Falkor.Events.Atreyu;
 
@@ -36,30 +41,29 @@ namespace Atreyu.ViewModels
         #region Fields
 
         /// <summary>
-        /// TODO The _current frame number.
-        /// </summary>
-        ////private int _currentFrameNumber;
-        /// <summary>
         /// TODO The _end scan.
         /// </summary>
-        private int _endScan;
+        private int endScan;
 
         /// <summary>
         /// TODO The _frame data.
         /// </summary>
-        private double[,] _frameData;
+        private double[,] frameData;
 
-        private Dictionary<int, double> frameData;
+        /// <summary>
+        /// TODO The frame data.
+        /// </summary>
+        private Dictionary<int, double> frameDictionary;
 
         /// <summary>
         /// TODO The _start scan.
         /// </summary>
-        private int _startScan;
+        private int startScan;
 
         /// <summary>
         /// TODO The _tic plot model.
         /// </summary>
-        private PlotModel _ticPlotModel;
+        private PlotModel ticPlotModel;
 
         /// <summary>
         /// TODO The _uimf data.
@@ -73,18 +77,9 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="TotalIonChromatogramViewModel"/> class.
         /// </summary>
-        /// <param name="eventAggregator">
-        /// TODO The event aggregator.
-        /// </param>
-        /// <exception cref="NullReferenceException">
-        /// </exception>
         [ImportingConstructor]
         public TotalIonChromatogramViewModel()
         {
-            // this._eventAggregator = eventAggregator;
-            // this._eventAggregator.GetEvent<UimfFileChangedEvent>().Subscribe(this.UpdateReference, true);
-            // this._eventAggregator.GetEvent<XAxisChangedEvent>().Subscribe(this.UpdateAxes, true);
-            // this._eventAggregator.GetEvent<FrameNumberChangedEvent>().Subscribe(this.UpdateFrameNumber, true);
         }
 
         #endregion
@@ -98,12 +93,12 @@ namespace Atreyu.ViewModels
         {
             get
             {
-                return this._ticPlotModel;
+                return this.ticPlotModel;
             }
 
             set
             {
-                this.RaiseAndSetIfChanged(ref this._ticPlotModel, value);
+                this.RaiseAndSetIfChanged(ref this.ticPlotModel, value);
             }
         }
 
@@ -119,7 +114,7 @@ namespace Atreyu.ViewModels
         /// </param>
         public void ChangeEndScan(int value)
         {
-            this._endScan = value;
+            this.endScan = value;
         }
 
         /// <summary>
@@ -130,18 +125,18 @@ namespace Atreyu.ViewModels
         /// </param>
         public void ChangeStartScan(int value)
         {
-            this._startScan = value;
+            this.startScan = value;
         }
 
         /// <summary>
-        /// Returns a dictionary of <scan, intensity> data that is currently being displayed.
+        /// TODO The get tic data.
         /// </summary>
         /// <returns>
         /// The <see cref="IDictionary"/>.
         /// </returns>
         public IDictionary<int, double> GetTicData()
         {
-            return this.frameData;
+            return this.frameDictionary;
         }
 
         /// <summary>
@@ -167,38 +162,38 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// TODO The update frame data.
         /// </summary>
-        /// <param name="Data">
+        /// <param name="data">
         /// The Data.
         /// </param>
-        public void UpdateFrameData(double[,] Data)
+        public void UpdateFrameData(double[,] data)
         {
-            if (Data == null)
+            if (data == null)
             {
                 return;
             }
-            
-            this._frameData = Data;
-            
-            if (this._endScan == 0)
+
+            this.frameData = data;
+
+            if (this.endScan == 0)
             {
-                this._startScan = 0;
-                this._endScan = 359;
+                this.startScan = 0;
+                this.endScan = 359;
             }
 
-            this.frameData = new Dictionary<int, double>();
+            this.frameDictionary = new Dictionary<int, double>();
 
-            for (var i = 0; i < this._frameData.GetLength(0); i++)
+            for (var i = 0; i < this.frameData.GetLength(0); i++)
             {
-                var index = i + this._startScan;
-                for (var j = 0; j < this._frameData.GetLength(1); j++)
+                var index = i + this.startScan;
+                for (var j = 0; j < this.frameData.GetLength(1); j++)
                 {
-                    if (this.frameData.ContainsKey(index))
+                    if (this.frameDictionary.ContainsKey(index))
                     {
-                        this.frameData[index] += this._frameData[i, j];
+                        this.frameDictionary[index] += this.frameData[i, j];
                     }
                     else
                     {
-                        this.frameData.Add(index, this._frameData[i, j]);
+                        this.frameDictionary.Add(index, this.frameData[i, j]);
                     }
                 }
             }
@@ -219,11 +214,13 @@ namespace Atreyu.ViewModels
             series.BrokenLineStyle = LineStyle.Dot;
             series.BrokenLineThickness = 1;
             series.Points.Clear();
-            foreach (var d in frameData)
+            foreach (var d in this.frameDictionary)
             {
                 series.Points.Add(new DataPoint(d.Key, d.Value));
                 series.Points.Add(new DataPoint(double.NaN, double.NaN));
             }
+
+            this.FindPeaks();
 
             this.TicPlotModel.InvalidatePlot(true);
         }
@@ -231,12 +228,12 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// TODO The update reference.
         /// </summary>
-        /// <param name="uimfData">
-        /// TODO The uimf data.
+        /// <param name="uimfDataNew">
+        /// TODO The new <see cref="UimfData"/> that is coming in.
         /// </param>
-        public void UpdateReference(UimfData uimfData)
+        public void UpdateReference(UimfData uimfDataNew)
         {
-            this.uimfData = uimfData;
+            this.uimfData = uimfDataNew;
             if (this.TicPlotModel != null)
             {
                 return;
@@ -259,6 +256,7 @@ namespace Atreyu.ViewModels
                                       IsZoomEnabled = false, 
                                       AbsoluteMinimum = 0, 
                                       MinimumPadding = 0.1, 
+                                      MaximumPadding = 0.1, 
                                       IsPanEnabled = false, 
                                       IsAxisVisible = false, 
                                       Title = "Intensity"
@@ -275,75 +273,160 @@ namespace Atreyu.ViewModels
         #region Methods
 
         /// <summary>
-        /// TODO The on x axis changed.
+        /// Find the peaks in the current data set and adds an annotation point with the resolution to the TIC.
         /// </summary>
-        /// <param name="sender">
-        /// TODO The sender.
-        /// </param>
-        /// <param name="e">
-        /// TODO The e.
-        /// </param>
-        protected void OnXAxisChanged(object sender, AxisChangedEventArgs e)
+        private void FindPeaks()
         {
-        }
+            this.ticPlotModel.Annotations.Clear();
+            var peakDetector = new PeakDetector();
 
-        /// <summary>
-        /// TODO The on y axis change.
-        /// </summary>
-        /// <param name="sender">
-        /// TODO The sender.
-        /// </param>
-        /// <param name="e">
-        /// TODO The e.
-        /// </param>
-        protected void OnYAxisChange(object sender, AxisChangedEventArgs e)
-        {
-        }
+            var finderOptions = PeakDetector.GetDefaultSICPeakFinderOptions();
 
-        /// <summary>
-        /// TODO The update axes.
-        /// </summary>
-        /// <param name="linearAxis">
-        /// TODO The linear axis.
-        /// </param>
-        private void UpdateAxes(LinearAxis linearAxis)
-        {
-            var xAxis = this.TicPlotModel.Axes[0] as LinearAxis;
-            this._startScan = (int)linearAxis.ActualMinimum;
-            this._endScan = (int)linearAxis.ActualMaximum;
+            List<double> smoothedY;
 
-            xAxis.AbsoluteMaximum = this._endScan;
-            xAxis.Minimum = this._startScan;
-            xAxis.Maximum = this._endScan;
-            this._frameData = this.uimfData.FrameData;
-            if (this._frameData != null)
+            // this is a hack to make the library work and return the proper location index
+            double junk;
+            for (var i = 0; i < this.uimfData.Scans; i++)
             {
-                Dictionary<int, double> frameData = new Dictionary<int, double>();
-
-                for (int i = 0; i < this._frameData.GetLength(0); i++)
+                if (!this.frameDictionary.TryGetValue(i, out junk))
                 {
-                    var index = i + this._startScan;
-                    for (int j = 0; j < this._frameData.GetLength(1); j++)
+                    this.frameDictionary.Add(i, 0);
+                }
+            }
+
+            // I am not sure what this does and need to talk to Matt Monroe, but in the example exe file that came with the library
+            // they used half of the length of the list in their previous examples and this seems to work on teh zoomed out version
+            // but not when we zoom in, it seems like an offset problem.
+            var originalpeakLocation = this.frameDictionary.Count / 2;
+
+            // The idea behind this is to always give the key of the mid point of the list, but this causes the finder to blow up.
+            ////var originalpeakLocation = this.frameDictionary.First().Key + (this.frameDictionary.Count / 2);
+            var peaks = peakDetector.FindPeaks(
+                finderOptions, 
+                this.frameDictionary.OrderBy(x => x.Key).ToList(), 
+                originalpeakLocation, 
+                out smoothedY);
+
+            foreach (var peak in peaks)
+            {
+                ////var firstpoint = this.frameDictionary.First();
+                var index = peak.LocationIndex; // + firstpoint.Key; 
+
+                double intensity;
+                if (!this.frameDictionary.TryGetValue(index, out intensity))
+                {
+                    intensity = 50;
+                }
+
+                var halfmax = intensity / 2.0;
+                
+                var peakDataset =
+                    this.frameDictionary.Where(x => x.Key >= peak.LeftEdge && x.Key <= peak.RightEdge).ToList();
+
+                // find the left mid point
+                var currPoint = new KeyValuePair<int, double>(0, 0);
+                double leftMidpoint = 0;
+                double rightMidPoint = 0;
+                for (var i = 0; i < peakDataset.Count; i++)
+                {
+                    const double Tolerance = 0.01;
+                    var prevPoint = currPoint;
+                    currPoint = peakDataset[i];
+
+                    if (Math.Abs(leftMidpoint) < Tolerance)
                     {
-                        if (frameData.ContainsKey(index))
+                        if (smoothedY[currPoint.Key] < halfmax)
                         {
-                            frameData[index] += this._frameData[i, j];
+                            continue;
                         }
-                        else
+
+                        if (Math.Abs(smoothedY[currPoint.Key] - halfmax) < Tolerance)
                         {
-                            frameData.Add(index, this._frameData[i, j]);
+                            leftMidpoint = currPoint.Key;
+                            continue;
                         }
+
+                        ////var slope = (prevPoint.Key - currPoint.Key) / (prevPoint.Value - currPoint.Value);
+                        double a1 = prevPoint.Key;
+                        double a2 = currPoint.Key;
+                        double c = halfmax;
+                        double b1 = smoothedY[prevPoint.Key];
+                        double b2 = smoothedY[currPoint.Key];
+
+                        leftMidpoint = a1 + ((a2 - a1) * ((c - b1) / (b2 - b1)));
+                        continue;
+                    }
+
+                    if (Math.Abs(rightMidPoint) < Tolerance)
+                    {
+                        if (smoothedY[currPoint.Key] > halfmax)
+                        {
+                            continue;
+                        }
+
+                        if (Math.Abs(smoothedY[currPoint.Key] - halfmax) < Tolerance)
+                        {
+                            rightMidPoint = currPoint.Key;
+                            continue;
+                        }
+
+                        ////var slope = (prevPoint.Key - currPoint.Key) / (prevPoint.Value - currPoint.Value);
+                        double a1 = prevPoint.Key;
+                        double a2 = currPoint.Key;
+                        double c = halfmax;
+                        double b1 = smoothedY[prevPoint.Key];
+                        double b2 = smoothedY[currPoint.Key];
+
+                        rightMidPoint = a1 + ((a2 - a1) * ((c - b1) / (b2 - b1)));
+                        continue;
                     }
                 }
 
-                var series = this.TicPlotModel.Series[0] as LineSeries;
-                series.Points.Clear();
-                foreach (var d in frameData)
-                {
-                    series.Points.Add(new DataPoint(d.Key, d.Value));
-                }
+                var resolution = peak.LocationIndex / (rightMidPoint - leftMidpoint);
 
-                this.TicPlotModel.InvalidatePlot(true);
+                var pointAnnotation1 = new OxyPlot.Annotations.PointAnnotation
+                                           {
+                                               X = leftMidpoint, 
+                                               Y = halfmax, 
+                                               Text = "Left", 
+                                               ToolTip =
+                                                   "Left mid Point Found at "
+                                                   + leftMidpoint
+                                           };
+
+                ////this.ticPlotModel.Annotations.Add(pointAnnotation1);
+                var pointAnnotation2 = new OxyPlot.Annotations.PointAnnotation
+                                           {
+                                               X = rightMidPoint, 
+                                               Y = halfmax, 
+                                               Text = "right", 
+                                               ToolTip =
+                                                   "right mid Point Found at "
+                                                   + rightMidPoint
+                                           };
+
+                ////this.ticPlotModel.Annotations.Add(pointAnnotation2);
+                var resolutionString = resolution.ToString("F1", CultureInfo.InvariantCulture);
+
+                var annotationText = "Peak Location:" + peak.LocationIndex + Environment.NewLine + "Intensity:"
+                                     + intensity + Environment.NewLine + "Resolution:" + resolutionString;
+
+                var annotation = new TextAnnotation
+                                     {
+                                         Text = annotationText, 
+                                         TextPosition =
+                                             new DataPoint(peak.LocationIndex, (int)(intensity / 3))
+                                     };
+
+                ////this.ticPlotModel.Annotations.Add(annotation);
+                var peakPoint = new OxyPlot.Annotations.PointAnnotation
+                                    {
+                                        Text = "R=" + resolutionString, 
+                                        X = peak.LocationIndex, 
+                                        Y = intensity / 2.5, 
+                                        ToolTip = annotationText
+                                    };
+                this.ticPlotModel.Annotations.Add(peakPoint);
             }
         }
 

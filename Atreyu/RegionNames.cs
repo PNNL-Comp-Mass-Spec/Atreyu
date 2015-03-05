@@ -33,7 +33,7 @@ namespace Atreyu
         /// <summary>
         /// TODO The tic region.
         /// </summary>
-        public const string TICRegion = "TICRegion";
+        public const string TicRegion = "TICRegion";
 
         #endregion
     }

@@ -6,28 +6,28 @@
 //   Interaction logic for FrameManipulationView.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace Falkor.Views.Atreyu
+namespace Atreyu.Views
 {
     using System.ComponentModel.Composition;
     using System.Windows;
     using System.Windows.Controls;
 
-    using global::Atreyu.ViewModels;
+    using Atreyu.ViewModels;
 
     using Microsoft.Practices.Prism.Mvvm;
 
     /// <summary>
-    /// Interaction logic for FrameManipulationView.xaml
+    /// Interaction logic for FrameManipulationView
     /// </summary>
     [Export]
-    public partial class FrameManipulationView : UserControl, IView
+    public partial class FrameManipulationView : IView
     {
         #region Fields
 
         /// <summary>
         /// TODO The _view model.
         /// </summary>
-        private readonly FrameManipulationViewModel _viewModel;
+        private readonly FrameManipulationViewModel viewModel;
 
         #endregion
 
@@ -42,7 +42,7 @@ namespace Falkor.Views.Atreyu
         [ImportingConstructor]
         public FrameManipulationView(FrameManipulationViewModel viewModel)
         {
-            this._viewModel = viewModel;
+            this.viewModel = viewModel;
             this.DataContext = viewModel;
             this.InitializeComponent();
         }
@@ -60,7 +60,7 @@ namespace Falkor.Views.Atreyu
         /// <param name="e">
         /// TODO The e.
         /// </param>
-        private void EndFrameTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void EndFrameTextBoxTextChanged(object sender, TextChangedEventArgs e)
         {
             var box = sender as TextBox;
 
@@ -70,7 +70,7 @@ namespace Falkor.Views.Atreyu
 
                 if (int.TryParse(box.Text, out value))
                 {
-                    this._viewModel.EndFrame = value;
+                    this.viewModel.EndFrame = value;
                 }
             }
         }
@@ -84,11 +84,11 @@ namespace Falkor.Views.Atreyu
         /// <param name="e">
         /// TODO The e.
         /// </param>
-        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void SliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (e.NewValue > 0)
             {
-                this._viewModel.UpdateFrameNumber((int)e.NewValue);
+                this.viewModel.UpdateCurrentFrameNumber((int)e.NewValue);
             }
         }
 
@@ -101,7 +101,7 @@ namespace Falkor.Views.Atreyu
         /// <param name="e">
         /// TODO The e.
         /// </param>
-        private void StartFrameTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void StartFrameTextBoxTextChanged(object sender, TextChangedEventArgs e)
         {
             var box = sender as TextBox;
 
@@ -111,7 +111,7 @@ namespace Falkor.Views.Atreyu
 
                 if (int.TryParse(box.Text, out value))
                 {
-                    this._viewModel.StartFrame = value;
+                    this.viewModel.StartFrame = value;
                 }
             }
         }

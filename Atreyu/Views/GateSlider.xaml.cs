@@ -6,17 +6,14 @@
 //   Interaction logic for GateSlider.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Atreyu.Views
 {
-    using System.Windows.Controls;
-
     using Atreyu.ViewModels;
 
     /// <summary>
     /// Interaction logic for GateSlider.xaml
     /// </summary>
-    public partial class GateSlider : UserControl
+    public partial class GateSlider
     {
         #region Constructors and Destructors
 

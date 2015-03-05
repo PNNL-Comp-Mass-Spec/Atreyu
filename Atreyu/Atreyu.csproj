@@ -88,6 +88,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MagnitudeConcavityPeakFinder">
+      <HintPath>..\lib\MagnitudeConcavityPeakFinder\MagnitudeConcavityPeakFinder.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.Expression.Interactions.dll</HintPath>
@@ -187,18 +190,13 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Events\MinimumNumberOfFrames.cs" />
-    <Compile Include="Events\NumberOfFramesChangedEvent.cs" />
-    <Compile Include="Events\SumFramesChangedEvent.cs" />
-    <Compile Include="Events\UimfFileLoadedEvent.cs" />
-    <Compile Include="Events\XAxisChangedEvent.cs" />
-    <Compile Include="Events\FrameNumberChangedEvent.cs" />
-    <Compile Include="Events\UimfFileChangedEvent.cs" />
-    <Compile Include="Events\YAxisChangedEvent.cs" />
-    <Compile Include="Model\FrameRange.cs" />
+    <Compile Include="Models\BinRange.cs" />
+    <Compile Include="Models\FrameRange.cs" />
+    <Compile Include="Models\Range.cs" />
+    <Compile Include="Models\RangeType.cs" />
+    <Compile Include="Models\ScanRange.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegionNames.cs" />
-    <Compile Include="Services\IUimfDataService.cs" />
     <Compile Include="ViewModels\CombinedHeatmapViewModel.cs" />
     <Compile Include="ViewModels\FrameManipulationViewModel.cs" />
     <Compile Include="ViewModels\HeatMapViewModel.cs" />
@@ -223,7 +221,7 @@
     <Compile Include="Views\TotalIonChromatogramView.xaml.cs">
       <DependentUpon>TotalIonChromatogramView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\UimfData.cs" />
+    <Compile Include="Models\UimfData.cs" />
     <Page Include="Views\CombinedHeatmapView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -274,7 +272,9 @@
   <ItemGroup>
     <None Include="Resources\Icon1.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /Y /S /E /D "$(SolutionDir)lib\UimfLibrary\*"  "$(TargetDir)"</PostBuildEvent>

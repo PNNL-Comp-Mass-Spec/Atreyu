@@ -1,0 +1,24 @@
+﻿<Dictionary>
+  <Words>
+    <Unrecognized>
+    </Unrecognized>
+    <Recognized>
+      <Word>heatmap</Word>
+      <Word>uimf</Word>
+    </Recognized>
+    <Deprecated>
+    </Deprecated>
+    <Compound>
+    </Compound>
+    <DiscreteExceptions>
+    </DiscreteExceptions>
+  </Words>
+  <Acronyms>
+    <CasingExceptions>
+      <Acronym>mz</Acronym> <!-- mass over charge -->
+      <Acronym>UIMF</Acronym> <!-- Unified Ion Mobility File -->
+      <Acronym>uimf</Acronym> <!-- Unified Ion Mobility File -->
+      <Acronym>xaml</Acronym>
+    </CasingExceptions>
+  </Acronyms>
+</Dictionary>

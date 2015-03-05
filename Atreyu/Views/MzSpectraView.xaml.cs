@@ -6,18 +6,17 @@
 //   Interaction logic for MzSpectraView.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace Falkor.Views.Atreyu
+namespace Atreyu.Views
 {
     using System.ComponentModel.Composition;
-    using System.Windows.Controls;
 
-    using global::Atreyu.ViewModels;
+    using Atreyu.ViewModels;
 
     /// <summary>
     /// Interaction logic for MzSpectraView.xaml
     /// </summary>
     [Export]
-    public partial class MzSpectraView : UserControl
+    public partial class MzSpectraView
     {
         #region Constructors and Destructors
 

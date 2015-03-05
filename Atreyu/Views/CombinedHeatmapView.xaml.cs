@@ -6,23 +6,22 @@
 //   Interaction logic for CombinedHeatmapView.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Atreyu.Views
 {
+    using System;
     using System.IO;
+    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
 
     using Atreyu.ViewModels;
 
-    using Falkor.Views.Atreyu;
-
     using ReactiveUI;
 
     /// <summary>
-    /// Interaction logic for CombinedHeatmapView.xaml
-    /// </summary>
-    public partial class CombinedHeatmapView : UserControl, IViewFor<CombinedHeatmapViewModel>
+    /// Interaction logic for CombinedHeatmapView
+    ///  </summary>
+    public partial class CombinedHeatmapView : IViewFor<CombinedHeatmapViewModel>
     {
         #region Fields
 
@@ -37,13 +36,14 @@ namespace Atreyu.Views
         private HeatMapView heatMapView;
 
         /// <summary>
+        /// TODO The low slider view.
+        /// </summary>
+        private GateSlider lowSliderView;
+
+        /// <summary>
         /// TODO The mz spectra view.
         /// </summary>
         private MzSpectraView mzSpectraView;
-
-        private GateSlider LowSliderView;
-
-        private GateSlider HighSliderView;
 
         /// <summary>
         /// TODO The total ion chromatogram view.
@@ -59,48 +59,10 @@ namespace Atreyu.Views
         /// </summary>
         public CombinedHeatmapView()
         {
-            InitializeComponent();
-            this.DataContextChanged += CombinedHeatmapView_DataContextChanged;
-        }
-
-        private void CombinedHeatmapView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            this.ViewModel = e.NewValue as CombinedHeatmapViewModel;
-
-            this.heatMapView = new HeatMapView(this.ViewModel.HeatMapViewModel);
-            Grid.SetColumn(this.heatMapView, 1);
-            Grid.SetRow(this.heatMapView, 1);
-            Grid.SetColumnSpan(this.heatMapView, 2);
-            this.MainGrid.Children.Add(this.heatMapView);
-
-            this.frameManipulationView = new FrameManipulationView(this.ViewModel.FrameManipulationViewModel);
-            Grid.SetColumn(this.frameManipulationView, 1);
-            Grid.SetRow(this.frameManipulationView, 0);
-            this.MainGrid.Children.Add(this.frameManipulationView);
-
-            this.mzSpectraView = new MzSpectraView(this.ViewModel.MzSpectraViewModel);
-            Grid.SetColumn(this.mzSpectraView, 0);
-            Grid.SetRow(this.mzSpectraView, 1);
-            this.MainGrid.Children.Add(this.mzSpectraView);
-
-            this.totalIonChromatogramView = new TotalIonChromatogramView(this.ViewModel.TotalIonChromatogramViewModel);
-            Grid.SetColumn(this.totalIonChromatogramView, 1);
-            Grid.SetRow(this.totalIonChromatogramView, 2);
-            Grid.SetColumnSpan(this.totalIonChromatogramView, 2);
-            this.MainGrid.Children.Add(this.totalIonChromatogramView);
-
-            this.LowSliderView = new GateSlider(this.ViewModel.LowValueGateSliderViewModel);
-            Grid.SetRow(this.LowSliderView, 1);
-            Grid.SetColumn(this.LowSliderView, 3);
-            this.MainGrid.Children.Add(this.LowSliderView);
-
-            this.HighSliderView = new GateSlider(this.ViewModel.HighValueGateSliderViewModel);
-            //Grid.SetRow(this.HighSliderView, 1);
-            //Grid.SetColumn(this.HighSliderView, 4);
-            //this.MainGrid.Children.Add(this.HighSliderView);
-
+            this.InitializeComponent();
+            this.DataContextChanged += this.CombinedHeatmapViewDataContextChanged;
             this.AllowDrop = true;
-            this.PreviewDrop += this.MainTabControl_PreviewDragEnter;        
+            this.PreviewDrop += this.CombinedHeatmapViewPreviewDrop;
         }
 
         #endregion
@@ -137,17 +99,101 @@ namespace Atreyu.Views
         #region Methods
 
         /// <summary>
+        /// TODO The combined heatmap view_ data context changed.
+        /// </summary>
+        /// <param name="sender">
+        /// TODO The sender.
+        /// </param>
+        /// <param name="e">
+        /// TODO The e.
+        /// </param>
+        private void CombinedHeatmapViewDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            this.ViewModel = e.NewValue as CombinedHeatmapViewModel;
+
+            if (this.ViewModel == null)
+            {
+                throw new ArgumentException("arguement e is only allowed to be of type CombinedHeatmapViewModel", "e");
+            }
+
+            this.heatMapView = new HeatMapView(this.ViewModel.HeatMapViewModel);
+            Grid.SetColumn(this.heatMapView, 1);
+            Grid.SetRow(this.heatMapView, 1);
+            Grid.SetColumnSpan(this.heatMapView, 2);
+            this.MainGrid.Children.Add(this.heatMapView);
+
+            this.frameManipulationView = new FrameManipulationView(this.ViewModel.FrameManipulationViewModel);
+            Grid.SetColumn(this.frameManipulationView, 1);
+            Grid.SetRow(this.frameManipulationView, 0);
+            this.MainGrid.Children.Add(this.frameManipulationView);
+
+            this.mzSpectraView = new MzSpectraView(this.ViewModel.MzSpectraViewModel);
+            Grid.SetColumn(this.mzSpectraView, 0);
+            Grid.SetRow(this.mzSpectraView, 1);
+            this.MainGrid.Children.Add(this.mzSpectraView);
+
+            this.totalIonChromatogramView = new TotalIonChromatogramView(this.ViewModel.TotalIonChromatogramViewModel);
+            Grid.SetColumn(this.totalIonChromatogramView, 1);
+            Grid.SetRow(this.totalIonChromatogramView, 2);
+            Grid.SetColumnSpan(this.totalIonChromatogramView, 2);
+            this.MainGrid.Children.Add(this.totalIonChromatogramView);
+
+            this.lowSliderView = new GateSlider(this.ViewModel.LowValueGateSliderViewModel);
+            Grid.SetRow(this.lowSliderView, 1);
+            Grid.SetColumn(this.lowSliderView, 3);
+            this.MainGrid.Children.Add(this.lowSliderView);
+
+            // Grid.SetRow(this.HighSliderView, 1);
+            // Grid.SetColumn(this.HighSliderView, 4);
+            // this.MainGrid.Children.Add(this.HighSliderView);
+            this.AllowDrop = true;
+            this.PreviewDrop += this.MainTabControlPreviewDragEnter;
+        }
+
+        /// <summary>
+        /// TODO The combined heatmap view preview drop.
+        /// </summary>
+        /// <param name="sender">
+        /// TODO The sender.
+        /// </param>
+        /// <param name="e">
+        /// TODO The e.
+        /// </param>
+        private async void CombinedHeatmapViewPreviewDrop(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop, true))
+            {
+                return;
+            }
+
+            var droppedFilePaths = e.Data.GetData(DataFormats.FileDrop, true) as string[];
+            if (droppedFilePaths == null || droppedFilePaths.Length < 1)
+            {
+                return;
+            }
+
+            var file = droppedFilePaths[0];
+            if (!File.Exists(file))
+            {
+                return;
+            }
+
+            await this.ViewModel.InitializeUimfData(file);
+        }
+
+        /// <summary>
         /// TODO The load file.
         /// </summary>
         /// <param name="fileName">
         /// TODO The file name.
         /// </param>
-        private void LoadFile(string fileName)
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        private async Task LoadFile(string fileName)
         {
-            this.ViewModel.HeatMapViewModel.InitializeUimfData(fileName);
+            await this.ViewModel.InitializeUimfData(fileName);
             this.ViewModel.FrameManipulationViewModel.CurrentFrame = 1;
-
-            // this.totalIonChromatogramViewModel.UpdateReference(this.heatMapViewModel.HeatMapData);
         }
 
         /// <summary>
@@ -159,11 +205,11 @@ namespace Atreyu.Views
         /// <param name="e">
         /// TODO The e.
         /// </param>
-        private void MainTabControl_PreviewDragEnter(object sender, DragEventArgs e)
+        private async void MainTabControlPreviewDragEnter(object sender, DragEventArgs e)
         {
             var isCorrect = true;
             string[] filenames = { };
-            if (e.Data.GetDataPresent(DataFormats.FileDrop, true) == true)
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
             {
                 filenames = (string[])e.Data.GetData(DataFormats.FileDrop, true);
                 foreach (string filename in filenames)
@@ -188,7 +234,7 @@ namespace Atreyu.Views
 
             if (isCorrect)
             {
-                this.LoadFile(filenames[0]);
+                await this.LoadFile(filenames[0]);
             }
 
             e.Handled = true;

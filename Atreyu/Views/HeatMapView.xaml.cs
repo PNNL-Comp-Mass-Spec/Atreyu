@@ -6,35 +6,23 @@
 //   Interaction logic for HeatMapView.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Reactive.Linq;
-
-namespace Falkor.Views.Atreyu
+namespace Atreyu.Views
 {
+    using System;
     using System.ComponentModel.Composition;
+    using System.Reactive.Linq;
     using System.Windows;
-    using System.Windows.Controls;
-    using ReactiveUI;
 
-    using global::Atreyu.ViewModels;
+    using Atreyu.ViewModels;
+
+    using ReactiveUI;
 
     /// <summary>
     /// Interaction logic for HeatMapView.xaml
     /// </summary>
     [Export]
-    public partial class HeatMapView : UserControl, IViewFor<HeatMapViewModel>
+    public partial class HeatMapView : IViewFor<HeatMapViewModel>
     {
-
-
- 		public HeatMapViewModel ViewModel { get; set; }
- 
-        object IViewFor.ViewModel
-        {
-            get { return ViewModel; }
-            set { ViewModel = value as HeatMapViewModel; }
-        }       
-		       
         #region Constructors and Destructors
 
         /// <summary>
@@ -51,48 +39,45 @@ namespace Falkor.Views.Atreyu
             this.InitializeComponent();
 
             // x and y are magically is assigned "this" via extension methods
-            this.WhenAnyValue(x => x.ActualHeight, y => y.ActualWidth).Throttle(TimeSpan.FromMilliseconds(200))
-                .Subscribe(z => this.ViewModel.UpdatePlotSize(z.Item1, z.Item2));
+            this.WhenAnyValue(x => x.ActualHeight, y => y.ActualWidth)
+                .Throttle(TimeSpan.FromMilliseconds(200))
+                .Subscribe(
+                    z =>
+                        {
+                            viewModel.Height = (int)z.Item1;
+                            viewModel.Width = (int)z.Item2;
+                        });
         }
 
         #endregion
 
-        #region Methods
-
+        #region Public Properties
 
         /// <summary>
-        /// TODO The on drop.
+        /// Gets or sets the view model.
         /// </summary>
-        /// <param name="e">
-        /// TODO The e.
-        /// </param>
-        protected override void OnDrop(DragEventArgs e)
-        {
-            base.OnDrop(e);
+        public HeatMapViewModel ViewModel { get; set; }
 
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+        #endregion
+
+        #region Explicit Interface Properties
+
+        /// <summary>
+        /// Gets or sets the view model.
+        /// </summary>
+        object IViewFor.ViewModel
+        {
+            get
             {
-                var files = e.Data.GetData(DataFormats.FileDrop) as string[];
-                this.HandleFileOpen(files);
+                return this.ViewModel;
             }
 
-            e.Handled = true;
+            set
+            {
+                this.ViewModel = value as HeatMapViewModel;
+            }
         }
 
-        /// <summary>
-        /// TODO The handle file open.
-        /// </summary>
-        /// <param name="files">
-        /// TODO The files.
-        /// </param>
-        private void HandleFileOpen(string[] files)
-        {
-            this.ViewModel.InitializeUimfData(files[0]);
-        }
-
-       
         #endregion
-
-       
     }
 }
