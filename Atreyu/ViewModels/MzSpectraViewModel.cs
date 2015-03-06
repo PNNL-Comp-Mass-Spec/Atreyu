@@ -45,6 +45,8 @@ namespace Atreyu.ViewModels
         /// </summary>
         private double intercept;
 
+        private Dictionary<double, double> frameDictionary;
+
         /// <summary>
         /// TODO The mz frame data.
         /// </summary>
@@ -277,7 +279,7 @@ namespace Atreyu.ViewModels
             }
 
             this.frameData = framedata;
-            var frameDictionary = new Dictionary<double, double>();
+            this.frameDictionary = new Dictionary<double, double>();
             this.mzFrameData = new Dictionary<double, double>();
 
             for (var j = 0; j < this.frameData.GetLength(1); j++)
@@ -287,13 +289,13 @@ namespace Atreyu.ViewModels
 
                 for (var i = 0; i < this.frameData.GetLength(0); i++)
                 {
-                    if (frameDictionary.ContainsKey(index))
+                    if (this.frameDictionary.ContainsKey(index))
                     {
-                        frameDictionary[index] += this.frameData[i, j];
+                        this.frameDictionary[index] += this.frameData[i, j];
                     }
                     else
                     {
-                        frameDictionary.Add(index, this.frameData[i, j]);
+                        this.frameDictionary.Add(index, this.frameData[i, j]);
                     }
 
                     if (this.mzFrameData.ContainsKey(mzIndex))
@@ -326,12 +328,14 @@ namespace Atreyu.ViewModels
                 }
                 else
                 {
-                    foreach (var d in frameDictionary)
+                    foreach (var d in this.frameDictionary)
                     {
                         series.Points.Add(new DataPoint(d.Value, d.Key));
                     }
                 }
             }
+
+            this.FindPeaks();
 
             this.MzPlotModel.InvalidatePlot(true);
         }
