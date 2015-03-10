@@ -12,9 +12,13 @@ namespace Atreyu.ViewModels
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Drawing;
+    using System.Globalization;
     using System.IO;
+    using System.Linq;
 
     using Atreyu.Models;
+
+    using MagnitudeConcavityPeakFinder;
 
     using OxyPlot;
     using OxyPlot.Axes;
@@ -22,8 +26,11 @@ namespace Atreyu.ViewModels
 
     using ReactiveUI;
 
+    using UIMFLibrary;
+
     using LinearAxis = OxyPlot.Axes.LinearAxis;
     using LineSeries = OxyPlot.Series.LineSeries;
+    using TextAnnotation = OxyPlot.Annotations.TextAnnotation;
 
     // using Falkor.Events.Atreyu;
 
@@ -34,6 +41,11 @@ namespace Atreyu.ViewModels
     public class MzSpectraViewModel : ReactiveObject
     {
         #region Fields
+
+        /// <summary>
+        /// TODO The end mz bin.
+        /// </summary>
+        private int endMzBin;
 
         /// <summary>
         /// TODO The _frame data.
@@ -98,6 +110,11 @@ namespace Atreyu.ViewModels
         /// Gets or sets the bin to mz map.
         /// </summary>
         public double[] BinToMzMap { get; set; }
+
+        /// <summary>
+        /// Gets or sets the mz calibrator.
+        /// </summary>
+        public MzCalibrator Calibrator { get; set; }
 
         /// <summary>
         /// Gets or sets the intercept.
@@ -171,6 +188,17 @@ namespace Atreyu.ViewModels
         #endregion
 
         #region Public Methods and Operators
+
+        /// <summary>
+        /// TODO The change start bin.
+        /// </summary>
+        /// <param name="bin">
+        /// TODO The bin.
+        /// </param>
+        public void ChangeEndBin(int bin)
+        {
+            this.endMzBin = bin;
+        }
 
         /// <summary>
         /// TODO The change start bin.
@@ -356,6 +384,196 @@ namespace Atreyu.ViewModels
             this.uimfData = uimfDataNew;
             this.CreatePlotModel();
         }
+
+
+
+        /// <summary>
+        /// Find the peaks in the current data set and adds an annotation point with the resolution to the m/z.
+        /// </summary>
+        private void FindPeaks()
+        {
+            const int Precision = 10000;
+            this.mzPlotModel.Annotations.Clear();
+
+            if (!this.ShowMz)
+            {
+                // This currently does not support peakfinding in bin mode due to potential headaches,
+                // But as it seems users never use that mode, it is a non-issue for now.
+                return;
+            }
+
+            var peakDetector = new PeakDetector();
+
+            var finderOptions = PeakDetector.GetDefaultSICPeakFinderOptions();
+
+            List<double> smoothedY;
+
+            // Create a new dictionary so we don't modify the original one
+            var tempFrameDict = new Dictionary<int, double>(this.uimfData.MaxBins);
+
+            // this is a hack to make the library work and return the proper location index
+            double junk;
+            foreach (var kvp in this.mzFrameData)
+            {
+                tempFrameDict.Add((int)(kvp.Key * Precision), kvp.Value);
+            }
+            ////for (var i = 0; i < this.uimfData.Scans; i++)
+            ////{
+            ////    // We have to give it integers, but we need the mz, so we will multiply the mz by the precision and later get the 
+            ////    // correct value back by dividing it out again
+            ////    var mz = (int)(this.BinToMzMap[i] * Precision);
+            ////    tempFrameDict.Add(mz, this.frameDictionary.TryGetValue(i, out junk) ? junk : 0);
+            ////}
+
+            // I am not sure what this does and need to talk to Matt Monroe, but in the example exe file that came with the library
+            // they used half of the length of the list in their previous examples and this seems to work on teh zoomed out version
+            // but not when we zoom in, it seems like an offset problem.
+            var originalpeakLocation = tempFrameDict.Count / 2;
+
+            // The idea behind this is to always give the key of the mid point of the list, but this causes the finder to blow up.
+            ////var originalpeakLocation = this.frameDictionary.First().Key + (this.frameDictionary.Count / 2);
+            var peaks = peakDetector.FindPeaks(
+                finderOptions,
+                tempFrameDict.OrderBy(x => x.Key).ToList(),
+                originalpeakLocation,
+                out smoothedY);
+
+            foreach (var peak in peaks)
+            {
+                ////var firstpoint = this.frameDictionary.First();
+                var index = tempFrameDict.ElementAt(peak.LocationIndex).Key; // + firstpoint.Key; 
+                var smoothedPeak = smoothedY[peak.LocationIndex];
+                double intensity;
+                if (!tempFrameDict.TryGetValue(index, out intensity))
+                {
+                    intensity = 50;
+                }
+
+                var correctedIndex = (double)index / Precision;
+                var halfmax = smoothedPeak / 2.0;
+
+                var leftEdge = tempFrameDict.ElementAt(peak.LeftEdge).Key;
+                var correctedLeftEdge = (double)leftEdge / Precision;
+                
+                var rightEdge = tempFrameDict.ElementAt(peak.RightEdge).Key;
+
+                var peakDataset =
+                    tempFrameDict.Where(x => x.Key >= leftEdge && x.Key <= rightEdge).ToList();
+
+                // find the left mid point
+                var currPoint = new KeyValuePair<int, double>(0, 0);
+                var currPointIndex = 0;
+                double leftMidpoint = 0;
+                double rightMidPoint = 0;
+                for (var i = 0; i < peakDataset.Count; i++)
+                {
+                    const double Tolerance = 0.01;
+                    var prevPoint = currPoint;
+                    currPoint = peakDataset[i];
+                    var prevPointIndex = currPointIndex;
+                    currPointIndex = peakDataset.IndexOf(currPoint);
+
+                    if (Math.Abs(leftMidpoint) < Tolerance)
+                    {
+                        if (smoothedY[currPointIndex] < halfmax)
+                        {
+                            continue;
+                        }
+
+                        if (Math.Abs(smoothedY[currPointIndex] - halfmax) < Tolerance)
+                        {
+                            leftMidpoint = currPoint.Key;
+                            continue;
+                        }
+
+                        ////var slope = (prevPoint.Key - currPoint.Key) / (prevPoint.Value - currPoint.Value);
+                        double a1 = prevPoint.Key;
+                        double a2 = currPoint.Key;
+                        double c = halfmax;
+                        double b1 = smoothedY[prevPointIndex];
+                        double b2 = smoothedY[currPointIndex];
+
+                        leftMidpoint = a1 + ((a2 - a1) * ((c - b1) / (b2 - b1)));
+                        continue;
+                    }
+
+                    if (Math.Abs(rightMidPoint) < Tolerance)
+                    {
+                        if (smoothedY[currPointIndex] > halfmax || smoothedY[currPointIndex] < 0)
+                        {
+                            continue;
+                        }
+
+                        if (Math.Abs(smoothedY[currPointIndex] - halfmax) < Tolerance)
+                        {
+                            rightMidPoint = currPoint.Key;
+                            continue;
+                        }
+
+                        ////var slope = (prevPoint.Key - currPoint.Key) / (prevPoint.Value - currPoint.Value);
+                        double a1 = prevPoint.Key;
+                        double a2 = currPoint.Key;
+                        double c = halfmax;
+                        double b1 = smoothedY[prevPointIndex];
+                        double b2 = smoothedY[currPointIndex];
+
+                        rightMidPoint = a1 + ((a2 - a1) * ((c - b1) / (b2 - b1)));
+                        break;
+                    }
+                }
+
+                var correctedRightMidPoint = rightMidPoint / Precision;
+                var correctedLeftMidPoint = leftMidpoint / Precision;
+
+                var resolution = correctedIndex / (correctedRightMidPoint - correctedLeftMidPoint);
+
+                var pointAnnotation1 = new OxyPlot.Annotations.PointAnnotation
+                {
+                    X = halfmax,
+                    Y = leftMidpoint,
+                    Text = "Left",
+                    ToolTip =
+                        "Left mid Point Found at "
+                        + leftMidpoint
+                };
+
+                ////this.mzPlotModel.Annotations.Add(pointAnnotation1);
+                var pointAnnotation2 = new OxyPlot.Annotations.PointAnnotation
+                {
+                    X = halfmax,
+                    Y = rightMidPoint,
+                    Text = "right",
+                    ToolTip =
+                        "right mid Point Found at "
+                        + rightMidPoint
+                };
+
+                ////this.mzPlotModel.Annotations.Add(pointAnnotation2);
+                var resolutionString = resolution.ToString("F1", CultureInfo.InvariantCulture);
+
+
+                var annotationText = "Peak Location:" + index + Environment.NewLine + "Intensity:"
+                                     + intensity + Environment.NewLine + "Resolution:" + resolutionString;
+
+                var annotation = new TextAnnotation
+                {
+                    Text = annotationText,
+                    TextPosition =
+                        new DataPoint(peak.LocationIndex, (int)(intensity / 3))
+                };
+
+                ////this.mzPlotModel.Annotations.Add(annotation);
+                var peakPoint = new OxyPlot.Annotations.PointAnnotation
+                {
+                    Text = "R=" + resolutionString,
+                    X = intensity / 2.5,
+                    Y = this.BinToMzMap[peak.LocationIndex],
+                    ToolTip = annotationText
+                };
+                this.mzPlotModel.Annotations.Add(peakPoint);
+            }
+        }
+
 
         #endregion
     }

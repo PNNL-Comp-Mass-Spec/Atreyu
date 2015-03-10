@@ -113,6 +113,8 @@ namespace Atreyu.Models
         /// </summary>
         private int mostRecentWidth;
 
+        private MzCalibrator calibrator;
+
         /// <summary>
         /// TODO The range update list.
         /// </summary>
@@ -187,6 +189,22 @@ namespace Atreyu.Models
             private set
             {
                 this.RaiseAndSetIfChanged(ref this.binToMzMap, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the m/z calibrator that converts TOF to m/z.
+        /// </summary>
+        public MzCalibrator Calibrator
+        {
+            get
+            {
+                return this.calibrator;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.calibrator, value);
             }
         }
 
@@ -622,7 +640,7 @@ namespace Atreyu.Models
 
                             var tof = new double[arrayLength];
                             var mz = new double[arrayLength];
-                            var calibrator = this.dataReader.GetMzCalibrator(frameParams);
+                            this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
 
                             for (var i = 0; i < arrayLength; i++)
                             {
