@@ -659,6 +659,28 @@ namespace Atreyu.Models
             return returnGatedData ? this.GatedFrameData : this.FrameData;
         }
 
+        private DataReader.FrameType GetFrameType(string frameType)
+        {
+            var temp = frameType.ToLower();
+            switch (temp)
+            {
+                case "ms1":
+                    return DataReader.FrameType.MS1;
+                    break;
+                case "ms2":
+                    return DataReader.FrameType.MS2;
+                    break;
+                case "calibration":
+                    return DataReader.FrameType.Calibration;
+                    break;
+                case "prescan":
+                    return DataReader.FrameType.Prescan;
+                    break;
+                default:
+                    throw new NotImplementedException("Only the MS1, MS2, Calibration, and Prescan frame types have been implemented in this version");
+            }
+        }
+
         /// <summary>
         /// TODO The read data.
         /// </summary>
