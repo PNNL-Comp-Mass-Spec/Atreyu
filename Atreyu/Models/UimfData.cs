@@ -150,6 +150,10 @@ namespace Atreyu.Models
         /// </summary>
         private double valuesPerPixelY;
 
+        private double[] mzArray;
+
+        private int[] mzIntensities;
+
         #endregion
 
         #region Constructors and Destructors
@@ -413,6 +417,32 @@ namespace Atreyu.Models
             set
             {
                 this.RaiseAndSetIfChanged(ref this.maxBins, value);
+            }
+        }
+
+        public int[] MzIntensities
+        {
+            get
+            {
+                return this.mzIntensities;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.mzIntensities, value);
+            }
+        }
+
+        public double[] MzArray
+        {
+            get
+            {
+                return this.mzArray;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.mzArray, value);
             }
         }
 
