@@ -713,18 +713,14 @@ namespace Atreyu.Models
             var temp = frameType.ToLower();
             switch (temp)
             {
-                case "ms1":
+                case "1":
                     return DataReader.FrameType.MS1;
-                    break;
-                case "ms2":
+                case "2":
                     return DataReader.FrameType.MS2;
-                    break;
-                case "calibration":
+                case "3":
                     return DataReader.FrameType.Calibration;
-                    break;
-                case "prescan":
+                case "4":
                     return DataReader.FrameType.Prescan;
-                    break;
                 default:
                     throw new NotImplementedException("Only the MS1, MS2, Calibration, and Prescan frame types have been implemented in this version");
             }
