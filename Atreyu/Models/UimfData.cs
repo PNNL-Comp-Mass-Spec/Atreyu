@@ -678,7 +678,26 @@ namespace Atreyu.Models
                                 mz[i] = calibrator.TOFtoMZ(tof[i] * 10);
                             }
 
+
+
+                            var frametype = this.GetFrameType(frameType);
+                            double[] mzs;
+                            int[] intensities;
+                            this.dataReader.GetSpectrum(
+                                this.StartFrameNumber,
+                                this.EndFrameNumber,
+                                frametype,
+                                this.StartScan,
+                                this.EndScan,
+                                out mzs,
+                                out intensities);
+
+
                             this.BinToMzMap = mz;
+
+                            this.MzArray = mzs;
+
+                            this.MzIntensities = intensities;
 
                             this.FrameData = temp;
                         });
