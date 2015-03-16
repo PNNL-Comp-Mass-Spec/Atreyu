@@ -3,7 +3,7 @@
 //   
 // </copyright>
 // <summary>
-//   TODO The mz spectra view model.
+//   The mz spectra view model.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Atreyu.ViewModels
@@ -12,11 +12,9 @@ namespace Atreyu.ViewModels
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Drawing;
-    using System.Drawing.Text;
     using System.Globalization;
     using System.IO;
     using System.Linq;
-    using System.Runtime.InteropServices;
 
     using Atreyu.Models;
 
@@ -32,12 +30,9 @@ namespace Atreyu.ViewModels
 
     using LinearAxis = OxyPlot.Axes.LinearAxis;
     using LineSeries = OxyPlot.Series.LineSeries;
-    using TextAnnotation = OxyPlot.Annotations.TextAnnotation;
-
-    // using Falkor.Events.Atreyu;
-
+    
     /// <summary>
-    /// TODO The mz spectra view model.
+    /// The view model for properly displaying the mz spectra graph.
     /// </summary>
     [Export]
     public class MzSpectraViewModel : ReactiveObject
@@ -45,49 +40,52 @@ namespace Atreyu.ViewModels
         #region Fields
 
         /// <summary>
-        /// TODO The end mz bin.
+        /// The end mz bin.
         /// </summary>
         private int endMzBin;
 
         /// <summary>
-        /// TODO The _frame data.
+        /// The raw frame data that is compressed on the Y axis.
         /// </summary>
         private double[,] frameData;
 
         /// <summary>
-        /// TODO The intercept.
+        /// The bin centric frame data that has been compressed.
         /// </summary>
-        private double intercept;
-
         private Dictionary<double, double> frameDictionary;
 
         /// <summary>
-        /// TODO The mz frame data.
+        /// The calibration intercept.
+        /// </summary>
+        private double intercept;
+
+        /// <summary>
+        /// The mz frame data that has been compressed.
         /// </summary>
         private Dictionary<double, double> mzFrameData;
 
         /// <summary>
-        /// TODO The _mz plot model.
+        /// The plot model for the mz.
         /// </summary>
         private PlotModel mzPlotModel;
 
         /// <summary>
-        /// TODO The show mz.
+        /// Specifies whether or not to show the mz.
         /// </summary>
         private bool showMz;
 
         /// <summary>
-        /// TODO The slope.
+        /// The calibration slope.
         /// </summary>
         private double slope;
 
         /// <summary>
-        /// TODO The _start mz bin.
+        /// The start mz bin.
         /// </summary>
         private int startMzBin;
 
         /// <summary>
-        /// TODO The _uimf data.
+        /// The uimf data reference.
         /// </summary>
         private UimfData uimfData;
 
@@ -113,10 +111,6 @@ namespace Atreyu.ViewModels
         /// </summary>
         public double[] BinToMzMap { get; set; }
 
-        public double[] MzArray { get; set; }
-
-        public int[] MzIntensities { get; set; }
-
         /// <summary>
         /// Gets or sets the mz calibrator.
         /// </summary>
@@ -137,6 +131,16 @@ namespace Atreyu.ViewModels
                 this.RaiseAndSetIfChanged(ref this.intercept, value);
             }
         }
+
+        /// <summary>
+        /// Gets or sets the mz array.
+        /// </summary>
+        public double[] MzArray { get; set; }
+
+        /// <summary>
+        /// Gets or sets the mz intensities.
+        /// </summary>
+        public int[] MzIntensities { get; set; }
 
         /// <summary>
         /// Gets or sets the mz plot model.
@@ -196,10 +200,10 @@ namespace Atreyu.ViewModels
         #region Public Methods and Operators
 
         /// <summary>
-        /// TODO The change start bin.
+        /// Changes the end bin for proper graph display.
         /// </summary>
         /// <param name="bin">
-        /// TODO The bin.
+        /// The bin to change to.
         /// </param>
         public void ChangeEndBin(int bin)
         {
@@ -207,10 +211,10 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The change start bin.
+        /// Changes the start bin for proper graph display.
         /// </summary>
         /// <param name="bin">
-        /// TODO The bin.
+        /// The bin to change to.
         /// </param>
         public void ChangeStartBin(int bin)
         {
@@ -218,7 +222,7 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The create plot model.
+        /// Creates or recreates the create plot model.
         /// </summary>
         public void CreatePlotModel()
         {
@@ -259,7 +263,7 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The get mz data compressed.
+        /// Gets a dictionary of the m/z data that has been compressed.
         /// </summary>
         /// <returns>
         /// The <see cref="IDictionary"/>.
@@ -270,7 +274,7 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The get m/z image.
+        /// Get the current image of the m/z graph.
         /// </summary>
         /// <returns>
         /// The <see cref="Image"/>.
@@ -290,7 +294,7 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The update frame number.
+        /// Update frame data.
         /// </summary>
         /// <param name="framedata">
         /// The frame data.
@@ -375,10 +379,10 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The update reference.
+        /// Updates the reference to UIMF data.
         /// </summary>
         /// <param name="uimfDataNew">
-        /// TODO The uimf data.
+        /// The uimf data that has been changed.
         /// </param>
         public void UpdateReference(UimfData uimfDataNew)
         {
@@ -391,24 +395,9 @@ namespace Atreyu.ViewModels
             this.CreatePlotModel();
         }
 
-        private struct ResolutionDatapoint
-        {
-            public double Mz;
+        #endregion
 
-            public double Intensity;
-
-            public double Resolution;
-
-            public double SmoothedIntensity;
-        }
-
-        private class KvpCompare : IComparer<KeyValuePair<int, double>>
-        {
-            public int Compare(KeyValuePair<int, double> x, KeyValuePair<int, double> y)
-            {
-                    return x.Key - y.Key;
-            }
-        }
+        #region Methods
 
         /// <summary>
         /// Find the peaks in the current data set and adds an annotation point with the resolution to the m/z.
@@ -435,12 +424,13 @@ namespace Atreyu.ViewModels
             // Create a new dictionary so we don't modify the original one
             var tempFrameList = new List<KeyValuePair<int, double>>(this.uimfData.MaxBins);
 
+            // We have to give it integers, but we need the mz, so we will multiply the mz by the precision
+            // and later get the correct value back by dividing it out again
             for (var i = 0; i < this.MzArray.Length && i < this.MzIntensities.Length; i++)
             {
-                tempFrameList.Add(new KeyValuePair<int, double>((int)(this.MzArray[i] * Precision), this.MzIntensities[i]));
+                tempFrameList.Add(
+                    new KeyValuePair<int, double>((int)(this.MzArray[i] * Precision), this.MzIntensities[i]));
             }
-            ////    // We have to give it integers, but we need the mz, so we will multiply the mz by the precision and later get the 
-            ////    // correct value back by dividing it out again
 
             // I am not sure what this does and need to talk to Matt Monroe, but in the example exe file that came with the library
             // they used half of the length of the list in their previous examples and this seems to work on teh zoomed out version
@@ -448,9 +438,9 @@ namespace Atreyu.ViewModels
             var originalpeakLocation = tempFrameList.Count / 2;
 
             var allPeaks = peakDetector.FindPeaks(
-                finderOptions,
-                tempFrameList.OrderBy(x => x.Key).ToList(),
-                originalpeakLocation,
+                finderOptions, 
+                tempFrameList.OrderBy(x => x.Key).ToList(), 
+                originalpeakLocation, 
                 out smoothedY);
 
             var topThreePeaks = allPeaks.OrderByDescending(peak => smoothedY[peak.LocationIndex]).Take(3);
@@ -462,7 +452,7 @@ namespace Atreyu.ViewModels
                 var offsetMz = centerPoint.Key; // + firstpoint.Key; 
                 var intensity = centerPoint.Value;
                 var smoothedPeakIntensity = smoothedY[peak.LocationIndex];
-                
+
                 var realMz = (double)offsetMz / Precision;
                 var halfmax = smoothedPeakIntensity / 2.0;
 
@@ -487,10 +477,10 @@ namespace Atreyu.ViewModels
                 foreach (var leftSidePeak in leftSidePeaks)
                 {
                     var prevPoint = currPoint;
-                    currPoint = leftSidePeak; 
+                    currPoint = leftSidePeak;
                     var prevPointIndex = currPointIndex;
-                    
-                    currPointIndex = tempFrameList.BinarySearch(currPoint, new KvpCompare());
+
+                    currPointIndex = tempFrameList.BinarySearch(currPoint, new KvpCompare<double>());
 
                     if (smoothedY[currPointIndex] < halfmax)
                     {
@@ -520,7 +510,7 @@ namespace Atreyu.ViewModels
                     var prevPoint = currPoint;
                     currPoint = rightSidePeak;
                     var prevPointIndex = currPointIndex;
-                    currPointIndex = tempFrameList.BinarySearch(currPoint, new KvpCompare());
+                    currPointIndex = tempFrameList.BinarySearch(currPoint, new KvpCompare<double>());
 
                     if (smoothedY[currPointIndex] > halfmax || smoothedY[currPointIndex] < 0)
                     {
@@ -551,9 +541,9 @@ namespace Atreyu.ViewModels
 
                 var temp = new ResolutionDatapoint
                                {
-                                   Intensity = intensity,
-                                   Mz = realMz,
-                                   Resolution = resolution,
+                                   Intensity = intensity, 
+                                   Mz = realMz, 
+                                   Resolution = resolution, 
                                    SmoothedIntensity = smoothedPeakIntensity
                                };
                 datapointList.Add(temp);
@@ -567,19 +557,81 @@ namespace Atreyu.ViewModels
             {
                 var resolutionString = resolutionDatapoint.Resolution.ToString("F1", CultureInfo.InvariantCulture);
                 var annotationText = "Peak Location:" + resolutionDatapoint.Mz + Environment.NewLine + "Intensity:"
-                     + resolutionDatapoint.Intensity + Environment.NewLine + "Resolution:" + resolutionString;
+                                     + resolutionDatapoint.Intensity + Environment.NewLine + "Resolution:"
+                                     + resolutionString;
                 var peakPoint = new OxyPlot.Annotations.PointAnnotation
-                {
-                    Text = "R=" + resolutionString,
-                    X = resolutionDatapoint.SmoothedIntensity / 1.5,
-                    Y = resolutionDatapoint.Mz,
-                    ToolTip = annotationText
-                };
+                                    {
+                                        Text = "R=" + resolutionString, 
+                                        X =
+                                            resolutionDatapoint.SmoothedIntensity
+                                            / 1.5, 
+                                        Y = resolutionDatapoint.Mz, 
+                                        ToolTip = annotationText
+                                    };
                 this.mzPlotModel.Annotations.Add(peakPoint);
             }
         }
 
-
         #endregion
+
+        /// <summary>
+        /// The resolution data point.
+        /// </summary>
+        private struct ResolutionDatapoint
+        {
+            #region Fields
+
+            /// <summary>
+            /// The intensity.
+            /// </summary>
+            public double Intensity;
+
+            /// <summary>
+            /// The mz.
+            /// </summary>
+            public double Mz;
+
+            /// <summary>
+            /// The resolution.
+            /// </summary>
+            public double Resolution;
+
+            /// <summary>
+            /// The smoothed intensity (done by the peak finder).
+            /// </summary>
+            public double SmoothedIntensity;
+
+            #endregion
+        }
+
+        /// <summary>
+        /// A private class that specifies how to compare a Key Value Pair class where the key is an integer.
+        /// </summary>
+        /// <typeparam name="TValue">
+        /// May be any value, is not examined
+        /// </typeparam>
+        private class KvpCompare<TValue> : IComparer<KeyValuePair<int, TValue>>
+        {
+            #region Public Methods and Operators
+
+            /// <summary>
+            /// The compare function.
+            /// </summary>
+            /// <param name="x">
+            /// The x.
+            /// </param>
+            /// <param name="y">
+            /// The y.
+            /// </param>
+            /// <returns>
+            /// The <see cref="int"/>.
+            /// </returns>
+            public int Compare(KeyValuePair<int, TValue> x, KeyValuePair<int, TValue> y)
+            {
+                return x.Key - y.Key;
+            }
+
+            #endregion
+        }
     }
 }
