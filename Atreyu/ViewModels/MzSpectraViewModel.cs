@@ -563,8 +563,8 @@ namespace Atreyu.ViewModels
                                     {
                                         Text = "R=" + resolutionString, 
                                         X =
-                                            resolutionDatapoint.SmoothedIntensity
-                                            / 1.5, 
+                                            resolutionDatapoint.Intensity
+                                            / 1.03125, 
                                         Y = resolutionDatapoint.Mz, 
                                         ToolTip = annotationText
                                     };
