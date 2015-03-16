@@ -466,7 +466,6 @@ namespace Atreyu.ViewModels
                 var realMz = (double)offsetMz / Precision;
                 var halfmax = smoothedPeakIntensity / 2.0;
 
-                // find the left mid point
                 var currPoint = new KeyValuePair<int, double>(0, 0);
                 var currPointIndex = 0;
                 double leftMidpoint = 0;
@@ -484,6 +483,7 @@ namespace Atreyu.ViewModels
                     rightSidePeaks.Add(tempFrameList[r]);
                 }
 
+                // find the left side half max
                 foreach (var leftSidePeak in leftSidePeaks)
                 {
                     var prevPoint = currPoint;
@@ -514,6 +514,7 @@ namespace Atreyu.ViewModels
                     break;
                 }
 
+                // find the right side of the half max
                 foreach (var rightSidePeak in rightSidePeaks)
                 {
                     var prevPoint = currPoint;
@@ -561,6 +562,7 @@ namespace Atreyu.ViewModels
             var tempList =
                 datapointList.Where(x => !double.IsInfinity(x.Resolution)).OrderByDescending(x => x.Intensity).Take(10);
 
+            // Put the points on the graph
             foreach (var resolutionDatapoint in tempList)
             {
                 var resolutionString = resolutionDatapoint.Resolution.ToString("F1", CultureInfo.InvariantCulture);
