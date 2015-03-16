@@ -569,7 +569,7 @@ namespace Atreyu.ViewModels
                 var peakPoint = new OxyPlot.Annotations.PointAnnotation
                 {
                     Text = "R=" + resolutionString,
-                    X = resolutionDatapoint.SmoothedIntensity / 1,
+                    X = resolutionDatapoint.SmoothedIntensity / 1.5,
                     Y = resolutionDatapoint.Mz,
                     ToolTip = annotationText
                 };
