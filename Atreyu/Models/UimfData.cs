@@ -29,6 +29,11 @@ namespace Atreyu.Models
         private double[] binToMzMap;
 
         /// <summary>
+        /// TODO The calibrator.
+        /// </summary>
+        private MzCalibrator calibrator;
+
+        /// <summary>
         /// TODO The checking.
         /// </summary>
         private bool checking;
@@ -113,7 +118,15 @@ namespace Atreyu.Models
         /// </summary>
         private int mostRecentWidth;
 
-        private MzCalibrator calibrator;
+        /// <summary>
+        /// TODO The mz array.
+        /// </summary>
+        private double[] mzArray;
+
+        /// <summary>
+        /// TODO The mz intensities.
+        /// </summary>
+        private int[] mzIntensities;
 
         /// <summary>
         /// TODO The range update list.
@@ -149,10 +162,6 @@ namespace Atreyu.Models
         /// TODO The values per pixel y.
         /// </summary>
         private double valuesPerPixelY;
-
-        private double[] mzArray;
-
-        private int[] mzIntensities;
 
         #endregion
 
@@ -420,19 +429,9 @@ namespace Atreyu.Models
             }
         }
 
-        public int[] MzIntensities
-        {
-            get
-            {
-                return this.mzIntensities;
-            }
-
-            private set
-            {
-                this.RaiseAndSetIfChanged(ref this.mzIntensities, value);
-            }
-        }
-
+        /// <summary>
+        /// Gets the mz array.
+        /// </summary>
         public double[] MzArray
         {
             get
@@ -443,6 +442,22 @@ namespace Atreyu.Models
             private set
             {
                 this.RaiseAndSetIfChanged(ref this.mzArray, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the mz intensities.
+        /// </summary>
+        public int[] MzIntensities
+        {
+            get
+            {
+                return this.mzIntensities;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.mzIntensities, value);
             }
         }
 
@@ -654,16 +669,16 @@ namespace Atreyu.Models
                 await Task.Run(
                     () =>
                         {
-                            var frametype = this.GetFrameType(frameType);
+                            var frametype = this.GetFrameType(this.frameType);
                             double[] mzs;
                             int[] intensities;
                             this.dataReader.GetSpectrum(
-                                this.StartFrameNumber,
-                                this.EndFrameNumber,
-                                frametype,
-                                this.StartScan,
-                                this.EndScan,
-                                out mzs,
+                                this.StartFrameNumber, 
+                                this.EndFrameNumber, 
+                                frametype, 
+                                this.StartScan, 
+                                this.EndScan, 
+                                out mzs, 
                                 out intensities);
 
                             var temp = this.dataReader.AccumulateFrameData(
@@ -687,7 +702,7 @@ namespace Atreyu.Models
                             for (var i = 0; i < arrayLength; i++)
                             {
                                 tof[i] = this.dataReader.GetPixelMZ(i);
-                                mz[i] = calibrator.TOFtoMZ(tof[i] * 10);
+                                mz[i] = this.calibrator.TOFtoMZ(tof[i] * 10);
                             }
 
                             this.MzArray = mzs;
@@ -703,24 +718,6 @@ namespace Atreyu.Models
             this.GateData();
 
             return returnGatedData ? this.GatedFrameData : this.FrameData;
-        }
-
-        private DataReader.FrameType GetFrameType(string frameType)
-        {
-            var temp = frameType.ToLower();
-            switch (temp)
-            {
-                case "1":
-                    return DataReader.FrameType.MS1;
-                case "2":
-                    return DataReader.FrameType.MS2;
-                case "3":
-                    return DataReader.FrameType.Calibration;
-                case "4":
-                    return DataReader.FrameType.Prescan;
-                default:
-                    throw new NotImplementedException("Only the MS1, MS2, Calibration, and Prescan frame types have been implemented in this version");
-            }
         }
 
         /// <summary>
@@ -870,6 +867,36 @@ namespace Atreyu.Models
             }
 
             this.GatedFrameData = temp;
+        }
+
+        /// <summary>
+        /// TODO The get frame type.
+        /// </summary>
+        /// <param name="frameType">
+        /// TODO The frame type.
+        /// </param>
+        /// <returns>
+        /// The <see cref="FrameType"/>.
+        /// </returns>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
+        private DataReader.FrameType GetFrameType(string frameType)
+        {
+            var temp = frameType.ToLower();
+            switch (temp)
+            {
+                case "1":
+                    return DataReader.FrameType.MS1;
+                case "2":
+                    return DataReader.FrameType.MS2;
+                case "3":
+                    return DataReader.FrameType.Calibration;
+                case "4":
+                    return DataReader.FrameType.Prescan;
+                default:
+                    throw new NotImplementedException(
+                        "Only the MS1, MS2, Calibration, and Prescan frame types have been implemented in this version");
+            }
         }
 
         /// <summary>

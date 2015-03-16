@@ -11,7 +11,6 @@ namespace Atreyu.Views
     using System;
     using System.ComponentModel.Composition;
     using System.Reactive.Linq;
-    using System.Windows;
 
     using Atreyu.ViewModels;
 

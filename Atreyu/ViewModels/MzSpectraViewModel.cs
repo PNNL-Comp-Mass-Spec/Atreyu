@@ -30,7 +30,7 @@ namespace Atreyu.ViewModels
 
     using LinearAxis = OxyPlot.Axes.LinearAxis;
     using LineSeries = OxyPlot.Series.LineSeries;
-    
+
     /// <summary>
     /// The view model for properly displaying the mz spectra graph.
     /// </summary>
@@ -562,9 +562,7 @@ namespace Atreyu.ViewModels
                 var peakPoint = new OxyPlot.Annotations.PointAnnotation
                                     {
                                         Text = "R=" + resolutionString, 
-                                        X =
-                                            resolutionDatapoint.Intensity
-                                            / 1.03125, 
+                                        X = resolutionDatapoint.Intensity / 1.03125, 
                                         Y = resolutionDatapoint.Mz, 
                                         ToolTip = annotationText
                                     };
