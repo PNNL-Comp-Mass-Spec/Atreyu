@@ -10,7 +10,7 @@
         /// <summary>
         /// Gets or sets a value indicating whether to get the data from all frames or just the first one.
         /// </summary>
-        [Option('a', "allframes", HelpText = "Outputs all frames to csv instead of just the first one")]
+        [Option('a', "allframes", HelpText = "Outputs all frames to csv instead of just the first one. *NotImplementedYet)")]
         public bool AllFrames { get; set; }
 
         /// <summary>
@@ -18,8 +18,8 @@
         /// </summary>
         [Option('i', "input",
             Required = true,
-            HelpText = "specify the directories containing the UIMFs to process")]
-        public IEnumerable<string> InputPaths { get; set; }
+            HelpText = "specify the directory containing the UIMFs to process")]
+        public string InputPath { get; set; }
 
         /// <summary>
         /// Gets or sets the output path.
@@ -32,7 +32,7 @@
         /// <summary>
         /// Gets or sets a value indicating whether to recurse through subdirectories or not.
         /// </summary>
-        [Option('r', "recursive", HelpText = "Recurse through files in sub directories. *NotImplementedYet*")]
+        [Option('r', "recursive", HelpText = "Recurse through files in sub directories.")]
         public bool Recursive { get; set; }
 
         /// <summary>

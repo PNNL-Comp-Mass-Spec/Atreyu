@@ -12,41 +12,49 @@ namespace UimfDataExtractor
     {
         private static CommandLineOptions options;
 
+        private static DirectoryInfo inputDirectory;
+
+        private static DirectoryInfo outputDirectory;
+
         public static void Main(string[] args)
         {
             options = new CommandLineOptions();
 
-            if (CommandLine.Parser.Default.ParseArgumentsStrict(args, options))
+            if (!CommandLine.Parser.Default.ParseArgumentsStrict(args, options))
             {
-                // Domain logic here
-                var inputDirectories = options.InputPaths;
-                var outputDirectory = !string.IsNullOrWhiteSpace(options.OutputPath)
-                                            ? options.OutputPath
-                                            : Directory.GetCurrentDirectory();
-                var verbose = options.Verbose;
+                return;
+            }
+            // Domain logic here
+            outputDirectory = string.IsNullOrWhiteSpace(options.OutputPath)
+                                  ? new DirectoryInfo(Directory.GetCurrentDirectory())
+                                  : new DirectoryInfo(options.OutputPath);
 
-                var taskList = new List<Task>();
+            inputDirectory = new DirectoryInfo(options.InputPath);
 
-                if (options.Recursive)
-                {
-                    Parallel.ForEach(
-                        inputDirectories,
-                        async directory => await ProcessAllUimfInDirectoryRecursive(directory));
-                }
-                else
-                {
-                    Parallel.ForEach(inputDirectories, async directory => await ProcessAllUimfInDirectory(directory));    
-                }
+
+
+
+            var taskList = new List<Task>();
+
+            if (options.Recursive)
+            {
+                Parallel.ForEach(
+                    inputDirectory.EnumerateDirectories(),
+                    async directory => await ProcessAllUimfInDirectoryRecursive(directory));
+            }
+            else
+            {
+                ProcessAllUimfInDirectory(inputDirectory).Wait();    
             }
         }
 
-        private static async Task ProcessAllUimfInDirectoryRecursive(string root)
+        private static async Task ProcessAllUimfInDirectoryRecursive(DirectoryInfo root)
         {
-            if (Directory.Exists(root))
+            if (root.Exists)
             {
                 var task = ProcessAllUimfInDirectory(root);
                 Parallel.ForEach(
-                    Directory.GetDirectories(root),
+                    root.EnumerateDirectories(),
                     async directory => await ProcessAllUimfInDirectoryRecursive(directory));
                 await task;
             }
@@ -56,11 +64,11 @@ namespace UimfDataExtractor
             }
         }
 
-        private static async Task ProcessAllUimfInDirectory(string directory)
+        private static async Task ProcessAllUimfInDirectory(DirectoryInfo directory)
         {
-            if (Directory.Exists(directory))
+            if (directory.Exists)
             {
-                var uimfs = Directory.EnumerateFiles(directory, "*.uimf");
+                var uimfs = directory.EnumerateFiles("*.uimf");
 
                 
             }
@@ -70,9 +78,26 @@ namespace UimfDataExtractor
             }
         }
 
-        private static void PrintNotFoundError(string FileOrDirectory)
+        private static void PrintNotFoundError(string fileOrDirectory)
         {
-            Console.WriteLine(FileOrDirectory + "does not exist");
+            Console.WriteLine(fileOrDirectory + "does not exist");
+        }
+
+        private static void PrintNotFoundError(FileSystemInfo fileOrDirectory)
+        {
+            Console.WriteLine(fileOrDirectory.FullName + "does not exist");
+        }
+        
+        private static async Task ProcessUimf(string file)
+        {
+            if (options.AllFrames)
+            {
+                Console.WriteLine("This feature is not yet implemented");
+            }
+            else
+            {
+                
+            }
         }
     }
 }
