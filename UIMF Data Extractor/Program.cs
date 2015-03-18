@@ -50,11 +50,29 @@ namespace UimfDataExtractor
                     async directory => await ProcessAllUimfInDirectoryRecursive(directory));
                 await task;
             }
+            else
+            {
+                PrintNotFoundError(root);
+            }
         }
 
         private static async Task ProcessAllUimfInDirectory(string directory)
         {
-            
+            if (Directory.Exists(directory))
+            {
+                var uimfs = Directory.EnumerateFiles(directory, "*.uimf");
+
+                
+            }
+            else
+            {
+                PrintNotFoundError(directory);
+            }
+        }
+
+        private static void PrintNotFoundError(string FileOrDirectory)
+        {
+            Console.WriteLine(FileOrDirectory + "does not exist");
         }
     }
 }
