@@ -1,4 +1,4 @@
-﻿namespace UIMF_Data_Extractor
+﻿namespace UimfDataExtractor
 {
     using System.Collections.Generic;
 
@@ -7,6 +7,12 @@
 
     public class CommandLineOptions
     {
+        /// <summary>
+        /// Gets or sets a value indicating whether to get the data from all frames or just the first one.
+        /// </summary>
+        [Option('a', "allframes", HelpText = "Outputs all frames to csv instead of just the first one")]
+        public bool AllFrames { get; set; }
+
         /// <summary>
         /// Gets or sets the input path.
         /// </summary>
@@ -24,9 +30,15 @@
         public string OutputPath { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to recurse through subdirectories or not.
+        /// </summary>
+        [Option('r', "recursive", HelpText = "Recurse through files in sub directories. *NotImplementedYet*")]
+        public bool Recursive { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether to dump everything to the command line.
         /// </summary>
-        [Option('v', null, HelpText = "Print details during execution.")]
+        [Option('v', "verbose", HelpText = "Print details during execution. *NotImplementedYet*")]
         public bool Verbose { get; set; }
 
         /// <summary>
