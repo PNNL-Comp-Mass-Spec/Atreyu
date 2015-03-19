@@ -10,6 +10,7 @@ namespace Atreyu.Models
 {
     using System;
     using System.Collections.Concurrent;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using ReactiveUI;
@@ -611,6 +612,21 @@ namespace Atreyu.Models
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// The get full total ion chromatogram with the key based on scan number
+        /// </summary>
+        /// <param name="frameNumber">
+        /// The frame number.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<List<ScanInfo>> GetFullScanInfo(int frameNumber)
+        {
+            return Task.Run(
+                () => this.dataReader.GetFrameScans(frameNumber));
         }
 
         /// <summary>

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace UimfDataExtractor
 {
     using System.IO;
-
-    using Atreyu.Models;
+    
+    using UIMFLibrary;
 
     class Program
     {
@@ -27,38 +27,50 @@ namespace UimfDataExtractor
                 return;
             }
             // Domain logic here
-            outputDirectory = string.IsNullOrWhiteSpace(options.OutputPath)
-                                  ? new DirectoryInfo(Directory.GetCurrentDirectory())
-                                  : new DirectoryInfo(options.OutputPath);
-
             inputDirectory = new DirectoryInfo(options.InputPath);
 
+            outputDirectory = string.IsNullOrWhiteSpace(options.OutputPath)
+                                  ? inputDirectory
+                                  : new DirectoryInfo(options.OutputPath);
 
-
-
-            var taskList = new List<Task>();
+            if (options.Verbose)
+            {
+                Console.WriteLine("Verbose Active");
+                Console.WriteLine("Input Directory: " + inputDirectory.FullName);
+                Console.WriteLine("Output Directory: " + outputDirectory.FullName);
+                Console.WriteLine("Run Recursively?: " + options.Recursive);
+                Console.WriteLine("Process All Frames in File?: " + options.AllFrames);
+            }
 
             if (options.Recursive)
             {
-                Parallel.ForEach(
-                    inputDirectory.EnumerateDirectories(),
-                    async directory => await ProcessAllUimfInDirectoryRecursive(directory));
+                ProcessAllUimfInDirectoryRecursive(inputDirectory);
             }
             else
             {
-                ProcessAllUimfInDirectory(inputDirectory).Wait();    
+                ProcessAllUimfInDirectory(inputDirectory);    
+            }
+
+            if (options.Verbose)
+            {
+                Console.WriteLine("All done, Exiting");
             }
         }
 
-        private static async Task ProcessAllUimfInDirectoryRecursive(DirectoryInfo root)
+        private static void ProcessAllUimfInDirectoryRecursive(DirectoryInfo root)
         {
             if (root.Exists)
             {
-                var task = ProcessAllUimfInDirectory(root);
+                if (options.Verbose)
+                {
+                    Console.WriteLine("Started recursive work in " + root.FullName);
+                }
+
+                ProcessAllUimfInDirectory(root);
+
                 Parallel.ForEach(
                     root.EnumerateDirectories(),
-                    async directory => await ProcessAllUimfInDirectoryRecursive(directory));
-                await task;
+                    ProcessAllUimfInDirectoryRecursive);
             }
             else
             {
@@ -66,22 +78,24 @@ namespace UimfDataExtractor
             }
         }
 
-        private static Task ProcessAllUimfInDirectory(DirectoryInfo directory)
+        private static void ProcessAllUimfInDirectory(DirectoryInfo directory)
         {
-            return Task.Run(
-                () =>
-                    {
+            
                         if (directory.Exists)
                         {
+                            if (options.Verbose)
+                            {
+                                ////Console.WriteLine("Starting to process UIMFs in " + directory.FullName);
+                            }
+
                             var uimfs = directory.EnumerateFiles("*.uimf");
 
-                            Parallel.ForEach(uimfs, async uimf => await ProcessUimf(uimf));
+                            Parallel.ForEach(uimfs, ProcessUimf);
                         }
                         else
                         {
                             PrintNotFoundError(directory);
                         }
-                    });
         }
 
         private static void PrintNotFoundError(string fileOrDirectory)
@@ -94,7 +108,7 @@ namespace UimfDataExtractor
             Console.WriteLine(fileOrDirectory.FullName + "does not exist");
         }
         
-        private static async Task ProcessUimf(FileInfo file)
+        private static void ProcessUimf(FileInfo file)
         {
             if (!file.Exists)
             {
@@ -102,33 +116,110 @@ namespace UimfDataExtractor
                 return;
             }
 
-            var uimf = new UimfData(file.FullName);
+            using (var uimfReader = new DataReader(file.FullName))
+            {
+                if (options.Verbose)
+                {
+                    Console.WriteLine("Starting to process " + file.FullName);
+                }
 
-            if (options.AllFrames)
-            {
-                Console.WriteLine("This feature is not yet implemented");
+                if (options.AllFrames)
+                {
+                    Console.WriteLine("The All Frames feature is not yet implemented, so we are going to process just one");
+                    ProcessFrame(uimfReader, file);
+                }
+                else
+                {
+                    ProcessFrame(uimfReader, file);
+                }
             }
-            else
+
+            if (options.Verbose)
             {
-                await ProcessFrame(uimf);
+                Console.WriteLine("Finished processing " + file.FullName);
             }
         }
 
 
-        private static async Task ProcessFrame(UimfData uimf, int frameNumber = 1)
+        private static void ProcessFrame(DataReader uimf, FileInfo originFile, int frameNumber = 1)
         {
-            var data = await uimf.ReadData(
-                1,
-                uimf.MaxBins,
-                frameNumber,
-                frameNumber,
-                uimf.MaxBins, // we don't want the data compressed
-                uimf.Scans, // so we set the height and width to the scans so it is 1 value per pixel
-                0,
-                uimf.Scans,
-                false);
 
+            // eventually I will also have methods for mz and heatmap,
+            // which is why we are sperating this into seperate funtions now
 
+            var data = GetFullScanInfo(uimf, frameNumber);
+            var outputFile = GetOutputLocation(originFile);
+
+            OutputTiCbyTime(data, outputFile);
+            if (options.Verbose)
+            {
+                Console.WriteLine("Finished processing Frame " + frameNumber + " of " + originFile.FullName);
+            }
+        }
+
+        private static List<ScanInfo> GetFullScanInfo(DataReader uimf, int frameNumber)
+        {
+            return uimf.GetFrameScans(frameNumber);
+        }
+
+        private static void OutputTiCbyTime(List<ScanInfo> timeKeyedIntensities, FileInfo outputFile)
+        {
+            StreamWriter stream;
+            using (stream = GetFileStream(outputFile))
+            {
+                if (stream == null)
+                {
+                    Console.WriteLine("we were unable to create" + outputFile.FullName + "so we aren't outputting data to it either, we are petty like that");
+                    return;
+                }
+
+                foreach (var timeKeyedIntensity in timeKeyedIntensities)
+                {
+                    stream.WriteLine(timeKeyedIntensity.DriftTime + ", " + timeKeyedIntensity.TIC);
+                }
+                if (options.Verbose)
+                {
+                    Console.WriteLine("flushing data to file " + outputFile.FullName);
+                }
+                ////await stream.FlushAsync();
+                ////stream.Close();
+            }
+        }
+
+        private static StreamWriter GetFileStream(FileInfo outputFile)
+        {
+            var outstring = outputFile.DirectoryName;
+            if (outstring == null)
+            {
+                Console.WriteLine("ERROR: We will expand upong this later, but we couldn't find the directory of the output file and it will not be output");
+                return null;
+            }
+
+            var outDirectory = new DirectoryInfo(outstring);
+
+            if (!outDirectory.Exists)
+            {
+                outDirectory.Create();
+            }
+
+            if (outputFile.Exists)
+            {
+                outputFile.Delete();
+            }
+
+            return outputFile.CreateText();
+        }
+
+        private static FileInfo GetOutputLocation(FileInfo originFile)
+        {
+            var locationRelativeToInput = originFile.FullName.Substring(inputDirectory.FullName.Length + 1);
+            ////Console.WriteLine("Relative: " + locationRelativeToInput);
+            ////Console.WriteLine("output: " + outputDirectory.FullName);
+            var nestedLocation = Path.Combine(outputDirectory.FullName, locationRelativeToInput);
+            ////Console.WriteLine("Combined: " + nestedLocation);
+            
+            var csvFullPath = Path.ChangeExtension(nestedLocation, "csv");
+            return new FileInfo(csvFullPath);
         }
 
     }

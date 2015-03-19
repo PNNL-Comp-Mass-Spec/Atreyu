@@ -25,7 +25,6 @@
         /// Gets or sets the output path.
         /// </summary>
         [Option('o', "output",
-            DefaultValue = "",
             HelpText = "Specify the output directory. If left empty results will be written into the same directory as the input directory")]
         public string OutputPath { get; set; }
 
