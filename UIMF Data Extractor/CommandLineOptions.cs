@@ -37,7 +37,7 @@
         /// <summary>
         /// Gets or sets a value indicating whether to dump everything to the command line.
         /// </summary>
-        [Option('v', "verbose", HelpText = "Print details during execution. *NotImplementedYet*")]
+        [Option('v', "verbose", HelpText = "Print details during execution. *NotImplementedWellYet*")]
         public bool Verbose { get; set; }
 
         /// <summary>
