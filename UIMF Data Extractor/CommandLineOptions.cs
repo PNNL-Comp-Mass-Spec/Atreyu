@@ -13,6 +13,18 @@
         [Option('a', "allframes", HelpText = "Outputs all frames to csv instead of just the first one.")]
         public bool AllFrames { get; set; }
 
+        [Option('h', "heatmap", 
+            HelpText = "specifies that you want the two-dimensional heatmap data *NotImplementedYet*")]
+        public bool GetHeatmap { get; set; }
+
+        [Option('m', "mz",
+            HelpText = "specifies that you want the m/z data *NotImplementedYet*")]
+        public bool GetMz { get; set; }
+
+        [Option('t', "tic",
+            HelpText = "specifies that you want the TiC data")]
+        public bool GetTiC { get; set; }
+
         /// <summary>
         /// Gets or sets the input path.
         /// </summary>
@@ -59,6 +71,17 @@
                 AdditionalNewLineAfterOption = true,
                 AddDashesToOption = true
             };
+
+            help.AddPreOptionsLine(string.Empty);
+            help.AddPreOptionsLine("    This application batch processes Unified Ion Mobility Files (UIMF)");
+            help.AddPreOptionsLine("    to output the raw data into Comma Seperated Value (csv) format");
+            help.AddPreOptionsLine(string.Empty);
+            help.AddPreOptionsLine("    Usage:");
+            help.AddPreOptionsLine("      UIMFDataExtractor.exe -i SOURCEFOLDER is the minimum requirement to run");
+            help.AddPreOptionsLine("      If you do not specifiy an output format (heatmap, m/z, or tic) than the ");
+            help.AddPreOptionsLine("      program will simply print what files is found.");
+            help.AddPreOptionsLine("      If no output directory is specified, then it will default to the same folder");
+            help.AddPreOptionsLine("      as the UIMF");
 
             help.AddOptions(this);
 

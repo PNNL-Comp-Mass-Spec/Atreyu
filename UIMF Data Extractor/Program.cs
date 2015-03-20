@@ -149,10 +149,14 @@ namespace UimfDataExtractor
             // eventually I will also have methods for mz and heatmap,
             // which is why we are sperating this into seperate funtions now
 
-            var data = GetFullScanInfo(uimf, frameNumber);
-            var outputFile = GetOutputLocation(originFile, "TiC", frameNumber);
+            if (options.GetTiC)
+            {
+                var data = GetFullScanInfo(uimf, frameNumber);
+                var outputFile = GetOutputLocation(originFile, "TiC", frameNumber);
 
-            OutputTiCbyTime(data, outputFile);
+                OutputTiCbyTime(data, outputFile);
+            }
+
             if (options.Verbose)
             {
                 Console.WriteLine("Finished processing Frame " + frameNumber + " of " + originFile.FullName);
