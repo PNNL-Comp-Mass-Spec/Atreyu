@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace UimfDataExtractor
 {
     using System.IO;
-    
+
     using UIMFLibrary;
 
     class Program
@@ -50,11 +50,8 @@ namespace UimfDataExtractor
             {
                 ProcessAllUimfInDirectory(inputDirectory);    
             }
-
-            if (options.Verbose)
-            {
-                Console.WriteLine("All done, Exiting");
-            }
+            Console.WriteLine();
+            Console.WriteLine("All done, Exiting");
         }
 
         private static void ProcessAllUimfInDirectoryRecursive(DirectoryInfo root)
@@ -85,8 +82,9 @@ namespace UimfDataExtractor
                         {
                             if (options.Verbose)
                             {
-                                ////Console.WriteLine("Starting to process UIMFs in " + directory.FullName);
+                                Console.WriteLine("Starting to process UIMFs in " + directory.FullName);
                             }
+                            
 
                             var uimfs = directory.EnumerateFiles("*.uimf");
 
@@ -100,12 +98,16 @@ namespace UimfDataExtractor
 
         private static void PrintNotFoundError(string fileOrDirectory)
         {
+            Console.WriteLine();
             Console.WriteLine(fileOrDirectory + "does not exist");
+            Console.WriteLine();
         }
 
         private static void PrintNotFoundError(FileSystemInfo fileOrDirectory)
         {
+            Console.WriteLine();
             Console.WriteLine(fileOrDirectory.FullName + "does not exist");
+            Console.WriteLine();
         }
         
         private static void ProcessUimf(FileInfo file)
@@ -123,21 +125,21 @@ namespace UimfDataExtractor
                     Console.WriteLine("Starting to process " + file.FullName);
                 }
 
+                var framecount = uimfReader.GetGlobalParams().NumFrames;
                 if (options.AllFrames)
                 {
-                    Console.WriteLine("The All Frames feature is not yet implemented, so we are going to process just one");
-                    ProcessFrame(uimfReader, file);
+                    // ReSharper disable once AccessToDisposedClosure
+                    for (var i = 0; i < framecount; i++)
+                    {
+                        ProcessFrame(uimfReader, file, i);
+                    }
                 }
                 else
                 {
                     ProcessFrame(uimfReader, file);
                 }
             }
-
-            if (options.Verbose)
-            {
-                Console.WriteLine("Finished processing " + file.FullName);
-            }
+            Console.WriteLine("Finished processing " + file.FullName);
         }
 
 
@@ -148,7 +150,7 @@ namespace UimfDataExtractor
             // which is why we are sperating this into seperate funtions now
 
             var data = GetFullScanInfo(uimf, frameNumber);
-            var outputFile = GetOutputLocation(originFile);
+            var outputFile = GetOutputLocation(originFile, "TiC", frameNumber);
 
             OutputTiCbyTime(data, outputFile);
             if (options.Verbose)
@@ -162,14 +164,17 @@ namespace UimfDataExtractor
             return uimf.GetFrameScans(frameNumber);
         }
 
-        private static void OutputTiCbyTime(List<ScanInfo> timeKeyedIntensities, FileInfo outputFile)
+        private static void OutputTiCbyTime(IEnumerable<ScanInfo> timeKeyedIntensities, FileInfo outputFile)
         {
-            StreamWriter stream;
-            using (stream = GetFileStream(outputFile))
+            var output = outputFile;
+
+            using (var stream = GetFileStream(output))
             {
                 if (stream == null)
                 {
+                    Console.WriteLine();
                     Console.WriteLine("we were unable to create" + outputFile.FullName + "so we aren't outputting data to it either, we are petty like that");
+                    Console.WriteLine();
                     return;
                 }
 
@@ -191,7 +196,9 @@ namespace UimfDataExtractor
             var outstring = outputFile.DirectoryName;
             if (outstring == null)
             {
+                Console.WriteLine();
                 Console.WriteLine("ERROR: We will expand upong this later, but we couldn't find the directory of the output file and it will not be output");
+                Console.WriteLine();
                 return null;
             }
 
@@ -204,23 +211,33 @@ namespace UimfDataExtractor
 
             if (outputFile.Exists)
             {
+                Console.WriteLine();
+                Console.WriteLine("One of the output files (" + outputFile.FullName + ") already exists, so we are deleting it Mwahahaha!");
+                Console.WriteLine();
                 outputFile.Delete();
             }
 
             return outputFile.CreateText();
         }
 
-        private static FileInfo GetOutputLocation(FileInfo originFile)
+        private static FileInfo GetOutputLocation(FileInfo originFile, string dataType, int frameNumber)
         {
             var locationRelativeToInput = originFile.FullName.Substring(inputDirectory.FullName.Length + 1);
-            ////Console.WriteLine("Relative: " + locationRelativeToInput);
-            ////Console.WriteLine("output: " + outputDirectory.FullName);
             var nestedLocation = Path.Combine(outputDirectory.FullName, locationRelativeToInput);
-            ////Console.WriteLine("Combined: " + nestedLocation);
-            
             var csvFullPath = Path.ChangeExtension(nestedLocation, "csv");
-            return new FileInfo(csvFullPath);
-        }
+            var oldName = new FileInfo(csvFullPath);
 
+            var oldDir = oldName.DirectoryName;
+            var newName = Path.GetFileNameWithoutExtension(csvFullPath);
+
+            newName += "_" + dataType;
+
+            newName += "_" + frameNumber.ToString("0000");
+
+
+            newName += Path.GetExtension(oldName.FullName);
+
+            return oldDir == null ? null : new FileInfo(Path.Combine(oldDir, newName));
+        }
     }
 }

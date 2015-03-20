@@ -10,7 +10,7 @@
         /// <summary>
         /// Gets or sets a value indicating whether to get the data from all frames or just the first one.
         /// </summary>
-        [Option('a', "allframes", HelpText = "Outputs all frames to csv instead of just the first one. *NotImplementedYet)")]
+        [Option('a', "allframes", HelpText = "Outputs all frames to csv instead of just the first one.")]
         public bool AllFrames { get; set; }
 
         /// <summary>
