@@ -18,7 +18,7 @@
         public bool GetHeatmap { get; set; }
 
         [Option('m', "mz",
-            HelpText = "specifies that you want the m/z data *NotImplementedYet*")]
+            HelpText = "specifies that you want the m/z data")]
         public bool GetMz { get; set; }
 
         [Option('t', "tic",
@@ -79,9 +79,9 @@
             help.AddPreOptionsLine("    Usage:");
             help.AddPreOptionsLine("      UIMFDataExtractor.exe -i SOURCEFOLDER is the minimum requirement to run");
             help.AddPreOptionsLine("      If you do not specifiy an output format (heatmap, m/z, or tic) than the ");
-            help.AddPreOptionsLine("      program will simply print what files is found.");
-            help.AddPreOptionsLine("      If no output directory is specified, then it will default to the same folder");
-            help.AddPreOptionsLine("      as the UIMF");
+            help.AddPreOptionsLine("      program will simply print what files it found.");
+            help.AddPreOptionsLine("      If no output directory is specified, then it will default to the same");
+            help.AddPreOptionsLine("      folder as the UIMF");
 
             help.AddOptions(this);
 

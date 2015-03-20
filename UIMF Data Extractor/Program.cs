@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace UimfDataExtractor
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
 
     using UIMFLibrary;
@@ -142,19 +143,71 @@ namespace UimfDataExtractor
             Console.WriteLine("Finished processing " + file.FullName);
         }
 
+        private static DataReader.FrameType GetFrameType(string frameType)
+        {
+            var temp = frameType.ToLower();
+            switch (temp)
+            {
+                case "1":
+                    return DataReader.FrameType.MS1;
+                case "2":
+                    return DataReader.FrameType.MS2;
+                case "3":
+                    return DataReader.FrameType.Calibration;
+                case "4":
+                    return DataReader.FrameType.Prescan;
+                default:
+                    throw new NotImplementedException(
+                        "Only the MS1, MS2, Calibration, and Prescan frame types have been implemented in this version. Data Passed was " + temp);
+            }
+        }
 
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here.")]
         private static void ProcessFrame(DataReader uimf, FileInfo originFile, int frameNumber = 1)
         {
 
             // eventually I will also have methods for mz and heatmap,
             // which is why we are sperating this into seperate funtions now
 
+            var frameParams = uimf.GetFrameParams(frameNumber);
+            
+            if (frameParams == null)
+            {
+                // Frame number is out of range
+                Console.WriteLine();
+                Console.Error.WriteLine("ERROR: Somehow a frame number that doesn't exist was attempted to read" + Environment.NewLine
+                + "So we are not creating data for frame " + frameNumber + " Of " + Environment.NewLine 
+                + originFile.FullName);
+                Console.WriteLine();
+                return;
+            }
+            
+            if (options.GetHeatmap)
+            {
+                
+            }
+
+            if (options.GetMz)
+            {
+                var mzData = GetFullMzInfo(uimf, frameNumber);
+                if (mzData == null)
+                {
+                    Console.Error.WriteLine("ERROR: We had a problem getting the data for the MZ of" + Environment.NewLine
+                        + " frame " + frameNumber + " in " + originFile.FullName);
+                }
+                else
+                {
+                    var mzOutputFile = GetOutputLocation(originFile, "Mz", frameNumber);
+                    OutputMz(mzData, mzOutputFile);   
+                }
+            }
+
             if (options.GetTiC)
             {
-                var data = GetFullScanInfo(uimf, frameNumber);
-                var outputFile = GetOutputLocation(originFile, "TiC", frameNumber);
+                var ticData = GetFullScanInfo(uimf, frameNumber);
+                var ticOutputFile = GetOutputLocation(originFile, "TiC", frameNumber);
 
-                OutputTiCbyTime(data, outputFile);
+                OutputTiCbyTime(ticData, ticOutputFile);
             }
 
             if (options.Verbose)
@@ -163,22 +216,74 @@ namespace UimfDataExtractor
             }
         }
 
+        private static List<KeyValuePair<double, int>> GetFullMzInfo(DataReader uimf, int frameNumber)
+        {
+            var frameParams = uimf.GetFrameParams(frameNumber);
+            var maxScans = uimf.GetFrameParams(frameNumber).Scans;
+
+            var typeString = frameParams.GetValue(FrameParamKeyType.FrameType);
+
+            if (String.IsNullOrWhiteSpace(typeString))
+            {
+                Console.Error.WriteLine("ERROR: Had a problem getting the frame type which means we can't get the MZ data");
+                return null;
+            }
+
+            var frametype = GetFrameType(frameParams.GetValue(FrameParamKeyType.FrameType));
+            
+            double[] mzs;
+            int[] intensities;
+            uimf.GetSpectrum(
+                frameNumber,
+                frameNumber,
+                frametype,
+                1,
+                maxScans,
+                out mzs,
+                out intensities);
+            var data = new List<KeyValuePair<double, int>>(mzs.Length);
+            for (var i = 0; i < mzs.Length && i < intensities.Length; i++)
+            {
+                data.Add(new KeyValuePair<double, int>(mzs[i], intensities[i]));
+            }
+
+            return data;
+        }
+
         private static List<ScanInfo> GetFullScanInfo(DataReader uimf, int frameNumber)
         {
             return uimf.GetFrameScans(frameNumber);
         }
 
-        private static void OutputTiCbyTime(IEnumerable<ScanInfo> timeKeyedIntensities, FileInfo outputFile)
+        private static void OutputMz(IEnumerable<KeyValuePair<double, int>> mzKeyedIntensities, FileInfo outputFile)
         {
-            var output = outputFile;
-
-            using (var stream = GetFileStream(output))
+            using (var stream = GetFileStream(outputFile))
             {
                 if (stream == null)
                 {
-                    Console.WriteLine();
-                    Console.WriteLine("we were unable to create" + outputFile.FullName + "so we aren't outputting data to it either, we are petty like that");
-                    Console.WriteLine();
+                    PrintFileCreationError(outputFile.FullName);
+                    return;
+                }
+
+                foreach (var kvp in mzKeyedIntensities)
+                {
+                    stream.WriteLine(kvp.Key + ", " + kvp.Value);
+                }
+
+                if (options.Verbose)
+                {
+                    Console.WriteLine("flushing data to file " + outputFile.FullName);
+                }
+            }
+        }
+
+        private static void OutputTiCbyTime(IEnumerable<ScanInfo> timeKeyedIntensities, FileInfo outputFile)
+        {
+            using (var stream = GetFileStream(outputFile))
+            {
+                if (stream == null)
+                {
+                    PrintFileCreationError(outputFile.FullName);
                     return;
                 }
 
@@ -186,13 +291,19 @@ namespace UimfDataExtractor
                 {
                     stream.WriteLine(timeKeyedIntensity.DriftTime + ", " + timeKeyedIntensity.TIC);
                 }
+
                 if (options.Verbose)
                 {
                     Console.WriteLine("flushing data to file " + outputFile.FullName);
                 }
-                ////await stream.FlushAsync();
-                ////stream.Close();
             }
+        }
+
+        private static void PrintFileCreationError(string filename)
+        {
+            Console.WriteLine();
+            Console.Error.WriteLine("We were unable to create" + filename + "so we aren't outputting data to it either, we are petty like that");
+            Console.WriteLine();
         }
 
         private static StreamWriter GetFileStream(FileInfo outputFile)
@@ -201,7 +312,7 @@ namespace UimfDataExtractor
             if (outstring == null)
             {
                 Console.WriteLine();
-                Console.WriteLine("ERROR: We will expand upong this later, but we couldn't find the directory of the output file and it will not be output");
+                Console.Error.WriteLine("ERROR: We will expand upong this later, but we couldn't find the directory of the output file and it will not be output");
                 Console.WriteLine();
                 return null;
             }
