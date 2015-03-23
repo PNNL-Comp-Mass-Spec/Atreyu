@@ -167,7 +167,7 @@ namespace UimfDataExtractor
         {
 
             // eventually I will also have methods for mz and heatmap,
-            // which is why we are sperating this into seperate funtions now
+            //// which is why we are sperating this into seperate funtions now
 
             var frameParams = uimf.GetFrameParams(frameNumber);
             
@@ -182,10 +182,12 @@ namespace UimfDataExtractor
                 return;
             }
             
-            if (options.GetHeatmap)
-            {
-                
-            }
+            ////if (options.GetHeatmap)
+            ////{
+            ////    var heatmapData = GetFullHeatmapData(uimf, frameNumber);
+            ////    var heatmapOutputFile = GetOutputLocation(originFile, "HeatMap", frameNumber);
+            ////    OutputHeatMap(heatmapData, heatmapOutputFile);
+            ////}
 
             if (options.GetMz)
             {
@@ -214,6 +216,15 @@ namespace UimfDataExtractor
             {
                 Console.WriteLine("Finished processing Frame " + frameNumber + " of " + originFile.FullName);
             }
+        }
+
+        private static double[,] GetFullHeatmapData(DataReader uimf, int frameNumber)
+        {
+            var global = uimf.GetGlobalParams();
+            var endScan = uimf.GetFrameParams(frameNumber).Scans;
+            var endBin = global.Bins;
+
+            return uimf.AccumulateFrameData(frameNumber, frameNumber, false, 1, endScan, 1, endBin, 1, 1);
         }
 
         private static List<KeyValuePair<double, int>> GetFullMzInfo(DataReader uimf, int frameNumber)
@@ -253,6 +264,34 @@ namespace UimfDataExtractor
         private static List<ScanInfo> GetFullScanInfo(DataReader uimf, int frameNumber)
         {
             return uimf.GetFrameScans(frameNumber);
+        }
+
+        private static void OutputHeatMap(double[,] data, FileInfo outputFile)
+        {
+            using (var stream = GetFileStream(outputFile))
+            {
+                if (stream == null)
+                {
+                    PrintFileCreationError(outputFile.FullName);
+                    return;
+                }
+
+                for (var x = 0; x < data.GetLength(0); x++)
+                {
+                    var content = string.Empty;
+                    for (var y = 0; y < data.GetLength(1); y++)
+                    {
+                            content += data[x, y].ToString("0.00") + ",";
+                    }
+
+                    stream.WriteLine(content);
+                }
+
+                if (options.Verbose)
+                {
+                    Console.WriteLine("flushing data to file " + outputFile.FullName);
+                }
+            }
         }
 
         private static void OutputMz(IEnumerable<KeyValuePair<double, int>> mzKeyedIntensities, FileInfo outputFile)

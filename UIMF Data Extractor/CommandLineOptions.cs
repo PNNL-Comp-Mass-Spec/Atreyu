@@ -13,9 +13,9 @@
         [Option('a', "allframes", HelpText = "Outputs all frames to csv instead of just the first one.")]
         public bool AllFrames { get; set; }
 
-        [Option('h', "heatmap", 
-            HelpText = "specifies that you want the two-dimensional heatmap data *NotImplementedYet*")]
-        public bool GetHeatmap { get; set; }
+        ////[Option('h', "heatmap", 
+        ////    HelpText = "specifies that you want the two-dimensional heatmap data *NotImplementedYet*")]
+        ////public bool GetHeatmap { get; set; }
 
         [Option('m', "mz",
             HelpText = "specifies that you want the m/z data")]
@@ -78,7 +78,7 @@
             help.AddPreOptionsLine(string.Empty);
             help.AddPreOptionsLine("    Usage:");
             help.AddPreOptionsLine("      UIMFDataExtractor.exe -i SOURCEFOLDER is the minimum requirement to run");
-            help.AddPreOptionsLine("      If you do not specifiy an output format (heatmap, m/z, or tic) than the ");
+            help.AddPreOptionsLine("      If you do not specifiy an output format (m/z or tic) than the ");
             help.AddPreOptionsLine("      program will simply print what files it found.");
             help.AddPreOptionsLine("      If no output directory is specified, then it will default to the same");
             help.AddPreOptionsLine("      folder as the UIMF");
