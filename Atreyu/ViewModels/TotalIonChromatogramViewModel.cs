@@ -302,7 +302,7 @@ namespace Atreyu.ViewModels
             // The idea behind this is to always give the key of the mid point of the list, but this causes the finder to blow up.
             ////var originalpeakLocation = this.frameDictionary.First().Key + (this.frameDictionary.Count / 2);
             var peaks = peakDetector.FindPeaks(
-                finderOptions,
+                finderOptions, 
                 tempFrameDict.OrderBy(x => x.Key).ToList(), 
                 originalpeakLocation, 
                 out smoothedY);
@@ -319,9 +319,8 @@ namespace Atreyu.ViewModels
                 }
 
                 var halfmax = intensity / 2.0;
-                
-                var peakDataset =
-                    tempFrameDict.Where(x => x.Key >= peak.LeftEdge && x.Key <= peak.RightEdge).ToList();
+
+                var peakDataset = tempFrameDict.Where(x => x.Key >= peak.LeftEdge && x.Key <= peak.RightEdge).ToList();
 
                 // find the left mid point
                 var currPoint = new KeyValuePair<int, double>(0, 0);

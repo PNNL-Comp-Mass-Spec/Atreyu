@@ -121,6 +121,7 @@ namespace Atreyu.ViewModels
 
             // These make the axis on the mz plot update properly
             this.WhenAnyValue(vm => vm.UimfData.CurrentMinBin).Subscribe(this.MzSpectraViewModel.ChangeStartBin);
+            this.WhenAnyValue(vm => vm.UimfData.CurrentMaxBin).Subscribe(this.MzSpectraViewModel.ChangeEndBin);
 
             // Update the Heatmap axes
             this.WhenAnyValue(vm => vm.UimfData.StartScan).Subscribe(i => this.HeatMapViewModel.CurrentMinScan = i);
@@ -155,8 +156,12 @@ namespace Atreyu.ViewModels
                 .Subscribe(d => this.MzSpectraViewModel.ValuesPerPixelY = d);
 
             this.WhenAnyValue(vm => vm.UimfData.BinToMzMap).Subscribe(d => this.MzSpectraViewModel.BinToMzMap = d);
+            this.WhenAnyValue(vm => vm.UimfData.MzArray).Subscribe(d => this.MzSpectraViewModel.MzArray = d);
+            this.WhenAnyValue(vm => vm.UimfData.MzIntensities).Subscribe(i => this.MzSpectraViewModel.MzIntensities = i);
 
             this.WhenAnyValue(vm => vm.UimfData.BinToMzMap).Subscribe(d => this.HeatMapViewModel.BinToMzMap = d);
+
+            this.WhenAnyValue(vm => vm.UimfData.Calibrator).Subscribe(c => this.MzSpectraViewModel.Calibrator = c);
 
             this.WhenAnyValue(vm => vm.HeatMapViewModel.Height).Subscribe(d => this.Height = d);
             this.WhenAnyValue(vm => vm.HeatMapViewModel.Width).Subscribe(d => this.Width = d);
@@ -381,6 +386,7 @@ namespace Atreyu.ViewModels
             this.UimfData.CurrentMaxBin = this.UimfData.TotalBins;
             await this.FetchSingleFrame(1);
             this.CurrentFile = Path.GetFileNameWithoutExtension(file);
+            this.HeatMapViewModel.CurrentFile = Path.GetFileNameWithoutExtension(file);
         }
 
         /// <summary>

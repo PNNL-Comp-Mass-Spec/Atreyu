@@ -1,0 +1,13 @@
+<map id="Atreyu.ViewModels.CombinedHeatmapViewModel.CombinedHeatmapViewModel" name="Atreyu.ViewModels.CombinedHeatmapViewModel.CombinedHeatmapViewModel">
+<area shape="rect" id="node2" href="$class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a346e9f92d388e77d74b02cac6dc6cb2e" title="Changes the end bin for proper graph display. " alt="" coords="343,5,544,47"/>
+<area shape="rect" id="node3" href="$class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#a2a8055648a857ead7391b5367ed2a4ca" title="Atreyu.ViewModels.TotalIon\lChromatogramViewModel.ChangeEndScan" alt="" coords="308,71,579,112"/>
+<area shape="rect" id="node4" href="$class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#ac7eabf0685c3a117deb85bd40df1efc8" title="Changes the start bin for proper graph display. " alt="" coords="343,136,544,177"/>
+<area shape="rect" id="node5" href="$class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#ad7c1488768aefccff2700f5442b81afd" title="Atreyu.ViewModels.TotalIon\lChromatogramViewModel.ChangeStartScan" alt="" coords="305,201,581,243"/>
+<area shape="rect" id="node6" href="$class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a1e53ee6f1ff0e7bcdf9eb875cd4b392f" title="Atreyu.ViewModels.HeatMap\lViewModel.UpdateData" alt="" coords="348,267,539,308"/>
+<area shape="rect" id="node7" href="$class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#a98e66394a077e05888d97ecada4ddcf4" title="Atreyu.ViewModels.TotalIon\lChromatogramViewModel.UpdateFrameData" alt="" coords="304,332,583,373"/>
+<area shape="rect" id="node8" href="$class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a27e5d7fe0be69f8ef9900fe95ce8b52e" title="Update frame data. " alt="" coords="343,397,544,439"/>
+<area shape="rect" id="node9" href="$class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#ad0da4f7f38427b5418330ca8d451ff1c" title="Atreyu.ViewModels.TotalIon\lChromatogramViewModel.UpdateReference" alt="" coords="307,463,580,504"/>
+<area shape="rect" id="node10" href="$class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#af094793d9c5375f30739461ae564c5aa" title="Updates the reference to UIMF data. " alt="" coords="343,528,544,569"/>
+<area shape="rect" id="node11" href="$class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a7f414cec15e60fb388222c275330d81b" title="Atreyu.ViewModels.HeatMap\lViewModel.UpdateReference" alt="" coords="348,593,539,635"/>
+<area shape="rect" id="node12" href="$class_atreyu_1_1_view_models_1_1_frame_manipulation_view_model.html#a777fe384e757521b819e996acdd96cfb" title="Atreyu.ViewModels.FrameManipulation\lViewModel.UpdateUimf" alt="" coords="319,659,567,700"/>
+</map>

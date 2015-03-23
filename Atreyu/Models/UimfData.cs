@@ -10,6 +10,7 @@ namespace Atreyu.Models
 {
     using System;
     using System.Collections.Concurrent;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using ReactiveUI;
@@ -27,6 +28,11 @@ namespace Atreyu.Models
         /// TODO The bin to mz map.
         /// </summary>
         private double[] binToMzMap;
+
+        /// <summary>
+        /// TODO The calibrator.
+        /// </summary>
+        private MzCalibrator calibrator;
 
         /// <summary>
         /// TODO The checking.
@@ -114,6 +120,16 @@ namespace Atreyu.Models
         private int mostRecentWidth;
 
         /// <summary>
+        /// TODO The mz array.
+        /// </summary>
+        private double[] mzArray;
+
+        /// <summary>
+        /// TODO The mz intensities.
+        /// </summary>
+        private int[] mzIntensities;
+
+        /// <summary>
         /// TODO The range update list.
         /// </summary>
         private ConcurrentQueue<Range> rangeUpdateList;
@@ -187,6 +203,22 @@ namespace Atreyu.Models
             private set
             {
                 this.RaiseAndSetIfChanged(ref this.binToMzMap, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the m/z calibrator that converts TOF to m/z.
+        /// </summary>
+        public MzCalibrator Calibrator
+        {
+            get
+            {
+                return this.calibrator;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.calibrator, value);
             }
         }
 
@@ -399,6 +431,38 @@ namespace Atreyu.Models
         }
 
         /// <summary>
+        /// Gets the mz array.
+        /// </summary>
+        public double[] MzArray
+        {
+            get
+            {
+                return this.mzArray;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.mzArray, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the mz intensities.
+        /// </summary>
+        public int[] MzIntensities
+        {
+            get
+            {
+                return this.mzIntensities;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.mzIntensities, value);
+            }
+        }
+
+        /// <summary>
         /// Gets the range update list.
         /// </summary>
         public ConcurrentQueue<Range> RangeUpdateList
@@ -551,6 +615,21 @@ namespace Atreyu.Models
         }
 
         /// <summary>
+        /// The get full total ion chromatogram with the key based on scan number
+        /// </summary>
+        /// <param name="frameNumber">
+        /// The frame number.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public Task<List<ScanInfo>> GetFullScanInfo(int frameNumber)
+        {
+            return Task.Run(
+                () => this.dataReader.GetFrameScans(frameNumber));
+        }
+
+        /// <summary>
         /// TODO The read data.
         /// </summary>
         /// <param name="returnGatedData">
@@ -606,6 +685,18 @@ namespace Atreyu.Models
                 await Task.Run(
                     () =>
                         {
+                            var frametype = this.GetFrameType(this.frameType);
+                            double[] mzs;
+                            int[] intensities;
+                            this.dataReader.GetSpectrum(
+                                this.StartFrameNumber, 
+                                this.EndFrameNumber, 
+                                frametype, 
+                                this.StartScan, 
+                                this.EndScan, 
+                                out mzs, 
+                                out intensities);
+
                             var temp = this.dataReader.AccumulateFrameData(
                                 this.startFrameNumber, 
                                 this.EndFrameNumber, 
@@ -622,13 +713,17 @@ namespace Atreyu.Models
 
                             var tof = new double[arrayLength];
                             var mz = new double[arrayLength];
-                            var calibrator = this.dataReader.GetMzCalibrator(frameParams);
+                            this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
 
                             for (var i = 0; i < arrayLength; i++)
                             {
                                 tof[i] = this.dataReader.GetPixelMZ(i);
-                                mz[i] = calibrator.TOFtoMZ(tof[i] * 10);
+                                mz[i] = this.calibrator.TOFtoMZ(tof[i] * 10);
                             }
+
+                            this.MzArray = mzs;
+
+                            this.MzIntensities = intensities;
 
                             this.BinToMzMap = mz;
 
@@ -788,6 +883,36 @@ namespace Atreyu.Models
             }
 
             this.GatedFrameData = temp;
+        }
+
+        /// <summary>
+        /// TODO The get frame type.
+        /// </summary>
+        /// <param name="frameType">
+        /// TODO The frame type.
+        /// </param>
+        /// <returns>
+        /// The <see cref="FrameType"/>.
+        /// </returns>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
+        private DataReader.FrameType GetFrameType(string frameType)
+        {
+            var temp = frameType.ToLower();
+            switch (temp)
+            {
+                case "1":
+                    return DataReader.FrameType.MS1;
+                case "2":
+                    return DataReader.FrameType.MS2;
+                case "3":
+                    return DataReader.FrameType.Calibration;
+                case "4":
+                    return DataReader.FrameType.Prescan;
+                default:
+                    throw new NotImplementedException(
+                        "Only the MS1, MS2, Calibration, and Prescan frame types have been implemented in this version");
+            }
         }
 
         /// <summary>
