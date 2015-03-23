@@ -1,12 +1,23 @@
-﻿namespace UimfDataExtractor
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CommandLineOptions.cs" company="PNNL">
+//   Copyright PNNL 2015
+// </copyright>
+// <summary>
+//   The command line options for the UIMF Data Extractor
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+namespace UimfDataExtractor
 {
-    using System.Collections.Generic;
-
     using CommandLine;
     using CommandLine.Text;
 
+    /// <summary>
+    /// The command line options.
+    /// </summary>
     public class CommandLineOptions
     {
+        #region Public Properties
+
         /// <summary>
         /// Gets or sets a value indicating whether to get the data from all frames or just the first one.
         /// </summary>
@@ -17,40 +28,47 @@
         ////    HelpText = "specifies that you want the two-dimensional heatmap data *NotImplementedYet*")]
         ////public bool GetHeatmap { get; set; }
 
-        [Option('m', "mz",
-            HelpText = "specifies that you want the m/z data")]
+        /// <summary>
+        /// Gets or sets a value indicating whether to output mass over charge data.
+        /// </summary>
+        [Option('m', "mz", HelpText = "specifies that you want the m/z data")]
         public bool GetMz { get; set; }
 
-        [Option('t', "tic",
-            HelpText = "specifies that you want the TiC data")]
+        /// <summary>
+        /// Gets or sets a value indicating whether to output total ion chromatogram data.
+        /// </summary>
+        [Option('t', "tic", HelpText = "specifies that you want the TiC data")]
         public bool GetTiC { get; set; }
 
         /// <summary>
         /// Gets or sets the input path.
         /// </summary>
-        [Option('i', "input",
-            Required = true,
-            HelpText = "specify the directory containing the UIMFs to process")]
+        [Option('i', "input", Required = true, HelpText = "specify the directory containing the UIMFs to process")]
         public string InputPath { get; set; }
 
         /// <summary>
         /// Gets or sets the output path.
         /// </summary>
-        [Option('o', "output",
-            HelpText = "Specify the output directory. If left empty results will be written into the same directory as the input directory")]
+        [Option('o', "output", 
+            HelpText =
+                "Specify the output directory. If left empty results will be written into the same directory as the input directory")]
         public string OutputPath { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to recurse through subdirectories or not.
+        /// Gets or sets a value indicating whether to recursively process through subdirectories or not.
         /// </summary>
         [Option('r', "recursive", HelpText = "Recurse through files in sub directories.")]
         public bool Recursive { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to dump everything to the command line.
+        /// Gets or sets a value indicating whether to flood the command line with relatively useless information.
         /// </summary>
         [Option('v', "verbose", HelpText = "Print details during execution. *NotImplementedWellYet*")]
         public bool Verbose { get; set; }
+
+        #endregion
+
+        #region Public Methods and Operators
 
         /// <summary>
         /// Explains how to use the program.
@@ -62,15 +80,15 @@
         public string GetUsage()
         {
             var help = new HelpText
-            {
-                Heading =
-                    new HeadingInfo(
-                    "UIMF Data Extractor",
-                    typeof(Program).Assembly.GetName().Version.ToString()),
-                Copyright = new CopyrightInfo("PNNL", 2015),
-                AdditionalNewLineAfterOption = true,
-                AddDashesToOption = true
-            };
+                           {
+                               Heading =
+                                   new HeadingInfo(
+                                   "UIMF Data Extractor", 
+                                   typeof(Program).Assembly.GetName().Version.ToString()), 
+                               Copyright = new CopyrightInfo("PNNL", 2015), 
+                               AdditionalNewLineAfterOption = true, 
+                               AddDashesToOption = true
+                           };
 
             help.AddPreOptionsLine(string.Empty);
             help.AddPreOptionsLine("    This application batch processes Unified Ion Mobility Files (UIMF)");
@@ -86,6 +104,8 @@
             help.AddOptions(this);
 
             return help;
-        } 
+        }
+
+        #endregion
     }
 }
