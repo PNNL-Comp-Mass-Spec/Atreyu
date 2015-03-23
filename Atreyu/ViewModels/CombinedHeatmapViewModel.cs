@@ -386,6 +386,7 @@ namespace Atreyu.ViewModels
             this.UimfData.CurrentMaxBin = this.UimfData.TotalBins;
             await this.FetchSingleFrame(1);
             this.CurrentFile = Path.GetFileNameWithoutExtension(file);
+            this.HeatMapViewModel.CurrentFile = Path.GetFileNameWithoutExtension(file);
         }
 
         /// <summary>
