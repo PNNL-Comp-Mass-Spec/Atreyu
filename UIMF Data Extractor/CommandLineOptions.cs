@@ -55,6 +55,12 @@ namespace UimfDataExtractor
         public string OutputPath { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to peak find and print out information.
+        /// </summary>
+        [Option('p', "peakfind", HelpText = "Prints out a file listing the peaks for the m/z and/or TiC based on what output is selected")]
+        public bool PeakFind { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether to recursively process through subdirectories or not.
         /// </summary>
         [Option('r', "recursive", HelpText = "Recurse through files in sub directories.")]
