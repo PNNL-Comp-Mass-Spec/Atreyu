@@ -24,6 +24,9 @@ namespace UimfDataExtractor
         [Option('a', "allframes", HelpText = "Outputs all frames to csv instead of just the first one.")]
         public bool AllFrames { get; set; }
 
+        [Option('b', "bulkpeakcomparison", HelpText = "Outputs a file that lists all peak's location and Full Width Half Max")]
+        public bool BulkPeakComparison { get; set; }
+
         ////[Option('h', "heatmap", 
         ////    HelpText = "specifies that you want the two-dimensional heatmap data *NotImplementedYet*")]
         ////public bool GetHeatmap { get; set; }

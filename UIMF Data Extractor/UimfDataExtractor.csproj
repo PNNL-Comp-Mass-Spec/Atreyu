@@ -71,6 +71,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BulkPeakData.cs" />
     <Compile Include="CommandLineOptions.cs" />
     <Compile Include="PeakInformation.cs" />
     <Compile Include="PointInformation.cs" />

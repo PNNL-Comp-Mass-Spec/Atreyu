@@ -10,6 +10,7 @@
 namespace UimfDataExtractor
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
@@ -46,6 +47,16 @@ namespace UimfDataExtractor
         /// </summary>
         private static DirectoryInfo outputDirectory;
 
+        /// <summary>
+        /// All mz peaks found in all files.
+        /// </summary>
+        private static ConcurrentBag<BulkPeakData> bulkMzPeaks;
+        
+        /// <summary>
+        /// All TiC peaks found in all files.
+        /// </summary>
+        private static ConcurrentBag<BulkPeakData> bulkTicPeaks;
+
         #endregion
 
         #region Public Methods and Operators
@@ -72,6 +83,9 @@ namespace UimfDataExtractor
                                   ? inputDirectory
                                   : new DirectoryInfo(options.OutputPath);
 
+            bulkMzPeaks = new ConcurrentBag<BulkPeakData>();
+            bulkTicPeaks = new ConcurrentBag<BulkPeakData>();
+
             if (options.Verbose)
             {
                 Console.WriteLine("Verbose Active");
@@ -90,6 +104,7 @@ namespace UimfDataExtractor
                 ProcessAllUimfInDirectory(inputDirectory);
             }
 
+            OutputBulkPeaks();
             Console.WriteLine();
             Console.WriteLine("All done, Exiting");
         }
@@ -290,6 +305,57 @@ namespace UimfDataExtractor
         private static XmlWriter getXmlWriter(FileInfo file)
         {
             return new XmlTextWriter(GetFileStream(file));
+        }
+
+        /// <summary>
+        /// Outputs the bulk peaks collected during the run.
+        /// </summary>
+        private static void OutputBulkPeaks()
+        {
+            var dateString = DateTime.Now.ToString("yyyyMMdd-HHmmss");
+            var inputFolder = inputDirectory.Name;
+
+
+            if (options.GetMz)
+            {
+                var filename = dateString + "_" + inputFolder + "_" + "mz" + "_" + "BulkPeakComparison.csv";
+                var fullLocation = Path.Combine(outputDirectory.FullName, filename);
+                var file = new FileInfo(fullLocation);
+                using (var writer = GetFileStream(file))
+                {
+                    writer.WriteLine("File,Frame,Location,Full Width Half Max,Resolving Power");
+                    foreach (var bulkPeakData in bulkMzPeaks)
+                    {
+                        var temp = bulkPeakData.FileName + ",";
+                        temp += bulkPeakData.FrameNumber + ",";
+                        temp += bulkPeakData.Location + ",";
+                        temp += bulkPeakData.FullWidthHalfMax + ",";
+                        temp += bulkPeakData.ResolvingPower;
+                        writer.WriteLine(temp);
+                    }
+                }
+            }
+
+
+            if (options.GetTiC)
+            {
+                var filename = dateString + "_" + inputFolder + "_" + "tic" + "_" + "BulkPeakComparison.csv";
+                var fullLocation = Path.Combine(outputDirectory.FullName, filename);
+                var file = new FileInfo(fullLocation);
+                using (var writer = GetFileStream(file))
+                {
+                    writer.WriteLine("File,Frame,Location,Full Width Half Max,Resolving Power");
+                    foreach (var bulkPeakData in bulkTicPeaks)
+                    {
+                        var temp = bulkPeakData.FileName + ",";
+                        temp += bulkPeakData.FrameNumber + ",";
+                        temp += bulkPeakData.Location + ",";
+                        temp += bulkPeakData.FullWidthHalfMax + ",";
+                        temp += bulkPeakData.ResolvingPower;
+                        writer.WriteLine(temp);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -709,6 +775,7 @@ namespace UimfDataExtractor
             ////    var heatmapOutputFile = GetOutputLocation(originFile, "HeatMap", frameNumber);
             ////    OutputHeatMap(heatmapData, heatmapOutputFile);
             ////}
+            
             if (options.GetMz)
             {
                 var mzData = GetFullMzInfo(uimf, frameNumber);
@@ -722,15 +789,35 @@ namespace UimfDataExtractor
                 {
                     var mzOutputFile = GetOutputLocation(originFile, "Mz", frameNumber);
                     OutputMz(mzData, mzOutputFile);
-                    if (options.PeakFind)
+                    if (options.PeakFind || options.BulkPeakComparison)
                     {
                         var doubleMzData =
                             mzData.Select(
                                 keyValuePair => new KeyValuePair<double, double>(keyValuePair.Key, keyValuePair.Value))
                                 .ToList();
                         var mzpeaks = FindPeaks(doubleMzData);
-                        var mzPeakOutputLocation = GetOutputLocation(originFile, "Mz_Peaks", frameNumber, "xml");
-                        OutputPeaks(mzpeaks, mzPeakOutputLocation);
+
+                        if (options.PeakFind)
+                        { 
+                            var mzPeakOutputLocation = GetOutputLocation(originFile, "Mz_Peaks", frameNumber, "xml");
+                            OutputPeaks(mzpeaks, mzPeakOutputLocation);
+                        }
+
+                        if (options.BulkPeakComparison)
+                        {
+                            foreach (var peak in mzpeaks.Peaks)
+                            {
+                                var temp = new BulkPeakData
+                                               {
+                                                   FileName = originFile.Name,
+                                                   FrameNumber = frameNumber,
+                                                   Location = peak.PeakCenter,
+                                                   FullWidthHalfMax = peak.FullWidthHalfMax,
+                                                   ResolvingPower = peak.ResolvingPower
+                                               };
+                                bulkMzPeaks.Add(temp);
+                            }
+                        }
                     }
                 }
             }
@@ -742,15 +829,34 @@ namespace UimfDataExtractor
 
                 OutputTiCbyTime(ticData, ticOutputFile);
 
-                if (options.PeakFind)
+                if (options.PeakFind || options.BulkPeakComparison)
                 {
                     var doubleTicData =
                         ticData.Select(scanInfo => new KeyValuePair<double, double>(scanInfo.DriftTime, scanInfo.TIC))
                             .ToList();
 
-                    var mzpeaks = FindPeaks(doubleTicData);
-                    var mzPeakOutputLocation = GetOutputLocation(originFile, "TiC_Peaks", frameNumber, "xml");
-                    OutputPeaks(mzpeaks, mzPeakOutputLocation);
+                    var ticPeaks = FindPeaks(doubleTicData);
+                    if (options.PeakFind)
+                    {
+                        var mzPeakOutputLocation = GetOutputLocation(originFile, "TiC_Peaks", frameNumber, "xml");
+                        OutputPeaks(ticPeaks, mzPeakOutputLocation);
+                    }
+
+                    if (options.BulkPeakComparison)
+                    {
+                        foreach (var peak in ticPeaks.Peaks)
+                        {
+                            var temp = new BulkPeakData
+                            {
+                                FileName = originFile.Name,
+                                FrameNumber = frameNumber,
+                                Location = peak.PeakCenter,
+                                FullWidthHalfMax = peak.FullWidthHalfMax,
+                                ResolvingPower = peak.ResolvingPower
+                            };
+                            bulkTicPeaks.Add(temp);
+                        }
+                    }
                 }
             }
 
