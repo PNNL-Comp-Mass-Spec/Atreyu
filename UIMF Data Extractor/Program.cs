@@ -552,7 +552,7 @@ namespace UimfDataExtractor
                     LeftMidpoint = correctedLeftMidPoint,
                     PeakCenter = realCenter,
                     RightMidpoint = correctedRightMidPoint,
-                    Resolution = resolution,
+                    ResolvingPower = resolution,
                     SmoothedIntensity = smoothedPeakIntensity,
                     TotalDataPointSet = allPoints
                 };
@@ -562,14 +562,14 @@ namespace UimfDataExtractor
             return datapointList;
 
             ////var tempList =
-            ////    datapointList.Where(x => !double.IsInfinity(x.Resolution)).OrderByDescending(x => x.Intensity).Take(10);
+            ////    datapointList.Where(x => !double.IsInfinity(x.ResolvingPower)).OrderByDescending(x => x.Intensity).Take(10);
 
             ////// Put the points on the graph
             ////foreach (var resolutionDatapoint in tempList)
             ////{
-            ////    var resolutionString = resolutionDatapoint.Resolution.ToString("F1", CultureInfo.InvariantCulture);
+            ////    var resolutionString = resolutionDatapoint.ResolvingPower.ToString("F1", CultureInfo.InvariantCulture);
             ////    var annotationText = "Peak Location:" + resolutionDatapoint.PeakCenter + Environment.NewLine + "Intensity:"
-            ////                         + resolutionDatapoint.Intensity + Environment.NewLine + "Resolution:"
+            ////                         + resolutionDatapoint.Intensity + Environment.NewLine + "ResolvingPower:"
             ////                         + resolutionString;
             ////}
         }

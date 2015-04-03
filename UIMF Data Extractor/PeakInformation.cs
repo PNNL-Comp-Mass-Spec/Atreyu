@@ -34,7 +34,7 @@
         public double RightMidpoint { get; set; }
 
         [DataMember]
-        public double Resolution { get; set; }
+        public double ResolvingPower { get; set; }
 
         [DataMember]
         public List<PointInformation> TotalDataPointSet { get; set; } 
