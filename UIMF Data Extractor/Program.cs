@@ -467,7 +467,7 @@ namespace UimfDataExtractor
         /// <returns>
         /// The <see cref="List"/> of peaks.
         /// </returns>
-        private static PeakSet FindPeaks(List<KeyValuePair<double, double>> dataList)
+        private static PeakSet FindPeaks(IReadOnlyList<KeyValuePair<double, double>> dataList)
         {
             var datapointList = new PeakSet();
             const int Precision = 100000;
@@ -624,7 +624,7 @@ namespace UimfDataExtractor
                     TotalDataPointSet = allPoints
                 };
 
-                if (temp.ResolvingPower > 0)
+                if (temp.ResolvingPower > 0 && !double.IsInfinity(temp.ResolvingPower))
                 {
                     datapointList.Peaks.Add(temp);
                 }
