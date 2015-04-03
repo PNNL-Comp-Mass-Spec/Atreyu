@@ -557,7 +557,11 @@ namespace UimfDataExtractor
                     SmoothedIntensity = smoothedPeakIntensity,
                     TotalDataPointSet = allPoints
                 };
-                datapointList.Peaks.Add(temp);
+
+                if (temp.ResolvingPower > 0)
+                {
+                    datapointList.Peaks.Add(temp);
+                }
             }
 
             return datapointList;
