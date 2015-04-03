@@ -543,11 +543,12 @@ namespace UimfDataExtractor
 
                 var correctedRightMidPoint = rightMidPoint / Precision;
                 var correctedLeftMidPoint = leftMidpoint / Precision;
-
-                var resolution = realCenter / (correctedRightMidPoint - correctedLeftMidPoint);
+                var fullWidthHalfMax = correctedRightMidPoint - correctedLeftMidPoint;
+                var resolution = realCenter / fullWidthHalfMax;
 
                 var temp = new PeakInformation
                 {
+                    FullWidthHalfMax = fullWidthHalfMax,
                     Intensity = intensity,
                     LeftMidpoint = correctedLeftMidPoint,
                     PeakCenter = realCenter,

@@ -19,6 +19,9 @@
         }
 
         [DataMember]
+        public double FullWidthHalfMax { get; set; }
+
+        [DataMember]
         public double Intensity { get; set; }
 
         [DataMember]
