@@ -104,7 +104,11 @@ namespace UimfDataExtractor
                 ProcessAllUimfInDirectory(inputDirectory);
             }
 
+            if (options.BulkPeakComparison)
+            {
             OutputBulkPeaks();
+            }
+
             Console.WriteLine();
             Console.WriteLine("All done, Exiting");
         }
