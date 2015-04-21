@@ -19,6 +19,9 @@
         }
 
         [DataMember]
+        public double AreaUnderThePeak { get; set; }
+
+        [DataMember]
         public double FullWidthHalfMax { get; set; }
 
         [DataMember]

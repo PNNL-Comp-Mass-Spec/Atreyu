@@ -618,6 +618,7 @@ namespace UimfDataExtractor
 
                 var temp = new PeakInformation
                 {
+                    AreaUnderThePeak = peak.Area,
                     FullWidthHalfMax = fullWidthHalfMax,
                     Intensity = intensity,
                     LeftMidpoint = correctedLeftMidPoint,
