@@ -54,8 +54,12 @@
     <Reference Include="CommandLine">
       <HintPath>..\packages\CommandLineParser.1.9.71\lib\net45\CommandLine.dll</HintPath>
     </Reference>
+    <Reference Include="MagnitudeConcavityPeakFinder">
+      <HintPath>..\lib\MagnitudeConcavityPeakFinder\MagnitudeConcavityPeakFinder.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -67,7 +71,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BulkPeakData.cs" />
     <Compile Include="CommandLineOptions.cs" />
+    <Compile Include="PeakInformation.cs" />
+    <Compile Include="PointInformation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

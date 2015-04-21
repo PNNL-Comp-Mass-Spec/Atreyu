@@ -24,6 +24,9 @@ namespace UimfDataExtractor
         [Option('a', "allframes", HelpText = "Outputs all frames to csv instead of just the first one.")]
         public bool AllFrames { get; set; }
 
+        [Option('b', "bulkpeakcomparison", HelpText = "Outputs a file that lists all peak's location and Full Width Half Max")]
+        public bool BulkPeakComparison { get; set; }
+
         ////[Option('h', "heatmap", 
         ////    HelpText = "specifies that you want the two-dimensional heatmap data *NotImplementedYet*")]
         ////public bool GetHeatmap { get; set; }
@@ -53,6 +56,12 @@ namespace UimfDataExtractor
             HelpText =
                 "Specify the output directory. If left empty results will be written into the same directory as the input directory")]
         public string OutputPath { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to peak find and print out information.
+        /// </summary>
+        [Option('p', "peakfind", HelpText = "Prints out a file listing the peaks for the m/z and/or TiC based on what output is selected")]
+        public bool PeakFind { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to recursively process through subdirectories or not.
