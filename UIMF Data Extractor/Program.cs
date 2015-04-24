@@ -288,7 +288,7 @@ namespace UimfDataExtractor
                 var fileName = uimf.UimfFilePath;
                 uimf.Dispose();
 
-                var dataWriter = new DataWriter(uimf.UimfFilePath);
+                var dataWriter = new DataWriter(fileName);
                 dataWriter.CreateBinCentricTables();
                 dataWriter.Dispose();
 
