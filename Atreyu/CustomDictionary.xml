@@ -7,6 +7,7 @@
       <Word>recurse</Word>
       <Word>uimf</Word>
       <Word>mz</Word>
+      <Word>xic</Word>
     </Recognized>
     <Deprecated>
     </Deprecated>
@@ -20,6 +21,7 @@
       <Acronym>mz</Acronym> <!-- mass over charge -->
       <Acronym>UIMF</Acronym> <!-- Unified Ion Mobility File -->
       <Acronym>uimf</Acronym> <!-- Unified Ion Mobility File -->
+      <Acronym>xic</Acronym> <!-- eXtracted Ion Charge -->
       <Acronym>xaml</Acronym>
     </CasingExceptions>
   </Acronyms>
