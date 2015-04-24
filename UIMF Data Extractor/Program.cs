@@ -315,13 +315,13 @@ namespace UimfDataExtractor
                 }
             }
 
-            var frameData = xic.Where(point => point.ScanLc == frameNumber);
+            var frameData = xic.Where(point => point.ScanLc == frameNumber - 1);
             
             var data = new List<KeyValuePair<double, double>>();
 
             foreach (var intensityPoint in frameData)
             {
-                var driftTime = uimf.GetDriftTime(intensityPoint.ScanLc, intensityPoint.ScanIms, true);
+                var driftTime = uimf.GetDriftTime(intensityPoint.ScanLc + 1, intensityPoint.ScanIms, true);
                 data.Add(new KeyValuePair<double, double>(driftTime, intensityPoint.Intensity));
             }
 
@@ -975,7 +975,7 @@ namespace UimfDataExtractor
                 var xicData = GetXicInfo(uimf, frameNumber);
                 var xicOutputFile = GetOutputLocation(
                     originFile,
-                    "XiC_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance,
+                    "XiC_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance + "_Frame_",
                     frameNumber);
 
                 if (xicData != null)
