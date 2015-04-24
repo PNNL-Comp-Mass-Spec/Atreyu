@@ -289,8 +289,25 @@ namespace UimfDataExtractor
                 dataWriter.CreateBinCentricTables();
                 Console.WriteLine("Finished Creating bin centric tables for " + uimf.UimfFilePath);
             }
-
-            var xic = uimf.GetXic(options.GetXiC, options.XicTolerance, frametype, Tolerance);
+            List<UIMFLibrary.IntensityPoint> xic;
+            try
+            {
+                xic = uimf.GetXic(options.GetXiC, options.XicTolerance, frametype, Tolerance);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine("Unable to get XiC on first attempt for " + uimf.UimfFilePath);
+                uimf = new DataReader(uimf.UimfFilePath);
+                try
+                {
+                    xic = uimf.GetXic(options.GetXiC, options.XicTolerance, frametype, Tolerance);
+                }
+                catch (Exception)
+                {
+                    Console.Error.WriteLine("Unable to get XiC on second attempt for " + uimf.UimfFilePath + "we are not trying again.");
+                    return null;
+                }
+            }
 
             var frameData = xic.Where(point => point.ScanLc == frameNumber);
             
@@ -955,38 +972,40 @@ namespace UimfDataExtractor
                     "XiC_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance,
                     frameNumber);
 
-                OutputXiCbyTime(xicData, xicOutputFile);
+                if (xicData != null)
+                { 
+                    OutputXiCbyTime(xicData, xicOutputFile);
 
-                if (options.PeakFind || options.BulkPeakComparison)
-                {
-                    var xicPeaks = FindPeaks(xicData);
-                    if (options.PeakFind)
+                    if (options.PeakFind || options.BulkPeakComparison)
                     {
-                        var xicPeakOutputLocation = GetOutputLocation(
-                            originFile,
-                            "XiC_Peaks_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance,
-                            frameNumber,
-                            "xml");
-                        OutputPeaks(xicPeaks, xicPeakOutputLocation);
-                    }
-
-                    if (options.BulkPeakComparison)
-                    {
-                        foreach (var peak in xicPeaks.Peaks)
+                        var xicPeaks = FindPeaks(xicData);
+                        if (options.PeakFind)
                         {
-                            var temp = new BulkPeakData
+                            var xicPeakOutputLocation = GetOutputLocation(
+                                originFile,
+                                "XiC_Peaks_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance,
+                                frameNumber,
+                                "xml");
+                            OutputPeaks(xicPeaks, xicPeakOutputLocation);
+                        }
+
+                        if (options.BulkPeakComparison)
+                        {
+                            foreach (var peak in xicPeaks.Peaks)
                             {
-                                FileName = originFile.Name,
-                                FrameNumber = frameNumber,
-                                Location = peak.PeakCenter,
-                                FullWidthHalfMax = peak.FullWidthHalfMax,
-                                ResolvingPower = peak.ResolvingPower
-                            };
-                            bulkXicPeaks.Add(temp);
+                                var temp = new BulkPeakData
+                                {
+                                    FileName = originFile.Name,
+                                    FrameNumber = frameNumber,
+                                    Location = peak.PeakCenter,
+                                    FullWidthHalfMax = peak.FullWidthHalfMax,
+                                    ResolvingPower = peak.ResolvingPower
+                                };
+                                bulkXicPeaks.Add(temp);
+                            }
                         }
                     }
                 }
-
             }
 
             if (options.Verbose)
