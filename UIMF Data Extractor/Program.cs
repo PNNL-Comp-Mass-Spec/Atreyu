@@ -495,6 +495,28 @@ namespace UimfDataExtractor
         }
 
 
+        private static void OutputXiCbyTime(IEnumerable<KeyValuePair<double, double>> data, FileInfo outputFile)
+        {
+            using (var stream = GetFileStream(outputFile))
+            {
+                if (stream == null)
+                {
+                    PrintFileCreationError(outputFile.FullName);
+                    return;
+                }
+
+                foreach (var kvp in data)
+                {
+                    stream.WriteLine(kvp.Key + ", " + kvp.Value);
+                }
+
+                if (options.Verbose)
+                {
+                    Console.WriteLine("flushing data to file " + outputFile.FullName);
+                }
+            }
+        }
+
         /// <summary>
         /// Find the peaks in the current data set and adds an annotation point with the resolution to the m/z.
         /// </summary>
