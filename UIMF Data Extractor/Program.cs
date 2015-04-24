@@ -309,7 +309,7 @@ namespace UimfDataExtractor
         /// The data type which is put between underscores after the name, but before the frame number.
         /// </param>
         /// <param name="frameNumber">
-        /// The frame number.
+        /// The frame number, if it is negative, no frame number will be printed
         /// </param>
         /// <param name="fileExtension">
         /// an optional parameter to specify the extension of the new filename, defaults to csv
@@ -329,7 +329,10 @@ namespace UimfDataExtractor
 
             newName += "_" + dataType;
 
+            if (frameNumber >= 0)
+            {
             newName += "_" + frameNumber.ToString("0000");
+            }
 
             newName += Path.GetExtension(oldName.FullName);
 
