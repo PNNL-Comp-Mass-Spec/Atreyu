@@ -297,14 +297,14 @@ namespace UimfDataExtractor
             catch (Exception ex)
             {
                 Console.Error.WriteLine("Unable to get XiC on first attempt for " + uimf.UimfFilePath);
-                uimf = new DataReader(uimf.UimfFilePath);
+                var tempreader = new DataReader(uimf.UimfFilePath);
                 try
                 {
-                    xic = uimf.GetXic(options.GetXiC, options.XicTolerance, frametype, Tolerance);
+                    xic = tempreader.GetXic(options.GetXiC, options.XicTolerance, frametype, Tolerance);
                 }
                 catch (Exception)
                 {
-                    Console.Error.WriteLine("Unable to get XiC on second attempt for " + uimf.UimfFilePath + "we are not trying again.");
+                    Console.Error.WriteLine("Unable to get XiC on second attempt for " + uimf.UimfFilePath + ", we are not trying again.");
                     return null;
                 }
             }
