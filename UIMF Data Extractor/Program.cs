@@ -285,20 +285,43 @@ namespace UimfDataExtractor
             {
                 Console.WriteLine(uimf.UimfFilePath + " Does not have bin centric data which is required to get XiC");
                 Console.WriteLine("starting to create it, this may take some time");
-                var dataWriter = new DataWriter(uimf.UimfFilePath);
+                var fileName = uimf.UimfFilePath;
+                uimf.Dispose();
+
+                var dataWriter = new DataWriter(fileName);
                 dataWriter.CreateBinCentricTables();
+                dataWriter.Dispose();
+
+                uimf = new DataReader(fileName);
                 Console.WriteLine("Finished Creating bin centric tables for " + uimf.UimfFilePath);
             }
+            List<UIMFLibrary.IntensityPoint> xic;
+            try
+            {
+                xic = uimf.GetXic(options.GetXiC, options.XicTolerance, frametype, Tolerance);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine("Unable to get XiC on first attempt for " + uimf.UimfFilePath);
+                var tempreader = new DataReader(uimf.UimfFilePath);
+                try
+                {
+                    xic = tempreader.GetXic(options.GetXiC, options.XicTolerance, frametype, Tolerance);
+                }
+                catch (Exception)
+                {
+                    Console.Error.WriteLine("Unable to get XiC on second attempt for " + uimf.UimfFilePath + ", we are not trying again.");
+                    return null;
+                }
+            }
 
-            var xic = uimf.GetXic(options.GetXiC, options.XicTolerance, frametype, Tolerance);
-
-            var frameData = xic.Where(point => point.ScanLc == frameNumber);
+            var frameData = xic.Where(point => point.ScanLc == frameNumber - 1);
             
             var data = new List<KeyValuePair<double, double>>();
 
             foreach (var intensityPoint in frameData)
             {
-                var driftTime = uimf.GetDriftTime(intensityPoint.ScanLc, intensityPoint.ScanIms, true);
+                var driftTime = uimf.GetDriftTime(intensityPoint.ScanLc + 1, intensityPoint.ScanIms, true);
                 data.Add(new KeyValuePair<double, double>(driftTime, intensityPoint.Intensity));
             }
 
@@ -952,41 +975,43 @@ namespace UimfDataExtractor
                 var xicData = GetXicInfo(uimf, frameNumber);
                 var xicOutputFile = GetOutputLocation(
                     originFile,
-                    "XiC_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance,
+                    "XiC_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance + "_Frame_",
                     frameNumber);
 
-                OutputXiCbyTime(xicData, xicOutputFile);
+                if (xicData != null)
+                { 
+                    OutputXiCbyTime(xicData, xicOutputFile);
 
-                if (options.PeakFind || options.BulkPeakComparison)
-                {
-                    var xicPeaks = FindPeaks(xicData);
-                    if (options.PeakFind)
+                    if (options.PeakFind || options.BulkPeakComparison)
                     {
-                        var xicPeakOutputLocation = GetOutputLocation(
-                            originFile,
-                            "XiC_Peaks_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance,
-                            frameNumber,
-                            "xml");
-                        OutputPeaks(xicPeaks, xicPeakOutputLocation);
-                    }
-
-                    if (options.BulkPeakComparison)
-                    {
-                        foreach (var peak in xicPeaks.Peaks)
+                        var xicPeaks = FindPeaks(xicData);
+                        if (options.PeakFind)
                         {
-                            var temp = new BulkPeakData
+                            var xicPeakOutputLocation = GetOutputLocation(
+                                originFile,
+                                "XiC_Peaks_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance,
+                                frameNumber,
+                                "xml");
+                            OutputPeaks(xicPeaks, xicPeakOutputLocation);
+                        }
+
+                        if (options.BulkPeakComparison)
+                        {
+                            foreach (var peak in xicPeaks.Peaks)
                             {
-                                FileName = originFile.Name,
-                                FrameNumber = frameNumber,
-                                Location = peak.PeakCenter,
-                                FullWidthHalfMax = peak.FullWidthHalfMax,
-                                ResolvingPower = peak.ResolvingPower
-                            };
-                            bulkXicPeaks.Add(temp);
+                                var temp = new BulkPeakData
+                                {
+                                    FileName = originFile.Name,
+                                    FrameNumber = frameNumber,
+                                    Location = peak.PeakCenter,
+                                    FullWidthHalfMax = peak.FullWidthHalfMax,
+                                    ResolvingPower = peak.ResolvingPower
+                                };
+                                bulkXicPeaks.Add(temp);
+                            }
                         }
                     }
                 }
-
             }
 
             if (options.Verbose)
