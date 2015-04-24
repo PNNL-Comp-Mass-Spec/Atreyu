@@ -24,6 +24,9 @@ namespace UimfDataExtractor
         [Option('a', "allframes", HelpText = "Outputs all frames to csv instead of just the first one.")]
         public bool AllFrames { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to output a bulk peak comparison file.
+        /// </summary>
         [Option('b', "bulkpeakcomparison", HelpText = "Outputs a file that lists all peak's location and Full Width Half Max")]
         public bool BulkPeakComparison { get; set; }
 
@@ -74,6 +77,22 @@ namespace UimfDataExtractor
         /// </summary>
         [Option('v', "verbose", HelpText = "Print details during execution. *NotImplementedWellYet*")]
         public bool Verbose { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating what, if any Extracted ion chromatogram data to target and output.
+        /// </summary>
+        [Option('x', "xic", DefaultValue = 0, HelpText = "Specifies that you want XiC data for a specific m/z")]
+        public double GetXiC { get; set; }
+
+        /// <summary>
+        /// Gets or sets the xic tolerance in Thompsons.
+        /// </summary>
+        [Option('e', "tolerance", DefaultValue = 0.5,
+            HelpText = "Specifies the tolerance from the m/z that you want for the XiC")]
+        public double XicTolerance { get; set; }
+
+        [Option('s', "msms", HelpText = "get msms data instead of ms data when fetching the XiC")]
+        public bool Getmsms { get; set; }
 
         #endregion
 
