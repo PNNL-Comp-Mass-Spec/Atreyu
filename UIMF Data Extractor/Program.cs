@@ -975,7 +975,7 @@ namespace UimfDataExtractor
                 var xicData = GetXicInfo(uimf, frameNumber);
                 var xicOutputFile = GetOutputLocation(
                     originFile,
-                    "XiC_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance + "_Frame_",
+                    "XiC_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance + "_Frame",
                     frameNumber);
 
                 if (xicData != null)
