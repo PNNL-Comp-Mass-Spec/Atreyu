@@ -285,8 +285,14 @@ namespace UimfDataExtractor
             {
                 Console.WriteLine(uimf.UimfFilePath + " Does not have bin centric data which is required to get XiC");
                 Console.WriteLine("starting to create it, this may take some time");
+                var fileName = uimf.UimfFilePath;
+                uimf.Dispose();
+
                 var dataWriter = new DataWriter(uimf.UimfFilePath);
                 dataWriter.CreateBinCentricTables();
+                dataWriter.Dispose();
+
+                uimf = new DataReader(fileName);
                 Console.WriteLine("Finished Creating bin centric tables for " + uimf.UimfFilePath);
             }
             List<UIMFLibrary.IntensityPoint> xic;
