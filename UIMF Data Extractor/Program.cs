@@ -269,6 +269,36 @@ namespace UimfDataExtractor
             return uimf.GetFrameScans(frameNumber);
         }
 
+        private static List<KeyValuePair<double, double>> GetXicInfo(DataReader uimf, int frameNumber)
+        {
+            const DataReader.ToleranceType Tolerance = DataReader.ToleranceType.Thomson;
+
+            var frametype = options.Getmsms ? DataReader.FrameType.MS2 : DataReader.FrameType.MS1;
+
+            if (!uimf.DoesContainBinCentricData())
+            {
+                Console.WriteLine(uimf.UimfFilePath + " Does not have bin centric data which is required to get XiC");
+                Console.WriteLine("starting to create it, this may take some time");
+                var dataWriter = new DataWriter(uimf.UimfFilePath);
+                dataWriter.CreateBinCentricTables();
+                Console.WriteLine("Finished Creating bin centric tables for " + uimf.UimfFilePath);
+            }
+
+            var xic = uimf.GetXic(options.GetXiC, options.XicTolerance, frametype, Tolerance);
+
+            var frameData = xic.Where(point => point.ScanLc == frameNumber);
+            
+            var data = new List<KeyValuePair<double, double>>();
+
+            foreach (var intensityPoint in frameData)
+            {
+                var driftTime = uimf.GetDriftTime(intensityPoint.ScanLc, intensityPoint.ScanIms, true);
+                data.Add(new KeyValuePair<double, double>(driftTime, intensityPoint.Intensity));
+            }
+
+            return data;
+        }
+
         /// <summary>
         /// Gets output location, based on the name and location of the origin file, the type of data, and the current frame.
         /// </summary>
