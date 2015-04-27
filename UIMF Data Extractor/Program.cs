@@ -888,48 +888,7 @@ namespace UimfDataExtractor
             
             if (options.GetMz)
             {
-                var mzData = GetFullMzInfo(uimf, frameNumber);
-                if (mzData == null)
-                {
-                    Console.Error.WriteLine(
-                        "ERROR: We had a problem getting the data for the MZ of" + Environment.NewLine + " frame "
-                        + frameNumber + " in " + originFile.FullName);
-                }
-                else
-                {
-                    var mzOutputFile = GetOutputLocation(originFile, "Mz", frameNumber);
-                    OutputMz(mzData, mzOutputFile);
-                    if (options.PeakFind || options.BulkPeakComparison)
-                    {
-                        var doubleMzData =
-                            mzData.Select(
-                                keyValuePair => new KeyValuePair<double, double>(keyValuePair.Key, keyValuePair.Value))
-                                .ToList();
-                        var mzpeaks = FindPeaks(doubleMzData);
-
-                        if (options.PeakFind)
-                        { 
-                            var mzPeakOutputLocation = GetOutputLocation(originFile, "Mz_Peaks", frameNumber, "xml");
-                            OutputPeaks(mzpeaks, mzPeakOutputLocation);
-                        }
-
-                        if (options.BulkPeakComparison)
-                        {
-                            foreach (var peak in mzpeaks.Peaks)
-                            {
-                                var temp = new BulkPeakData
-                                               {
-                                                   FileName = originFile.Name,
-                                                   FrameNumber = frameNumber,
-                                                   Location = peak.PeakCenter,
-                                                   FullWidthHalfMax = peak.FullWidthHalfMax,
-                                                   ResolvingPower = peak.ResolvingPower
-                                               };
-                                bulkMzPeaks.Add(temp);
-                            }
-                        }
-                    }
-                }
+                var mzData = GetMZ(uimf, originFile, frameNumber);
             }
 
             if (options.GetTiC)
@@ -985,6 +944,52 @@ namespace UimfDataExtractor
             {
                 Console.WriteLine("Finished processing Frame " + frameNumber + " of " + originFile.FullName);
             }
+        }
+
+        private static List<KeyValuePair<double, int>> GetMZ(DataReader uimf, FileInfo originFile, int frameNumber)
+        {
+            var mzData = GetFullMzInfo(uimf, frameNumber);
+            if (mzData == null)
+            {
+                Console.Error.WriteLine(
+                    "ERROR: We had a problem getting the data for the MZ of" + Environment.NewLine + " frame " + frameNumber
+                    + " in " + originFile.FullName);
+            }
+            else
+            {
+                var mzOutputFile = GetOutputLocation(originFile, "Mz", frameNumber);
+                OutputMz(mzData, mzOutputFile);
+                if (options.PeakFind || options.BulkPeakComparison)
+                {
+                    var doubleMzData =
+                        mzData.Select(keyValuePair => new KeyValuePair<double, double>(keyValuePair.Key, keyValuePair.Value))
+                            .ToList();
+                    var mzpeaks = FindPeaks(doubleMzData);
+
+                    if (options.PeakFind)
+                    {
+                        var mzPeakOutputLocation = GetOutputLocation(originFile, "Mz_Peaks", frameNumber, "xml");
+                        OutputPeaks(mzpeaks, mzPeakOutputLocation);
+                    }
+
+                    if (options.BulkPeakComparison)
+                    {
+                        foreach (var peak in mzpeaks.Peaks)
+                        {
+                            var temp = new BulkPeakData
+                                           {
+                                               FileName = originFile.Name,
+                                               FrameNumber = frameNumber,
+                                               Location = peak.PeakCenter,
+                                               FullWidthHalfMax = peak.FullWidthHalfMax,
+                                               ResolvingPower = peak.ResolvingPower
+                                           };
+                            bulkMzPeaks.Add(temp);
+                        }
+                    }
+                }
+            }
+            return mzData;
         }
 
         private static List<ScanInfo> GetTiC(DataReader uimf, FileInfo originFile, int frameNumber)
