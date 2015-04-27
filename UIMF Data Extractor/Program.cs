@@ -926,7 +926,7 @@ namespace UimfDataExtractor
                     {
                         var xicPeakOutputLocation = GetOutputLocation(
                             originFile,
-                            "XiC_Peaks_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance,
+                            "XiC_Peaks_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance + "_Frame",
                             frameNumber,
                             "xml");
                         OutputPeaks(xicPeaks, xicPeakOutputLocation);
