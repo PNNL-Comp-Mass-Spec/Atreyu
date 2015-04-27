@@ -898,52 +898,58 @@ namespace UimfDataExtractor
 
             if (options.GetXiC > 0)
             {
-                var xicData = GetXicInfo(uimf, frameNumber);
-                var xicOutputFile = GetOutputLocation(
-                    originFile,
-                    "XiC_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance + "_Frame",
-                    frameNumber);
-
-                if (xicData != null)
-                { 
-                    OutputXiCbyTime(xicData, xicOutputFile);
-
-                    if (options.PeakFind || options.BulkPeakComparison)
-                    {
-                        var xicPeaks = FindPeaks(xicData);
-                        if (options.PeakFind)
-                        {
-                            var xicPeakOutputLocation = GetOutputLocation(
-                                originFile,
-                                "XiC_Peaks_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance,
-                                frameNumber,
-                                "xml");
-                            OutputPeaks(xicPeaks, xicPeakOutputLocation);
-                        }
-
-                        if (options.BulkPeakComparison)
-                        {
-                            foreach (var peak in xicPeaks.Peaks)
-                            {
-                                var temp = new BulkPeakData
-                                {
-                                    FileName = originFile.Name,
-                                    FrameNumber = frameNumber,
-                                    Location = peak.PeakCenter,
-                                    FullWidthHalfMax = peak.FullWidthHalfMax,
-                                    ResolvingPower = peak.ResolvingPower
-                                };
-                                bulkXicPeaks.Add(temp);
-                            }
-                        }
-                    }
-                }
+                var xicData = GetXic(uimf, originFile, frameNumber);
             }
 
             if (options.Verbose)
             {
                 Console.WriteLine("Finished processing Frame " + frameNumber + " of " + originFile.FullName);
             }
+        }
+
+        private static List<KeyValuePair<double, double>> GetXic(DataReader uimf, FileInfo originFile, int frameNumber)
+        {
+            var xicData = GetXicInfo(uimf, frameNumber);
+            var xicOutputFile = GetOutputLocation(
+                originFile,
+                "XiC_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance + "_Frame",
+                frameNumber);
+
+            if (xicData != null)
+            {
+                OutputXiCbyTime(xicData, xicOutputFile);
+
+                if (options.PeakFind || options.BulkPeakComparison)
+                {
+                    var xicPeaks = FindPeaks(xicData);
+                    if (options.PeakFind)
+                    {
+                        var xicPeakOutputLocation = GetOutputLocation(
+                            originFile,
+                            "XiC_Peaks_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance,
+                            frameNumber,
+                            "xml");
+                        OutputPeaks(xicPeaks, xicPeakOutputLocation);
+                    }
+
+                    if (options.BulkPeakComparison)
+                    {
+                        foreach (var peak in xicPeaks.Peaks)
+                        {
+                            var temp = new BulkPeakData
+                                           {
+                                               FileName = originFile.Name,
+                                               FrameNumber = frameNumber,
+                                               Location = peak.PeakCenter,
+                                               FullWidthHalfMax = peak.FullWidthHalfMax,
+                                               ResolvingPower = peak.ResolvingPower
+                                           };
+                            bulkXicPeaks.Add(temp);
+                        }
+                    }
+                }
+            }
+            return xicData;
         }
 
         private static List<KeyValuePair<double, int>> GetMZ(DataReader uimf, FileInfo originFile, int frameNumber)
