@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="BulkPeakData.cs" />
     <Compile Include="CommandLineOptions.cs" />
+    <Compile Include="DataExporter.cs" />
     <Compile Include="PeakInformation.cs" />
     <Compile Include="PointInformation.cs" />
     <Compile Include="Program.cs" />
