@@ -934,40 +934,7 @@ namespace UimfDataExtractor
 
             if (options.GetTiC)
             {
-                var ticData = GetFullScanInfo(uimf, frameNumber);
-                var ticOutputFile = GetOutputLocation(originFile, "TiC", frameNumber);
-
-                OutputTiCbyTime(ticData, ticOutputFile);
-
-                if (options.PeakFind || options.BulkPeakComparison)
-                {
-                    var doubleTicData =
-                        ticData.Select(scanInfo => new KeyValuePair<double, double>(scanInfo.DriftTime, scanInfo.TIC))
-                            .ToList();
-
-                    var ticPeaks = FindPeaks(doubleTicData);
-                    if (options.PeakFind)
-                    {
-                        var mzPeakOutputLocation = GetOutputLocation(originFile, "TiC_Peaks", frameNumber, "xml");
-                        OutputPeaks(ticPeaks, mzPeakOutputLocation);
-                    }
-
-                    if (options.BulkPeakComparison)
-                    {
-                        foreach (var peak in ticPeaks.Peaks)
-                        {
-                            var temp = new BulkPeakData
-                            {
-                                FileName = originFile.Name,
-                                FrameNumber = frameNumber,
-                                Location = peak.PeakCenter,
-                                FullWidthHalfMax = peak.FullWidthHalfMax,
-                                ResolvingPower = peak.ResolvingPower
-                            };
-                            bulkTicPeaks.Add(temp);
-                        }
-                    }
-                }
+                var ticData = GetTiC(uimf, originFile, frameNumber);
             }
 
             if (options.GetXiC > 0)
@@ -1020,6 +987,43 @@ namespace UimfDataExtractor
             }
         }
 
+        private static List<ScanInfo> GetTiC(DataReader uimf, FileInfo originFile, int frameNumber)
+        {
+            var ticData = GetFullScanInfo(uimf, frameNumber);
+            var ticOutputFile = GetOutputLocation(originFile, "TiC", frameNumber);
+
+            OutputTiCbyTime(ticData, ticOutputFile);
+
+            if (options.PeakFind || options.BulkPeakComparison)
+            {
+                var doubleTicData =
+                    ticData.Select(scanInfo => new KeyValuePair<double, double>(scanInfo.DriftTime, scanInfo.TIC)).ToList();
+
+                var ticPeaks = FindPeaks(doubleTicData);
+                if (options.PeakFind)
+                {
+                    var mzPeakOutputLocation = GetOutputLocation(originFile, "TiC_Peaks", frameNumber, "xml");
+                    OutputPeaks(ticPeaks, mzPeakOutputLocation);
+                }
+
+                if (options.BulkPeakComparison)
+                {
+                    foreach (var peak in ticPeaks.Peaks)
+                    {
+                        var temp = new BulkPeakData
+                                       {
+                                           FileName = originFile.Name,
+                                           FrameNumber = frameNumber,
+                                           Location = peak.PeakCenter,
+                                           FullWidthHalfMax = peak.FullWidthHalfMax,
+                                           ResolvingPower = peak.ResolvingPower
+                                       };
+                        bulkTicPeaks.Add(temp);
+                    }
+                }
+            }
+            return ticData;
+        }
 
         private static void OutputPeaks(PeakSet peakSet, FileInfo outputFile)
         {
