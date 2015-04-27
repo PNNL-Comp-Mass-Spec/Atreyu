@@ -13,9 +13,7 @@ namespace UimfDataExtractor
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
     using System.IO;
-    using System.IO.Ports;
     using System.Linq;
     using System.Runtime.Serialization;
     using System.Threading.Tasks;
@@ -295,15 +293,17 @@ namespace UimfDataExtractor
                 uimf = new DataReader(fileName);
                 Console.WriteLine("Finished Creating bin centric tables for " + uimf.UimfFilePath);
             }
-            List<UIMFLibrary.IntensityPoint> xic;
+
+            List<IntensityPoint> xic;
             try
             {
                 xic = uimf.GetXic(options.GetXiC, options.XicTolerance, frametype, Tolerance);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Console.Error.WriteLine("Unable to get XiC on first attempt for " + uimf.UimfFilePath);
                 var tempreader = new DataReader(uimf.UimfFilePath);
+
                 try
                 {
                     xic = tempreader.GetXic(options.GetXiC, options.XicTolerance, frametype, Tolerance);
