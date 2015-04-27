@@ -384,63 +384,78 @@ namespace UimfDataExtractor
 
             if (options.GetMz)
             {
-                var filename = dateString + "_" + inputFolder + "_" + "mz" + "_" + "BulkPeakComparison.csv";
-                var fullLocation = Path.Combine(outputDirectory.FullName, filename);
-                var file = new FileInfo(fullLocation);
-                using (var writer = GetFileStream(file))
-                {
-                    writer.WriteLine("File,Frame,Location,Full Width Half Max,Resolving Power");
-                    foreach (var bulkPeakData in bulkMzPeaks)
-                    {
-                        var temp = bulkPeakData.FileName + ",";
-                        temp += bulkPeakData.FrameNumber + ",";
-                        temp += bulkPeakData.Location + ",";
-                        temp += bulkPeakData.FullWidthHalfMax + ",";
-                        temp += bulkPeakData.ResolvingPower;
-                        writer.WriteLine(temp);
-                    }
-                }
+                OutputBulkMzPeakData(dateString, inputFolder, bulkMzPeaks);
             }
 
 
             if (options.GetTiC)
             {
-                var filename = dateString + "_" + inputFolder + "_" + "tic" + "_" + "BulkPeakComparison.csv";
-                var fullLocation = Path.Combine(outputDirectory.FullName, filename);
-                var file = new FileInfo(fullLocation);
-                using (var writer = GetFileStream(file))
-                {
-                    writer.WriteLine("File,Frame,Location,Full Width Half Max,Resolving Power");
-                    foreach (var bulkPeakData in bulkTicPeaks)
-                    {
-                        var temp = bulkPeakData.FileName + ",";
-                        temp += bulkPeakData.FrameNumber + ",";
-                        temp += bulkPeakData.Location + ",";
-                        temp += bulkPeakData.FullWidthHalfMax + ",";
-                        temp += bulkPeakData.ResolvingPower;
-                        writer.WriteLine(temp);
-                    }
-                }
+                OutputBulkTicPeakData(dateString, inputFolder, bulkTicPeaks);
             }
 
             if (options.GetXiC > 0)
             {
-                var filename = dateString + "_" + inputFolder + "_" + "XiC_mz_" + options.GetXiC + "_tolerance_"
-                               + options.XicTolerance + "BulkPeakComparison.csv";
-                var fullLocation = Path.Combine(outputDirectory.FullName, filename);
-                var file = new FileInfo(fullLocation);
-                using (var writer = GetFileStream(file))
+                OutputBulkXicPeakData(dateString, inputFolder, bulkXicPeaks, options.GetXiC, options.XicTolerance);
+            }
+        }
+
+        private static void OutputBulkXicPeakData(string dateString, string inputFolder, IEnumerable<BulkPeakData> xicPeaks, double mz, double tolerance)
+        {
+            var filename = dateString + "_" + inputFolder + "_" + "XiC_mz_" + mz + "_tolerance_"
+                           + tolerance + "BulkPeakComparison.csv";
+            var fullLocation = Path.Combine(outputDirectory.FullName, filename);
+            var file = new FileInfo(fullLocation);
+            using (var writer = GetFileStream(file))
+            {
+                writer.WriteLine("File,Frame,Drift Time,Full Width Half Max,Resolving Power");
+                foreach (var bulkPeakData in xicPeaks)
                 {
-                    writer.WriteLine("File,Frame,Drift Time,Full Width Half Max,Resolving Power");
-                    foreach (var bulkPeakData in bulkXicPeaks)
-                    {
-                        var temp = bulkPeakData.FileName + ",";
-                        temp += bulkPeakData.FrameNumber + ",";
-                        temp += bulkPeakData.Location + ",";
-                        temp += bulkPeakData.FullWidthHalfMax + ",";
-                        temp += bulkPeakData.ResolvingPower;
-                        writer.WriteLine(temp);
-                    }
+                    var temp = bulkPeakData.FileName + ",";
+                    temp += bulkPeakData.FrameNumber + ",";
+                    temp += bulkPeakData.Location + ",";
+                    temp += bulkPeakData.FullWidthHalfMax + ",";
+                    temp += bulkPeakData.ResolvingPower;
+                    writer.WriteLine(temp);
+                }
+            }
+        }
+
+        private static void OutputBulkTicPeakData(string dateString, string inputFolder, IEnumerable<BulkPeakData> ticPeaks)
+        {
+            var filename = dateString + "_" + inputFolder + "_" + "tic" + "_" + "BulkPeakComparison.csv";
+            var fullLocation = Path.Combine(outputDirectory.FullName, filename);
+            var file = new FileInfo(fullLocation);
+            using (var writer = GetFileStream(file))
+            {
+                writer.WriteLine("File,Frame,Location,Full Width Half Max,Resolving Power");
+                foreach (var bulkPeakData in ticPeaks)
+                {
+                    var temp = bulkPeakData.FileName + ",";
+                    temp += bulkPeakData.FrameNumber + ",";
+                    temp += bulkPeakData.Location + ",";
+                    temp += bulkPeakData.FullWidthHalfMax + ",";
+                    temp += bulkPeakData.ResolvingPower;
+                    writer.WriteLine(temp);
+                }
+            }
+        }
+
+        private static void OutputBulkMzPeakData(string dateString, string inputFolder, IEnumerable<BulkPeakData> mzPeaks )
+        {
+            var filename = dateString + "_" + inputFolder + "_" + "mz" + "_" + "BulkPeakComparison.csv";
+            var fullLocation = Path.Combine(outputDirectory.FullName, filename);
+            var file = new FileInfo(fullLocation);
+            using (var writer = GetFileStream(file))
+            {
+                writer.WriteLine("File,Frame,Location,Full Width Half Max,Resolving Power");
+                foreach (var bulkPeakData in mzPeaks)
+                {
+                    var temp = bulkPeakData.FileName + ",";
+                    temp += bulkPeakData.FrameNumber + ",";
+                    temp += bulkPeakData.Location + ",";
+                    temp += bulkPeakData.FullWidthHalfMax + ",";
+                    temp += bulkPeakData.ResolvingPower;
+                    writer.WriteLine(temp);
                 }
             }
         }
@@ -454,7 +469,7 @@ namespace UimfDataExtractor
         /// <param name="outputFile">
         /// The output file.
         /// </param>
-        private static void OutputHeatMap(double[,] data, FileInfo outputFile)
+        private static void OutputHeatMap(double[,] data, FileInfo outputFile, bool verbose)
         {
             using (var stream = GetFileStream(outputFile))
             {
@@ -475,7 +490,7 @@ namespace UimfDataExtractor
                     stream.WriteLine(content);
                 }
 
-                if (options.Verbose)
+                if (verbose)
                 {
                     Console.WriteLine("flushing data to file " + outputFile.FullName);
                 }
@@ -491,7 +506,7 @@ namespace UimfDataExtractor
         /// <param name="outputFile">
         /// The output file.
         /// </param>
-        private static void OutputMz(IEnumerable<KeyValuePair<double, int>> mzKeyedIntensities, FileInfo outputFile)
+        private static void OutputMz(IEnumerable<KeyValuePair<double, int>> mzKeyedIntensities, FileInfo outputFile, bool verbose)
         {
             using (var stream = GetFileStream(outputFile))
             {
@@ -506,7 +521,7 @@ namespace UimfDataExtractor
                     stream.WriteLine(kvp.Key + ", " + kvp.Value);
                 }
 
-                if (options.Verbose)
+                if (verbose)
                 {
                     Console.WriteLine("flushing data to file " + outputFile.FullName);
                 }
@@ -522,7 +537,7 @@ namespace UimfDataExtractor
         /// <param name="outputFile">
         /// The output file.
         /// </param>
-        private static void OutputTiCbyTime(IEnumerable<ScanInfo> timeKeyedIntensities, FileInfo outputFile)
+        private static void OutputTiCbyTime(IEnumerable<ScanInfo> timeKeyedIntensities, FileInfo outputFile, bool verbose)
         {
             using (var stream = GetFileStream(outputFile))
             {
@@ -537,7 +552,7 @@ namespace UimfDataExtractor
                     stream.WriteLine(timeKeyedIntensity.DriftTime + ", " + timeKeyedIntensity.TIC);
                 }
 
-                if (options.Verbose)
+                if (verbose)
                 {
                     Console.WriteLine("flushing data to file " + outputFile.FullName);
                 }
@@ -545,7 +560,7 @@ namespace UimfDataExtractor
         }
 
 
-        private static void OutputXiCbyTime(IEnumerable<KeyValuePair<double, double>> data, FileInfo outputFile)
+        private static void OutputXiCbyTime(IEnumerable<KeyValuePair<double, double>> data, FileInfo outputFile, bool verbose)
         {
             using (var stream = GetFileStream(outputFile))
             {
@@ -560,7 +575,7 @@ namespace UimfDataExtractor
                     stream.WriteLine(kvp.Key + ", " + kvp.Value);
                 }
 
-                if (options.Verbose)
+                if (verbose)
                 {
                     Console.WriteLine("flushing data to file " + outputFile.FullName);
                 }
@@ -917,7 +932,7 @@ namespace UimfDataExtractor
 
             if (xicData != null)
             {
-                OutputXiCbyTime(xicData, xicOutputFile);
+                OutputXiCbyTime(xicData, xicOutputFile, options.Verbose);
 
                 if (options.PeakFind || options.BulkPeakComparison)
                 {
@@ -964,7 +979,7 @@ namespace UimfDataExtractor
             else
             {
                 var mzOutputFile = GetOutputLocation(originFile, "Mz", frameNumber);
-                OutputMz(mzData, mzOutputFile);
+                OutputMz(mzData, mzOutputFile, options.Verbose);
                 if (options.PeakFind || options.BulkPeakComparison)
                 {
                     var doubleMzData =
@@ -1003,7 +1018,7 @@ namespace UimfDataExtractor
             var ticData = GetFullScanInfo(uimf, frameNumber);
             var ticOutputFile = GetOutputLocation(originFile, "TiC", frameNumber);
 
-            OutputTiCbyTime(ticData, ticOutputFile);
+            OutputTiCbyTime(ticData, ticOutputFile, options.Verbose);
 
             if (options.PeakFind || options.BulkPeakComparison)
             {
