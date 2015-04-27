@@ -879,12 +879,12 @@ namespace UimfDataExtractor
                 return;
             }
 
-            ////if (options.GetHeatmap)
-            ////{
-            ////    var heatmapData = GetFullHeatmapData(uimf, frameNumber);
-            ////    var heatmapOutputFile = GetOutputLocation(originFile, "HeatMap", frameNumber);
-            ////    OutputHeatMap(heatmapData, heatmapOutputFile);
-            ////}
+            if (options.GetHeatmap)
+            {
+                var heatmapData = GetFullHeatmapData(uimf, frameNumber);
+                var heatmapOutputFile = GetOutputLocation(originFile, "HeatMap", frameNumber);
+                OutputHeatMap(heatmapData, heatmapOutputFile, options.Verbose);
+            }
             
             if (options.GetMz)
             {
