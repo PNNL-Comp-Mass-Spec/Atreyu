@@ -46,6 +46,8 @@ namespace UimfDataExtractor
             if (args.Length < 1)
             {
                 Console.WriteLine("Starting windows application");
+                var gui = new UimfDataExtractorGUI();
+                gui.ShowDialog();
             }
             else
             {
