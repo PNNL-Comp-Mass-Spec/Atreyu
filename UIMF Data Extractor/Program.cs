@@ -63,8 +63,7 @@ namespace UimfDataExtractor
                 UimfProcessor.ExtractData();
             }
             
-            Console.WriteLine();
-            Console.WriteLine("All done, Exiting");
+            Console.WriteLine("Exiting");
         }
 
         #endregion

@@ -25,7 +25,23 @@ namespace UimfDataExtractor
 
         private void Extract_Click(object sender, EventArgs e)
         {
+            UimfProcessor.Options = new CommandLineOptions
+                                        {
+                                            InputPath = this.inputDirectory,
+                                            OutputPath = this.outputDirectory,
+                                            AllFrames = this.AllFrames.Checked,
+                                            BulkPeakComparison = this.BulkPeakComparison.Checked,
+                                            GetHeatmap = this.GetHeatMap.Checked,
+                                            GetMz = this.GetMz.Checked,
+                                            GetTiC = this.GetTic.Checked,
+                                            GetXiC = (double)this.XicCenter.Value,
+                                            XicTolerance = (double)this.XicTolerance.Value,
+                                            Getmsms = this.Getmsms.Checked,
+                                            PeakFind = this.PeakFind.Checked,
+                                            Recursive = this.Recursive.Checked
+                                        };
 
+            UimfProcessor.ExtractData();
         }
 
         private void GetXic_CheckedChanged(object sender, EventArgs e)
