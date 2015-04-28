@@ -25,6 +25,18 @@ namespace UimfDataExtractor
 
         private void Extract_Click(object sender, EventArgs e)
         {
+            this.Enabled = false;
+
+            Task.Run(
+                () =>
+                    {
+                        MessageBox.Show(
+                            "Work started, controls will re-enabled when complete.  See console for more details.",
+                            "Extraction Started",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+                    });
+
             UimfProcessor.Options = new CommandLineOptions
                                         {
                                             InputPath = this.inputDirectory,
@@ -42,6 +54,8 @@ namespace UimfDataExtractor
                                         };
 
             UimfProcessor.ExtractData();
+
+            this.Enabled = true;
         }
 
         private void GetXic_CheckedChanged(object sender, EventArgs e)
