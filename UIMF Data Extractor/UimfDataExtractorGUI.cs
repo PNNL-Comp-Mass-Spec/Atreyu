@@ -84,7 +84,6 @@ namespace UimfDataExtractor
         private void SetOutputDirectory_Click(object sender, EventArgs e)
         {
             var dialog = new FolderBrowserDialog();
-            dialog.ShowDialog();
 
             if (dialog.ShowDialog() != DialogResult.OK)
             {
