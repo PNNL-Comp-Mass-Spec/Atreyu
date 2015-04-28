@@ -50,7 +50,8 @@ namespace UimfDataExtractor
                                             XicTolerance = (double)this.XicTolerance.Value,
                                             Getmsms = this.Getmsms.Checked,
                                             PeakFind = this.PeakFind.Checked,
-                                            Recursive = this.Recursive.Checked
+                                            Recursive = this.Recursive.Checked,
+                                            Verbose = true
                                         };
 
             UimfProcessor.ExtractData();

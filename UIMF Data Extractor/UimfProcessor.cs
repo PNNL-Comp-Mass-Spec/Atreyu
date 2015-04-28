@@ -751,7 +751,7 @@ namespace UimfDataExtractor
                 if (options.AllFrames)
                 {
                     // ReSharper disable once AccessToDisposedClosure
-                    for (var i = 0; i < framecount; i++)
+                    for (var i = 0; i <= framecount; i++)
                     {
                         ProcessFrame(uimfReader, file, i);
                     }
