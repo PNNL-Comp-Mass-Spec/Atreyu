@@ -40,6 +40,7 @@ namespace UimfDataExtractor
         /// <param name="args">
         /// The arguments passed from the command line.
         /// </param>
+        [STAThread]
         public static void Main(string[] args)
         {
 

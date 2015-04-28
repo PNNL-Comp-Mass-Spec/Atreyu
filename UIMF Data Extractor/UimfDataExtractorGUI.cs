@@ -14,6 +14,10 @@ namespace UimfDataExtractor
     {
         private bool xicEnabled = false;
 
+        private string inputDirectory;
+
+        private string outputDirectory;
+
         public UimfDataExtractorGUI()
         {
             this.InitializeComponent();
@@ -29,6 +33,36 @@ namespace UimfDataExtractor
             this.xicEnabled = this.GetXic.Checked;
 
             this.XicSettingsGoupBox.Enabled = this.xicEnabled;
+        }
+
+        private void SetInputDirectory_Click(object sender, EventArgs e)
+        {
+            var dialog = new FolderBrowserDialog();
+
+            if (dialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            this.inputDirectory = dialog.SelectedPath;
+            this.ExtractDataDisabledLabel.Visible = false;
+            this.Extract.Enabled = true;
+
+            this.InputDirectoryLabel.Text = this.inputDirectory;
+        }
+
+        private void SetOutputDirectory_Click(object sender, EventArgs e)
+        {
+            var dialog = new FolderBrowserDialog();
+            dialog.ShowDialog();
+
+            if (dialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            this.outputDirectory = dialog.SelectedPath;
+            this.OutputDirectoryLabel.Text = this.outputDirectory;
         }
     }
 }
