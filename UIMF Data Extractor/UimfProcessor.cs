@@ -46,7 +46,7 @@ namespace UimfDataExtractor
             }
         }
 
-        public static ConcurrentBag<BulkPeakData> BulkMzPeaks
+        private static ConcurrentBag<BulkPeakData> BulkMzPeaks
         {
             set
             {
@@ -58,7 +58,7 @@ namespace UimfDataExtractor
             }
         }
 
-        public static ConcurrentBag<BulkPeakData> BulkTicPeaks
+        private static ConcurrentBag<BulkPeakData> BulkTicPeaks
         {
             set
             {
@@ -70,7 +70,7 @@ namespace UimfDataExtractor
             }
         }
 
-        public static ConcurrentBag<BulkPeakData> BulkXicPeaks
+        private static ConcurrentBag<BulkPeakData> BulkXicPeaks
         {
             set
             {
@@ -250,7 +250,7 @@ namespace UimfDataExtractor
         /// <summary>
         /// Outputs the bulk peaks collected during the run.
         /// </summary>
-        public static void OutputBulkPeaks()
+        private static void OutputBulkPeaks()
         {
             var dateString = DateTime.Now.ToString("yyyyMMdd-HHmmss");
             var inputFolder = DataExporter.InputDirectory.Name;
@@ -493,7 +493,7 @@ namespace UimfDataExtractor
         /// <param name="directory">
         /// The directory to process.
         /// </param>
-        public static void ProcessAllUimfInDirectory(DirectoryInfo directory)
+        private static void ProcessAllUimfInDirectory(DirectoryInfo directory)
         {
             if (directory.Exists)
             {
@@ -518,7 +518,7 @@ namespace UimfDataExtractor
         /// <param name="root">
         /// The root to start at.
         /// </param>
-        public static void ProcessAllUimfInDirectoryRecursive(DirectoryInfo root)
+        private static void ProcessAllUimfInDirectoryRecursive(DirectoryInfo root)
         {
             if (root.Exists)
             {
