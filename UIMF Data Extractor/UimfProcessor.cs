@@ -192,11 +192,11 @@ namespace UimfDataExtractor
             return uimf.GetFrameScans(frameNumber);
         }
 
-        private static List<KeyValuePair<double, double>> GetXicInfo(DataReader uimf, int frameNumber)
+        private static List<KeyValuePair<double, double>> GetXicInfo(DataReader uimf, int frameNumber, double xicMz, double tolerance, bool getMsms)
         {
             const DataReader.ToleranceType Tolerance = DataReader.ToleranceType.Thomson;
 
-            var frametype = options.Getmsms ? DataReader.FrameType.MS2 : DataReader.FrameType.MS1;
+            var frametype = getMsms ? DataReader.FrameType.MS2 : DataReader.FrameType.MS1;
 
             if (!uimf.DoesContainBinCentricData())
             {
@@ -216,7 +216,7 @@ namespace UimfDataExtractor
             List<IntensityPoint> xic;
             try
             {
-                xic = uimf.GetXic(options.GetXiC, options.XicTolerance, frametype, Tolerance);
+                xic = uimf.GetXic(xicMz, tolerance, frametype, Tolerance);
             }
             catch (Exception)
             {
@@ -225,7 +225,7 @@ namespace UimfDataExtractor
 
                 try
                 {
-                    xic = tempreader.GetXic(options.GetXiC, options.XicTolerance, frametype, Tolerance);
+                    xic = tempreader.GetXic(xicMz, tolerance, frametype, Tolerance);
                 }
                 catch (Exception)
                 {
@@ -599,7 +599,7 @@ namespace UimfDataExtractor
 
         private static List<KeyValuePair<double, double>> GetXic(DataReader uimf, FileInfo originFile, int frameNumber)
         {
-            var xicData = GetXicInfo(uimf, frameNumber);
+            var xicData = GetXicInfo(uimf, frameNumber, options.GetXiC, options.XicTolerance, options.Getmsms);
             var xicOutputFile = DataExporter.GetOutputLocation(
                 originFile,
                 "XiC_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance + "_Frame",
