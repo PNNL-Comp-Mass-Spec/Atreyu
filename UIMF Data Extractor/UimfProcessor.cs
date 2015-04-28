@@ -800,6 +800,9 @@ namespace UimfDataExtractor
             {
                 OutputBulkPeaks();
             }
+
+            Console.WriteLine();
+            Console.WriteLine("All done.");
         }
     }
 }

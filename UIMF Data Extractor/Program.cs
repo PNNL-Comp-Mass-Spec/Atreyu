@@ -40,20 +40,30 @@ namespace UimfDataExtractor
         /// <param name="args">
         /// The arguments passed from the command line.
         /// </param>
+        [STAThread]
         public static void Main(string[] args)
         {
-            UimfProcessor.Options = new CommandLineOptions();
 
-            if (!CommandLine.Parser.Default.ParseArgumentsStrict(args, UimfProcessor.Options))
+            if (args.Length < 1)
             {
-                return;
+                Console.WriteLine("Starting windows application");
+                var gui = new UimfDataExtractorGUI();
+                gui.ShowDialog();
             }
+            else
+            {
+                UimfProcessor.Options = new CommandLineOptions();
 
-            // Domain logic here
-            UimfProcessor.ExtractData();
+                if (!CommandLine.Parser.Default.ParseArgumentsStrict(args, UimfProcessor.Options))
+                {
+                    return;
+                }
 
-            Console.WriteLine();
-            Console.WriteLine("All done, Exiting");
+                // Domain logic here
+                UimfProcessor.ExtractData();
+            }
+            
+            Console.WriteLine("Exiting");
         }
 
         #endregion
