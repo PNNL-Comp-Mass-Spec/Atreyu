@@ -42,16 +42,24 @@ namespace UimfDataExtractor
         /// </param>
         public static void Main(string[] args)
         {
-            UimfProcessor.Options = new CommandLineOptions();
 
-            if (!CommandLine.Parser.Default.ParseArgumentsStrict(args, UimfProcessor.Options))
+            if (args.Length < 1)
             {
-                return;
+                Console.WriteLine("Starting windows application");
             }
+            else
+            {
+                UimfProcessor.Options = new CommandLineOptions();
 
-            // Domain logic here
-            UimfProcessor.ExtractData();
+                if (!CommandLine.Parser.Default.ParseArgumentsStrict(args, UimfProcessor.Options))
+                {
+                    return;
+                }
 
+                // Domain logic here
+                UimfProcessor.ExtractData();
+            }
+            
             Console.WriteLine();
             Console.WriteLine("All done, Exiting");
         }
