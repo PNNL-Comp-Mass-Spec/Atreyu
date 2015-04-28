@@ -38,11 +38,11 @@
             this.Recursive = new System.Windows.Forms.CheckBox();
             this.GetXic = new System.Windows.Forms.CheckBox();
             this.XicSettingsGoupBox = new System.Windows.Forms.GroupBox();
-            this.XicCenter = new System.Windows.Forms.NumericUpDown();
-            this.XicCenterLabel = new System.Windows.Forms.Label();
-            this.XicTolerance = new System.Windows.Forms.NumericUpDown();
-            this.XicToleranceLabel = new System.Windows.Forms.Label();
             this.Getmsms = new System.Windows.Forms.CheckBox();
+            this.XicToleranceLabel = new System.Windows.Forms.Label();
+            this.XicTolerance = new System.Windows.Forms.NumericUpDown();
+            this.XicCenterLabel = new System.Windows.Forms.Label();
+            this.XicCenter = new System.Windows.Forms.NumericUpDown();
             this.ExtractDataDisabledLabel = new System.Windows.Forms.Label();
             this.SetInputDirectory = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -51,8 +51,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.SetOutputDirectory = new System.Windows.Forms.Button();
             this.XicSettingsGoupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.XicCenter)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.XicTolerance)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.XicCenter)).BeginInit();
             this.SuspendLayout();
             // 
             // Extract
@@ -163,32 +163,24 @@
             this.XicSettingsGoupBox.TabStop = false;
             this.XicSettingsGoupBox.Text = "XiC Settings";
             // 
-            // XicCenter
+            // Getmsms
             // 
-            this.XicCenter.DecimalPlaces = 5;
-            this.XicCenter.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.XicCenter.Location = new System.Drawing.Point(69, 19);
-            this.XicCenter.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.XicCenter.Name = "XicCenter";
-            this.XicCenter.Size = new System.Drawing.Size(120, 20);
-            this.XicCenter.TabIndex = 0;
+            this.Getmsms.AutoSize = true;
+            this.Getmsms.Location = new System.Drawing.Point(6, 85);
+            this.Getmsms.Name = "Getmsms";
+            this.Getmsms.Size = new System.Drawing.Size(204, 17);
+            this.Getmsms.TabIndex = 4;
+            this.Getmsms.Text = "Look at msms data instead of ms data";
+            this.Getmsms.UseVisualStyleBackColor = true;
             // 
-            // XicCenterLabel
+            // XicToleranceLabel
             // 
-            this.XicCenterLabel.AutoSize = true;
-            this.XicCenterLabel.Location = new System.Drawing.Point(6, 21);
-            this.XicCenterLabel.Name = "XicCenterLabel";
-            this.XicCenterLabel.Size = new System.Drawing.Size(57, 13);
-            this.XicCenterLabel.TabIndex = 1;
-            this.XicCenterLabel.Text = "XiC Center";
+            this.XicToleranceLabel.AutoSize = true;
+            this.XicToleranceLabel.Location = new System.Drawing.Point(6, 61);
+            this.XicToleranceLabel.Name = "XicToleranceLabel";
+            this.XicToleranceLabel.Size = new System.Drawing.Size(55, 13);
+            this.XicToleranceLabel.TabIndex = 3;
+            this.XicToleranceLabel.Text = "Tolerance";
             // 
             // XicTolerance
             // 
@@ -213,24 +205,32 @@
             0,
             65536});
             // 
-            // XicToleranceLabel
+            // XicCenterLabel
             // 
-            this.XicToleranceLabel.AutoSize = true;
-            this.XicToleranceLabel.Location = new System.Drawing.Point(6, 61);
-            this.XicToleranceLabel.Name = "XicToleranceLabel";
-            this.XicToleranceLabel.Size = new System.Drawing.Size(55, 13);
-            this.XicToleranceLabel.TabIndex = 3;
-            this.XicToleranceLabel.Text = "Tolerance";
+            this.XicCenterLabel.AutoSize = true;
+            this.XicCenterLabel.Location = new System.Drawing.Point(6, 21);
+            this.XicCenterLabel.Name = "XicCenterLabel";
+            this.XicCenterLabel.Size = new System.Drawing.Size(57, 13);
+            this.XicCenterLabel.TabIndex = 1;
+            this.XicCenterLabel.Text = "XiC Center";
             // 
-            // Getmsms
+            // XicCenter
             // 
-            this.Getmsms.AutoSize = true;
-            this.Getmsms.Location = new System.Drawing.Point(6, 85);
-            this.Getmsms.Name = "Getmsms";
-            this.Getmsms.Size = new System.Drawing.Size(204, 17);
-            this.Getmsms.TabIndex = 4;
-            this.Getmsms.Text = "Look at msms data instead of ms data";
-            this.Getmsms.UseVisualStyleBackColor = true;
+            this.XicCenter.DecimalPlaces = 5;
+            this.XicCenter.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.XicCenter.Location = new System.Drawing.Point(69, 19);
+            this.XicCenter.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.XicCenter.Name = "XicCenter";
+            this.XicCenter.Size = new System.Drawing.Size(120, 20);
+            this.XicCenter.TabIndex = 0;
             // 
             // ExtractDataDisabledLabel
             // 
@@ -254,14 +254,12 @@
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(244, 62);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(97, 13);
             this.label1.TabIndex = 12;
             this.label1.Text = "Selected Directory:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // InputDirectoryLabel
             // 
@@ -283,14 +281,12 @@
             // 
             // label2
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(244, 181);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(97, 13);
             this.label2.TabIndex = 15;
             this.label2.Text = "Selected Directory:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // SetOutputDirectory
             // 
@@ -328,8 +324,8 @@
             this.Text = "Uimf Data Extractor";
             this.XicSettingsGoupBox.ResumeLayout(false);
             this.XicSettingsGoupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.XicCenter)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.XicTolerance)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.XicCenter)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
