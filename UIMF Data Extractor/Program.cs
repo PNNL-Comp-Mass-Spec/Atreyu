@@ -50,38 +50,7 @@ namespace UimfDataExtractor
             }
 
             // Domain logic here
-            DataExporter.InputDirectory = new DirectoryInfo(UimfProcessor.Options.InputPath);
-
-            DataExporter.OutputDirectory = string.IsNullOrWhiteSpace(UimfProcessor.Options.OutputPath)
-                                  ? DataExporter.InputDirectory
-                                  : new DirectoryInfo(UimfProcessor.Options.OutputPath);
-
-            UimfProcessor.BulkMzPeaks = new ConcurrentBag<BulkPeakData>();
-            UimfProcessor.BulkTicPeaks = new ConcurrentBag<BulkPeakData>();
-            UimfProcessor.BulkXicPeaks = new ConcurrentBag<BulkPeakData>();
-
-            if (UimfProcessor.Options.Verbose)
-            {
-                Console.WriteLine("Verbose Active");
-                Console.WriteLine("Input Directory: " + DataExporter.InputDirectory.FullName);
-                Console.WriteLine("Output Directory: " + DataExporter.OutputDirectory.FullName);
-                Console.WriteLine("Run Recursively?: " + UimfProcessor.Options.Recursive);
-                Console.WriteLine("Process All Frames in File?: " + UimfProcessor.Options.AllFrames);
-            }
-
-            if (UimfProcessor.Options.Recursive)
-            {
-                UimfProcessor.ProcessAllUimfInDirectoryRecursive(DataExporter.InputDirectory);
-            }
-            else
-            {
-                UimfProcessor.ProcessAllUimfInDirectory(DataExporter.InputDirectory);
-            }
-
-            if (UimfProcessor.Options.BulkPeakComparison)
-            {
-                UimfProcessor.OutputBulkPeaks();
-            }
+            UimfProcessor.ExtractData();
 
             Console.WriteLine();
             Console.WriteLine("All done, Exiting");

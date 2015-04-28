@@ -154,7 +154,7 @@ namespace UimfDataExtractor
 
             var typeString = frameParams.GetValue(FrameParamKeyType.FrameType);
 
-            if (string.IsNullOrWhiteSpace(typeString))
+            if (String.IsNullOrWhiteSpace(typeString))
             {
                 Console.Error.WriteLine(
                     "ERROR: Had a problem getting the frame type which means we can't get the MZ data");
@@ -440,7 +440,7 @@ namespace UimfDataExtractor
                                    TotalDataPointSet = allPoints
                                };
 
-                if (temp.ResolvingPower > 0 && !double.IsInfinity(temp.ResolvingPower))
+                if (temp.ResolvingPower > 0 && !Double.IsInfinity(temp.ResolvingPower))
                 {
                     datapointList.Peaks.Add(temp);
                 }
@@ -529,7 +529,7 @@ namespace UimfDataExtractor
 
                 ProcessAllUimfInDirectory(root);
 
-                Parallel.ForEach(root.EnumerateDirectories(), UimfProcessor.ProcessAllUimfInDirectoryRecursive);
+                Parallel.ForEach(root.EnumerateDirectories(), ProcessAllUimfInDirectoryRecursive);
             }
             else
             {
@@ -764,6 +764,42 @@ namespace UimfDataExtractor
             }
 
             Console.WriteLine("Finished processing " + file.FullName);
+        }
+
+        public static void ExtractData()
+        {
+            DataExporter.InputDirectory = new DirectoryInfo(Options.InputPath);
+
+            DataExporter.OutputDirectory = String.IsNullOrWhiteSpace(Options.OutputPath)
+                                               ? DataExporter.InputDirectory
+                                               : new DirectoryInfo(Options.OutputPath);
+
+            BulkMzPeaks = new ConcurrentBag<BulkPeakData>();
+            BulkTicPeaks = new ConcurrentBag<BulkPeakData>();
+            BulkXicPeaks = new ConcurrentBag<BulkPeakData>();
+
+            if (Options.Verbose)
+            {
+                Console.WriteLine("Verbose Active");
+                Console.WriteLine("Input Directory: " + DataExporter.InputDirectory.FullName);
+                Console.WriteLine("Output Directory: " + DataExporter.OutputDirectory.FullName);
+                Console.WriteLine("Run Recursively?: " + Options.Recursive);
+                Console.WriteLine("Process All Frames in File?: " + Options.AllFrames);
+            }
+
+            if (Options.Recursive)
+            {
+                ProcessAllUimfInDirectoryRecursive(DataExporter.InputDirectory);
+            }
+            else
+            {
+                ProcessAllUimfInDirectory(DataExporter.InputDirectory);
+            }
+
+            if (Options.BulkPeakComparison)
+            {
+                OutputBulkPeaks();
+            }
         }
     }
 }
