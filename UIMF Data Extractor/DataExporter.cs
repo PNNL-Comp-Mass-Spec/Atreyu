@@ -211,12 +211,12 @@ namespace UimfDataExtractor
                     return;
                 }
 
-                for (var x = 0; x < data.GetLength(0); x++)
+                for (var bin = 0; bin < data.GetLength(1); bin++)
                 {
                     var content = string.Empty;
-                    for (var y = 0; y < data.GetLength(1); y++)
+                    for (var scan = 0; scan < data.GetLength(0); scan++)
                     {
-                        content += data[x, y].ToString("0.00") + ",";
+                        content += data[scan, bin].ToString("0.00") + ",";
                     }
 
                     stream.WriteLine(content);

@@ -371,7 +371,7 @@ namespace Atreyu.ViewModels
                 exportData[0, y] = mz;
             }
 
-            // fill the reast of the array with the intensity values (0,0 of the array never assigned, but defaults to "0.0")
+            // fill the rest of the array with the intensity values (0,0 of the array never assigned, but defaults to "0.0")
             for (var mz = 1; mz < exportData.GetLength(1); mz++)
             {
                 for (var scan = 1; scan < exportData.GetLength(0); scan++)

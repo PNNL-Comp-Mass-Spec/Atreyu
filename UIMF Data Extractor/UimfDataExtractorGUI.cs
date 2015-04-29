@@ -31,7 +31,7 @@ namespace UimfDataExtractor
                 () =>
                     {
                         MessageBox.Show(
-                            "Work started, controls will re-enabled when complete.  See console for more details.",
+                            "Work started, controls will be re-enabled when complete.  See console for more details.",
                             "Extraction Started",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Information);

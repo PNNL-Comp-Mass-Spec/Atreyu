@@ -95,7 +95,6 @@
             this.GetHeatMap.TabIndex = 3;
             this.GetHeatMap.Text = "Get Heat Map";
             this.GetHeatMap.UseVisualStyleBackColor = true;
-            this.GetHeatMap.Visible = false;
             // 
             // GetMz
             // 
