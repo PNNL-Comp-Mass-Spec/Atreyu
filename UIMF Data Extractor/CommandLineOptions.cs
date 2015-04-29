@@ -1,6 +1,26 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CommandLineOptions.cs" company="PNNL">
-//   Copyright PNNL 2015
+// <copyright file="CommandLineOptions.cs" company="Pacific Northwest National Laboratory">
+//   The MIT License (MIT)
+//   
+//   Copyright (c) 2015 Pacific Northwest National Laboratory
+//   
+//   Permission is hereby granted, free of charge, to any person obtaining a copy
+//   of this software and associated documentation files (the "Software"), to deal
+//   in the Software without restriction, including without limitation the rights
+//   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//   copies of the Software, and to permit persons to whom the Software is
+//   furnished to do so, subject to the following conditions:
+//   
+//   The above copyright notice and this permission notice shall be included in
+//   all copies or substantial portions of the Software.
+//   
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//   THE SOFTWARE.
 // </copyright>
 // <summary>
 //   The command line options for the UIMF Data Extractor
@@ -27,10 +47,14 @@ namespace UimfDataExtractor
         /// <summary>
         /// Gets or sets a value indicating whether to output a bulk peak comparison file.
         /// </summary>
-        [Option('b', "bulkpeakcomparison", HelpText = "Outputs a file that lists all peak's location and Full Width Half Max")]
+        [Option('b', "bulkpeakcomparison", 
+            HelpText = "Outputs a file that lists all peak's location and Full Width Half Max")]
         public bool BulkPeakComparison { get; set; }
 
-        [Option('h', "heatmap",
+        /// <summary>
+        /// Gets or sets a value indicating whether to get the heatmap.
+        /// </summary>
+        [Option('h', "heatmap", 
             HelpText = "specifies that you want the two-dimensional heatmap data *NotImplementedYet*")]
         public bool GetHeatmap { get; set; }
 
@@ -47,6 +71,18 @@ namespace UimfDataExtractor
         public bool GetTiC { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating what, if any Extracted ion chromatogram data to target and output.
+        /// </summary>
+        [Option('x', "xic", DefaultValue = 0, HelpText = "Specifies that you want XiC data for a specific m/z")]
+        public double GetXiC { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether getmsms.
+        /// </summary>
+        [Option('s', "msms", HelpText = "get msms data instead of ms data when fetching the XiC")]
+        public bool Getmsms { get; set; }
+
+        /// <summary>
         /// Gets or sets the input path.
         /// </summary>
         [Option('i', "input", Required = true, HelpText = "specify the directory containing the UIMFs to process")]
@@ -57,13 +93,15 @@ namespace UimfDataExtractor
         /// </summary>
         [Option('o', "output", 
             HelpText =
-                "Specify the output directory. If left empty results will be written into the same directory as the input directory")]
+                "Specify the output directory. If left empty results will be written into the same directory as the input directory"
+            )]
         public string OutputPath { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to peak find and print out information.
         /// </summary>
-        [Option('p', "peakfind", HelpText = "Prints out a file listing the peaks for the m/z and/or TiC based on what output is selected")]
+        [Option('p', "peakfind", 
+            HelpText = "Prints out a file listing the peaks for the m/z and/or TiC based on what output is selected")]
         public bool PeakFind { get; set; }
 
         /// <summary>
@@ -79,20 +117,11 @@ namespace UimfDataExtractor
         public bool Verbose { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating what, if any Extracted ion chromatogram data to target and output.
-        /// </summary>
-        [Option('x', "xic", DefaultValue = 0, HelpText = "Specifies that you want XiC data for a specific m/z")]
-        public double GetXiC { get; set; }
-
-        /// <summary>
         /// Gets or sets the xic tolerance in Thompsons.
         /// </summary>
-        [Option('e', "tolerance", DefaultValue = 0.5,
+        [Option('e', "tolerance", DefaultValue = 0.5, 
             HelpText = "Specifies the tolerance from the m/z that you want for the XiC")]
         public double XicTolerance { get; set; }
-
-        [Option('s', "msms", HelpText = "get msms data instead of ms data when fetching the XiC")]
-        public bool Getmsms { get; set; }
 
         #endregion
 

@@ -1,25 +1,4 @@
-<StyleCopSettings Version="105">
-  <GlobalSettings>
-    <CollectionProperty Name="RecognizedWords">
-      <Value>heatmap</Value>
-      <Value>mz</Value>
-      <Value>num</Value>
-      <Value>uimf</Value>
-      <Value>xaml</Value>
-    </CollectionProperty>
-  </GlobalSettings>
-  <Analyzers>
-    <Analyzer AnalyzerId="StyleCop.CSharp.NamingRules">
-      <AnalyzerSettings>
-        <CollectionProperty Name="Hungarian">
-          <Value>mz</Value>
-        </CollectionProperty>
-      </AnalyzerSettings>
-    </Analyzer>
-    <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
-      <AnalyzerSettings>
-        <StringProperty Name="CompanyName">Pacific Northwest National Laboratory</StringProperty>
-        <StringProperty Name="Copyright">The MIT License (MIT)
+The MIT License (MIT)
 
 Copyright (c) 2015 Pacific Northwest National Laboratory
 
@@ -39,8 +18,4 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.</StringProperty>
-      </AnalyzerSettings>
-    </Analyzer>
-  </Analyzers>
-</StyleCopSettings>
+THE SOFTWARE.

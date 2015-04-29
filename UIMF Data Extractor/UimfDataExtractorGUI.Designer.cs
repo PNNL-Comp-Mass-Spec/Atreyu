@@ -1,6 +1,6 @@
 ﻿namespace UimfDataExtractor
 {
-    partial class UimfDataExtractorGUI
+    partial class UimfDataExtractorGui
     {
         /// <summary>
         /// Required designer variable.
@@ -64,7 +64,7 @@
             this.Extract.TabIndex = 0;
             this.Extract.Text = "Extract Data";
             this.Extract.UseVisualStyleBackColor = true;
-            this.Extract.Click += new System.EventHandler(this.Extract_Click);
+            this.Extract.Click += new System.EventHandler(this.ExtractClick);
             // 
             // AllFrames
             // 
@@ -145,7 +145,7 @@
             this.GetXic.TabIndex = 8;
             this.GetXic.Text = "Get XiC";
             this.GetXic.UseVisualStyleBackColor = true;
-            this.GetXic.CheckedChanged += new System.EventHandler(this.GetXic_CheckedChanged);
+            this.GetXic.CheckedChanged += new System.EventHandler(this.GetXicCheckedChanged);
             // 
             // XicSettingsGoupBox
             // 
@@ -249,7 +249,7 @@
             this.SetInputDirectory.TabIndex = 11;
             this.SetInputDirectory.Text = "Set Input Directory";
             this.SetInputDirectory.UseVisualStyleBackColor = true;
-            this.SetInputDirectory.Click += new System.EventHandler(this.SetInputDirectory_Click);
+            this.SetInputDirectory.Click += new System.EventHandler(this.SetInputDirectoryClick);
             // 
             // label1
             // 
@@ -295,7 +295,7 @@
             this.SetOutputDirectory.TabIndex = 14;
             this.SetOutputDirectory.Text = "Set Output Directory (optional)";
             this.SetOutputDirectory.UseVisualStyleBackColor = true;
-            this.SetOutputDirectory.Click += new System.EventHandler(this.SetOutputDirectory_Click);
+            this.SetOutputDirectory.Click += new System.EventHandler(this.SetOutputDirectoryClick);
             // 
             // UimfDataExtractorGUI
             // 
@@ -319,7 +319,7 @@
             this.Controls.Add(this.BulkPeakComparison);
             this.Controls.Add(this.AllFrames);
             this.Controls.Add(this.Extract);
-            this.Name = "UimfDataExtractorGUI";
+            this.Name = "UimfDataExtractorGui";
             this.Text = "Uimf Data Extractor";
             this.XicSettingsGoupBox.ResumeLayout(false);
             this.XicSettingsGoupBox.PerformLayout();

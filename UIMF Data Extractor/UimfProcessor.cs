@@ -1,3 +1,32 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UimfProcessor.cs" company="Pacific Northwest National Laboratory">
+//   The MIT License (MIT)
+//   
+//   Copyright (c) 2015 Pacific Northwest National Laboratory
+//   
+//   Permission is hereby granted, free of charge, to any person obtaining a copy
+//   of this software and associated documentation files (the "Software"), to deal
+//   in the Software without restriction, including without limitation the rights
+//   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//   copies of the Software, and to permit persons to whom the Software is
+//   furnished to do so, subject to the following conditions:
+//   
+//   The above copyright notice and this permission notice shall be included in
+//   all copies or substantial portions of the Software.
+//   
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//   THE SOFTWARE.
+// </copyright>
+// <summary>
+//   The uimf processor.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace UimfDataExtractor
 {
     using System;
@@ -12,12 +41,12 @@ namespace UimfDataExtractor
 
     using UIMFLibrary;
 
+    /// <summary>
+    /// The uimf processor class handles finding and fetching data from the UIMFs.
+    /// </summary>
     internal class UimfProcessor
     {
-        /// <summary>
-        /// The options.
-        /// </summary>
-        private static CommandLineOptions options;
+        #region Static Fields
 
         /// <summary>
         /// All mz peaks found in all files.
@@ -34,52 +63,319 @@ namespace UimfDataExtractor
         /// </summary>
         private static ConcurrentBag<BulkPeakData> bulkXicPeaks;
 
+        /// <summary>
+        /// The options.
+        /// </summary>
+        private static CommandLineOptions options;
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets or sets the options.
+        /// </summary>
         public static CommandLineOptions Options
         {
-            set
-            {
-                options = value;
-            }
             get
             {
                 return options;
             }
-        }
 
-        private static ConcurrentBag<BulkPeakData> BulkMzPeaks
-        {
             set
             {
-                bulkMzPeaks = value;
+                options = value;
             }
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the bulk mz peaks.
+        /// </summary>
+        private static ConcurrentBag<BulkPeakData> BulkMzPeaks
+        {
             get
             {
                 return bulkMzPeaks;
             }
-        }
 
-        private static ConcurrentBag<BulkPeakData> BulkTicPeaks
-        {
             set
             {
-                bulkTicPeaks = value;
+                bulkMzPeaks = value;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the bulk tic peaks.
+        /// </summary>
+        private static ConcurrentBag<BulkPeakData> BulkTicPeaks
+        {
             get
             {
                 return bulkTicPeaks;
             }
-        }
 
-        private static ConcurrentBag<BulkPeakData> BulkXicPeaks
-        {
             set
             {
-                bulkXicPeaks = value;
+                bulkTicPeaks = value;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the bulk xic peaks.
+        /// </summary>
+        private static ConcurrentBag<BulkPeakData> BulkXicPeaks
+        {
             get
             {
                 return bulkXicPeaks;
             }
+
+            set
+            {
+                bulkXicPeaks = value;
+            }
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The extract data method is the entry funtion to this process, it assumes you have set all the options already.
+        /// </summary>
+        public static void ExtractData()
+        {
+            DataExporter.InputDirectory = new DirectoryInfo(Options.InputPath);
+
+            DataExporter.OutputDirectory = string.IsNullOrWhiteSpace(Options.OutputPath)
+                                               ? DataExporter.InputDirectory
+                                               : new DirectoryInfo(Options.OutputPath);
+
+            BulkMzPeaks = new ConcurrentBag<BulkPeakData>();
+            BulkTicPeaks = new ConcurrentBag<BulkPeakData>();
+            BulkXicPeaks = new ConcurrentBag<BulkPeakData>();
+
+            if (Options.Verbose)
+            {
+                Console.WriteLine("Verbose Active");
+                Console.WriteLine("Input Directory: " + DataExporter.InputDirectory.FullName);
+                Console.WriteLine("Output Directory: " + DataExporter.OutputDirectory.FullName);
+                Console.WriteLine("Run Recursively?: " + Options.Recursive);
+                Console.WriteLine("Process All Frames in File?: " + Options.AllFrames);
+            }
+
+            if (Options.Recursive)
+            {
+                ProcessAllUimfInDirectoryRecursive(DataExporter.InputDirectory);
+            }
+            else
+            {
+                ProcessAllUimfInDirectory(DataExporter.InputDirectory);
+            }
+
+            if (Options.BulkPeakComparison)
+            {
+                OutputBulkPeaks();
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("All done.");
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Find the peaks in the current data set and adds an annotation point with the resolution to the m/z.
+        /// </summary>
+        /// <param name="dataList">
+        /// The data List.
+        /// </param>
+        /// <returns>
+        /// The <see cref="List{T}"/> of peaks.
+        /// </returns>
+        private static PeakSet FindPeaks(IReadOnlyList<KeyValuePair<double, double>> dataList)
+        {
+            var datapointList = new PeakSet();
+            const int Precision = 100000;
+
+            var peakDetector = new PeakDetector();
+
+            var finderOptions = PeakDetector.GetDefaultSICPeakFinderOptions();
+
+            List<double> smoothedY;
+
+            // Create a new dictionary so we don't modify the original one
+            var tempFrameList = new List<KeyValuePair<int, double>>(dataList.Count);
+
+            // We have to give it integers, but we need the mz, so we will multiply the mz by the precision
+            // and later get the correct value back by dividing it out again
+            for (var i = 0; i < dataList.Count; i++)
+            {
+                tempFrameList.Add(new KeyValuePair<int, double>((int)(dataList[i].Key * Precision), dataList[i].Value));
+            }
+
+            // I am not sure what this does but in the example exe file that came with the library
+            // they used half of the length of the list in their previous examples and this seems to work
+            var originalpeakLocation = tempFrameList.Count / 2;
+
+            var allPeaks = peakDetector.FindPeaks(
+                finderOptions, 
+                tempFrameList.OrderBy(x => x.Key).ToList(), 
+                originalpeakLocation, 
+                out smoothedY);
+
+            ////var topThreePeaks = allPeaks.OrderByDescending(peak => smoothedY[peak.LocationIndex]).Take(3);
+            foreach (var peak in allPeaks)
+            {
+                const double Tolerance = 0.01;
+                var centerPoint = tempFrameList.ElementAt(peak.LocationIndex);
+                var offsetCenter = centerPoint.Key; // + firstpoint.Key; 
+                var intensity = centerPoint.Value;
+                var smoothedPeakIntensity = smoothedY[peak.LocationIndex];
+
+                var realCenter = (double)offsetCenter / Precision;
+                var halfmax = smoothedPeakIntensity / 2.0;
+
+                var currPoint = new KeyValuePair<int, double>(0, 0);
+                var currPointIndex = 0;
+                double leftMidpoint = 0;
+                double rightMidPoint = 0;
+
+                var allPoints = new List<PointInformation>();
+                var leftSidePeaks = new List<KeyValuePair<int, double>>();
+                for (var l = peak.LeftEdge; l < peak.LocationIndex && l < tempFrameList.Count; l++)
+                {
+                    leftSidePeaks.Add(tempFrameList[l]);
+                    allPoints.Add(
+                        new PointInformation
+                            {
+                                Location = (double)tempFrameList[l].Key / Precision, 
+                                Intensity = tempFrameList[l].Value, 
+                                SmoothedIntensity = smoothedY[l]
+                            });
+                }
+
+                var rightSidePeaks = new List<KeyValuePair<int, double>>();
+                for (var r = peak.LocationIndex; r < peak.RightEdge && r < tempFrameList.Count; r++)
+                {
+                    rightSidePeaks.Add(tempFrameList[r]);
+                    allPoints.Add(
+                        new PointInformation
+                            {
+                                Location = (double)tempFrameList[r].Key / Precision, 
+                                Intensity = tempFrameList[r].Value, 
+                                SmoothedIntensity = smoothedY[r]
+                            });
+                }
+
+                // find the left side half max
+                foreach (var leftSidePeak in leftSidePeaks)
+                {
+                    var prevPoint = currPoint;
+                    currPoint = leftSidePeak;
+                    var prevPointIndex = currPointIndex;
+
+                    currPointIndex = tempFrameList.BinarySearch(
+                        currPoint, 
+                        Comparer<KeyValuePair<int, double>>.Create((left, right) => left.Key - right.Key));
+
+                    if (smoothedY[currPointIndex] < halfmax)
+                    {
+                        continue;
+                    }
+
+                    if (Math.Abs(smoothedY[currPointIndex] - halfmax) < Tolerance)
+                    {
+                        leftMidpoint = currPoint.Key;
+                        continue;
+                    }
+
+                    ////var slope = (prevPoint.Key - currPoint.Key) / (prevPoint.Value - currPoint.Value);
+                    double a1 = prevPoint.Key;
+                    double a2 = currPoint.Key;
+                    double c = halfmax;
+                    double b1 = smoothedY[prevPointIndex];
+                    double b2 = smoothedY[currPointIndex];
+
+                    leftMidpoint = a1 + ((a2 - a1) * ((c - b1) / (b2 - b1)));
+                    break;
+                }
+
+                // find the right side of the half max
+                foreach (var rightSidePeak in rightSidePeaks)
+                {
+                    var prevPoint = currPoint;
+                    currPoint = rightSidePeak;
+                    var prevPointIndex = currPointIndex;
+                    currPointIndex = tempFrameList.BinarySearch(
+                        currPoint, 
+                        Comparer<KeyValuePair<int, double>>.Create((left, right) => left.Key - right.Key));
+
+                    if (smoothedY[currPointIndex] > halfmax || smoothedY[currPointIndex] < 0)
+                    {
+                        continue;
+                    }
+
+                    if (Math.Abs(smoothedY[currPointIndex] - halfmax) < Tolerance)
+                    {
+                        rightMidPoint = currPoint.Key;
+                        continue;
+                    }
+
+                    ////var slope = (prevPoint.Key - currPoint.Key) / (prevPoint.Value - currPoint.Value);
+                    double a1 = prevPoint.Key;
+                    double a2 = currPoint.Key;
+                    double c = halfmax;
+                    double b1 = smoothedY[prevPointIndex];
+                    double b2 = smoothedY[currPointIndex];
+
+                    rightMidPoint = a1 + ((a2 - a1) * ((c - b1) / (b2 - b1)));
+                    break;
+                }
+
+                var correctedRightMidPoint = rightMidPoint / Precision;
+                var correctedLeftMidPoint = leftMidpoint / Precision;
+                var fullWidthHalfMax = correctedRightMidPoint - correctedLeftMidPoint;
+                var resolution = realCenter / fullWidthHalfMax;
+
+                var temp = new PeakInformation
+                               {
+                                   AreaUnderThePeak = peak.Area, 
+                                   FullWidthHalfMax = fullWidthHalfMax, 
+                                   Intensity = intensity, 
+                                   LeftMidpoint = correctedLeftMidPoint, 
+                                   PeakCenter = realCenter, 
+                                   RightMidpoint = correctedRightMidPoint, 
+                                   ResolvingPower = resolution, 
+                                   SmoothedIntensity = smoothedPeakIntensity, 
+                                   TotalDataPointSet = allPoints
+                               };
+
+                if (temp.ResolvingPower > 0 && !double.IsInfinity(temp.ResolvingPower))
+                {
+                    datapointList.Peaks.Add(temp);
+                }
+            }
+
+            return datapointList;
+
+            ////var tempList =
+            ////    datapointList.Where(x => !double.IsInfinity(x.ResolvingPower)).OrderByDescending(x => x.Intensity).Take(10);
+
+            ////// Put the points on the graph
+            ////foreach (var resolutionDatapoint in tempList)
+            ////{
+            ////    var resolutionString = resolutionDatapoint.ResolvingPower.ToString("F1", CultureInfo.InvariantCulture);
+            ////    var annotationText = "Peak Location:" + resolutionDatapoint.PeakCenter + Environment.NewLine + "Intensity:"
+            ////                         + resolutionDatapoint.Intensity + Environment.NewLine + "ResolvingPower:"
+            ////                         + resolutionString;
+            ////}
         }
 
         /// <summary>
@@ -115,7 +411,7 @@ namespace UimfDataExtractor
         }
 
         /// <summary>
-        /// Gets full heatmap data from the <see cref="DataReader"/> that the UIMF is open in. This is extremely slow to non-functioning
+        /// Gets full heatmap data from the <see cref="DataReader"/> that the UIMF is open in.
         /// </summary>
         /// <param name="uimf">
         /// The uimf that data is to be fetched from.
@@ -124,7 +420,7 @@ namespace UimfDataExtractor
         /// The frame number that data is to be fetched.
         /// </param>
         /// <returns>
-        /// The <see cref="double[,]"/>.
+        /// The 2d array of doubles with the heat map data.
         /// </returns>
         private static double[,] GetFullHeatmapData(DataReader uimf, int frameNumber)
         {
@@ -154,7 +450,7 @@ namespace UimfDataExtractor
 
             var typeString = frameParams.GetValue(FrameParamKeyType.FrameType);
 
-            if (String.IsNullOrWhiteSpace(typeString))
+            if (string.IsNullOrWhiteSpace(typeString))
             {
                 Console.Error.WriteLine(
                     "ERROR: Had a problem getting the frame type which means we can't get the MZ data");
@@ -192,7 +488,223 @@ namespace UimfDataExtractor
             return uimf.GetFrameScans(frameNumber);
         }
 
-        private static List<KeyValuePair<double, double>> GetXicInfo(DataReader uimf, int frameNumber, double xicMz, double tolerance, bool getMsms)
+        /// <summary>
+        /// The get mz.
+        /// </summary>
+        /// <param name="uimf">
+        /// The uimf.
+        /// </param>
+        /// <param name="originFile">
+        /// The origin file.
+        /// </param>
+        /// <param name="frameNumber">
+        /// The frame number.
+        /// </param>
+        /// <returns>
+        /// A List of Key, Value pairs, key is the m/z and the value is the intesity at that point.
+        /// </returns>
+        // ReSharper disable once UnusedMethodReturnValue.Local
+        private static List<KeyValuePair<double, int>> GetMz(DataReader uimf, FileInfo originFile, int frameNumber)
+        {
+            var mzData = GetFullMzInfo(uimf, frameNumber);
+            if (mzData == null)
+            {
+                Console.Error.WriteLine(
+                    "ERROR: We had a problem getting the data for the MZ of" + Environment.NewLine + " frame "
+                    + frameNumber + " in " + originFile.FullName);
+            }
+            else
+            {
+                var mzOutputFile = DataExporter.GetOutputLocation(originFile, "Mz", frameNumber);
+                DataExporter.OutputMz(mzData, mzOutputFile, options.Verbose);
+                if (options.PeakFind || options.BulkPeakComparison)
+                {
+                    var doubleMzData =
+                        mzData.Select(
+                            keyValuePair => new KeyValuePair<double, double>(keyValuePair.Key, keyValuePair.Value))
+                            .ToList();
+                    var mzpeaks = FindPeaks(doubleMzData);
+
+                    if (options.PeakFind)
+                    {
+                        var mzPeakOutputLocation = DataExporter.GetOutputLocation(
+                            originFile, 
+                            "Mz_Peaks", 
+                            frameNumber, 
+                            "xml");
+                        DataExporter.OutputPeaks(mzpeaks, mzPeakOutputLocation);
+                    }
+
+                    if (options.BulkPeakComparison)
+                    {
+                        foreach (var peak in mzpeaks.Peaks)
+                        {
+                            var temp = new BulkPeakData
+                                           {
+                                               FileName = originFile.Name, 
+                                               FrameNumber = frameNumber, 
+                                               Location = peak.PeakCenter, 
+                                               FullWidthHalfMax = peak.FullWidthHalfMax, 
+                                               ResolvingPower = peak.ResolvingPower
+                                           };
+                            BulkMzPeaks.Add(temp);
+                        }
+                    }
+                }
+            }
+
+            return mzData;
+        }
+
+        /// <summary>
+        /// The get tic function.
+        /// </summary>
+        /// <param name="uimf">
+        /// The uimf.
+        /// </param>
+        /// <param name="originFile">
+        /// The origin file.
+        /// </param>
+        /// <param name="frameNumber">
+        /// The frame number.
+        /// </param>
+        /// <returns>
+        /// The List of ScanInfo.
+        /// </returns>
+        // ReSharper disable once UnusedMethodReturnValue.Local
+        private static List<ScanInfo> GetTiC(DataReader uimf, FileInfo originFile, int frameNumber)
+        {
+            var ticData = GetFullScanInfo(uimf, frameNumber);
+            var ticOutputFile = DataExporter.GetOutputLocation(originFile, "TiC", frameNumber);
+
+            DataExporter.OutputTiCbyTime(ticData, ticOutputFile, options.Verbose);
+
+            if (options.PeakFind || options.BulkPeakComparison)
+            {
+                var doubleTicData =
+                    ticData.Select(scanInfo => new KeyValuePair<double, double>(scanInfo.DriftTime, scanInfo.TIC))
+                        .ToList();
+
+                var ticPeaks = FindPeaks(doubleTicData);
+                if (options.PeakFind)
+                {
+                    var mzPeakOutputLocation = DataExporter.GetOutputLocation(
+                        originFile, 
+                        "TiC_Peaks", 
+                        frameNumber, 
+                        "xml");
+                    DataExporter.OutputPeaks(ticPeaks, mzPeakOutputLocation);
+                }
+
+                if (options.BulkPeakComparison)
+                {
+                    foreach (var peak in ticPeaks.Peaks)
+                    {
+                        var temp = new BulkPeakData
+                                       {
+                                           FileName = originFile.Name, 
+                                           FrameNumber = frameNumber, 
+                                           Location = peak.PeakCenter, 
+                                           FullWidthHalfMax = peak.FullWidthHalfMax, 
+                                           ResolvingPower = peak.ResolvingPower
+                                       };
+                        BulkTicPeaks.Add(temp);
+                    }
+                }
+            }
+
+            return ticData;
+        }
+
+        /// <summary>
+        /// The get xic.
+        /// </summary>
+        /// <param name="uimf">
+        /// The uimf.
+        /// </param>
+        /// <param name="originFile">
+        /// The origin file.
+        /// </param>
+        /// <param name="frameNumber">
+        /// The frame number.
+        /// </param>
+        /// <returns>
+        /// The List of Key Value pairs where the Key is the scan, value is Intensity.
+        /// </returns>
+        // ReSharper disable once UnusedMethodReturnValue.Local
+        private static List<KeyValuePair<double, double>> GetXic(DataReader uimf, FileInfo originFile, int frameNumber)
+        {
+            var xicData = GetXicInfo(uimf, frameNumber, options.GetXiC, options.XicTolerance, options.Getmsms);
+            var xicOutputFile = DataExporter.GetOutputLocation(
+                originFile, 
+                "XiC_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance + "_Frame", 
+                frameNumber);
+
+            if (xicData != null)
+            {
+                DataExporter.OutputXiCbyTime(xicData, xicOutputFile, options.Verbose);
+
+                if (options.PeakFind || options.BulkPeakComparison)
+                {
+                    var xicPeaks = FindPeaks(xicData);
+                    if (options.PeakFind)
+                    {
+                        var xicPeakOutputLocation = DataExporter.GetOutputLocation(
+                            originFile, 
+                            "XiC_Peaks_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance + "_Frame", 
+                            frameNumber, 
+                            "xml");
+                        DataExporter.OutputPeaks(xicPeaks, xicPeakOutputLocation);
+                    }
+
+                    if (options.BulkPeakComparison)
+                    {
+                        foreach (var peak in xicPeaks.Peaks)
+                        {
+                            var temp = new BulkPeakData
+                                           {
+                                               FileName = originFile.Name, 
+                                               FrameNumber = frameNumber, 
+                                               Location = peak.PeakCenter, 
+                                               FullWidthHalfMax = peak.FullWidthHalfMax, 
+                                               ResolvingPower = peak.ResolvingPower
+                                           };
+                            BulkXicPeaks.Add(temp);
+                        }
+                    }
+                }
+            }
+
+            return xicData;
+        }
+
+        /// <summary>
+        /// The get xic info.
+        /// </summary>
+        /// <param name="uimf">
+        /// The uimf.
+        /// </param>
+        /// <param name="frameNumber">
+        /// The frame number.
+        /// </param>
+        /// <param name="xicMz">
+        /// The xic mz.
+        /// </param>
+        /// <param name="tolerance">
+        /// The tolerance.
+        /// </param>
+        /// <param name="getMsms">
+        /// The get msms.
+        /// </param>
+        /// <returns>
+        /// The List of Key Value pairs where the Key is the scan, value is Intensity.
+        /// </returns>
+        private static List<KeyValuePair<double, double>> GetXicInfo(
+            DataReader uimf, 
+            int frameNumber, 
+            double xicMz, 
+            double tolerance, 
+            bool getMsms)
         {
             const DataReader.ToleranceType Tolerance = DataReader.ToleranceType.Thomson;
 
@@ -229,13 +741,14 @@ namespace UimfDataExtractor
                 }
                 catch (Exception)
                 {
-                    Console.Error.WriteLine("Unable to get XiC on second attempt for " + uimf.UimfFilePath + ", we are not trying again.");
+                    Console.Error.WriteLine(
+                        "Unable to get XiC on second attempt for " + uimf.UimfFilePath + ", we are not trying again.");
                     return null;
                 }
             }
 
             var frameData = xic.Where(point => point.ScanLc == frameNumber - 1);
-            
+
             var data = new List<KeyValuePair<double, double>>();
 
             foreach (var intensityPoint in frameData)
@@ -255,210 +768,25 @@ namespace UimfDataExtractor
             var dateString = DateTime.Now.ToString("yyyyMMdd-HHmmss");
             var inputFolder = DataExporter.InputDirectory.Name;
 
-
             if (options.GetMz)
             {
-                DataExporter.OutputBulkMzPeakData(dateString, inputFolder, bulkMzPeaks);
+                DataExporter.OutputBulkMzPeakData(dateString, inputFolder, BulkMzPeaks);
             }
-
 
             if (options.GetTiC)
             {
-                DataExporter.OutputBulkTicPeakData(dateString, inputFolder, bulkTicPeaks);
+                DataExporter.OutputBulkTicPeakData(dateString, inputFolder, BulkTicPeaks);
             }
 
             if (options.GetXiC > 0)
             {
-                DataExporter.OutputBulkXicPeakData(dateString, inputFolder, bulkXicPeaks, options.GetXiC, options.XicTolerance);
+                DataExporter.OutputBulkXicPeakData(
+                    dateString, 
+                    inputFolder, 
+                    BulkXicPeaks, 
+                    options.GetXiC, 
+                    options.XicTolerance);
             }
-        }
-
-        /// <summary>
-        /// Find the peaks in the current data set and adds an annotation point with the resolution to the m/z.
-        /// </summary>
-        /// <param name="dataList">
-        /// The data List.
-        /// </param>
-        /// <returns>
-        /// The <see cref="List{T}"/> of peaks.
-        /// </returns>
-        private static PeakSet FindPeaks(IReadOnlyList<KeyValuePair<double, double>> dataList)
-        {
-            var datapointList = new PeakSet();
-            const int Precision = 100000;
-
-            var peakDetector = new PeakDetector();
-
-            var finderOptions = PeakDetector.GetDefaultSICPeakFinderOptions();
-
-            List<double> smoothedY;
-
-            // Create a new dictionary so we don't modify the original one
-            var tempFrameList = new List<KeyValuePair<int, double>>(dataList.Count);
-
-            // We have to give it integers, but we need the mz, so we will multiply the mz by the precision
-            // and later get the correct value back by dividing it out again
-            for (var i = 0; i < dataList.Count; i++)
-            {
-                tempFrameList.Add(
-                    new KeyValuePair<int, double>((int)(dataList[i].Key * Precision), dataList[i].Value));
-            }
-
-            // I am not sure what this does but in the example exe file that came with the library
-            // they used half of the length of the list in their previous examples and this seems to work
-            var originalpeakLocation = tempFrameList.Count / 2;
-
-            var allPeaks = peakDetector.FindPeaks(
-                finderOptions,
-                tempFrameList.OrderBy(x => x.Key).ToList(),
-                originalpeakLocation,
-                out smoothedY);
-
-            ////var topThreePeaks = allPeaks.OrderByDescending(peak => smoothedY[peak.LocationIndex]).Take(3);
-
-            foreach (var peak in allPeaks)
-            {
-                const double Tolerance = 0.01;
-                var centerPoint = tempFrameList.ElementAt(peak.LocationIndex);
-                var offsetCenter = centerPoint.Key; // + firstpoint.Key; 
-                var intensity = centerPoint.Value;
-                var smoothedPeakIntensity = smoothedY[peak.LocationIndex];
-
-                var realCenter = (double)offsetCenter / Precision;
-                var halfmax = smoothedPeakIntensity / 2.0;
-
-                var currPoint = new KeyValuePair<int, double>(0, 0);
-                var currPointIndex = 0;
-                double leftMidpoint = 0;
-                double rightMidPoint = 0;
-
-                var allPoints = new List<PointInformation>();
-                var leftSidePeaks = new List<KeyValuePair<int, double>>();
-                for (var l = peak.LeftEdge; l < peak.LocationIndex && l < tempFrameList.Count; l++)
-                {
-                    leftSidePeaks.Add(tempFrameList[l]);
-                    allPoints.Add(new PointInformation
-                                      {
-                                          Location = (double)tempFrameList[l].Key / Precision,
-                                          Intensity = tempFrameList[l].Value,
-                                          SmoothedIntensity = smoothedY[l]
-                                      });
-                }
-
-                var rightSidePeaks = new List<KeyValuePair<int, double>>();
-                for (var r = peak.LocationIndex; r < peak.RightEdge && r < tempFrameList.Count; r++)
-                {
-                    rightSidePeaks.Add(tempFrameList[r]);
-                    allPoints.Add(new PointInformation
-                                      {
-                                          Location = (double)tempFrameList[r].Key / Precision,
-                                          Intensity = tempFrameList[r].Value,
-                                          SmoothedIntensity = smoothedY[r]
-                                      });
-                }
-
-                // find the left side half max
-                foreach (var leftSidePeak in leftSidePeaks)
-                {
-                    var prevPoint = currPoint;
-                    currPoint = leftSidePeak;
-                    var prevPointIndex = currPointIndex;
-
-                    currPointIndex = tempFrameList.BinarySearch(
-                        currPoint,
-                        Comparer<KeyValuePair<int, double>>.Create((left, right) => left.Key - right.Key));
-
-                    if (smoothedY[currPointIndex] < halfmax)
-                    {
-                        continue;
-                    }
-
-                    if (Math.Abs(smoothedY[currPointIndex] - halfmax) < Tolerance)
-                    {
-                        leftMidpoint = currPoint.Key;
-                        continue;
-                    }
-
-                    ////var slope = (prevPoint.Key - currPoint.Key) / (prevPoint.Value - currPoint.Value);
-                    double a1 = prevPoint.Key;
-                    double a2 = currPoint.Key;
-                    double c = halfmax;
-                    double b1 = smoothedY[prevPointIndex];
-                    double b2 = smoothedY[currPointIndex];
-
-                    leftMidpoint = a1 + ((a2 - a1) * ((c - b1) / (b2 - b1)));
-                    break;
-                }
-
-                // find the right side of the half max
-                foreach (var rightSidePeak in rightSidePeaks)
-                {
-                    var prevPoint = currPoint;
-                    currPoint = rightSidePeak;
-                    var prevPointIndex = currPointIndex;
-                    currPointIndex = tempFrameList.BinarySearch(
-                        currPoint,
-                        Comparer<KeyValuePair<int, double>>.Create((left, right) => left.Key - right.Key));
-
-                    if (smoothedY[currPointIndex] > halfmax || smoothedY[currPointIndex] < 0)
-                    {
-                        continue;
-                    }
-
-                    if (Math.Abs(smoothedY[currPointIndex] - halfmax) < Tolerance)
-                    {
-                        rightMidPoint = currPoint.Key;
-                        continue;
-                    }
-
-                    ////var slope = (prevPoint.Key - currPoint.Key) / (prevPoint.Value - currPoint.Value);
-                    double a1 = prevPoint.Key;
-                    double a2 = currPoint.Key;
-                    double c = halfmax;
-                    double b1 = smoothedY[prevPointIndex];
-                    double b2 = smoothedY[currPointIndex];
-
-                    rightMidPoint = a1 + ((a2 - a1) * ((c - b1) / (b2 - b1)));
-                    break;
-                }
-
-                var correctedRightMidPoint = rightMidPoint / Precision;
-                var correctedLeftMidPoint = leftMidpoint / Precision;
-                var fullWidthHalfMax = correctedRightMidPoint - correctedLeftMidPoint;
-                var resolution = realCenter / fullWidthHalfMax;
-
-                var temp = new PeakInformation
-                               {
-                                   AreaUnderThePeak = peak.Area,
-                                   FullWidthHalfMax = fullWidthHalfMax,
-                                   Intensity = intensity,
-                                   LeftMidpoint = correctedLeftMidPoint,
-                                   PeakCenter = realCenter,
-                                   RightMidpoint = correctedRightMidPoint,
-                                   ResolvingPower = resolution,
-                                   SmoothedIntensity = smoothedPeakIntensity,
-                                   TotalDataPointSet = allPoints
-                               };
-
-                if (temp.ResolvingPower > 0 && !Double.IsInfinity(temp.ResolvingPower))
-                {
-                    datapointList.Peaks.Add(temp);
-                }
-            }
-
-            return datapointList;
-
-            ////var tempList =
-            ////    datapointList.Where(x => !double.IsInfinity(x.ResolvingPower)).OrderByDescending(x => x.Intensity).Take(10);
-
-            ////// Put the points on the graph
-            ////foreach (var resolutionDatapoint in tempList)
-            ////{
-            ////    var resolutionString = resolutionDatapoint.ResolvingPower.ToString("F1", CultureInfo.InvariantCulture);
-            ////    var annotationText = "Peak Location:" + resolutionDatapoint.PeakCenter + Environment.NewLine + "Intensity:"
-            ////                         + resolutionDatapoint.Intensity + Environment.NewLine + "ResolvingPower:"
-            ////                         + resolutionString;
-            ////}
         }
 
         /// <summary>
@@ -467,6 +795,7 @@ namespace UimfDataExtractor
         /// <param name="fileOrDirectory">
         /// The file or directory.
         /// </param>
+        // ReSharper disable once UnusedMember.Local
         private static void PrintNotFoundError(string fileOrDirectory)
         {
             Console.WriteLine();
@@ -575,155 +904,26 @@ namespace UimfDataExtractor
                 var heatmapOutputFile = DataExporter.GetOutputLocation(originFile, "HeatMap", frameNumber);
                 DataExporter.OutputHeatMap(heatmapData, heatmapOutputFile, options.Verbose);
             }
-            
+
             if (options.GetMz)
             {
-                var mzData = GetMZ(uimf, originFile, frameNumber);
+                GetMz(uimf, originFile, frameNumber);
             }
 
             if (options.GetTiC)
             {
-                var ticData = GetTiC(uimf, originFile, frameNumber);
+                GetTiC(uimf, originFile, frameNumber);
             }
 
             if (options.GetXiC > 0)
             {
-                var xicData = GetXic(uimf, originFile, frameNumber);
+                GetXic(uimf, originFile, frameNumber);
             }
 
             if (options.Verbose)
             {
                 Console.WriteLine("Finished processing Frame " + frameNumber + " of " + originFile.FullName);
             }
-        }
-
-        private static List<KeyValuePair<double, double>> GetXic(DataReader uimf, FileInfo originFile, int frameNumber)
-        {
-            var xicData = GetXicInfo(uimf, frameNumber, options.GetXiC, options.XicTolerance, options.Getmsms);
-            var xicOutputFile = DataExporter.GetOutputLocation(
-                originFile,
-                "XiC_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance + "_Frame",
-                frameNumber);
-
-            if (xicData != null)
-            {
-                DataExporter.OutputXiCbyTime(xicData, xicOutputFile, options.Verbose);
-
-                if (options.PeakFind || options.BulkPeakComparison)
-                {
-                    var xicPeaks = FindPeaks(xicData);
-                    if (options.PeakFind)
-                    {
-                        var xicPeakOutputLocation = DataExporter.GetOutputLocation(
-                            originFile,
-                            "XiC_Peaks_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance + "_Frame",
-                            frameNumber,
-                            "xml");
-                        DataExporter.OutputPeaks(xicPeaks, xicPeakOutputLocation);
-                    }
-
-                    if (options.BulkPeakComparison)
-                    {
-                        foreach (var peak in xicPeaks.Peaks)
-                        {
-                            var temp = new BulkPeakData
-                                           {
-                                               FileName = originFile.Name,
-                                               FrameNumber = frameNumber,
-                                               Location = peak.PeakCenter,
-                                               FullWidthHalfMax = peak.FullWidthHalfMax,
-                                               ResolvingPower = peak.ResolvingPower
-                                           };
-                            bulkXicPeaks.Add(temp);
-                        }
-                    }
-                }
-            }
-            return xicData;
-        }
-
-        private static List<KeyValuePair<double, int>> GetMZ(DataReader uimf, FileInfo originFile, int frameNumber)
-        {
-            var mzData = GetFullMzInfo(uimf, frameNumber);
-            if (mzData == null)
-            {
-                Console.Error.WriteLine(
-                    "ERROR: We had a problem getting the data for the MZ of" + Environment.NewLine + " frame " + frameNumber
-                    + " in " + originFile.FullName);
-            }
-            else
-            {
-                var mzOutputFile = DataExporter.GetOutputLocation(originFile, "Mz", frameNumber);
-                DataExporter.OutputMz(mzData, mzOutputFile, options.Verbose);
-                if (options.PeakFind || options.BulkPeakComparison)
-                {
-                    var doubleMzData =
-                        mzData.Select(keyValuePair => new KeyValuePair<double, double>(keyValuePair.Key, keyValuePair.Value))
-                            .ToList();
-                    var mzpeaks = FindPeaks(doubleMzData);
-
-                    if (options.PeakFind)
-                    {
-                        var mzPeakOutputLocation = DataExporter.GetOutputLocation(originFile, "Mz_Peaks", frameNumber, "xml");
-                        DataExporter.OutputPeaks(mzpeaks, mzPeakOutputLocation);
-                    }
-
-                    if (options.BulkPeakComparison)
-                    {
-                        foreach (var peak in mzpeaks.Peaks)
-                        {
-                            var temp = new BulkPeakData
-                                           {
-                                               FileName = originFile.Name,
-                                               FrameNumber = frameNumber,
-                                               Location = peak.PeakCenter,
-                                               FullWidthHalfMax = peak.FullWidthHalfMax,
-                                               ResolvingPower = peak.ResolvingPower
-                                           };
-                            bulkMzPeaks.Add(temp);
-                        }
-                    }
-                }
-            }
-            return mzData;
-        }
-
-        private static List<ScanInfo> GetTiC(DataReader uimf, FileInfo originFile, int frameNumber)
-        {
-            var ticData = GetFullScanInfo(uimf, frameNumber);
-            var ticOutputFile = DataExporter.GetOutputLocation(originFile, "TiC", frameNumber);
-
-            DataExporter.OutputTiCbyTime(ticData, ticOutputFile, options.Verbose);
-
-            if (options.PeakFind || options.BulkPeakComparison)
-            {
-                var doubleTicData =
-                    ticData.Select(scanInfo => new KeyValuePair<double, double>(scanInfo.DriftTime, scanInfo.TIC)).ToList();
-
-                var ticPeaks = FindPeaks(doubleTicData);
-                if (options.PeakFind)
-                {
-                    var mzPeakOutputLocation = DataExporter.GetOutputLocation(originFile, "TiC_Peaks", frameNumber, "xml");
-                    DataExporter.OutputPeaks(ticPeaks, mzPeakOutputLocation);
-                }
-
-                if (options.BulkPeakComparison)
-                {
-                    foreach (var peak in ticPeaks.Peaks)
-                    {
-                        var temp = new BulkPeakData
-                                       {
-                                           FileName = originFile.Name,
-                                           FrameNumber = frameNumber,
-                                           Location = peak.PeakCenter,
-                                           FullWidthHalfMax = peak.FullWidthHalfMax,
-                                           ResolvingPower = peak.ResolvingPower
-                                       };
-                        bulkTicPeaks.Add(temp);
-                    }
-                }
-            }
-            return ticData;
         }
 
         /// <summary>
@@ -760,49 +960,11 @@ namespace UimfDataExtractor
                 {
                     ProcessFrame(uimfReader, file);
                 }
-
             }
 
             Console.WriteLine("Finished processing " + file.FullName);
         }
 
-        public static void ExtractData()
-        {
-            DataExporter.InputDirectory = new DirectoryInfo(Options.InputPath);
-
-            DataExporter.OutputDirectory = String.IsNullOrWhiteSpace(Options.OutputPath)
-                                               ? DataExporter.InputDirectory
-                                               : new DirectoryInfo(Options.OutputPath);
-
-            BulkMzPeaks = new ConcurrentBag<BulkPeakData>();
-            BulkTicPeaks = new ConcurrentBag<BulkPeakData>();
-            BulkXicPeaks = new ConcurrentBag<BulkPeakData>();
-
-            if (Options.Verbose)
-            {
-                Console.WriteLine("Verbose Active");
-                Console.WriteLine("Input Directory: " + DataExporter.InputDirectory.FullName);
-                Console.WriteLine("Output Directory: " + DataExporter.OutputDirectory.FullName);
-                Console.WriteLine("Run Recursively?: " + Options.Recursive);
-                Console.WriteLine("Process All Frames in File?: " + Options.AllFrames);
-            }
-
-            if (Options.Recursive)
-            {
-                ProcessAllUimfInDirectoryRecursive(DataExporter.InputDirectory);
-            }
-            else
-            {
-                ProcessAllUimfInDirectory(DataExporter.InputDirectory);
-            }
-
-            if (Options.BulkPeakComparison)
-            {
-                OutputBulkPeaks();
-            }
-
-            Console.WriteLine();
-            Console.WriteLine("All done.");
-        }
+        #endregion
     }
 }

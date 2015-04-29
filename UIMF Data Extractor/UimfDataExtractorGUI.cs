@@ -1,29 +1,86 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UimfDataExtractorGUI.cs" company="Pacific Northwest National Laboratory">
+//   The MIT License (MIT)
+//   
+//   Copyright (c) 2015 Pacific Northwest National Laboratory
+//   
+//   Permission is hereby granted, free of charge, to any person obtaining a copy
+//   of this software and associated documentation files (the "Software"), to deal
+//   in the Software without restriction, including without limitation the rights
+//   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//   copies of the Software, and to permit persons to whom the Software is
+//   furnished to do so, subject to the following conditions:
+//   
+//   The above copyright notice and this permission notice shall be included in
+//   all copies or substantial portions of the Software.
+//   
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//   THE SOFTWARE.
+// </copyright>
+// <summary>
+//   The uimf data extractor gui code behind.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace UimfDataExtractor
 {
-    public partial class UimfDataExtractorGUI : Form
-    {
-        private bool xicEnabled = false;
+    using System;
+    using System.Threading.Tasks;
+    using System.Windows.Forms;
 
+    /// <summary>
+    /// The uimf data extractor gui codebehind.
+    /// </summary>
+    public partial class UimfDataExtractorGui : Form
+    {
+        #region Fields
+
+        /// <summary>
+        /// The input directory.
+        /// </summary>
         private string inputDirectory;
 
+        /// <summary>
+        /// The output directory.
+        /// </summary>
         private string outputDirectory;
 
-        public UimfDataExtractorGUI()
+        /// <summary>
+        /// The xic enabled.
+        /// </summary>
+        private bool xicEnabled;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UimfDataExtractorGui"/> class.
+        /// </summary>
+        public UimfDataExtractorGui()
         {
             this.InitializeComponent();
         }
 
-        private void Extract_Click(object sender, EventArgs e)
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The extract click event.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void ExtractClick(object sender, EventArgs e)
         {
             this.Enabled = false;
 
@@ -31,26 +88,26 @@ namespace UimfDataExtractor
                 () =>
                     {
                         MessageBox.Show(
-                            "Work started, controls will be re-enabled when complete.  See console for more details.",
-                            "Extraction Started",
-                            MessageBoxButtons.OK,
+                            "Work started, controls will be re-enabled when complete.  See console for more details.", 
+                            "Extraction Started", 
+                            MessageBoxButtons.OK, 
                             MessageBoxIcon.Information);
                     });
 
             UimfProcessor.Options = new CommandLineOptions
                                         {
-                                            InputPath = this.inputDirectory,
-                                            OutputPath = this.outputDirectory,
-                                            AllFrames = this.AllFrames.Checked,
-                                            BulkPeakComparison = this.BulkPeakComparison.Checked,
-                                            GetHeatmap = this.GetHeatMap.Checked,
-                                            GetMz = this.GetMz.Checked,
-                                            GetTiC = this.GetTic.Checked,
-                                            GetXiC = (double)this.XicCenter.Value,
-                                            XicTolerance = (double)this.XicTolerance.Value,
-                                            Getmsms = this.Getmsms.Checked,
-                                            PeakFind = this.PeakFind.Checked,
-                                            Recursive = this.Recursive.Checked,
+                                            InputPath = this.inputDirectory, 
+                                            OutputPath = this.outputDirectory, 
+                                            AllFrames = this.AllFrames.Checked, 
+                                            BulkPeakComparison = this.BulkPeakComparison.Checked, 
+                                            GetHeatmap = this.GetHeatMap.Checked, 
+                                            GetMz = this.GetMz.Checked, 
+                                            GetTiC = this.GetTic.Checked, 
+                                            GetXiC = (double)this.XicCenter.Value, 
+                                            XicTolerance = (double)this.XicTolerance.Value, 
+                                            Getmsms = this.Getmsms.Checked, 
+                                            PeakFind = this.PeakFind.Checked, 
+                                            Recursive = this.Recursive.Checked, 
                                             Verbose = true
                                         };
 
@@ -59,14 +116,32 @@ namespace UimfDataExtractor
             this.Enabled = true;
         }
 
-        private void GetXic_CheckedChanged(object sender, EventArgs e)
+        /// <summary>
+        /// The get xic checkbox changed event.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void GetXicCheckedChanged(object sender, EventArgs e)
         {
             this.xicEnabled = this.GetXic.Checked;
 
             this.XicSettingsGoupBox.Enabled = this.xicEnabled;
         }
 
-        private void SetInputDirectory_Click(object sender, EventArgs e)
+        /// <summary>
+        /// The set input directory click event.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void SetInputDirectoryClick(object sender, EventArgs e)
         {
             var dialog = new FolderBrowserDialog();
 
@@ -82,7 +157,16 @@ namespace UimfDataExtractor
             this.InputDirectoryLabel.Text = this.inputDirectory;
         }
 
-        private void SetOutputDirectory_Click(object sender, EventArgs e)
+        /// <summary>
+        /// The set output directory click event.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void SetOutputDirectoryClick(object sender, EventArgs e)
         {
             var dialog = new FolderBrowserDialog();
 
@@ -94,5 +178,7 @@ namespace UimfDataExtractor
             this.outputDirectory = dialog.SelectedPath;
             this.OutputDirectoryLabel.Text = this.outputDirectory;
         }
+
+        #endregion
     }
 }
