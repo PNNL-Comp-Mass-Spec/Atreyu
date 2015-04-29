@@ -1,8 +1,12 @@
 var searchData=
 [
-  ['logarithmicgate',['logarithmicGate',['../class_atreyu_1_1_view_models_1_1_gate_slider_view_model.html#a63c664af2b6c93eb7ba000b302dea4b3',1,'Atreyu::ViewModels::GateSliderViewModel']]],
-  ['logmode',['logMode',['../class_atreyu_1_1_view_models_1_1_gate_slider_view_model.html#a8cfd31e4b05d99f54357c0b3133f6928',1,'Atreyu::ViewModels::GateSliderViewModel']]],
-  ['lowgate',['lowGate',['../class_atreyu_1_1_models_1_1_uimf_data.html#a9124fd485fce9319857441e56eeefb3e',1,'Atreyu::Models::UimfData']]],
-  ['lowsliderview',['lowSliderView',['../class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a8853aab884ebd877d9e73c9c1816a5c1',1,'Atreyu::Views::CombinedHeatmapView']]],
-  ['lowthreshold',['lowThreshold',['../class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a633809efc2402cf9b5d6d1b4538afbfb',1,'Atreyu::ViewModels::HeatMapViewModel']]]
+  ['header',['header',['../resize_8js.html#af920c2a7d4f4b5a962fe8e11257f871d',1,'resize.js']]],
+  ['heatmapdata',['heatMapData',['../class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a474f0a33858c9b8eb360028953693a6c',1,'Atreyu::ViewModels::HeatMapViewModel']]],
+  ['heatmapplotmodel',['heatMapPlotModel',['../class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a83422a92927aed5014387a095b98aae5',1,'Atreyu::ViewModels::HeatMapViewModel']]],
+  ['heatmapregion',['HeatMapRegion',['../class_atreyu_1_1_region_names.html#a211c8ac7cd10aa31b1d928da3d6cc89f',1,'Atreyu::RegionNames']]],
+  ['heatmapview',['heatMapView',['../class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a7d80096df41363abf595d5c2dec68769',1,'Atreyu::Views::CombinedHeatmapView']]],
+  ['height',['height',['../class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a1136828c4305cdd984af85d5b18cc76d',1,'Atreyu.ViewModels.CombinedHeatmapViewModel.height()'],['../class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a7d0026897a88e3a92815d9b15f28a484',1,'Atreyu.ViewModels.HeatMapViewModel.height()']]],
+  ['hierarchy',['hierarchy',['../hierarchy_8js.html#ad9447ad30669c42ccb861cbe36a18f6b',1,'hierarchy.js']]],
+  ['highgate',['highGate',['../class_atreyu_1_1_models_1_1_uimf_data.html#a9678f75a79bd8562dab1382d63099e25',1,'Atreyu::Models::UimfData']]],
+  ['highthreshold',['highThreshold',['../class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#af82f23e23dc2277140085eb1f711daa3',1,'Atreyu::ViewModels::HeatMapViewModel']]]
 ];

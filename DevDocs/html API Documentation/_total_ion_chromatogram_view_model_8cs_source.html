@@ -31,9 +31,9 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Atreyu
-   &#160;<span id="projectnumber">1.5</span>
+   &#160;<span id="projectnumber">1.7</span>
    </div>
-   <div id="projectbrief">A light-weight viewer for Unified Ion Mobility Files</div>
+   <div id="projectbrief">A light-weight Ion mobility mass spectrometry data viewer and extractor, targeted toward PNNL&#39;s UIMF files</div>
   </td>
  </tr>
  </tbody>
@@ -72,6 +72,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -267,7 +268,7 @@ $(document).ready(function(){initNavTree('_total_ion_chromatogram_view_model_8cs
 <div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;            series.BrokenLineStyle = LineStyle.Dot;</div>
 <div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;            series.BrokenLineThickness = 1;</div>
 <div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;            series.Points.Clear();</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            <span class="keywordflow">foreach</span> (var d <span class="keywordflow">in</span> this.frameDictionary)</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            <span class="keywordflow">foreach</span> (var <a class="code" href="jquery_8js.html#a36541169dfff685f807208881a4f0021">d</a> <span class="keywordflow">in</span> this.frameDictionary)</div>
 <div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            {</div>
 <div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;                series.Points.Add(<span class="keyword">new</span> DataPoint(d.Key, d.Value));</div>
 <div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                series.Points.Add(<span class="keyword">new</span> DataPoint(<span class="keywordtype">double</span>.NaN, <span class="keywordtype">double</span>.NaN));</div>
@@ -346,7 +347,7 @@ $(document).ready(function(){initNavTree('_total_ion_chromatogram_view_model_8cs
 <div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;            <span class="comment">// The idea behind this is to always give the key of the mid point of the list, but this causes the finder to blow up.</span></div>
 <div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;<span class="comment"></span>            var peaks = peakDetector.FindPeaks(</div>
 <div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;                finderOptions, </div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;                tempFrameDict.OrderBy(x =&gt; x.Key).ToList(), </div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;                tempFrameDict.OrderBy(<a class="code" href="jquery_8js.html#a4c3eadaa5164016d2c340d495fc6e55e">x</a> =&gt; x.Key).ToList(), </div>
 <div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;                originalpeakLocation, </div>
 <div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;                out smoothedY);</div>
 <div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;</div>
@@ -362,7 +363,7 @@ $(document).ready(function(){initNavTree('_total_ion_chromatogram_view_model_8cs
 <div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;</div>
 <div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;                var halfmax = intensity / 2.0;</div>
 <div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;                var peakDataset = tempFrameDict.Where(x =&gt; x.Key &gt;= peak.LeftEdge &amp;&amp; x.Key &lt;= peak.RightEdge).ToList();</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;                var peakDataset = tempFrameDict.Where(<a class="code" href="jquery_8js.html#a4c3eadaa5164016d2c340d495fc6e55e">x</a> =&gt; x.Key &gt;= peak.LeftEdge &amp;&amp; x.Key &lt;= peak.RightEdge).ToList();</div>
 <div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;</div>
 <div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;                <span class="comment">// find the left mid point</span></div>
 <div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;                var currPoint = <span class="keyword">new</span> KeyValuePair&lt;int, double&gt;(0, 0);</div>
@@ -389,7 +390,7 @@ $(document).ready(function(){initNavTree('_total_ion_chromatogram_view_model_8cs
 <div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;</div>
 <div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;                        <span class="keywordtype">double</span> a1 = prevPoint.Key;</div>
 <div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;                        <span class="keywordtype">double</span> a2 = currPoint.Key;</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;                        <span class="keywordtype">double</span> c = halfmax;</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;                        <span class="keywordtype">double</span> <a class="code" href="jquery_8js.html#ad9d1ac02e33c4aed62ad517a7cb8b3fb">c</a> = halfmax;</div>
 <div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;                        <span class="keywordtype">double</span> b1 = smoothedY[prevPoint.Key];</div>
 <div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;                        <span class="keywordtype">double</span> b2 = smoothedY[currPoint.Key];</div>
 <div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;</div>
@@ -412,7 +413,7 @@ $(document).ready(function(){initNavTree('_total_ion_chromatogram_view_model_8cs
 <div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;</div>
 <div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;                        <span class="keywordtype">double</span> a1 = prevPoint.Key;</div>
 <div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;                        <span class="keywordtype">double</span> a2 = currPoint.Key;</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;                        <span class="keywordtype">double</span> c = halfmax;</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;                        <span class="keywordtype">double</span> <a class="code" href="jquery_8js.html#ad9d1ac02e33c4aed62ad517a7cb8b3fb">c</a> = halfmax;</div>
 <div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;                        <span class="keywordtype">double</span> b1 = smoothedY[prevPoint.Key];</div>
 <div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;                        <span class="keywordtype">double</span> b2 = smoothedY[currPoint.Key];</div>
 <div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;</div>
@@ -470,9 +471,11 @@ $(document).ready(function(){initNavTree('_total_ion_chromatogram_view_model_8cs
 <div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;    }</div>
 <div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;}</div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model_html_a5ba5343d7b409a2b470e26cdd0d4253d"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#a5ba5343d7b409a2b470e26cdd0d4253d">Atreyu.ViewModels.TotalIonChromatogramViewModel.endScan</a></div><div class="ttdeci">int endScan</div><div class="ttdef"><b>Definition:</b> <a href="_total_ion_chromatogram_view_model_8cs_source.html#l00046">TotalIonChromatogramViewModel.cs:46</a></div></div>
+<div class="ttc" id="jquery_8js_html_ad9d1ac02e33c4aed62ad517a7cb8b3fb"><div class="ttname"><a href="jquery_8js.html#ad9d1ac02e33c4aed62ad517a7cb8b3fb">c</a></div><div class="ttdeci">var c</div><div class="ttdef"><b>Definition:</b> <a href="jquery_8js_source.html#l00029">jquery.js:29</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model_html_adcabb3ef23a6de939e3478ea1e9b0826"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#adcabb3ef23a6de939e3478ea1e9b0826">Atreyu.ViewModels.TotalIonChromatogramViewModel.TotalIonChromatogramViewModel</a></div><div class="ttdeci">TotalIonChromatogramViewModel()</div><div class="ttdoc">Initializes a new instance of the TotalIonChromatogramViewModel class. </div><div class="ttdef"><b>Definition:</b> <a href="_total_ion_chromatogram_view_model_8cs_source.html#l00081">TotalIonChromatogramViewModel.cs:81</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model_html"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html">Atreyu.ViewModels.TotalIonChromatogramViewModel</a></div><div class="ttdef"><b>Definition:</b> <a href="_total_ion_chromatogram_view_model_8cs_source.html#l00039">TotalIonChromatogramViewModel.cs:39</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html">Atreyu.Models.UimfData</a></div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00022">UimfData.cs:22</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html">Atreyu.Models.UimfData</a></div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00023">UimfData.cs:23</a></div></div>
+<div class="ttc" id="jquery_8js_html_a4c3eadaa5164016d2c340d495fc6e55e"><div class="ttname"><a href="jquery_8js.html#a4c3eadaa5164016d2c340d495fc6e55e">x</a></div><div class="ttdeci">function x(bx)</div><div class="ttdef"><b>Definition:</b> <a href="jquery_8js_source.html#l00030">jquery.js:30</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model_html_aae6de08a6223e6faacecadb46d9c1c70"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#aae6de08a6223e6faacecadb46d9c1c70">Atreyu.ViewModels.TotalIonChromatogramViewModel.FindPeaks</a></div><div class="ttdeci">void FindPeaks()</div><div class="ttdoc">Find the peaks in the current data set and adds an annotation point with the resolution to the TIC...</div><div class="ttdef"><b>Definition:</b> <a href="_total_ion_chromatogram_view_model_8cs_source.html#l00278">TotalIonChromatogramViewModel.cs:278</a></div></div>
 <div class="ttc" id="namespace_atreyu_1_1_view_models_html_ad71e924fba6107c4e8d525530b4f21df"><div class="ttname"><a href="namespace_atreyu_1_1_view_models.html#ad71e924fba6107c4e8d525530b4f21df">Atreyu.ViewModels.LinearAxis</a></div><div class="ttdeci">OxyPlot.Axes.LinearAxis LinearAxis</div><div class="ttdef"><b>Definition:</b> <a href="_heat_map_view_model_8cs_source.html#l00024">HeatMapViewModel.cs:24</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model_html_acb70cfca177b5f6d5446d35a0af49f60"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#acb70cfca177b5f6d5446d35a0af49f60">Atreyu.ViewModels.TotalIonChromatogramViewModel.GetTicData</a></div><div class="ttdeci">IDictionary&lt; int, double &gt; GetTicData()</div><div class="ttdef"><b>Definition:</b> <a href="_total_ion_chromatogram_view_model_8cs_source.html#l00137">TotalIonChromatogramViewModel.cs:137</a></div></div>
@@ -484,6 +487,7 @@ $(document).ready(function(){initNavTree('_total_ion_chromatogram_view_model_8cs
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model_html_ad0da4f7f38427b5418330ca8d451ff1c"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#ad0da4f7f38427b5418330ca8d451ff1c">Atreyu.ViewModels.TotalIonChromatogramViewModel.UpdateReference</a></div><div class="ttdeci">void UpdateReference(UimfData uimfDataNew)</div><div class="ttdef"><b>Definition:</b> <a href="_total_ion_chromatogram_view_model_8cs_source.html#l00234">TotalIonChromatogramViewModel.cs:234</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model_html_ab17296f69c8c0782887d9d73bbf87c8c"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#ab17296f69c8c0782887d9d73bbf87c8c">Atreyu.ViewModels.TotalIonChromatogramViewModel.frameDictionary</a></div><div class="ttdeci">Dictionary&lt; int, double &gt; frameDictionary</div><div class="ttdef"><b>Definition:</b> <a href="_total_ion_chromatogram_view_model_8cs_source.html#l00056">TotalIonChromatogramViewModel.cs:56</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model_html_a2a8055648a857ead7391b5367ed2a4ca"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#a2a8055648a857ead7391b5367ed2a4ca">Atreyu.ViewModels.TotalIonChromatogramViewModel.ChangeEndScan</a></div><div class="ttdeci">void ChangeEndScan(int value)</div><div class="ttdef"><b>Definition:</b> <a href="_total_ion_chromatogram_view_model_8cs_source.html#l00115">TotalIonChromatogramViewModel.cs:115</a></div></div>
+<div class="ttc" id="jquery_8js_html_a36541169dfff685f807208881a4f0021"><div class="ttname"><a href="jquery_8js.html#a36541169dfff685f807208881a4f0021">d</a></div><div class="ttdeci">function d</div><div class="ttdef"><b>Definition:</b> <a href="jquery_8js_source.html#l00041">jquery.js:41</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model_html_ae3ee3688d53b47187d7816c694f5dba4"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#ae3ee3688d53b47187d7816c694f5dba4">Atreyu.ViewModels.TotalIonChromatogramViewModel.ticPlotModel</a></div><div class="ttdeci">PlotModel ticPlotModel</div><div class="ttdef"><b>Definition:</b> <a href="_total_ion_chromatogram_view_model_8cs_source.html#l00066">TotalIonChromatogramViewModel.cs:66</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model_html_a527626b1b8a9a75ba1e45f3dc8548c61"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#a527626b1b8a9a75ba1e45f3dc8548c61">Atreyu.ViewModels.TotalIonChromatogramViewModel.frameData</a></div><div class="ttdeci">double[,] frameData</div><div class="ttdef"><b>Definition:</b> <a href="_total_ion_chromatogram_view_model_8cs_source.html#l00051">TotalIonChromatogramViewModel.cs:51</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model_html_a755b36b6065a7b6a73d0b273ead163fe"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#a755b36b6065a7b6a73d0b273ead163fe">Atreyu.ViewModels.TotalIonChromatogramViewModel.startScan</a></div><div class="ttdeci">int startScan</div><div class="ttdef"><b>Definition:</b> <a href="_total_ion_chromatogram_view_model_8cs_source.html#l00061">TotalIonChromatogramViewModel.cs:61</a></div></div>
@@ -494,7 +498,7 @@ $(document).ready(function(){initNavTree('_total_ion_chromatogram_view_model_8cs
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_26a57642325f3c609088cb4d72030692.html">Falkor</a></li><li class="navelem"><a class="el" href="dir_0cff26dc86242075b1285ba559db1a0a.html">Atreyu</a></li><li class="navelem"><a class="el" href="dir_a88288ddc9c67d13cd9fe3a9677c8fa0.html">Atreyu</a></li><li class="navelem"><a class="el" href="dir_34be38119970c3471e21918ca45266c2.html">ViewModels</a></li><li class="navelem"><a class="el" href="_total_ion_chromatogram_view_model_8cs.html">TotalIonChromatogramViewModel.cs</a></li>
-    <li class="footer">Generated on Mon Mar 16 2015 16:31:36 for Atreyu by
+    <li class="footer">Generated on Wed Apr 29 2015 12:52:00 for Atreyu by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
   </ul>

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['scanrange_2ecs',['ScanRange.cs',['../_scan_range_8cs.html',1,'']]],
-  ['settings_2edesigner_2ecs',['Settings.Designer.cs',['../_settings_8_designer_8cs.html',1,'']]]
+  ['jquery_2ejs',['jquery.js',['../jquery_8js.html',1,'']]]
 ];

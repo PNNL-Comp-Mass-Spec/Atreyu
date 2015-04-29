@@ -1,8 +1,5 @@
 var searchData=
 [
-  ['endframetextboxtextchanged',['EndFrameTextBoxTextChanged',['../class_atreyu_1_1_views_1_1_frame_manipulation_view.html#aafa40cfa2320c5251e33f9062a184f3d',1,'Atreyu::Views::FrameManipulationView']]],
-  ['equals',['Equals',['../class_atreyu_1_1_models_1_1_bin_range.html#af4dfe7c2499b2dae01293c9f7d400afe',1,'Atreyu.Models.BinRange.Equals(object obj)'],['../class_atreyu_1_1_models_1_1_bin_range.html#ab62c28daaf6c412f12ed5e388364a2ae',1,'Atreyu.Models.BinRange.Equals(BinRange other)'],['../class_atreyu_1_1_models_1_1_bin_range.html#a6f4bf6d197c700378a3fd88de9316f02',1,'Atreyu.Models.BinRange.Equals(BinRange other)'],['../class_atreyu_1_1_models_1_1_frame_range.html#a9f52c5c0098ee8c01ef75907cf97fdcc',1,'Atreyu.Models.FrameRange.Equals()'],['../class_atreyu_1_1_models_1_1_scan_range.html#aeaf4419f122c4eb734ce463c121ac952',1,'Atreyu.Models.ScanRange.Equals()']]],
-  ['exportheatmapdatacompressed',['ExportHeatmapDataCompressed',['../class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a2e64d3410041d16f6a0d3a53b45f9070',1,'Atreyu::ViewModels::CombinedHeatmapViewModel']]],
-  ['exportmzdatacompressed',['ExportMzDataCompressed',['../class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#ab6fb2ef2ea28844eeef6a08f4d226cbd',1,'Atreyu::ViewModels::CombinedHeatmapViewModel']]],
-  ['exportticdatacompressed',['ExportTicDataCompressed',['../class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a498104fb7aab905cdab32090e25450b6',1,'Atreyu::ViewModels::CombinedHeatmapViewModel']]]
+  ['deletelink',['deleteLink',['../navtree_8js.html#abdf8e0e69c89803c1b84784a13b7fd2e',1,'navtree.js']]],
+  ['dispose',['Dispose',['../class_atreyu_1_1_models_1_1_uimf_data.html#a12804b71c50d51fe9103c9d37343a516',1,'Atreyu.Models.UimfData.Dispose()'],['../class_atreyu_1_1_models_1_1_uimf_data.html#a2feda5fcb1f87ce23de9bdda223ca129',1,'Atreyu.Models.UimfData.Dispose(bool disposing)'],['../class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#ac3971fdbea8615d7563beaadc593c0f4',1,'UimfDataExtractor.UimfDataExtractorGui.Dispose()']]]
 ];

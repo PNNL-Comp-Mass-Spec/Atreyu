@@ -31,9 +31,9 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Atreyu
-   &#160;<span id="projectnumber">1.5</span>
+   &#160;<span id="projectnumber">1.7</span>
    </div>
-   <div id="projectbrief">A light-weight viewer for Unified Ion Mobility Files</div>
+   <div id="projectbrief">A light-weight Ion mobility mass spectrometry data viewer and extractor, targeted toward PNNL&#39;s UIMF files</div>
   </td>
  </tr>
  </tbody>
@@ -178,14 +178,14 @@ Properties</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_heat_map_view_8xaml_8cs_source.html#l00034">34</a> of file <a class="el" href="_heat_map_view_8xaml_8cs_source.html">HeatMapView.xaml.cs</a>.</p>
 
-<p>References <a class="el" href="_heat_map_view_model_8cs_source.html#l00331">Atreyu.ViewModels.HeatMapViewModel.Width</a>.</p>
+<p>References <a class="el" href="_heat_map_view_model_8cs_source.html#l00331">Atreyu.ViewModels.HeatMapViewModel.Width</a>, and <a class="el" href="jquery_8js_source.html#l00030">x()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        {</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            this.ViewModel = viewModel;</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            this.DataContext = this.ViewModel;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            this.InitializeComponent();</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            <span class="comment">// x and y are magically is assigned &quot;this&quot; via extension methods</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            this.WhenAnyValue(x =&gt; x.ActualHeight, y =&gt; y.ActualWidth)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            this.WhenAnyValue(<a class="code" href="jquery_8js.html#a4c3eadaa5164016d2c340d495fc6e55e">x</a> =&gt; x.ActualHeight, y =&gt; y.ActualWidth)</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                .Throttle(TimeSpan.FromMilliseconds(200))</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                .Subscribe(</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                    z =&gt;</div>
@@ -194,7 +194,17 @@ Properties</h2></td></tr>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                            viewModel.Width = (<span class="keywordtype">int</span>)z.Item2;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                        });</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        }</div>
+<div class="ttc" id="jquery_8js_html_a4c3eadaa5164016d2c340d495fc6e55e"><div class="ttname"><a href="jquery_8js.html#a4c3eadaa5164016d2c340d495fc6e55e">x</a></div><div class="ttdeci">function x(bx)</div><div class="ttdef"><b>Definition:</b> <a href="jquery_8js_source.html#l00030">jquery.js:30</a></div></div>
 </div><!-- fragment -->
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_atreyu_1_1_views_1_1_heat_map_view_ad7b57ab8d59502e3479ef0161d18a992_cgraph.png" border="0" usemap="#class_atreyu_1_1_views_1_1_heat_map_view_ad7b57ab8d59502e3479ef0161d18a992_cgraph" alt=""/></div>
+<map name="class_atreyu_1_1_views_1_1_heat_map_view_ad7b57ab8d59502e3479ef0161d18a992_cgraph" id="class_atreyu_1_1_views_1_1_heat_map_view_ad7b57ab8d59502e3479ef0161d18a992_cgraph">
+<area shape="rect" id="node2" href="jquery_8js.html#a4c3eadaa5164016d2c340d495fc6e55e" title="x" alt="" coords="240,13,279,39"/></map>
+</div>
+</p>
+
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
@@ -255,7 +265,7 @@ Properties</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespace_atreyu.html">Atreyu</a></li><li class="navelem"><a class="el" href="namespace_atreyu_1_1_views.html">Views</a></li><li class="navelem"><a class="el" href="class_atreyu_1_1_views_1_1_heat_map_view.html">HeatMapView</a></li>
-    <li class="footer">Generated on Mon Mar 16 2015 16:31:37 for Atreyu by
+    <li class="footer">Generated on Wed Apr 29 2015 12:52:12 for Atreyu by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
   </ul>

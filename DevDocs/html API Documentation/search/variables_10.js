@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['width',['width',['../class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aad956536aff88dabe0eef949d0e4bc43',1,'Atreyu.ViewModels.CombinedHeatmapViewModel.width()'],['../class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#abc69c115a752176792084b0c8dc26408',1,'Atreyu.ViewModels.HeatMapViewModel.width()']]]
+  ['peakfind',['PeakFind',['../class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#a8b1ca14a5666c51d05f55c6c9009f3da',1,'UimfDataExtractor::UimfDataExtractorGui']]],
+  ['prototype',['prototype',['../jquery_8js.html#a27300e4442d1d6583d40af9f4aba4716',1,'jquery.js']]]
 ];

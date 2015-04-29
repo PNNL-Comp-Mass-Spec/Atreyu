@@ -6,6 +6,7 @@ var class_atreyu_1_1_models_1_1_uimf_data =
     [ "Dispose", "class_atreyu_1_1_models_1_1_uimf_data.html#a2feda5fcb1f87ce23de9bdda223ca129", null ],
     [ "GateData", "class_atreyu_1_1_models_1_1_uimf_data.html#a424a9ce357b24cb132a0c956804ffa50", null ],
     [ "GetFrameType", "class_atreyu_1_1_models_1_1_uimf_data.html#adbff3dfd17b2c1eacecbe72d5c894dcd", null ],
+    [ "GetFullScanInfo", "class_atreyu_1_1_models_1_1_uimf_data.html#a55eaac3f16736537e016f4e6bf88b2a7", null ],
     [ "ProcessData", "class_atreyu_1_1_models_1_1_uimf_data.html#a963e48c3079d2840a905fa5521476b71", null ],
     [ "ReadData", "class_atreyu_1_1_models_1_1_uimf_data.html#a75574998982680b1453586cca2f9f982", null ],
     [ "ReadData", "class_atreyu_1_1_models_1_1_uimf_data.html#a3f68a36874695ade301f7615a6e92e5b", null ],

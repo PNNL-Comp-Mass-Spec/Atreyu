@@ -31,9 +31,9 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Atreyu
-   &#160;<span id="projectnumber">1.5</span>
+   &#160;<span id="projectnumber">1.7</span>
    </div>
-   <div id="projectbrief">A light-weight viewer for Unified Ion Mobility Files</div>
+   <div id="projectbrief">A light-weight Ion mobility mass spectrometry data viewer and extractor, targeted toward PNNL&#39;s UIMF files</div>
   </td>
  </tr>
  </tbody>
@@ -107,6 +107,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_u.html#index_u"><span>u</span></a></li>
       <li><a href="functions_v.html#index_v"><span>v</span></a></li>
       <li><a href="functions_w.html#index_w"><span>w</span></a></li>
+      <li><a href="functions_x.html#index_x"><span>x</span></a></li>
       <li><a href="functions_z.html#index_z"><span>z</span></a></li>
     </ul>
   </div>
@@ -146,18 +147,20 @@ $(document).ready(function(){initNavTree('functions_f.html','');});
 <li>FetchSingleFrame()
 : <a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a9415ec46d748bda6af7a355d5c2e453d">Atreyu.ViewModels.CombinedHeatmapViewModel</a>
 </li>
+<li>FileName
+: <a class="el" href="struct_uimf_data_extractor_1_1_bulk_peak_data.html#a775e793f871ce0a0b10f849b7092a4de">UimfDataExtractor.BulkPeakData</a>
+</li>
 <li>FindPeaks()
 : <a class="el" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a9a716718e464eb238245751e0294a9d4">Atreyu.ViewModels.MzSpectraViewModel</a>
 , <a class="el" href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#aae6de08a6223e6faacecadb46d9c1c70">Atreyu.ViewModels.TotalIonChromatogramViewModel</a>
-</li>
-<li>frameData
-: <a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#ab3149b456c0898fa8de1a7d207683c81">Atreyu.Models.UimfData</a>
+, <a class="el" href="class_uimf_data_extractor_1_1_uimf_processor.html#acf6fca589811627ed65b209b9c2749b1">UimfDataExtractor.UimfProcessor</a>
 </li>
 <li>FrameData
 : <a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a036eeee27ba979d66778c0c1d3481693">Atreyu.Models.UimfData</a>
 </li>
 <li>frameData
-: <a class="el" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a0fc4c9903110ab46b677fe71ff660d48">Atreyu.ViewModels.MzSpectraViewModel</a>
+: <a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#ab3149b456c0898fa8de1a7d207683c81">Atreyu.Models.UimfData</a>
+, <a class="el" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a0fc4c9903110ab46b677fe71ff660d48">Atreyu.ViewModels.MzSpectraViewModel</a>
 , <a class="el" href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#a527626b1b8a9a75ba1e45f3dc8548c61">Atreyu.ViewModels.TotalIonChromatogramViewModel</a>
 </li>
 <li>frameDictionary
@@ -182,6 +185,9 @@ $(document).ready(function(){initNavTree('functions_f.html','');});
 <li>FrameManipulationViewModel
 : <a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a95c8a3af88a2fb50eef88d0c16207ee2">Atreyu.ViewModels.CombinedHeatmapViewModel</a>
 , <a class="el" href="class_atreyu_1_1_view_models_1_1_frame_manipulation_view_model.html#aa71f467ad3db1cf2dc8d9fd595f468a2">Atreyu.ViewModels.FrameManipulationViewModel</a>
+</li>
+<li>FrameNumber
+: <a class="el" href="struct_uimf_data_extractor_1_1_bulk_peak_data.html#a5942fd3332181dde478a1b443e03ae25">UimfDataExtractor.BulkPeakData</a>
 </li>
 <li>FrameRange()
 : <a class="el" href="class_atreyu_1_1_models_1_1_frame_range.html#a1b095ffca5e1f96e0bfe361ba9c921c9">Atreyu.Models.FrameRange</a>
@@ -208,13 +214,17 @@ $(document).ready(function(){initNavTree('functions_f.html','');});
 <li>frameType
 : <a class="el" href="class_atreyu_1_1_view_models_1_1_frame_manipulation_view_model.html#a7ecb70afebbe5cc054555704230fba74">Atreyu.ViewModels.FrameManipulationViewModel</a>
 </li>
+<li>FullWidthHalfMax
+: <a class="el" href="struct_uimf_data_extractor_1_1_bulk_peak_data.html#ad7202e2417a1cf5577084b301703bac6">UimfDataExtractor.BulkPeakData</a>
+, <a class="el" href="class_uimf_data_extractor_1_1_peak_information.html#a4479d16c95606cca85b5b14b4b7471a8">UimfDataExtractor.PeakInformation</a>
+</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Mar 16 2015 16:31:38 for Atreyu by
+    <li class="footer">Generated on Wed Apr 29 2015 12:52:15 for Atreyu by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
   </ul>

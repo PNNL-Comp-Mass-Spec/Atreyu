@@ -1,0 +1,18 @@
+<map id="UimfDataExtractor.UimfProcessor.ExtractData" name="UimfDataExtractor.UimfProcessor.ExtractData">
+<area shape="rect" id="node2" href="$class_uimf_data_extractor_1_1_uimf_processor.html#a418bb6280cd48e11ed8d4f11e10e0cdc" title="Outputs the bulk peaks collected during the run. " alt="" coords="279,97,500,139"/>
+<area shape="rect" id="node3" href="$class_uimf_data_extractor_1_1_uimf_processor.html#a6f0218739e083fdbe407826c9f89a343" title="Process all uimf in a directory. " alt="" coords="552,156,773,197"/>
+<area shape="rect" id="node17" href="$class_uimf_data_extractor_1_1_uimf_processor.html#a45b8f42507b2c2c4dc01e726e07b1555" title="Processes all uimf in directory and all the sub directories in that directory. " alt="" coords="275,215,504,256"/>
+<area shape="rect" id="node4" href="$class_uimf_data_extractor_1_1_uimf_processor.html#a5956f0a9123d2e242ac09e5f97b659e2" title="Processes a uimf. " alt="" coords="821,105,1043,147"/>
+<area shape="rect" id="node5" href="$class_uimf_data_extractor_1_1_uimf_processor.html#a9173cd51f21de59a02e036da300b7746" title="Print a not found error. " alt="" coords="1091,168,1312,209"/>
+<area shape="rect" id="node6" href="$class_uimf_data_extractor_1_1_uimf_processor.html#a10b0bbbb9787425471677ea0f54d8b3d" title="Processes a single frame in a file. " alt="" coords="1091,103,1312,144"/>
+<area shape="rect" id="node7" href="$class_uimf_data_extractor_1_1_uimf_processor.html#a94a3607de24f7e9f32df177395d6e388" title="Gets full heatmap data from the DataReader that the UIMF is open in. " alt="" coords="1360,5,1581,47"/>
+<area shape="rect" id="node8" href="$class_uimf_data_extractor_1_1_uimf_processor.html#ae6119cdea786f3440fbf26c23804e608" title="The get mz. " alt="" coords="1360,71,1581,112"/>
+<area shape="rect" id="node13" href="$class_uimf_data_extractor_1_1_uimf_processor.html#ac1f35661b800c6ff6cb99e08cf971257" title="The get tic function. " alt="" coords="1360,136,1581,177"/>
+<area shape="rect" id="node15" href="$class_uimf_data_extractor_1_1_uimf_processor.html#a0258da6e13a561231698298031093af8" title="The get xic. " alt="" coords="1360,201,1581,243"/>
+<area shape="rect" id="node9" href="$class_uimf_data_extractor_1_1_uimf_processor.html#a1a95617b5792690313a1318b275b19cd" title="Gets full mass over charge info for a given frame. " alt="" coords="1629,37,1851,79"/>
+<area shape="rect" id="node11" href="$class_uimf_data_extractor_1_1_uimf_processor.html#acf6fca589811627ed65b209b9c2749b1" title="Find the peaks in the current data set and adds an annotation point with the resolution to the m/z..." alt="" coords="1629,103,1851,144"/>
+<area shape="rect" id="node10" href="$class_uimf_data_extractor_1_1_uimf_processor.html#aac07f3a3156c878588e7de61c94351c3" title="Gets DataReader.FrameType that corresponds with the string value. " alt="" coords="1899,37,2120,79"/>
+<area shape="rect" id="node12" href="$jquery_8js.html#a4c3eadaa5164016d2c340d495fc6e55e" title="x" alt="" coords="1990,110,2029,137"/>
+<area shape="rect" id="node14" href="$class_uimf_data_extractor_1_1_uimf_processor.html#a67102708619de2fc7d9dbd3bdd5cc4e3" title="Gets the Total Ion Chromatogram info for a given frame. " alt="" coords="1629,168,1851,209"/>
+<area shape="rect" id="node16" href="$class_uimf_data_extractor_1_1_uimf_processor.html#a05641e96aba63aa0b5a645a692d1d15c" title="The get xic info. " alt="" coords="1629,233,1851,275"/>
+</map>

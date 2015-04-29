@@ -1,16 +1,8 @@
 var searchData=
 [
-  ['gatedata',['GateData',['../class_atreyu_1_1_models_1_1_uimf_data.html#a424a9ce357b24cb132a0c956804ffa50',1,'Atreyu::Models::UimfData']]],
-  ['gateslider',['GateSlider',['../class_atreyu_1_1_views_1_1_gate_slider.html#aeb163b0cb2029aaab922008e16621731',1,'Atreyu.Views.GateSlider.GateSlider()'],['../class_atreyu_1_1_views_1_1_gate_slider.html#a34eee0039cd0eb5105c8f58d63104c35',1,'Atreyu.Views.GateSlider.GateSlider(GateSliderViewModel viewModel)']]],
-  ['getcompresseddatainview',['GetCompressedDataInView',['../class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#aa3c50fe497bb3312a57028a48f847f12',1,'Atreyu::ViewModels::HeatMapViewModel']]],
-  ['getdatafilename',['GetDataFilename',['../class_viewer_1_1_view_models_1_1_main_window_view_model.html#a1b8f8c54fed2b70ba019e0863f980b65',1,'Viewer::ViewModels::MainWindowViewModel']]],
-  ['getframetype',['GetFrameType',['../class_atreyu_1_1_models_1_1_uimf_data.html#adbff3dfd17b2c1eacecbe72d5c894dcd',1,'Atreyu::Models::UimfData']]],
-  ['gethashcode',['GetHashCode',['../class_atreyu_1_1_models_1_1_bin_range.html#aba226b5e5dfc9684c5a21c47392ca11c',1,'Atreyu::Models::BinRange']]],
-  ['getheatmapimage',['GetHeatmapImage',['../class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#ae6d9adc9733f11e0e7f3be077d1e916d',1,'Atreyu::ViewModels::HeatMapViewModel']]],
-  ['getimage',['GetImage',['../class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#afbbdc1e36898360d8ab0c3a2cd2108fd',1,'Atreyu::ViewModels::CombinedHeatmapViewModel']]],
-  ['getimageformat',['GetImageFormat',['../class_viewer_1_1_view_models_1_1_main_window_view_model.html#ae23a722ee955b6c4c8a2f12bd341c6d3',1,'Viewer::ViewModels::MainWindowViewModel']]],
-  ['getmzdatacompressed',['GetMzDataCompressed',['../class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a86ccc456d511e4dd0e7350f8d11c01b0',1,'Atreyu::ViewModels::MzSpectraViewModel']]],
-  ['getmzimage',['GetMzImage',['../class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#afd4e9679d3638d2008afcf426063787f',1,'Atreyu::ViewModels::MzSpectraViewModel']]],
-  ['getticdata',['GetTicData',['../class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#acb70cfca177b5f6d5446d35a0af49f60',1,'Atreyu::ViewModels::TotalIonChromatogramViewModel']]],
-  ['getticimage',['GetTicImage',['../class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#a1f73aba84ccebd64217a3e92a37e8bc2',1,'Atreyu::ViewModels::TotalIonChromatogramViewModel']]]
+  ['fetchsingleframe',['FetchSingleFrame',['../class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a9415ec46d748bda6af7a355d5c2e453d',1,'Atreyu::ViewModels::CombinedHeatmapViewModel']]],
+  ['findpeaks',['FindPeaks',['../class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a9a716718e464eb238245751e0294a9d4',1,'Atreyu.ViewModels.MzSpectraViewModel.FindPeaks()'],['../class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#aae6de08a6223e6faacecadb46d9c1c70',1,'Atreyu.ViewModels.TotalIonChromatogramViewModel.FindPeaks()'],['../class_uimf_data_extractor_1_1_uimf_processor.html#acf6fca589811627ed65b209b9c2749b1',1,'UimfDataExtractor.UimfProcessor.FindPeaks()']]],
+  ['framemanipulationview',['FrameManipulationView',['../class_atreyu_1_1_views_1_1_frame_manipulation_view.html#a0042a8bfc230f006c6215f3460b38a47',1,'Atreyu::Views::FrameManipulationView']]],
+  ['framemanipulationviewmodel',['FrameManipulationViewModel',['../class_atreyu_1_1_view_models_1_1_frame_manipulation_view_model.html#aa71f467ad3db1cf2dc8d9fd595f468a2',1,'Atreyu::ViewModels::FrameManipulationViewModel']]],
+  ['framerange',['FrameRange',['../class_atreyu_1_1_models_1_1_frame_range.html#a1b095ffca5e1f96e0bfe361ba9c921c9',1,'Atreyu.Models.FrameRange.FrameRange()'],['../class_atreyu_1_1_models_1_1_frame_range.html#a94af3c93964ddaa345b8e2e3227801b5',1,'Atreyu.Models.FrameRange.FrameRange(int start, int end)']]]
 ];

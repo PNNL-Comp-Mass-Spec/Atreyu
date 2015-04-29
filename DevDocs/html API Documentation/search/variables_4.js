@@ -1,11 +1,19 @@
 var searchData=
 [
-  ['framedata',['frameData',['../class_atreyu_1_1_models_1_1_uimf_data.html#ab3149b456c0898fa8de1a7d207683c81',1,'Atreyu.Models.UimfData.frameData()'],['../class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a0fc4c9903110ab46b677fe71ff660d48',1,'Atreyu.ViewModels.MzSpectraViewModel.frameData()'],['../class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#a527626b1b8a9a75ba1e45f3dc8548c61',1,'Atreyu.ViewModels.TotalIonChromatogramViewModel.frameData()']]],
-  ['framedictionary',['frameDictionary',['../class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#aecfc15a33b8fc07c297bc6df5d0df849',1,'Atreyu.ViewModels.MzSpectraViewModel.frameDictionary()'],['../class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#ab17296f69c8c0782887d9d73bbf87c8c',1,'Atreyu.ViewModels.TotalIonChromatogramViewModel.frameDictionary()']]],
-  ['frameintercept',['frameIntercept',['../class_atreyu_1_1_models_1_1_uimf_data.html#a90ff5d487d60c75749e5162809cd72ad',1,'Atreyu::Models::UimfData']]],
-  ['framemanipulationregion',['FrameManipulationRegion',['../class_atreyu_1_1_region_names.html#a2713076695f41aec2d0f29be20f0f136',1,'Atreyu::RegionNames']]],
-  ['framemanipulationview',['frameManipulationView',['../class_atreyu_1_1_views_1_1_combined_heatmap_view.html#ab2e73ec6e2588c8dffa4dc455cd36c4a',1,'Atreyu::Views::CombinedHeatmapView']]],
-  ['frames',['frames',['../class_atreyu_1_1_models_1_1_uimf_data.html#ab1c015f5e82b061c7817c2f5efa6745d',1,'Atreyu::Models::UimfData']]],
-  ['frameslope',['frameSlope',['../class_atreyu_1_1_models_1_1_uimf_data.html#a55c8317db81a380d7c21ac9047278d73',1,'Atreyu::Models::UimfData']]],
-  ['frametype',['frameType',['../class_atreyu_1_1_models_1_1_uimf_data.html#ad754d76851216bd87e723858ace0a31b',1,'Atreyu.Models.UimfData.frameType()'],['../class_atreyu_1_1_view_models_1_1_frame_manipulation_view_model.html#a7ecb70afebbe5cc054555704230fba74',1,'Atreyu.ViewModels.FrameManipulationViewModel.frameType()']]]
+  ['d',['d',['../jquery_8js.html#a36541169dfff685f807208881a4f0021',1,'jquery.js']]],
+  ['dataarray',['dataArray',['../class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a2dceaad3adf86ae1199c4dd342e7d20d',1,'Atreyu::ViewModels::HeatMapViewModel']]],
+  ['datareader',['dataReader',['../class_atreyu_1_1_models_1_1_uimf_data.html#a6d3baf2972d3b8d2abe1ce25d3ee5b74',1,'Atreyu::Models::UimfData']]],
+  ['defaultinstance',['defaultInstance',['../class_viewer_1_1_properties_1_1_settings.html#a60d0f210f73a769b127a7b80d67bed38',1,'Viewer::Properties::Settings']]],
+  ['defaults',['defaults',['../jquery_8js.html#ad75f6e7a984ade562fc90b2a242cde69',1,'jquery.js']]],
+  ['delay',['delay',['../jquery_8js.html#ae7a465038372349ff529c67911a6b6d1',1,'jquery.js']]],
+  ['dir_5f0714ab7de4086ea275cac99673971c63',['dir_0714ab7de4086ea275cac99673971c63',['../dir__0714ab7de4086ea275cac99673971c63_8js.html#ab15ddcf97845f8e2f1c570a5932ef9d0',1,'dir_0714ab7de4086ea275cac99673971c63.js']]],
+  ['dir_5f0cff26dc86242075b1285ba559db1a0a',['dir_0cff26dc86242075b1285ba559db1a0a',['../dir__0cff26dc86242075b1285ba559db1a0a_8js.html#a2ca01d3ebabdde5df10ef3feb6bb68d0',1,'dir_0cff26dc86242075b1285ba559db1a0a.js']]],
+  ['dir_5f226ae60c59475a5e6966ff2ec8196b57',['dir_226ae60c59475a5e6966ff2ec8196b57',['../dir__226ae60c59475a5e6966ff2ec8196b57_8js.html#a44bf3be3a8559371909d08a30e1da10a',1,'dir_226ae60c59475a5e6966ff2ec8196b57.js']]],
+  ['dir_5f26a57642325f3c609088cb4d72030692',['dir_26a57642325f3c609088cb4d72030692',['../dir__26a57642325f3c609088cb4d72030692_8js.html#aa2e9673ef94889a6e3c7fc410fac0a73',1,'dir_26a57642325f3c609088cb4d72030692.js']]],
+  ['dir_5f34be38119970c3471e21918ca45266c2',['dir_34be38119970c3471e21918ca45266c2',['../dir__34be38119970c3471e21918ca45266c2_8js.html#aa0d812d8a8d36a6b9dedcc17ba39356e',1,'dir_34be38119970c3471e21918ca45266c2.js']]],
+  ['dir_5f6b542e43efa660ff1b7ab9531363ec6c',['dir_6b542e43efa660ff1b7ab9531363ec6c',['../dir__6b542e43efa660ff1b7ab9531363ec6c_8js.html#ab866fc44c85f7c14120ed3933f83f92c',1,'dir_6b542e43efa660ff1b7ab9531363ec6c.js']]],
+  ['dir_5f777669b1ef9f6420ba317b385d93e55d',['dir_777669b1ef9f6420ba317b385d93e55d',['../dir__777669b1ef9f6420ba317b385d93e55d_8js.html#a5e2b5feec6b746bae6a18803e82beff2',1,'dir_777669b1ef9f6420ba317b385d93e55d.js']]],
+  ['dir_5fa7aafd4633c6cf0d1df1769b992c6bf7',['dir_a7aafd4633c6cf0d1df1769b992c6bf7',['../dir__a7aafd4633c6cf0d1df1769b992c6bf7_8js.html#a359f58a8672deef2d32af58b1721572a',1,'dir_a7aafd4633c6cf0d1df1769b992c6bf7.js']]],
+  ['dir_5fa88288ddc9c67d13cd9fe3a9677c8fa0',['dir_a88288ddc9c67d13cd9fe3a9677c8fa0',['../dir__a88288ddc9c67d13cd9fe3a9677c8fa0_8js.html#a6f4f4a284a9b883ba7ad60680b9d399c',1,'dir_a88288ddc9c67d13cd9fe3a9677c8fa0.js']]],
+  ['dir_5fb1c26106e33b08dd79b2b4f3f8790aa9',['dir_b1c26106e33b08dd79b2b4f3f8790aa9',['../dir__b1c26106e33b08dd79b2b4f3f8790aa9_8js.html#a8bbf74ebf5950bec099d695c24a7347b',1,'dir_b1c26106e33b08dd79b2b4f3f8790aa9.js']]]
 ];

@@ -31,9 +31,9 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Atreyu
-   &#160;<span id="projectnumber">1.5</span>
+   &#160;<span id="projectnumber">1.7</span>
    </div>
-   <div id="projectbrief">A light-weight viewer for Unified Ion Mobility Files</div>
+   <div id="projectbrief">A light-weight Ion mobility mass spectrometry data viewer and extractor, targeted toward PNNL&#39;s UIMF files</div>
   </td>
  </tr>
  </tbody>
@@ -72,6 +72,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -173,7 +174,7 @@ $(document).ready(function(){initNavTree('_mz_spectra_view_model_8cs_source.html
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        [ImportingConstructor]</div>
 <div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#af7aa326c313137cf671e1fdab9c47603">  100</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#af7aa326c313137cf671e1fdab9c47603">MzSpectraViewModel</a>()</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        {</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            this.WhenAnyValue(vm =&gt; vm.ShowMz).Subscribe(b =&gt; this.UpdateFrameData(this.frameData));</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            this.WhenAnyValue(vm =&gt; vm.ShowMz).Subscribe(<a class="code" href="jquery_8js.html#ac0431efac4d7c393d1e70b86115cb93f">b</a> =&gt; this.UpdateFrameData(this.frameData));</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        }</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="preprocessor">        #endregion</span></div>
@@ -373,7 +374,7 @@ $(document).ready(function(){initNavTree('_mz_spectra_view_model_8cs_source.html
 <div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;                series.Points.Clear();</div>
 <div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;                <span class="keywordflow">if</span> (this.ShowMz)</div>
 <div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;                {</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;                    <span class="keywordflow">foreach</span> (var d <span class="keywordflow">in</span> this.mzFrameData)</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;                    <span class="keywordflow">foreach</span> (var <a class="code" href="jquery_8js.html#a36541169dfff685f807208881a4f0021">d</a> <span class="keywordflow">in</span> this.mzFrameData)</div>
 <div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;                    {</div>
 <div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;                        series.Points.Add(<span class="keyword">new</span> DataPoint(d.Value, d.Key));</div>
 <div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;                    }</div>
@@ -444,7 +445,7 @@ $(document).ready(function(){initNavTree('_mz_spectra_view_model_8cs_source.html
 <div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;</div>
 <div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;            var allPeaks = peakDetector.FindPeaks(</div>
 <div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;                finderOptions, </div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;                tempFrameList.OrderBy(x =&gt; x.Key).ToList(), </div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;                tempFrameList.OrderBy(<a class="code" href="jquery_8js.html#a4c3eadaa5164016d2c340d495fc6e55e">x</a> =&gt; x.Key).ToList(), </div>
 <div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;                originalpeakLocation, </div>
 <div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;                out smoothedY);</div>
 <div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;</div>
@@ -500,7 +501,7 @@ $(document).ready(function(){initNavTree('_mz_spectra_view_model_8cs_source.html
 <div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;</div>
 <div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;                    <span class="keywordtype">double</span> a1 = prevPoint.Key;</div>
 <div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;                    <span class="keywordtype">double</span> a2 = currPoint.Key;</div>
-<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;                    <span class="keywordtype">double</span> c = halfmax;</div>
+<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;                    <span class="keywordtype">double</span> <a class="code" href="jquery_8js.html#ad9d1ac02e33c4aed62ad517a7cb8b3fb">c</a> = halfmax;</div>
 <div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;                    <span class="keywordtype">double</span> b1 = smoothedY[prevPointIndex];</div>
 <div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;                    <span class="keywordtype">double</span> b2 = smoothedY[currPointIndex];</div>
 <div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;</div>
@@ -529,7 +530,7 @@ $(document).ready(function(){initNavTree('_mz_spectra_view_model_8cs_source.html
 <div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;</div>
 <div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;                    <span class="keywordtype">double</span> a1 = prevPoint.Key;</div>
 <div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;                    <span class="keywordtype">double</span> a2 = currPoint.Key;</div>
-<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;                    <span class="keywordtype">double</span> c = halfmax;</div>
+<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;                    <span class="keywordtype">double</span> <a class="code" href="jquery_8js.html#ad9d1ac02e33c4aed62ad517a7cb8b3fb">c</a> = halfmax;</div>
 <div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;                    <span class="keywordtype">double</span> b1 = smoothedY[prevPointIndex];</div>
 <div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;                    <span class="keywordtype">double</span> b2 = smoothedY[currPointIndex];</div>
 <div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;</div>
@@ -553,7 +554,7 @@ $(document).ready(function(){initNavTree('_mz_spectra_view_model_8cs_source.html
 <div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;            }</div>
 <div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;</div>
 <div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;            var tempList =</div>
-<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;                datapointList.Where(x =&gt; !double.IsInfinity(x.Resolution)).OrderByDescending(x =&gt; x.Intensity).Take(10);</div>
+<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;                datapointList.Where(<a class="code" href="jquery_8js.html#a4c3eadaa5164016d2c340d495fc6e55e">x</a> =&gt; !double.IsInfinity(x.Resolution)).OrderByDescending(x =&gt; x.Intensity).Take(10);</div>
 <div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;</div>
 <div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;            <span class="comment">// Put the points on the graph</span></div>
 <div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;            <span class="keywordflow">foreach</span> (var resolutionDatapoint <span class="keywordflow">in</span> tempList)</div>
@@ -594,7 +595,7 @@ $(document).ready(function(){initNavTree('_mz_spectra_view_model_8cs_source.html
 <div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;        {</div>
 <div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;<span class="preprocessor">            #region Public Methods and Operators</span></div>
 <div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;</div>
-<div class="line"><a name="l00627"></a><span class="lineno"><a class="line" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_1_1_kvp_compare_3_01_t_value_01_4.html#afcbf18f56ce70c448414cfb3fb703a85">  627</a></span>&#160;            <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_1_1_kvp_compare_3_01_t_value_01_4.html#afcbf18f56ce70c448414cfb3fb703a85">Compare</a>(KeyValuePair&lt;int, TValue&gt; x, KeyValuePair&lt;int, TValue&gt; y)</div>
+<div class="line"><a name="l00627"></a><span class="lineno"><a class="line" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_1_1_kvp_compare_3_01_t_value_01_4.html#afcbf18f56ce70c448414cfb3fb703a85">  627</a></span>&#160;            <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_1_1_kvp_compare_3_01_t_value_01_4.html#afcbf18f56ce70c448414cfb3fb703a85">Compare</a>(KeyValuePair&lt;int, TValue&gt; <a class="code" href="jquery_8js.html#a4c3eadaa5164016d2c340d495fc6e55e">x</a>, KeyValuePair&lt;int, TValue&gt; y)</div>
 <div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;            {</div>
 <div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;                <span class="keywordflow">return</span> x.Key - y.Key;</div>
 <div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;            }</div>
@@ -604,10 +605,13 @@ $(document).ready(function(){initNavTree('_mz_spectra_view_model_8cs_source.html
 <div class="line"><a name="l00634"></a><span class="lineno">  634</span>&#160;    }</div>
 <div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160;}</div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_aecfc15a33b8fc07c297bc6df5d0df849"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#aecfc15a33b8fc07c297bc6df5d0df849">Atreyu.ViewModels.MzSpectraViewModel.frameDictionary</a></div><div class="ttdeci">Dictionary&lt; double, double &gt; frameDictionary</div><div class="ttdoc">The bin centric frame data that has been compressed. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00055">MzSpectraViewModel.cs:55</a></div></div>
+<div class="ttc" id="jquery_8js_html_ac0431efac4d7c393d1e70b86115cb93f"><div class="ttname"><a href="jquery_8js.html#ac0431efac4d7c393d1e70b86115cb93f">b</a></div><div class="ttdeci">var b</div><div class="ttdef"><b>Definition:</b> <a href="jquery_8js_source.html#l00016">jquery.js:16</a></div></div>
 <div class="ttc" id="struct_atreyu_1_1_view_models_1_1_mz_spectra_view_model_1_1_resolution_datapoint_html_a4ee3ae2b5fd49f78f764bef5957e76b5"><div class="ttname"><a href="struct_atreyu_1_1_view_models_1_1_mz_spectra_view_model_1_1_resolution_datapoint.html#a4ee3ae2b5fd49f78f764bef5957e76b5">Atreyu.ViewModels.MzSpectraViewModel.ResolutionDatapoint.Mz</a></div><div class="ttdeci">double Mz</div><div class="ttdoc">The mz. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00590">MzSpectraViewModel.cs:590</a></div></div>
+<div class="ttc" id="jquery_8js_html_ad9d1ac02e33c4aed62ad517a7cb8b3fb"><div class="ttname"><a href="jquery_8js.html#ad9d1ac02e33c4aed62ad517a7cb8b3fb">c</a></div><div class="ttdeci">var c</div><div class="ttdef"><b>Definition:</b> <a href="jquery_8js_source.html#l00029">jquery.js:29</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_a346e9f92d388e77d74b02cac6dc6cb2e"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a346e9f92d388e77d74b02cac6dc6cb2e">Atreyu.ViewModels.MzSpectraViewModel.ChangeEndBin</a></div><div class="ttdeci">void ChangeEndBin(int bin)</div><div class="ttdoc">Changes the end bin for proper graph display. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00208">MzSpectraViewModel.cs:208</a></div></div>
 <div class="ttc" id="struct_atreyu_1_1_view_models_1_1_mz_spectra_view_model_1_1_resolution_datapoint_html_a9894db8b0d03371d4754b6e946d3331e"><div class="ttname"><a href="struct_atreyu_1_1_view_models_1_1_mz_spectra_view_model_1_1_resolution_datapoint.html#a9894db8b0d03371d4754b6e946d3331e">Atreyu.ViewModels.MzSpectraViewModel.ResolutionDatapoint.Resolution</a></div><div class="ttdeci">double Resolution</div><div class="ttdoc">The resolution. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00595">MzSpectraViewModel.cs:595</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html">Atreyu.Models.UimfData</a></div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00022">UimfData.cs:22</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html">Atreyu.Models.UimfData</a></div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00023">UimfData.cs:23</a></div></div>
+<div class="ttc" id="jquery_8js_html_a4c3eadaa5164016d2c340d495fc6e55e"><div class="ttname"><a href="jquery_8js.html#a4c3eadaa5164016d2c340d495fc6e55e">x</a></div><div class="ttdeci">function x(bx)</div><div class="ttdef"><b>Definition:</b> <a href="jquery_8js_source.html#l00030">jquery.js:30</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_a35647d403f0bb552a69f3ca65cc997e4"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a35647d403f0bb552a69f3ca65cc997e4">Atreyu.ViewModels.MzSpectraViewModel.uimfData</a></div><div class="ttdeci">UimfData uimfData</div><div class="ttdoc">The uimf data reference. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00090">MzSpectraViewModel.cs:90</a></div></div>
 <div class="ttc" id="namespace_atreyu_1_1_view_models_html_ad71e924fba6107c4e8d525530b4f21df"><div class="ttname"><a href="namespace_atreyu_1_1_view_models.html#ad71e924fba6107c4e8d525530b4f21df">Atreyu.ViewModels.LinearAxis</a></div><div class="ttdeci">OxyPlot.Axes.LinearAxis LinearAxis</div><div class="ttdef"><b>Definition:</b> <a href="_heat_map_view_model_8cs_source.html#l00024">HeatMapViewModel.cs:24</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_af094793d9c5375f30739461ae564c5aa"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#af094793d9c5375f30739461ae564c5aa">Atreyu.ViewModels.MzSpectraViewModel.UpdateReference</a></div><div class="ttdeci">void UpdateReference(UimfData uimfDataNew)</div><div class="ttdoc">Updates the reference to UIMF data. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00387">MzSpectraViewModel.cs:387</a></div></div>
@@ -620,6 +624,7 @@ $(document).ready(function(){initNavTree('_mz_spectra_view_model_8cs_source.html
 <div class="ttc" id="struct_atreyu_1_1_view_models_1_1_mz_spectra_view_model_1_1_resolution_datapoint_html"><div class="ttname"><a href="struct_atreyu_1_1_view_models_1_1_mz_spectra_view_model_1_1_resolution_datapoint.html">Atreyu.ViewModels.MzSpectraViewModel.ResolutionDatapoint</a></div><div class="ttdoc">The resolution data point. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00578">MzSpectraViewModel.cs:578</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_ac0af3faff2e5ce8ddc052a5a831259f1"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#ac0af3faff2e5ce8ddc052a5a831259f1">Atreyu.ViewModels.MzSpectraViewModel.CreatePlotModel</a></div><div class="ttdeci">void CreatePlotModel()</div><div class="ttdoc">Creates or recreates the create plot model. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00227">MzSpectraViewModel.cs:227</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_aa9c889ca9c614319f03be490e0a0aa7a"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#aa9c889ca9c614319f03be490e0a0aa7a">Atreyu.ViewModels.MzSpectraViewModel.startMzBin</a></div><div class="ttdeci">int startMzBin</div><div class="ttdoc">The start mz bin. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00085">MzSpectraViewModel.cs:85</a></div></div>
+<div class="ttc" id="jquery_8js_html_a36541169dfff685f807208881a4f0021"><div class="ttname"><a href="jquery_8js.html#a36541169dfff685f807208881a4f0021">d</a></div><div class="ttdeci">function d</div><div class="ttdef"><b>Definition:</b> <a href="jquery_8js_source.html#l00041">jquery.js:41</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_a9d99e3f04513bc88b0f72678915c60a3"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a9d99e3f04513bc88b0f72678915c60a3">Atreyu.ViewModels.MzSpectraViewModel.slope</a></div><div class="ttdeci">double slope</div><div class="ttdoc">The calibration slope. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00080">MzSpectraViewModel.cs:80</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_a0fc4c9903110ab46b677fe71ff660d48"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a0fc4c9903110ab46b677fe71ff660d48">Atreyu.ViewModels.MzSpectraViewModel.frameData</a></div><div class="ttdeci">double[,] frameData</div><div class="ttdoc">The raw frame data that is compressed on the Y axis. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00050">MzSpectraViewModel.cs:50</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_adbb89e5735cc5a51a08d1fbd5285972c"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#adbb89e5735cc5a51a08d1fbd5285972c">Atreyu.ViewModels.MzSpectraViewModel.showMz</a></div><div class="ttdeci">bool showMz</div><div class="ttdoc">Specifies whether or not to show the mz. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00075">MzSpectraViewModel.cs:75</a></div></div>
@@ -638,7 +643,7 @@ $(document).ready(function(){initNavTree('_mz_spectra_view_model_8cs_source.html
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_26a57642325f3c609088cb4d72030692.html">Falkor</a></li><li class="navelem"><a class="el" href="dir_0cff26dc86242075b1285ba559db1a0a.html">Atreyu</a></li><li class="navelem"><a class="el" href="dir_a88288ddc9c67d13cd9fe3a9677c8fa0.html">Atreyu</a></li><li class="navelem"><a class="el" href="dir_34be38119970c3471e21918ca45266c2.html">ViewModels</a></li><li class="navelem"><a class="el" href="_mz_spectra_view_model_8cs.html">MzSpectraViewModel.cs</a></li>
-    <li class="footer">Generated on Mon Mar 16 2015 16:31:36 for Atreyu by
+    <li class="footer">Generated on Wed Apr 29 2015 12:52:00 for Atreyu by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
   </ul>

@@ -1,10 +1,4 @@
 var searchData=
 [
-  ['range',['range',['../class_atreyu_1_1_view_models_1_1_frame_manipulation_view_model.html#a41d3839f46f79e223bfea80ceb9d8788',1,'Atreyu::ViewModels::FrameManipulationViewModel']]],
-  ['rangetype',['rangeType',['../class_atreyu_1_1_models_1_1_range.html#aa03b9de1c63619fbe10a8926f392f193',1,'Atreyu::Models::Range']]],
-  ['rangeupdatelist',['rangeUpdateList',['../class_atreyu_1_1_models_1_1_uimf_data.html#ad17a607d5cbb8458655b98f232b532e8',1,'Atreyu::Models::UimfData']]],
-  ['resolution',['Resolution',['../struct_atreyu_1_1_view_models_1_1_mz_spectra_view_model_1_1_resolution_datapoint.html#a9894db8b0d03371d4754b6e946d3331e',1,'Atreyu::ViewModels::MzSpectraViewModel::ResolutionDatapoint']]],
-  ['resourceculture',['resourceCulture',['../class_viewer_1_1_properties_1_1_resources.html#ae7924a6424dba54a10625f23fd0aee74',1,'Viewer::Properties::Resources']]],
-  ['resourceman',['resourceMan',['../class_viewer_1_1_properties_1_1_resources.html#a51bc369c8869042cfd105bd4b3d4c87d',1,'Viewer::Properties::Resources']]],
-  ['returngateddata',['ReturnGatedData',['../class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a0a81439a33c11503c62c94ff63c983d9',1,'Atreyu::ViewModels::CombinedHeatmapViewModel']]]
+  ['k',['k',['../jquery_8js.html#ab26645c014aa005ecedef329ecf58c99',1,'jquery.js']]]
 ];

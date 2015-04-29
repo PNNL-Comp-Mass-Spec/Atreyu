@@ -1,6 +1,9 @@
 var searchData=
 [
-  ['openheatmapfile',['OpenHeatmapFile',['../class_viewer_1_1_view_models_1_1_main_window_view_model.html#a6b78f3c2867f3ffc8344cbb88aa6199b',1,'Viewer::ViewModels::MainWindowViewModel']]],
-  ['operator_21_3d',['operator!=',['../class_atreyu_1_1_models_1_1_bin_range.html#a381479e950cbee9e941cb59d4d54a543',1,'Atreyu::Models::BinRange']]],
-  ['operator_3d_3d',['operator==',['../class_atreyu_1_1_models_1_1_bin_range.html#a526279abb0c46e63973a87e572c5b415',1,'Atreyu::Models::BinRange']]]
+  ['main',['Main',['../class_uimf_data_extractor_1_1_program.html#ac06705030a3cf5d82072378a2ed34761',1,'UimfDataExtractor::Program']]],
+  ['maintabcontrolpreviewdragenter',['MainTabControlPreviewDragEnter',['../class_atreyu_1_1_views_1_1_combined_heatmap_view.html#af55f18de41b7c47900e3d320ed12c94f',1,'Atreyu::Views::CombinedHeatmapView']]],
+  ['mainwindow',['MainWindow',['../class_viewer_1_1_main_window.html#ac7170fd8d53448ad47a81b2f93a58076',1,'Viewer::MainWindow']]],
+  ['mainwindowviewmodel',['MainWindowViewModel',['../class_viewer_1_1_view_models_1_1_main_window_view_model.html#a9b1cd5096be3032df57b3b4cbda91912',1,'Viewer::ViewModels::MainWindowViewModel']]],
+  ['mzspectraview',['MzSpectraView',['../class_atreyu_1_1_views_1_1_mz_spectra_view.html#aec39b56e776d15a1d21c42cd49dfe97b',1,'Atreyu::Views::MzSpectraView']]],
+  ['mzspectraviewmodel',['MzSpectraViewModel',['../class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#af7aa326c313137cf671e1fdab9c47603',1,'Atreyu::ViewModels::MzSpectraViewModel']]]
 ];

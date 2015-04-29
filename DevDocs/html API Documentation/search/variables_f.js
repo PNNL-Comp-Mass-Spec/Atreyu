@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['valuesperpixelx',['valuesPerPixelX',['../class_atreyu_1_1_models_1_1_uimf_data.html#a0d6e38548e8b6de257258ca501c9639b',1,'Atreyu::Models::UimfData']]],
-  ['valuesperpixely',['valuesPerPixelY',['../class_atreyu_1_1_models_1_1_uimf_data.html#a5c48a5531d567be8ca3a0cf0c4edea80',1,'Atreyu::Models::UimfData']]],
-  ['viewmodel',['viewModel',['../class_atreyu_1_1_views_1_1_frame_manipulation_view.html#a060885dabf62c52311532a90a55618d7',1,'Atreyu::Views::FrameManipulationView']]]
+  ['options',['options',['../class_uimf_data_extractor_1_1_uimf_processor.html#af4a72b7e3dc52285b08cbb4e3d7fb0d0',1,'UimfDataExtractor::UimfProcessor']]],
+  ['outputdirectory',['outputDirectory',['../class_uimf_data_extractor_1_1_data_exporter.html#a898f0c34d7b3f844578a75b04824884d',1,'UimfDataExtractor.DataExporter.outputDirectory()'],['../class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#a0b2d73070dfa6ac5205afb35d932fbbc',1,'UimfDataExtractor.UimfDataExtractorGui.outputDirectory()']]],
+  ['outputdirectorylabel',['OutputDirectoryLabel',['../class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#ac5443ca197693c94af469cb878a414ea',1,'UimfDataExtractor::UimfDataExtractorGui']]]
 ];

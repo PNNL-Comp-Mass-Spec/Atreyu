@@ -1,0 +1,6 @@
+<map id="UimfDataExtractor.UimfProcessor.GetMz" name="UimfDataExtractor.UimfProcessor.GetMz">
+<area shape="rect" id="node2" href="$class_uimf_data_extractor_1_1_uimf_processor.html#acf6fca589811627ed65b209b9c2749b1" title="Find the peaks in the current data set and adds an annotation point with the resolution to the m/z..." alt="" coords="275,5,496,47"/>
+<area shape="rect" id="node4" href="$class_uimf_data_extractor_1_1_uimf_processor.html#a1a95617b5792690313a1318b275b19cd" title="Gets full mass over charge info for a given frame. " alt="" coords="275,71,496,112"/>
+<area shape="rect" id="node3" href="$jquery_8js.html#a4c3eadaa5164016d2c340d495fc6e55e" title="x" alt="" coords="635,13,674,39"/>
+<area shape="rect" id="node5" href="$class_uimf_data_extractor_1_1_uimf_processor.html#aac07f3a3156c878588e7de61c94351c3" title="Gets DataReader.FrameType that corresponds with the string value. " alt="" coords="544,71,765,112"/>
+</map>

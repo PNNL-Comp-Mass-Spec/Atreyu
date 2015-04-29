@@ -1,0 +1,4 @@
+<map id="UimfDataExtractor.UimfProcessor.ProcessAllUimfInDirectory" name="UimfDataExtractor.UimfProcessor.ProcessAllUimfInDirectory">
+<area shape="rect" id="node2" href="$class_uimf_data_extractor_1_1_uimf_processor.html#a880e59cd718e7b9d632cba98faba52af" title="The extract data method is the entry funtion to this process, it assumes you have set all the options..." alt="" coords="552,5,773,47"/>
+<area shape="rect" id="node3" href="$class_uimf_data_extractor_1_1_uimf_processor.html#a45b8f42507b2c2c4dc01e726e07b1555" title="Processes all uimf in directory and all the sub directories in that directory. " alt="" coords="275,35,504,76"/>
+</map>
