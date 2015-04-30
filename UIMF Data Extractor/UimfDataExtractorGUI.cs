@@ -26,7 +26,6 @@
 //   The uimf data extractor gui code behind.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace UimfDataExtractor
 {
     using System;

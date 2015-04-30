@@ -26,7 +26,6 @@
 //   Classes for handling the peak information and the tags to allow xml output.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace UimfDataExtractor
 {
     using System.Collections.Generic;

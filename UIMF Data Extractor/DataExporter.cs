@@ -26,7 +26,6 @@
 //   The data exporter class handles everything required to actually save the data to file.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace UimfDataExtractor
 {
     using System;
@@ -468,6 +467,20 @@ namespace UimfDataExtractor
         }
 
         /// <summary>
+        /// The get xml writer.
+        /// </summary>
+        /// <param name="file">
+        /// The file.
+        /// </param>
+        /// <returns>
+        /// The <see cref="XmlWriter"/>.
+        /// </returns>
+        private static XmlWriter GetXmlWriter(FileInfo file)
+        {
+            return new XmlTextWriter(GetFileStream(file));
+        }
+
+        /// <summary>
         /// Print a file creation error.
         /// </summary>
         /// <param name="filename">
@@ -480,20 +493,6 @@ namespace UimfDataExtractor
                 "We were unable to create" + filename
                 + "so we aren't outputting data to it either, we are petty like that");
             Console.WriteLine();
-        }
-
-        /// <summary>
-        /// The get xml writer.
-        /// </summary>
-        /// <param name="file">
-        /// The file.
-        /// </param>
-        /// <returns>
-        /// The <see cref="XmlWriter"/>.
-        /// </returns>
-        private static XmlWriter GetXmlWriter(FileInfo file)
-        {
-            return new XmlTextWriter(GetFileStream(file));
         }
 
         #endregion

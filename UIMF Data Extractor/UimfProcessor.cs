@@ -26,7 +26,6 @@
 //   The uimf processor.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace UimfDataExtractor
 {
     using System;
@@ -47,21 +46,6 @@ namespace UimfDataExtractor
     internal class UimfProcessor
     {
         #region Static Fields
-
-        /// <summary>
-        /// All mz peaks found in all files.
-        /// </summary>
-        private static ConcurrentBag<BulkPeakData> bulkMzPeaks;
-
-        /// <summary>
-        /// All TiC peaks found in all files.
-        /// </summary>
-        private static ConcurrentBag<BulkPeakData> bulkTicPeaks;
-
-        /// <summary>
-        /// All XiC peaks found in all files.
-        /// </summary>
-        private static ConcurrentBag<BulkPeakData> bulkXicPeaks;
 
         /// <summary>
         /// The options.
@@ -95,50 +79,17 @@ namespace UimfDataExtractor
         /// <summary>
         /// Gets or sets the bulk mz peaks.
         /// </summary>
-        private static ConcurrentBag<BulkPeakData> BulkMzPeaks
-        {
-            get
-            {
-                return bulkMzPeaks;
-            }
-
-            set
-            {
-                bulkMzPeaks = value;
-            }
-        }
+        private static ConcurrentBag<BulkPeakData> BulkMzPeaks { get; set; }
 
         /// <summary>
         /// Gets or sets the bulk tic peaks.
         /// </summary>
-        private static ConcurrentBag<BulkPeakData> BulkTicPeaks
-        {
-            get
-            {
-                return bulkTicPeaks;
-            }
-
-            set
-            {
-                bulkTicPeaks = value;
-            }
-        }
+        private static ConcurrentBag<BulkPeakData> BulkTicPeaks { get; set; }
 
         /// <summary>
         /// Gets or sets the bulk xic peaks.
         /// </summary>
-        private static ConcurrentBag<BulkPeakData> BulkXicPeaks
-        {
-            get
-            {
-                return bulkXicPeaks;
-            }
-
-            set
-            {
-                bulkXicPeaks = value;
-            }
-        }
+        private static ConcurrentBag<BulkPeakData> BulkXicPeaks { get; set; }
 
         #endregion
 
