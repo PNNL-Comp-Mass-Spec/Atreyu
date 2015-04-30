@@ -1,9 +1,29 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="HeatMapViewModel.cs" company="">
+// <copyright file="HeatMapViewModel.cs" company="Pacific Northwest National Laboratory">
+//   The MIT License (MIT)
 //   
+//   Copyright (c) 2015 Pacific Northwest National Laboratory
+//   
+//   Permission is hereby granted, free of charge, to any person obtaining a copy
+//   of this software and associated documentation files (the "Software"), to deal
+//   in the Software without restriction, including without limitation the rights
+//   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//   copies of the Software, and to permit persons to whom the Software is
+//   furnished to do so, subject to the following conditions:
+//   
+//   The above copyright notice and this permission notice shall be included in
+//   all copies or substantial portions of the Software.
+//   
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//   THE SOFTWARE.
 // </copyright>
 // <summary>
-//   TODO The heat map view model.
+//   The heat map view model.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Atreyu.ViewModels
@@ -25,7 +45,7 @@ namespace Atreyu.ViewModels
     using LinearColorAxis = OxyPlot.Axes.LinearColorAxis;
 
     /// <summary>
-    /// TODO The heat map view model.
+    /// The heat map view model.
     /// </summary>
     [Export]
     public class HeatMapViewModel : ReactiveObject
@@ -33,62 +53,62 @@ namespace Atreyu.ViewModels
         #region Fields
 
         /// <summary>
-        /// TODO The current bin range.
+        /// The current bin range.
         /// </summary>
         private BinRange currentBinRange;
 
         /// <summary>
-        /// TODO The current file.
+        /// The current file.
         /// </summary>
         private string currentFile = "Heatmap";
 
         /// <summary>
-        /// TODO The current max bin.
+        /// The current max bin.
         /// </summary>
         private int currentMaxBin;
 
         /// <summary>
-        /// TODO The current max scan.
+        /// The current max scan.
         /// </summary>
         private int currentMaxScan;
 
         /// <summary>
-        /// TODO The current min bin.
+        /// The current min bin.
         /// </summary>
         private int currentMinBin;
 
         /// <summary>
-        /// TODO The current min scan.
+        /// The current min scan.
         /// </summary>
         private int currentMinScan;
 
         /// <summary>
-        /// TODO The current scan range.
+        /// The current scan range.
         /// </summary>
         private ScanRange currentScanRange;
 
         /// <summary>
-        /// TODO The data array.
+        /// The data array.
         /// </summary>
         private double[,] dataArray;
 
         /// <summary>
-        /// TODO The heat map data.
+        /// The heat map data.
         /// </summary>
         private UimfData heatMapData;
 
         /// <summary>
-        /// TODO The _heat map plot model.
+        /// The heat map plot model.
         /// </summary>
         private PlotModel heatMapPlotModel;
 
         /// <summary>
-        /// TODO The height.
+        /// The height.
         /// </summary>
         private int height;
 
         /// <summary>
-        /// TODO The high threshold.
+        /// The high threshold.
         /// </summary>
         private double highThreshold;
 
@@ -98,16 +118,12 @@ namespace Atreyu.ViewModels
         private double lowThreshold;
 
         /// <summary>
-        /// TODO The width.
+        /// The width.
         /// </summary>
         private int width;
 
         #endregion
 
-        ///// <summary>
-        ///// TODO The _sum frames.
-        ///// </summary>
-        // private FrameRange _sumFrames;
         #region Constructors and Destructors
 
         /// <summary>
@@ -345,10 +361,10 @@ namespace Atreyu.ViewModels
         #region Public Methods and Operators
 
         /// <summary>
-        /// TODO The get compressed data in view.
+        /// The get compressed data in view.
         /// </summary>
         /// <returns>
-        /// The <see cref="double[,]"/>.
+        /// The 2d array of doubles that holds the data in view.
         /// </returns>
         public double[,] GetCompressedDataInView()
         {
@@ -384,7 +400,7 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The save heat map image.
+        /// The save heat map image.
         /// </summary>
         /// <returns>
         /// The <see cref="Image"/>.
@@ -404,7 +420,7 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The set up plot.
+        /// The set up plot.
         /// </summary>
         public void SetUpPlot()
         {
@@ -469,10 +485,10 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The update data.
+        /// The update data.
         /// </summary>
         /// <param name="framedata">
-        /// TODO The framedata.
+        /// The framedata.
         /// </param>
         public void UpdateData(double[,] framedata)
         {
@@ -508,10 +524,10 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The update reference.
+        /// The update reference.
         /// </summary>
         /// <param name="uimfData">
-        /// TODO The uimf data.
+        /// The uimf data.
         /// </param>
         public void UpdateReference(UimfData uimfData)
         {
@@ -534,13 +550,13 @@ namespace Atreyu.ViewModels
         #region Methods
 
         /// <summary>
-        /// TODO The publish x axis change.
+        /// The publish x axis change.
         /// </summary>
         /// <param name="sender">
-        /// TODO The sender.
+        /// The sender.
         /// </param>
         /// <param name="e">
-        /// TODO The e.
+        /// The e.
         /// </param>
         protected void PublishXAxisChange(object sender, AxisChangedEventArgs e)
         {
@@ -554,13 +570,13 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The publish y axis change.
+        /// The publish y axis change.
         /// </summary>
         /// <param name="sender">
-        /// TODO The sender.
+        /// The sender.
         /// </param>
         /// <param name="e">
-        /// TODO The e.
+        /// The e.
         /// </param>
         protected void PublishYAxisChange(object sender, AxisChangedEventArgs e)
         {

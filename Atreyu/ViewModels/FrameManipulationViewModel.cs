@@ -1,9 +1,29 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FrameManipulationViewModel.cs" company="">
+// <copyright file="FrameManipulationViewModel.cs" company="Pacific Northwest National Laboratory">
+//   The MIT License (MIT)
 //   
+//   Copyright (c) 2015 Pacific Northwest National Laboratory
+//   
+//   Permission is hereby granted, free of charge, to any person obtaining a copy
+//   of this software and associated documentation files (the "Software"), to deal
+//   in the Software without restriction, including without limitation the rights
+//   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//   copies of the Software, and to permit persons to whom the Software is
+//   furnished to do so, subject to the following conditions:
+//   
+//   The above copyright notice and this permission notice shall be included in
+//   all copies or substantial portions of the Software.
+//   
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//   THE SOFTWARE.
 // </copyright>
 // <summary>
-//   TODO The frame manipulation view model.
+//   The frame manipulation view model.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Atreyu.ViewModels
@@ -18,7 +38,7 @@ namespace Atreyu.ViewModels
     using ReactiveUI;
 
     /// <summary>
-    /// TODO The frame manipulation view model.
+    /// The frame manipulation view model.
     /// </summary>
     [Export]
     public class FrameManipulationViewModel : ReactiveObject
@@ -31,27 +51,27 @@ namespace Atreyu.ViewModels
         private int currentFrame;
 
         /// <summary>
-        /// TODO The frame type.
+        /// The frame type.
         /// </summary>
         private string frameType;
 
         /// <summary>
-        /// TODO The lowest frame number.
+        /// The lowest frame number.
         /// </summary>
         private int minNumFrame;
 
         /// <summary>
-        /// TODO The mz mode enabled.
+        /// The mz mode enabled.
         /// </summary>
         private bool mzModeEnabled = true;
 
         /// <summary>
-        /// TODO The total number of frames.
+        /// The total number of frames.
         /// </summary>
         private int numFrames;
 
         /// <summary>
-        /// TODO The range.
+        /// The range.
         /// </summary>
         private FrameRange range;
 
@@ -89,7 +109,7 @@ namespace Atreyu.ViewModels
                 // always raise it currently I would like to go back and find another way using raise and set if changed,
                 // but I have a meeting and I needed the slider bar to update on load and this was the easy way.
                 this.currentFrame = value;
-                this.RaisePropertyChanged("CurrentFrame");
+                this.RaisePropertyChanged();
 
                 // this.RaiseAndSetIfChanged(ref this.currentFrame, value);
             }
@@ -200,10 +220,10 @@ namespace Atreyu.ViewModels
         #region Public Methods and Operators
 
         /// <summary>
-        /// TODO The update current frame number.
+        /// The update current frame number.
         /// </summary>
         /// <param name="frameNumber">
-        /// TODO The frame number.
+        /// The frame number.
         /// </param>
         public void UpdateCurrentFrameNumber(int frameNumber)
         {
@@ -211,10 +231,10 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The update uimf.
+        /// The update uimf method.
         /// </summary>
         /// <param name="uimfData">
-        /// TODO The uimf data.
+        /// The uimf data.
         /// </param>
         public void UpdateUimf(UimfData uimfData)
         {

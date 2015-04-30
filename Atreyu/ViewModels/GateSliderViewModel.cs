@@ -1,9 +1,29 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GateSliderViewModel.cs" company="">
+// <copyright file="GateSliderViewModel.cs" company="Pacific Northwest National Laboratory">
+//   The MIT License (MIT)
 //   
+//   Copyright (c) 2015 Pacific Northwest National Laboratory
+//   
+//   Permission is hereby granted, free of charge, to any person obtaining a copy
+//   of this software and associated documentation files (the "Software"), to deal
+//   in the Software without restriction, including without limitation the rights
+//   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//   copies of the Software, and to permit persons to whom the Software is
+//   furnished to do so, subject to the following conditions:
+//   
+//   The above copyright notice and this permission notice shall be included in
+//   all copies or substantial portions of the Software.
+//   
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//   THE SOFTWARE.
 // </copyright>
 // <summary>
-//   TODO The gate slider view model.
+//   The gate slider view model.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Atreyu.ViewModels
@@ -13,39 +33,39 @@ namespace Atreyu.ViewModels
     using ReactiveUI;
 
     /// <summary>
-    /// TODO The gate slider view model.
+    /// The gate slider view model.
     /// </summary>
     public class GateSliderViewModel : ReactiveObject
     {
         #region Fields
 
         /// <summary>
-        /// TODO The control label.
+        /// The control label.
         /// </summary>
         private string controlLabel = "Low Gate";
 
         /// <summary>
-        /// TODO The gate.
+        /// The gate.
         /// </summary>
         private double gate;
 
         /// <summary>
-        /// TODO The log mode.
+        /// The log mode.
         /// </summary>
         private bool logMode;
 
         /// <summary>
-        /// TODO The logarithmic gate.
+        /// The logarithmic gate.
         /// </summary>
         private double logarithmicGate;
 
         /// <summary>
-        /// TODO The maximum log value.
+        /// The maximum log value.
         /// </summary>
         private double maximumLogValue = 10000000.0;
 
         /// <summary>
-        /// TODO The maximum value.
+        /// The maximum value.
         /// </summary>
         private double maximumValue = 100000.0;
 
@@ -155,10 +175,10 @@ namespace Atreyu.ViewModels
         #region Public Methods and Operators
 
         /// <summary>
-        /// TODO The update gate.
+        /// The update gate.
         /// </summary>
         /// <param name="value">
-        /// TODO The value.
+        /// The value.
         /// </param>
         public void UpdateGate(double value)
         {

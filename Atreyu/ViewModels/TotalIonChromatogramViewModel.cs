@@ -1,9 +1,29 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TotalIonChromatogramViewModel.cs" company="">
+// <copyright file="TotalIonChromatogramViewModel.cs" company="Pacific Northwest National Laboratory">
+//   The MIT License (MIT)
 //   
+//   Copyright (c) 2015 Pacific Northwest National Laboratory
+//   
+//   Permission is hereby granted, free of charge, to any person obtaining a copy
+//   of this software and associated documentation files (the "Software"), to deal
+//   in the Software without restriction, including without limitation the rights
+//   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//   copies of the Software, and to permit persons to whom the Software is
+//   furnished to do so, subject to the following conditions:
+//   
+//   The above copyright notice and this permission notice shall be included in
+//   all copies or substantial portions of the Software.
+//   
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//   THE SOFTWARE.
 // </copyright>
 // <summary>
-//   TODO The total ion chromatogram view model.
+//   The total ion chromatogram view model.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Atreyu.ViewModels
@@ -28,12 +48,11 @@ namespace Atreyu.ViewModels
 
     using LinearAxis = OxyPlot.Axes.LinearAxis;
     using LineSeries = OxyPlot.Series.LineSeries;
-    using TextAnnotation = OxyPlot.Annotations.TextAnnotation;
 
     // using Falkor.Events.Atreyu;
 
     /// <summary>
-    /// TODO The total ion chromatogram view model.
+    /// The total ion chromatogram view model.
     /// </summary>
     [Export]
     public class TotalIonChromatogramViewModel : ReactiveObject
@@ -41,32 +60,32 @@ namespace Atreyu.ViewModels
         #region Fields
 
         /// <summary>
-        /// TODO The _end scan.
+        /// The end scan.
         /// </summary>
         private int endScan;
 
         /// <summary>
-        /// TODO The _frame data.
+        /// The frame data.
         /// </summary>
         private double[,] frameData;
 
         /// <summary>
-        /// TODO The frame data.
+        /// The frame data.
         /// </summary>
         private Dictionary<int, double> frameDictionary;
 
         /// <summary>
-        /// TODO The _start scan.
+        /// The start scan.
         /// </summary>
         private int startScan;
 
         /// <summary>
-        /// TODO The _tic plot model.
+        /// The tic plot model.
         /// </summary>
         private PlotModel ticPlotModel;
 
         /// <summary>
-        /// TODO The _uimf data.
+        /// The uimf data.
         /// </summary>
         private UimfData uimfData;
 
@@ -107,10 +126,10 @@ namespace Atreyu.ViewModels
         #region Public Methods and Operators
 
         /// <summary>
-        /// TODO The change end scan.
+        /// The change end scan.
         /// </summary>
         /// <param name="value">
-        /// TODO The value.
+        /// The value.
         /// </param>
         public void ChangeEndScan(int value)
         {
@@ -118,10 +137,10 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The change start scan.
+        /// The change start scan.
         /// </summary>
         /// <param name="value">
-        /// TODO The value.
+        /// The value.
         /// </param>
         public void ChangeStartScan(int value)
         {
@@ -129,10 +148,10 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The get tic data.
+        /// The get tic data.
         /// </summary>
         /// <returns>
-        /// The <see cref="IDictionary"/>.
+        /// The dictionary of tic data, keyed by scan.
         /// </returns>
         public IDictionary<int, double> GetTicData()
         {
@@ -140,7 +159,7 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The get tic image.
+        /// Gets the image of the tic plot.
         /// </summary>
         /// <returns>
         /// The <see cref="Image"/>.
@@ -160,7 +179,7 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The update frame data.
+        /// The update frame data.
         /// </summary>
         /// <param name="data">
         /// The Data.
@@ -226,10 +245,10 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The update reference.
+        /// The update reference.
         /// </summary>
         /// <param name="uimfDataNew">
-        /// TODO The new <see cref="UimfData"/> that is coming in.
+        /// The new <see cref="UimfData"/> that is coming in.
         /// </param>
         public void UpdateReference(UimfData uimfDataNew)
         {
@@ -287,10 +306,10 @@ namespace Atreyu.ViewModels
             // Create a new dictionary so we don't modify the original one
             var tempFrameDict = new Dictionary<int, double>(this.uimfData.Scans);
 
-            // this is a hack to make the library work and return the proper location index
-            double junk;
             for (var i = 0; i < this.uimfData.Scans; i++)
             {
+                // this is a hack to make the library work and return the proper location index
+                double junk;
                 tempFrameDict.Add(i, this.frameDictionary.TryGetValue(i, out junk) ? junk : 0);
             }
 
@@ -377,45 +396,16 @@ namespace Atreyu.ViewModels
                         double b2 = smoothedY[currPoint.Key];
 
                         rightMidPoint = a1 + ((a2 - a1) * ((c - b1) / (b2 - b1)));
-                        continue;
                     }
                 }
 
                 var resolution = peak.LocationIndex / (rightMidPoint - leftMidpoint);
-
-                var pointAnnotation1 = new OxyPlot.Annotations.PointAnnotation
-                                           {
-                                               X = leftMidpoint, 
-                                               Y = halfmax, 
-                                               Text = "Left", 
-                                               ToolTip =
-                                                   "Left mid Point Found at "
-                                                   + leftMidpoint
-                                           };
-
-                ////this.ticPlotModel.Annotations.Add(pointAnnotation1);
-                var pointAnnotation2 = new OxyPlot.Annotations.PointAnnotation
-                                           {
-                                               X = rightMidPoint, 
-                                               Y = halfmax, 
-                                               Text = "right", 
-                                               ToolTip =
-                                                   "right mid Point Found at "
-                                                   + rightMidPoint
-                                           };
 
                 ////this.ticPlotModel.Annotations.Add(pointAnnotation2);
                 var resolutionString = resolution.ToString("F1", CultureInfo.InvariantCulture);
 
                 var annotationText = "Peak Location:" + peak.LocationIndex + Environment.NewLine + "Intensity:"
                                      + intensity + Environment.NewLine + "Resolution:" + resolutionString;
-
-                var annotation = new TextAnnotation
-                                     {
-                                         Text = annotationText, 
-                                         TextPosition =
-                                             new DataPoint(peak.LocationIndex, (int)(intensity / 3))
-                                     };
 
                 ////this.ticPlotModel.Annotations.Add(annotation);
                 var peakPoint = new OxyPlot.Annotations.PointAnnotation
