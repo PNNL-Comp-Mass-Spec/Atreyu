@@ -72,7 +72,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
-      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -110,35 +109,55 @@ $(document).ready(function(){initNavTree('_range_type_8cs_source.html','');});
 </div><!--header-->
 <div class="contents">
 <a href="_range_type_8cs.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// --------------------------------------------------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// &lt;copyright file=&quot;RangeType.cs&quot; company=&quot;&quot;&gt;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//   </span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// &lt;/copyright&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// &lt;summary&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">//   TODO The range type.</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// &lt;/summary&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">// --------------------------------------------------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span>Atreyu.Models</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;{</div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362">   14</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">enum</span> <a class="code" href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362">RangeType</a></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <a class="code" href="class_atreyu_1_1_models_1_1_bin_range.html">BinRange</a>, </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <a class="code" href="class_atreyu_1_1_models_1_1_frame_range.html">FrameRange</a>, </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <a class="code" href="class_atreyu_1_1_models_1_1_scan_range.html">ScanRange</a></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    }</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;}</div>
-<div class="ttc" id="class_atreyu_1_1_models_1_1_frame_range_html"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_frame_range.html">Atreyu.Models.FrameRange</a></div><div class="ttdef"><b>Definition:</b> <a href="_frame_range_8cs_source.html#l00018">FrameRange.cs:18</a></div></div>
-<div class="ttc" id="namespace_atreyu_1_1_models_html_a61e06e946363f7e1ff66e584a1b24362"><div class="ttname"><a href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362">Atreyu.Models.RangeType</a></div><div class="ttdeci">RangeType</div><div class="ttdef"><b>Definition:</b> <a href="_range_type_8cs_source.html#l00014">RangeType.cs:14</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_models_1_1_scan_range_html"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_scan_range.html">Atreyu.Models.ScanRange</a></div><div class="ttdef"><b>Definition:</b> <a href="_scan_range_8cs_source.html#l00018">ScanRange.cs:18</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_models_1_1_bin_range_html"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_bin_range.html">Atreyu.Models.BinRange</a></div><div class="ttdef"><b>Definition:</b> <a href="_bin_range_8cs_source.html#l00018">BinRange.cs:18</a></div></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// &lt;copyright file=&quot;RangeType.cs&quot; company=&quot;Pacific Northwest National Laboratory&quot;&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//   The MIT License (MIT)</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">//   </span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//   Copyright (c) 2015 Pacific Northwest National Laboratory</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">//   </span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">//   Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">//   of this software and associated documentation files (the &quot;Software&quot;), to deal</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">//   in the Software without restriction, including without limitation the rights</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">//   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">//   copies of the Software, and to permit persons to whom the Software is</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">//   furnished to do so, subject to the following conditions:</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">//   </span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">//   The above copyright notice and this permission notice shall be included in</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">//   all copies or substantial portions of the Software.</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">//   </span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">//   THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">//   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">//   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">//   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">//   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">//   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">//   THE SOFTWARE.</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">// &lt;/copyright&gt;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">// &lt;summary&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">//   The range type.</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">// &lt;/summary&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">// --------------------------------------------------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>Atreyu.Models</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362">   34</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">enum</span> <a class="code" href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362">RangeType</a></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <a class="code" href="class_atreyu_1_1_models_1_1_bin_range.html">BinRange</a>, </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <a class="code" href="class_atreyu_1_1_models_1_1_frame_range.html">FrameRange</a>, </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <a class="code" href="class_atreyu_1_1_models_1_1_scan_range.html">ScanRange</a></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
+<div class="ttc" id="class_atreyu_1_1_models_1_1_frame_range_html"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_frame_range.html">Atreyu.Models.FrameRange</a></div><div class="ttdoc">The frame range. </div><div class="ttdef"><b>Definition:</b> <a href="_frame_range_8cs_source.html#l00038">FrameRange.cs:38</a></div></div>
+<div class="ttc" id="namespace_atreyu_1_1_models_html_a61e06e946363f7e1ff66e584a1b24362"><div class="ttname"><a href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362">Atreyu.Models.RangeType</a></div><div class="ttdeci">RangeType</div><div class="ttdoc">The range type. </div><div class="ttdef"><b>Definition:</b> <a href="_range_type_8cs_source.html#l00034">RangeType.cs:34</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_models_1_1_scan_range_html"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_scan_range.html">Atreyu.Models.ScanRange</a></div><div class="ttdoc">The scan range. </div><div class="ttdef"><b>Definition:</b> <a href="_scan_range_8cs_source.html#l00038">ScanRange.cs:38</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_models_1_1_bin_range_html"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_bin_range.html">Atreyu.Models.BinRange</a></div><div class="ttdoc">The bin range. </div><div class="ttdef"><b>Definition:</b> <a href="_bin_range_8cs_source.html#l00038">BinRange.cs:38</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_26a57642325f3c609088cb4d72030692.html">Falkor</a></li><li class="navelem"><a class="el" href="dir_0cff26dc86242075b1285ba559db1a0a.html">Atreyu</a></li><li class="navelem"><a class="el" href="dir_a88288ddc9c67d13cd9fe3a9677c8fa0.html">Atreyu</a></li><li class="navelem"><a class="el" href="dir_6b542e43efa660ff1b7ab9531363ec6c.html">Models</a></li><li class="navelem"><a class="el" href="_range_type_8cs.html">RangeType.cs</a></li>
-    <li class="footer">Generated on Wed Apr 29 2015 12:51:59 for Atreyu by
+    <li class="footer">Generated on Thu Apr 30 2015 16:58:36 for Atreyu by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
   </ul>

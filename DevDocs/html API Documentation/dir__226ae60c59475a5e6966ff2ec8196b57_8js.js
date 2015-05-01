@@ -1,4 +1,0 @@
-var dir__226ae60c59475a5e6966ff2ec8196b57_8js =
-[
-    [ "dir_226ae60c59475a5e6966ff2ec8196b57", "dir__226ae60c59475a5e6966ff2ec8196b57_8js.html#a44bf3be3a8559371909d08a30e1da10a", null ]
-];

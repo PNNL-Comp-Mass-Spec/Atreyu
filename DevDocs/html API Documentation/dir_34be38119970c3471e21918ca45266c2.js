@@ -11,5 +11,7 @@ var dir_34be38119970c3471e21918ca45266c2 =
     ] ],
     [ "HeatMapViewModel.cs", "_heat_map_view_model_8cs.html", "_heat_map_view_model_8cs" ],
     [ "MzSpectraViewModel.cs", "_mz_spectra_view_model_8cs.html", "_mz_spectra_view_model_8cs" ],
-    [ "TotalIonChromatogramViewModel.cs", "_total_ion_chromatogram_view_model_8cs.html", "_total_ion_chromatogram_view_model_8cs" ]
+    [ "TotalIonChromatogramViewModel.cs", "_total_ion_chromatogram_view_model_8cs.html", [
+      [ "TotalIonChromatogramViewModel", "class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html", "class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model" ]
+    ] ]
 ];

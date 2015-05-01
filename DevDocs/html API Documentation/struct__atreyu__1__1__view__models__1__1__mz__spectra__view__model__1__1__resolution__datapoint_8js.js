@@ -1,4 +1,0 @@
-var struct__atreyu__1__1__view__models__1__1__mz__spectra__view__model__1__1__resolution__datapoint_8js =
-[
-    [ "struct_atreyu_1_1_view_models_1_1_mz_spectra_view_model_1_1_resolution_datapoint", "struct__atreyu__1__1__view__models__1__1__mz__spectra__view__model__1__1__resolution__datapoint_8js.html#a533d5cc9a6351986c6f765605f70bfa9", null ]
-];

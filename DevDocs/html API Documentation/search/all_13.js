@@ -1,23 +1,10 @@
 var searchData=
 [
-  ['textannotation',['TextAnnotation',['../namespace_atreyu_1_1_view_models.html#a0ea66e4c3375c522744a4c6e7b395d3c',1,'Atreyu::ViewModels']]],
-  ['ticplotmodel',['TicPlotModel',['../class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#a8cdc2459db9aad887f20cf6cb5602f03',1,'Atreyu.ViewModels.TotalIonChromatogramViewModel.TicPlotModel()'],['../class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#ae3ee3688d53b47187d7816c694f5dba4',1,'Atreyu.ViewModels.TotalIonChromatogramViewModel.ticPlotModel()']]],
-  ['ticregion',['TicRegion',['../class_atreyu_1_1_region_names.html#ae32fb42be9dabd3c0b964efebaa68fdd',1,'Atreyu::RegionNames']]],
-  ['todo_20list',['Todo List',['../todo.html',1,'']]],
-  ['togglefolder',['toggleFolder',['../dynsections_8js.html#af244da4527af2d845dca04f5656376cd',1,'dynsections.js']]],
-  ['toggleinherit',['toggleInherit',['../dynsections_8js.html#ac057b640b17ff32af11ced151c9305b4',1,'dynsections.js']]],
-  ['togglelevel',['toggleLevel',['../dynsections_8js.html#a19f577cc1ba571396a85bb1f48bf4df2',1,'dynsections.js']]],
-  ['togglesyncbutton',['toggleSyncButton',['../navtree_8js.html#a646cb31d83b39aafec92e0e1d123563a',1,'navtree.js']]],
-  ['togglevisibility',['toggleVisibility',['../dynsections_8js.html#a1922c462474df7dfd18741c961d59a25',1,'dynsections.js']]],
-  ['totalbins',['totalBins',['../class_atreyu_1_1_models_1_1_uimf_data.html#a34e74b43263b9368eec95ad125c6cdea',1,'Atreyu.Models.UimfData.totalBins()'],['../class_atreyu_1_1_models_1_1_uimf_data.html#a00432fe0556d83fb678b724e44021027',1,'Atreyu.Models.UimfData.TotalBins()']]],
-  ['totaldatapointset',['TotalDataPointSet',['../class_uimf_data_extractor_1_1_peak_information.html#a27afda6f1fb2ec95743cd8dd685f2bb1',1,'UimfDataExtractor::PeakInformation']]],
-  ['totalionchromatogramview',['TotalIonChromatogramView',['../class_atreyu_1_1_views_1_1_total_ion_chromatogram_view.html',1,'Atreyu::Views']]],
-  ['totalionchromatogramview',['totalIonChromatogramView',['../class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a932f8d573a198e4b0bdcf2ddbdedb8bb',1,'Atreyu.Views.CombinedHeatmapView.totalIonChromatogramView()'],['../class_atreyu_1_1_views_1_1_total_ion_chromatogram_view.html#a25715c19681b8fef516be7514baa2b34',1,'Atreyu.Views.TotalIonChromatogramView.TotalIonChromatogramView()']]],
-  ['totalionchromatogramview_2examl_2ecs',['TotalIonChromatogramView.xaml.cs',['../_total_ion_chromatogram_view_8xaml_8cs.html',1,'']]],
-  ['totalionchromatogramviewmodel',['TotalIonChromatogramViewModel',['../class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html',1,'Atreyu::ViewModels']]],
-  ['totalionchromatogramviewmodel',['TotalIonChromatogramViewModel',['../class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#acd9b65854ee9c33ebede4e71638d81ce',1,'Atreyu.ViewModels.CombinedHeatmapViewModel.TotalIonChromatogramViewModel()'],['../class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#adcabb3ef23a6de939e3478ea1e9b0826',1,'Atreyu.ViewModels.TotalIonChromatogramViewModel.TotalIonChromatogramViewModel()']]],
-  ['totalionchromatogramviewmodel_2ecs',['TotalIonChromatogramViewModel.cs',['../_total_ion_chromatogram_view_model_8cs.html',1,'']]],
-  ['typedefs_5f0_2ejs',['typedefs_0.js',['../typedefs__0_8js.html',1,'']]],
-  ['typedefs_5f1_2ejs',['typedefs_1.js',['../typedefs__1_8js.html',1,'']]],
-  ['typedefs_5f2_2ejs',['typedefs_2.js',['../typedefs__2_8js.html',1,'']]]
+  ['properties',['Properties',['../namespace_viewer_1_1_properties.html',1,'Viewer']]],
+  ['valuesperpixelx',['ValuesPerPixelX',['../class_atreyu_1_1_models_1_1_uimf_data.html#a1229b27550ed046eb5506a0d584cdb41',1,'Atreyu.Models.UimfData.ValuesPerPixelX()'],['../class_atreyu_1_1_models_1_1_uimf_data.html#a0d6e38548e8b6de257258ca501c9639b',1,'Atreyu.Models.UimfData.valuesPerPixelX()']]],
+  ['valuesperpixely',['valuesPerPixelY',['../class_atreyu_1_1_models_1_1_uimf_data.html#a5c48a5531d567be8ca3a0cf0c4edea80',1,'Atreyu.Models.UimfData.valuesPerPixelY()'],['../class_atreyu_1_1_models_1_1_uimf_data.html#a011958ff28f0faebb33d2af8f48536b1',1,'Atreyu.Models.UimfData.ValuesPerPixelY()'],['../class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a4224dbd58450603baa50679786570914',1,'Atreyu.ViewModels.MzSpectraViewModel.ValuesPerPixelY()']]],
+  ['verbose',['Verbose',['../class_uimf_data_extractor_1_1_command_line_options.html#afa465817adb2313c59bc7285143885f3',1,'UimfDataExtractor::CommandLineOptions']]],
+  ['viewer',['Viewer',['../namespace_viewer.html',1,'']]],
+  ['viewmodel',['viewModel',['../class_atreyu_1_1_views_1_1_frame_manipulation_view.html#a060885dabf62c52311532a90a55618d7',1,'Atreyu.Views.FrameManipulationView.viewModel()'],['../class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a028b38d59eaf2d06bbc80e8f0ef6d46d',1,'Atreyu.Views.CombinedHeatmapView.ViewModel()'],['../class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a4807597519fda5177826825942908ee1',1,'Atreyu.Views.CombinedHeatmapView.ViewModel()'],['../class_atreyu_1_1_views_1_1_gate_slider.html#a6d2d8bc957a7653c8d6552b3771ded50',1,'Atreyu.Views.GateSlider.ViewModel()'],['../class_atreyu_1_1_views_1_1_heat_map_view.html#adead9651fcd423efaa615e72c2c05781',1,'Atreyu.Views.HeatMapView.ViewModel()'],['../class_atreyu_1_1_views_1_1_heat_map_view.html#a944ca9c93e7cbd4d4800f5dba10fc3fe',1,'Atreyu.Views.HeatMapView.ViewModel()'],['../class_viewer_1_1_main_window.html#a54c148a77d7f7abc913738d108b19b60',1,'Viewer.MainWindow.ViewModel()'],['../class_viewer_1_1_main_window.html#a0b0f896502aa0b7581b5c086f14e3343',1,'Viewer.MainWindow.ViewModel()']]],
+  ['viewmodels',['ViewModels',['../namespace_viewer_1_1_view_models.html',1,'Viewer']]]
 ];

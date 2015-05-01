@@ -2,7 +2,6 @@ var NAVTREE =
 [
   [ "Atreyu", "index.html", [
     [ "license", "md__falkor__atreyu_license.html", null ],
-    [ "Todo List", "todo.html", null ],
     [ "Packages", null, [
       [ "Packages", "namespaces.html", "namespaces" ],
       [ "Package Functions", "namespacemembers.html", [
@@ -24,24 +23,16 @@ var NAVTREE =
       ] ]
     ] ],
     [ "Files", null, [
-      [ "File List", "files.html", "files" ],
-      [ "File Members", "globals.html", [
-        [ "All", "globals.html", "globals_dup" ],
-        [ "Functions", "globals_func.html", null ],
-        [ "Variables", "globals_vars.html", "globals_vars" ]
-      ] ]
+      [ "File List", "files.html", "files" ]
     ] ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"__heat__map__view__model__8cs_8js.html",
-"class_atreyu_1_1_models_1_1_frame_range.html#a1b095ffca5e1f96e0bfe361ba9c921c9",
-"class_atreyu_1_1_views_1_1_combined_heatmap_view.html#af55f18de41b7c47900e3d320ed12c94f",
-"dynsections_8js_source.html",
-"namespace__atreyu_8js.html#a05402efd24df5dfdcacea666955e6a49",
-"variables__e_8js.html"
+"_app_8xaml_8cs.html",
+"class_atreyu_1_1_view_models_1_1_heat_map_view_model.html",
+"class_viewer_1_1_view_models_1_1_main_window_view_model.html#acd40132785ca45e9debe2abcc7fe004f"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

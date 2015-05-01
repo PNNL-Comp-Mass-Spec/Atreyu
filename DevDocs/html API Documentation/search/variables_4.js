@@ -1,19 +1,10 @@
 var searchData=
 [
-  ['d',['d',['../jquery_8js.html#a36541169dfff685f807208881a4f0021',1,'jquery.js']]],
-  ['dataarray',['dataArray',['../class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a2dceaad3adf86ae1199c4dd342e7d20d',1,'Atreyu::ViewModels::HeatMapViewModel']]],
-  ['datareader',['dataReader',['../class_atreyu_1_1_models_1_1_uimf_data.html#a6d3baf2972d3b8d2abe1ce25d3ee5b74',1,'Atreyu::Models::UimfData']]],
-  ['defaultinstance',['defaultInstance',['../class_viewer_1_1_properties_1_1_settings.html#a60d0f210f73a769b127a7b80d67bed38',1,'Viewer::Properties::Settings']]],
-  ['defaults',['defaults',['../jquery_8js.html#ad75f6e7a984ade562fc90b2a242cde69',1,'jquery.js']]],
-  ['delay',['delay',['../jquery_8js.html#ae7a465038372349ff529c67911a6b6d1',1,'jquery.js']]],
-  ['dir_5f0714ab7de4086ea275cac99673971c63',['dir_0714ab7de4086ea275cac99673971c63',['../dir__0714ab7de4086ea275cac99673971c63_8js.html#ab15ddcf97845f8e2f1c570a5932ef9d0',1,'dir_0714ab7de4086ea275cac99673971c63.js']]],
-  ['dir_5f0cff26dc86242075b1285ba559db1a0a',['dir_0cff26dc86242075b1285ba559db1a0a',['../dir__0cff26dc86242075b1285ba559db1a0a_8js.html#a2ca01d3ebabdde5df10ef3feb6bb68d0',1,'dir_0cff26dc86242075b1285ba559db1a0a.js']]],
-  ['dir_5f226ae60c59475a5e6966ff2ec8196b57',['dir_226ae60c59475a5e6966ff2ec8196b57',['../dir__226ae60c59475a5e6966ff2ec8196b57_8js.html#a44bf3be3a8559371909d08a30e1da10a',1,'dir_226ae60c59475a5e6966ff2ec8196b57.js']]],
-  ['dir_5f26a57642325f3c609088cb4d72030692',['dir_26a57642325f3c609088cb4d72030692',['../dir__26a57642325f3c609088cb4d72030692_8js.html#aa2e9673ef94889a6e3c7fc410fac0a73',1,'dir_26a57642325f3c609088cb4d72030692.js']]],
-  ['dir_5f34be38119970c3471e21918ca45266c2',['dir_34be38119970c3471e21918ca45266c2',['../dir__34be38119970c3471e21918ca45266c2_8js.html#aa0d812d8a8d36a6b9dedcc17ba39356e',1,'dir_34be38119970c3471e21918ca45266c2.js']]],
-  ['dir_5f6b542e43efa660ff1b7ab9531363ec6c',['dir_6b542e43efa660ff1b7ab9531363ec6c',['../dir__6b542e43efa660ff1b7ab9531363ec6c_8js.html#ab866fc44c85f7c14120ed3933f83f92c',1,'dir_6b542e43efa660ff1b7ab9531363ec6c.js']]],
-  ['dir_5f777669b1ef9f6420ba317b385d93e55d',['dir_777669b1ef9f6420ba317b385d93e55d',['../dir__777669b1ef9f6420ba317b385d93e55d_8js.html#a5e2b5feec6b746bae6a18803e82beff2',1,'dir_777669b1ef9f6420ba317b385d93e55d.js']]],
-  ['dir_5fa7aafd4633c6cf0d1df1769b992c6bf7',['dir_a7aafd4633c6cf0d1df1769b992c6bf7',['../dir__a7aafd4633c6cf0d1df1769b992c6bf7_8js.html#a359f58a8672deef2d32af58b1721572a',1,'dir_a7aafd4633c6cf0d1df1769b992c6bf7.js']]],
-  ['dir_5fa88288ddc9c67d13cd9fe3a9677c8fa0',['dir_a88288ddc9c67d13cd9fe3a9677c8fa0',['../dir__a88288ddc9c67d13cd9fe3a9677c8fa0_8js.html#a6f4f4a284a9b883ba7ad60680b9d399c',1,'dir_a88288ddc9c67d13cd9fe3a9677c8fa0.js']]],
-  ['dir_5fb1c26106e33b08dd79b2b4f3f8790aa9',['dir_b1c26106e33b08dd79b2b4f3f8790aa9',['../dir__b1c26106e33b08dd79b2b4f3f8790aa9_8js.html#a8bbf74ebf5950bec099d695c24a7347b',1,'dir_b1c26106e33b08dd79b2b4f3f8790aa9.js']]]
+  ['endbin',['endBin',['../class_atreyu_1_1_models_1_1_bin_range.html#a249832308fd88af983d960fa2c203158',1,'Atreyu::Models::BinRange']]],
+  ['endframe',['endFrame',['../class_atreyu_1_1_models_1_1_frame_range.html#af031184450b5d1ab7d02f279d56bf742',1,'Atreyu::Models::FrameRange']]],
+  ['endframenumber',['endFrameNumber',['../class_atreyu_1_1_models_1_1_uimf_data.html#a3ec0bd1d318487f3669d7221f18496f1',1,'Atreyu::Models::UimfData']]],
+  ['endmzbin',['endMzBin',['../class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#af00147a20dc63292216727e70adc07fb',1,'Atreyu::ViewModels::MzSpectraViewModel']]],
+  ['endscan',['endScan',['../class_atreyu_1_1_models_1_1_scan_range.html#a4b22003595f97ea70dd708fbd5f5d8f0',1,'Atreyu.Models.ScanRange.endScan()'],['../class_atreyu_1_1_models_1_1_uimf_data.html#acf8b809fbf15cbbe92a5e227135711e7',1,'Atreyu.Models.UimfData.endScan()'],['../class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#a5ba5343d7b409a2b470e26cdd0d4253d',1,'Atreyu.ViewModels.TotalIonChromatogramViewModel.endScan()']]],
+  ['extract',['Extract',['../class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#a175780640abffd12302f08dcff3cad1d',1,'UimfDataExtractor::UimfDataExtractorGui']]],
+  ['extractdatadisabledlabel',['ExtractDataDisabledLabel',['../class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#ad9d35b7c10e0a6bfffb63d41d77274eb',1,'UimfDataExtractor::UimfDataExtractorGui']]]
 ];

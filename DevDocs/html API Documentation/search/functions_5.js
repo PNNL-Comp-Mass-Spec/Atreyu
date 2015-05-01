@@ -1,8 +1,28 @@
 var searchData=
 [
-  ['fetchsingleframe',['FetchSingleFrame',['../class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a9415ec46d748bda6af7a355d5c2e453d',1,'Atreyu::ViewModels::CombinedHeatmapViewModel']]],
-  ['findpeaks',['FindPeaks',['../class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a9a716718e464eb238245751e0294a9d4',1,'Atreyu.ViewModels.MzSpectraViewModel.FindPeaks()'],['../class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#aae6de08a6223e6faacecadb46d9c1c70',1,'Atreyu.ViewModels.TotalIonChromatogramViewModel.FindPeaks()'],['../class_uimf_data_extractor_1_1_uimf_processor.html#acf6fca589811627ed65b209b9c2749b1',1,'UimfDataExtractor.UimfProcessor.FindPeaks()']]],
-  ['framemanipulationview',['FrameManipulationView',['../class_atreyu_1_1_views_1_1_frame_manipulation_view.html#a0042a8bfc230f006c6215f3460b38a47',1,'Atreyu::Views::FrameManipulationView']]],
-  ['framemanipulationviewmodel',['FrameManipulationViewModel',['../class_atreyu_1_1_view_models_1_1_frame_manipulation_view_model.html#aa71f467ad3db1cf2dc8d9fd595f468a2',1,'Atreyu::ViewModels::FrameManipulationViewModel']]],
-  ['framerange',['FrameRange',['../class_atreyu_1_1_models_1_1_frame_range.html#a1b095ffca5e1f96e0bfe361ba9c921c9',1,'Atreyu.Models.FrameRange.FrameRange()'],['../class_atreyu_1_1_models_1_1_frame_range.html#a94af3c93964ddaa345b8e2e3227801b5',1,'Atreyu.Models.FrameRange.FrameRange(int start, int end)']]]
+  ['gatedata',['GateData',['../class_atreyu_1_1_models_1_1_uimf_data.html#a424a9ce357b24cb132a0c956804ffa50',1,'Atreyu::Models::UimfData']]],
+  ['gateslider',['GateSlider',['../class_atreyu_1_1_views_1_1_gate_slider.html#aeb163b0cb2029aaab922008e16621731',1,'Atreyu.Views.GateSlider.GateSlider()'],['../class_atreyu_1_1_views_1_1_gate_slider.html#a34eee0039cd0eb5105c8f58d63104c35',1,'Atreyu.Views.GateSlider.GateSlider(GateSliderViewModel viewModel)']]],
+  ['getcompresseddatainview',['GetCompressedDataInView',['../class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#aa3c50fe497bb3312a57028a48f847f12',1,'Atreyu::ViewModels::HeatMapViewModel']]],
+  ['getdatafilename',['GetDataFilename',['../class_viewer_1_1_view_models_1_1_main_window_view_model.html#a1b8f8c54fed2b70ba019e0863f980b65',1,'Viewer::ViewModels::MainWindowViewModel']]],
+  ['getfilestream',['GetFileStream',['../class_uimf_data_extractor_1_1_data_exporter.html#a7726da3e1d840744c5ee76b196d6e152',1,'UimfDataExtractor::DataExporter']]],
+  ['getframetype',['GetFrameType',['../class_atreyu_1_1_models_1_1_uimf_data.html#a3a630a6054c6b0749ed9afcc8d26c475',1,'Atreyu.Models.UimfData.GetFrameType()'],['../class_uimf_data_extractor_1_1_uimf_processor.html#aac07f3a3156c878588e7de61c94351c3',1,'UimfDataExtractor.UimfProcessor.GetFrameType()']]],
+  ['getfullheatmapdata',['GetFullHeatmapData',['../class_uimf_data_extractor_1_1_uimf_processor.html#a94a3607de24f7e9f32df177395d6e388',1,'UimfDataExtractor::UimfProcessor']]],
+  ['getfullmzinfo',['GetFullMzInfo',['../class_uimf_data_extractor_1_1_uimf_processor.html#a1a95617b5792690313a1318b275b19cd',1,'UimfDataExtractor::UimfProcessor']]],
+  ['getfullscaninfo',['GetFullScanInfo',['../class_atreyu_1_1_models_1_1_uimf_data.html#a55eaac3f16736537e016f4e6bf88b2a7',1,'Atreyu.Models.UimfData.GetFullScanInfo()'],['../class_uimf_data_extractor_1_1_uimf_processor.html#a67102708619de2fc7d9dbd3bdd5cc4e3',1,'UimfDataExtractor.UimfProcessor.GetFullScanInfo()']]],
+  ['gethashcode',['GetHashCode',['../class_atreyu_1_1_models_1_1_bin_range.html#aba226b5e5dfc9684c5a21c47392ca11c',1,'Atreyu::Models::BinRange']]],
+  ['getheatmapimage',['GetHeatmapImage',['../class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#ae6d9adc9733f11e0e7f3be077d1e916d',1,'Atreyu::ViewModels::HeatMapViewModel']]],
+  ['getimage',['GetImage',['../class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#afbbdc1e36898360d8ab0c3a2cd2108fd',1,'Atreyu::ViewModels::CombinedHeatmapViewModel']]],
+  ['getimageformat',['GetImageFormat',['../class_viewer_1_1_view_models_1_1_main_window_view_model.html#ae23a722ee955b6c4c8a2f12bd341c6d3',1,'Viewer::ViewModels::MainWindowViewModel']]],
+  ['getmz',['GetMz',['../class_uimf_data_extractor_1_1_uimf_processor.html#ae6119cdea786f3440fbf26c23804e608',1,'UimfDataExtractor::UimfProcessor']]],
+  ['getmzdatacompressed',['GetMzDataCompressed',['../class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a86ccc456d511e4dd0e7350f8d11c01b0',1,'Atreyu::ViewModels::MzSpectraViewModel']]],
+  ['getmzimage',['GetMzImage',['../class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#afd4e9679d3638d2008afcf426063787f',1,'Atreyu::ViewModels::MzSpectraViewModel']]],
+  ['getoutputlocation',['GetOutputLocation',['../class_uimf_data_extractor_1_1_data_exporter.html#ab19df5661f44cb8f5a2c9216538d0743',1,'UimfDataExtractor::DataExporter']]],
+  ['gettic',['GetTiC',['../class_uimf_data_extractor_1_1_uimf_processor.html#ac1f35661b800c6ff6cb99e08cf971257',1,'UimfDataExtractor::UimfProcessor']]],
+  ['getticdata',['GetTicData',['../class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#acb70cfca177b5f6d5446d35a0af49f60',1,'Atreyu::ViewModels::TotalIonChromatogramViewModel']]],
+  ['getticimage',['GetTicImage',['../class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#a1f73aba84ccebd64217a3e92a37e8bc2',1,'Atreyu::ViewModels::TotalIonChromatogramViewModel']]],
+  ['getusage',['GetUsage',['../class_uimf_data_extractor_1_1_command_line_options.html#a7790be3996c08684fff0429fa569ab46',1,'UimfDataExtractor::CommandLineOptions']]],
+  ['getxic',['GetXic',['../class_uimf_data_extractor_1_1_uimf_processor.html#a0258da6e13a561231698298031093af8',1,'UimfDataExtractor::UimfProcessor']]],
+  ['getxiccheckedchanged',['GetXicCheckedChanged',['../class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#a018fb7ef668a13cc9692b15b509d34cb',1,'UimfDataExtractor::UimfDataExtractorGui']]],
+  ['getxicinfo',['GetXicInfo',['../class_uimf_data_extractor_1_1_uimf_processor.html#a05641e96aba63aa0b5a645a692d1d15c',1,'UimfDataExtractor::UimfProcessor']]],
+  ['getxmlwriter',['GetXmlWriter',['../class_uimf_data_extractor_1_1_data_exporter.html#adbf2d5ed7bc8af693dca6c8fe9a432db',1,'UimfDataExtractor::DataExporter']]]
 ];
