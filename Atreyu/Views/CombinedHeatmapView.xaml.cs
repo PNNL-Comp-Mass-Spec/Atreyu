@@ -1,6 +1,26 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CombinedHeatmapView.xaml.cs" company="">
+// <copyright file="CombinedHeatmapView.xaml.cs" company="Pacific Northwest National Laboratory">
+//   The MIT License (MIT)
 //   
+//   Copyright (c) 2015 Pacific Northwest National Laboratory
+//   
+//   Permission is hereby granted, free of charge, to any person obtaining a copy
+//   of this software and associated documentation files (the "Software"), to deal
+//   in the Software without restriction, including without limitation the rights
+//   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//   copies of the Software, and to permit persons to whom the Software is
+//   furnished to do so, subject to the following conditions:
+//   
+//   The above copyright notice and this permission notice shall be included in
+//   all copies or substantial portions of the Software.
+//   
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//   THE SOFTWARE.
 // </copyright>
 // <summary>
 //   Interaction logic for CombinedHeatmapView.xaml
@@ -26,27 +46,27 @@ namespace Atreyu.Views
         #region Fields
 
         /// <summary>
-        /// TODO The frame manipulation view.
+        /// The frame manipulation view.
         /// </summary>
         private FrameManipulationView frameManipulationView;
 
         /// <summary>
-        /// TODO The heat map view.
+        /// The heat map view.
         /// </summary>
         private HeatMapView heatMapView;
 
         /// <summary>
-        /// TODO The low slider view.
+        /// The low slider view.
         /// </summary>
         private GateSlider lowSliderView;
 
         /// <summary>
-        /// TODO The mz spectra view.
+        /// The mz spectra view.
         /// </summary>
         private MzSpectraView mzSpectraView;
 
         /// <summary>
-        /// TODO The total ion chromatogram view.
+        /// The total ion chromatogram view.
         /// </summary>
         private TotalIonChromatogramView totalIonChromatogramView;
 
@@ -99,13 +119,13 @@ namespace Atreyu.Views
         #region Methods
 
         /// <summary>
-        /// TODO The combined heatmap view_ data context changed.
+        /// The combined heatmap view data context changed method.
         /// </summary>
         /// <param name="sender">
-        /// TODO The sender.
+        /// The sender.
         /// </param>
         /// <param name="e">
-        /// TODO The e.
+        /// The event args.
         /// </param>
         private void CombinedHeatmapViewDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
@@ -151,13 +171,13 @@ namespace Atreyu.Views
         }
 
         /// <summary>
-        /// TODO The combined heatmap view preview drop.
+        /// The combined heatmap view preview drop.
         /// </summary>
         /// <param name="sender">
-        /// TODO The sender.
+        /// The sender.
         /// </param>
         /// <param name="e">
-        /// TODO The e.
+        /// The event args.
         /// </param>
         private async void CombinedHeatmapViewPreviewDrop(object sender, DragEventArgs e)
         {
@@ -182,10 +202,10 @@ namespace Atreyu.Views
         }
 
         /// <summary>
-        /// TODO The load file.
+        /// The load file.
         /// </summary>
         /// <param name="fileName">
-        /// TODO The file name.
+        /// The file name.
         /// </param>
         /// <returns>
         /// The <see cref="Task"/>.
@@ -197,13 +217,13 @@ namespace Atreyu.Views
         }
 
         /// <summary>
-        /// TODO The main tab control_ preview drag enter.
+        /// The main tab control preview drag enter.
         /// </summary>
         /// <param name="sender">
-        /// TODO The sender.
+        /// The sender.
         /// </param>
         /// <param name="e">
-        /// TODO The e.
+        /// The event args.
         /// </param>
         private async void MainTabControlPreviewDragEnter(object sender, DragEventArgs e)
         {

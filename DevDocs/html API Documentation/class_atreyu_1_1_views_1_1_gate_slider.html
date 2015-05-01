@@ -31,9 +31,9 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Atreyu
-   &#160;<span id="projectnumber">1.5</span>
+   &#160;<span id="projectnumber">1.7</span>
    </div>
-   <div id="projectbrief">A light-weight viewer for Unified Ion Mobility Files</div>
+   <div id="projectbrief">A light-weight Ion mobility mass spectrometry data viewer and extractor, targeted toward PNNL&#39;s UIMF files</div>
   </td>
  </tr>
  </tbody>
@@ -137,7 +137,7 @@ Properties</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Interaction logic for GateSlider.xaml </p>
 
-<p>Definition at line <a class="el" href="_gate_slider_8xaml_8cs_source.html#l00016">16</a> of file <a class="el" href="_gate_slider_8xaml_8cs_source.html">GateSlider.xaml.cs</a>.</p>
+<p>Definition at line <a class="el" href="_gate_slider_8xaml_8cs_source.html#l00036">36</a> of file <a class="el" href="_gate_slider_8xaml_8cs_source.html">GateSlider.xaml.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aeb163b0cb2029aaab922008e16621731"></a>
 <div class="memitem">
@@ -154,10 +154,10 @@ Properties</h2></td></tr>
 
 <p>Initializes a new instance of the <a class="el" href="class_atreyu_1_1_views_1_1_gate_slider.html" title="Interaction logic for GateSlider.xaml ">GateSlider</a> class. </p>
 
-<p>Definition at line <a class="el" href="_gate_slider_8xaml_8cs_source.html#l00023">23</a> of file <a class="el" href="_gate_slider_8xaml_8cs_source.html">GateSlider.xaml.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            : <span class="keyword">this</span>(<span class="keyword">new</span> GateSliderViewModel())</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        }</div>
+<p>Definition at line <a class="el" href="_gate_slider_8xaml_8cs_source.html#l00043">43</a> of file <a class="el" href="_gate_slider_8xaml_8cs_source.html">GateSlider.xaml.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            : <span class="keyword">this</span>(<span class="keyword">new</span> GateSliderViewModel())</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -178,31 +178,30 @@ Properties</h2></td></tr>
 <p>Initializes a new instance of the <a class="el" href="class_atreyu_1_1_views_1_1_gate_slider.html" title="Interaction logic for GateSlider.xaml ">GateSlider</a> class. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">viewModel</td><td></td></tr>
+    <tr><td class="paramname">viewModel</td><td>The view model. </td></tr>
   </table>
   </dd>
 </dl>
-<p>todo 198. </p>
 
-<p>Definition at line <a class="el" href="_gate_slider_8xaml_8cs_source.html#l00034">34</a> of file <a class="el" href="_gate_slider_8xaml_8cs_source.html">GateSlider.xaml.cs</a>.</p>
+<p>Definition at line <a class="el" href="_gate_slider_8xaml_8cs_source.html#l00054">54</a> of file <a class="el" href="_gate_slider_8xaml_8cs_source.html">GateSlider.xaml.cs</a>.</p>
 
-<p>References <a class="el" href="_gate_slider_view_model_8cs_source.html#l00163">Atreyu.ViewModels.GateSliderViewModel.UpdateGate()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            this.InitializeComponent();</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            this.ViewModel = viewModel;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            this.DataContext = this.ViewModel;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            this.GateSliderControl.ValueChanged += (sender, args) =&gt; this.<a class="code" href="class_atreyu_1_1_views_1_1_gate_slider.html#a6d2d8bc957a7653c8d6552b3771ded50">ViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_gate_slider_view_model.html#a64932a53c687ebc18aabdb83a4a09414">UpdateGate</a>(args.NewValue);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        }</div>
-<div class="ttc" id="class_atreyu_1_1_views_1_1_gate_slider_html_a6d2d8bc957a7653c8d6552b3771ded50"><div class="ttname"><a href="class_atreyu_1_1_views_1_1_gate_slider.html#a6d2d8bc957a7653c8d6552b3771ded50">Atreyu.Views.GateSlider.ViewModel</a></div><div class="ttdeci">GateSliderViewModel ViewModel</div><div class="ttdoc">Gets or sets the view model. </div><div class="ttdef"><b>Definition:</b> <a href="_gate_slider_8xaml_8cs_source.html#l00050">GateSlider.xaml.cs:50</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_gate_slider_view_model_html_a64932a53c687ebc18aabdb83a4a09414"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_gate_slider_view_model.html#a64932a53c687ebc18aabdb83a4a09414">Atreyu.ViewModels.GateSliderViewModel.UpdateGate</a></div><div class="ttdeci">void UpdateGate(double value)</div><div class="ttdef"><b>Definition:</b> <a href="_gate_slider_view_model_8cs_source.html#l00163">GateSliderViewModel.cs:163</a></div></div>
+<p>References <a class="el" href="_gate_slider_view_model_8cs_source.html#l00183">Atreyu.ViewModels.GateSliderViewModel.UpdateGate()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            this.InitializeComponent();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            this.ViewModel = viewModel;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            this.DataContext = this.ViewModel;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            this.GateSliderControl.ValueChanged += (sender, args) =&gt; this.<a class="code" href="class_atreyu_1_1_views_1_1_gate_slider.html#a6d2d8bc957a7653c8d6552b3771ded50">ViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_gate_slider_view_model.html#a64932a53c687ebc18aabdb83a4a09414">UpdateGate</a>(args.NewValue);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        }</div>
+<div class="ttc" id="class_atreyu_1_1_views_1_1_gate_slider_html_a6d2d8bc957a7653c8d6552b3771ded50"><div class="ttname"><a href="class_atreyu_1_1_views_1_1_gate_slider.html#a6d2d8bc957a7653c8d6552b3771ded50">Atreyu.Views.GateSlider.ViewModel</a></div><div class="ttdeci">GateSliderViewModel ViewModel</div><div class="ttdoc">Gets or sets the view model. </div><div class="ttdef"><b>Definition:</b> <a href="_gate_slider_8xaml_8cs_source.html#l00070">GateSlider.xaml.cs:70</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_gate_slider_view_model_html_a64932a53c687ebc18aabdb83a4a09414"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_gate_slider_view_model.html#a64932a53c687ebc18aabdb83a4a09414">Atreyu.ViewModels.GateSliderViewModel.UpdateGate</a></div><div class="ttdeci">void UpdateGate(double value)</div><div class="ttdoc">The update gate. </div><div class="ttdef"><b>Definition:</b> <a href="_gate_slider_view_model_8cs_source.html#l00183">GateSliderViewModel.cs:183</a></div></div>
 </div><!-- fragment -->
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_atreyu_1_1_views_1_1_gate_slider_a34eee0039cd0eb5105c8f58d63104c35_cgraph.png" border="0" usemap="#class_atreyu_1_1_views_1_1_gate_slider_a34eee0039cd0eb5105c8f58d63104c35_cgraph" alt=""/></div>
 <map name="class_atreyu_1_1_views_1_1_gate_slider_a34eee0039cd0eb5105c8f58d63104c35_cgraph" id="class_atreyu_1_1_views_1_1_gate_slider_a34eee0039cd0eb5105c8f58d63104c35_cgraph">
-<area shape="rect" id="node2" href="class_atreyu_1_1_view_models_1_1_gate_slider_view_model.html#a64932a53c687ebc18aabdb83a4a09414" title="Atreyu.ViewModels.GateSlider\lViewModel.UpdateGate" alt="" coords="221,5,420,47"/></map>
+<area shape="rect" id="node2" href="class_atreyu_1_1_view_models_1_1_gate_slider_view_model.html#a64932a53c687ebc18aabdb83a4a09414" title="The update gate. " alt="" coords="221,5,420,47"/></map>
 </div>
 </p>
 
@@ -229,7 +228,7 @@ Here is the call graph for this function:</div>
 
 <p>Gets or sets the view model. </p>
 
-<p>Definition at line <a class="el" href="_gate_slider_8xaml_8cs_source.html#l00050">50</a> of file <a class="el" href="_gate_slider_8xaml_8cs_source.html">GateSlider.xaml.cs</a>.</p>
+<p>Definition at line <a class="el" href="_gate_slider_8xaml_8cs_source.html#l00070">70</a> of file <a class="el" href="_gate_slider_8xaml_8cs_source.html">GateSlider.xaml.cs</a>.</p>
 
 </div>
 </div>
@@ -242,7 +241,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespace_atreyu.html">Atreyu</a></li><li class="navelem"><a class="el" href="namespace_atreyu_1_1_views.html">Views</a></li><li class="navelem"><a class="el" href="class_atreyu_1_1_views_1_1_gate_slider.html">GateSlider</a></li>
-    <li class="footer">Generated on Mon Mar 16 2015 16:31:37 for Atreyu by
+    <li class="footer">Generated on Thu Apr 30 2015 16:58:39 for Atreyu by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
   </ul>

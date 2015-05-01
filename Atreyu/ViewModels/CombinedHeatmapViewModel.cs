@@ -1,9 +1,29 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CombinedHeatmapViewModel.cs" company="">
+// <copyright file="CombinedHeatmapViewModel.cs" company="Pacific Northwest National Laboratory">
+//   The MIT License (MIT)
 //   
+//   Copyright (c) 2015 Pacific Northwest National Laboratory
+//   
+//   Permission is hereby granted, free of charge, to any person obtaining a copy
+//   of this software and associated documentation files (the "Software"), to deal
+//   in the Software without restriction, including without limitation the rights
+//   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//   copies of the Software, and to permit persons to whom the Software is
+//   furnished to do so, subject to the following conditions:
+//   
+//   The above copyright notice and this permission notice shall be included in
+//   all copies or substantial portions of the Software.
+//   
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//   THE SOFTWARE.
 // </copyright>
 // <summary>
-//   TODO The combined heatmap view model.
+//   The combined heatmap view model.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Atreyu.ViewModels
@@ -21,7 +41,7 @@ namespace Atreyu.ViewModels
     using ReactiveUI;
 
     /// <summary>
-    /// TODO The combined heatmap view model.
+    /// The combined heatmap view model.
     /// </summary>
     [Export]
     public class CombinedHeatmapViewModel : ReactiveObject
@@ -29,7 +49,7 @@ namespace Atreyu.ViewModels
         #region Constants
 
         /// <summary>
-        /// TODO The return gated data.
+        /// The return gated data bool.
         /// </summary>
         private const bool ReturnGatedData = true;
 
@@ -38,7 +58,7 @@ namespace Atreyu.ViewModels
         #region Fields
 
         /// <summary>
-        /// TODO The current end frame.
+        /// The current end frame.
         /// </summary>
         private int currentEndFrame;
 
@@ -48,22 +68,22 @@ namespace Atreyu.ViewModels
         private string currentFile = "Heatmap";
 
         /// <summary>
-        /// TODO The current start frame.
+        /// The current start frame.
         /// </summary>
         private int currentStartFrame;
 
         /// <summary>
-        /// TODO The height.
+        /// The height of the view.
         /// </summary>
         private int height;
 
         /// <summary>
-        /// TODO The uimf data.
+        /// The uimf data.
         /// </summary>
         private UimfData uimfData;
 
         /// <summary>
-        /// TODO The width.
+        /// The width of the view.
         /// </summary>
         private int width;
 
@@ -288,10 +308,10 @@ namespace Atreyu.ViewModels
         #region Public Methods and Operators
 
         /// <summary>
-        /// TODO The export heatmap data compressed.
+        /// The export heatmap data compressed.
         /// </summary>
         /// <returns>
-        /// The <see cref="double[,]"/>.
+        /// The 2d array of <see cref="double"/>s that represents that data in the view.
         /// </returns>
         public double[,] ExportHeatmapDataCompressed()
         {
@@ -299,10 +319,10 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The export mz data compressed.
+        /// The export mz data compressed method.
         /// </summary>
         /// <returns>
-        /// The <see cref="IDictionary"/>.
+        /// The dictionary of data, keyed by mz.
         /// </returns>
         public IDictionary<double, double> ExportMzDataCompressed()
         {
@@ -310,10 +330,10 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The export tic data compressed.
+        /// The export tic data compressed method.
         /// </summary>
         /// <returns>
-        /// The <see cref="IDictionary"/>.
+        /// The dictionary of data, keyed by scan.
         /// </returns>
         public IDictionary<int, double> ExportTicDataCompressed()
         {
@@ -321,10 +341,10 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The set up plot.
+        /// The set up plot mthod.
         /// </summary>
         /// <param name="frameNumber">
-        /// TODO The frame number.
+        /// The frame number to load.
         /// </param>
         /// <returns>
         /// The <see cref="Task"/>.
@@ -348,10 +368,10 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The get image.
+        /// The get image method.
         /// </summary>
         /// <returns>
-        /// The <see cref="Image"/>.
+        /// The <see cref="Image"/> of the current three plots in view.
         /// </returns>
         public Image GetImage()
         {
@@ -372,10 +392,10 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The initialize uimf data.
+        /// The initialize uimf data.
         /// </summary>
         /// <param name="file">
-        /// TODO The file.
+        /// The file.
         /// </param>
         /// <returns>
         /// The <see cref="Task"/>.
@@ -390,7 +410,7 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The sum frames.
+        /// The sum frames.
         /// </summary>
         /// <param name="sumFrames">
         /// The frame range to sum.
@@ -425,10 +445,10 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The update low gate.
+        /// The update low gate.
         /// </summary>
         /// <param name="gate">
-        /// TODO The gate.
+        /// The gate.
         /// </param>
         public void UpdateLowGate(double gate)
         {
@@ -441,7 +461,7 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// TODO The zoom out.
+        /// The zoom out.
         /// </summary>
         /// <returns>
         /// The <see cref="Task"/>.

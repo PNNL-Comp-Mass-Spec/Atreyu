@@ -1,0 +1,11 @@
+<map id="UimfDataExtractor.DataExporter.GetFileStream" name="UimfDataExtractor.DataExporter.GetFileStream">
+<area shape="rect" id="node2" href="$class_uimf_data_extractor_1_1_data_exporter.html#adbf2d5ed7bc8af693dca6c8fe9a432db" title="The get xml writer. " alt="" coords="265,5,477,47"/>
+<area shape="rect" id="node4" href="$class_uimf_data_extractor_1_1_data_exporter.html#a7beeab9afcdcf94fa33fb694963ab2c2" title="The output bulk mz peak data method. " alt="" coords="265,71,477,112"/>
+<area shape="rect" id="node5" href="$class_uimf_data_extractor_1_1_data_exporter.html#a730568a0e4c7541ab6d4cfecabde7b98" title="The output bulk tic peak data. " alt="" coords="265,136,477,177"/>
+<area shape="rect" id="node6" href="$class_uimf_data_extractor_1_1_data_exporter.html#a0e503dc395ed880bf65fbe1479768e02" title="The output bulk xic peak data. " alt="" coords="265,201,477,243"/>
+<area shape="rect" id="node7" href="$class_uimf_data_extractor_1_1_data_exporter.html#a827beec975eb9c5ffe9a4ed1030a457c" title="Handles writing the heat map to file. " alt="" coords="265,267,477,308"/>
+<area shape="rect" id="node8" href="$class_uimf_data_extractor_1_1_data_exporter.html#afc40bff6b4b5932cc1e82a06054236f7" title="Handles writing the mass over charge information to file. " alt="" coords="265,332,477,373"/>
+<area shape="rect" id="node9" href="$class_uimf_data_extractor_1_1_data_exporter.html#a8690731bc1b6e27e0b38c4e5820cda0b" title="Handles Outputting the Total Ion Chromatogram data to file. " alt="" coords="265,397,477,439"/>
+<area shape="rect" id="node10" href="$class_uimf_data_extractor_1_1_data_exporter.html#a7c3315060a33666cdae80c8e911310f6" title="The output xi cby time. " alt="" coords="265,463,477,504"/>
+<area shape="rect" id="node3" href="$class_uimf_data_extractor_1_1_data_exporter.html#a1be70905534c6f5ac361cc8ba190623f" title="The output peaks. " alt="" coords="525,5,737,47"/>
+</map>

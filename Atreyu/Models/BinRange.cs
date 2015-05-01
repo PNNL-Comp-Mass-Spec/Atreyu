@@ -1,9 +1,29 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="BinRange.cs" company="">
+// <copyright file="BinRange.cs" company="Pacific Northwest National Laboratory">
+//   The MIT License (MIT)
 //   
+//   Copyright (c) 2015 Pacific Northwest National Laboratory
+//   
+//   Permission is hereby granted, free of charge, to any person obtaining a copy
+//   of this software and associated documentation files (the "Software"), to deal
+//   in the Software without restriction, including without limitation the rights
+//   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//   copies of the Software, and to permit persons to whom the Software is
+//   furnished to do so, subject to the following conditions:
+//   
+//   The above copyright notice and this permission notice shall be included in
+//   all copies or substantial portions of the Software.
+//   
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//   THE SOFTWARE.
 // </copyright>
 // <summary>
-//   TODO The bin range.
+//   The bin range.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Atreyu.Models
@@ -13,19 +33,19 @@ namespace Atreyu.Models
     using ReactiveUI;
 
     /// <summary>
-    /// TODO The bin range.
+    /// The bin range.
     /// </summary>
     public class BinRange : Range, IEquatable<BinRange>
     {
         #region Fields
 
         /// <summary>
-        /// TODO The end bin.
+        /// The end bin.
         /// </summary>
         private int endBin;
 
         /// <summary>
-        /// TODO The start bin.
+        /// The start bin.
         /// </summary>
         private int startBin;
 
@@ -45,10 +65,10 @@ namespace Atreyu.Models
         /// Initializes a new instance of the <see cref="BinRange"/> class.
         /// </summary>
         /// <param name="start">
-        /// TODO The start.
+        /// The start.
         /// </param>
         /// <param name="end">
-        /// TODO The end.
+        /// The end.
         /// </param>
         public BinRange(int start, int end)
             : base(RangeType.BinRange)
@@ -98,13 +118,13 @@ namespace Atreyu.Models
         #region Public Methods and Operators
 
         /// <summary>
-        /// TODO The ==.
+        /// The ==.
         /// </summary>
         /// <param name="left">
-        /// TODO The left.
+        /// The left.
         /// </param>
         /// <param name="right">
-        /// TODO The right.
+        /// The right.
         /// </param>
         /// <returns>
         /// </returns>
@@ -114,13 +134,13 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// TODO The !=.
+        /// The !=.
         /// </summary>
         /// <param name="left">
-        /// TODO The left.
+        /// The left.
         /// </param>
         /// <param name="right">
-        /// TODO The right.
+        /// The right.
         /// </param>
         /// <returns>
         /// </returns>
@@ -130,10 +150,10 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// TODO The equals.
+        /// The equals.
         /// </summary>
         /// <param name="obj">
-        /// TODO The obj.
+        /// The obj.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
@@ -159,7 +179,7 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// TODO The get hash code.
+        /// The get hash code.
         /// </summary>
         /// <returns>
         /// The <see cref="int"/>.
@@ -168,7 +188,9 @@ namespace Atreyu.Models
         {
             unchecked
             {
+                // ReSharper disable NonReadonlyFieldInGetHashCode
                 return (this.endBin * 397) ^ this.startBin;
+                // ReSharper restore NonReadonlyFieldInGetHashCode
             }
         }
 
@@ -177,10 +199,10 @@ namespace Atreyu.Models
         #region Explicit Interface Methods
 
         /// <summary>
-        /// TODO The equals.
+        /// The equals.
         /// </summary>
         /// <param name="other">
-        /// TODO The other.
+        /// The other BinRange to compare.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
@@ -195,10 +217,10 @@ namespace Atreyu.Models
         #region Methods
 
         /// <summary>
-        /// TODO The equals.
+        /// The equals.
         /// </summary>
         /// <param name="other">
-        /// TODO The other.
+        /// The other BinRange to compare.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.

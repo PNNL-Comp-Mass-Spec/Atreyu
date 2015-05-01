@@ -5,7 +5,7 @@ var searchData=
   ['heatmapregion',['HeatMapRegion',['../class_atreyu_1_1_region_names.html#a211c8ac7cd10aa31b1d928da3d6cc89f',1,'Atreyu::RegionNames']]],
   ['heatmapseries',['HeatMapSeries',['../namespace_atreyu_1_1_view_models.html#a4df172556cc44fff8873ece2714e2c3a',1,'Atreyu::ViewModels']]],
   ['heatmapview',['HeatMapView',['../class_atreyu_1_1_views_1_1_heat_map_view.html',1,'Atreyu::Views']]],
-  ['heatmapview',['heatMapView',['../class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a7d80096df41363abf595d5c2dec68769',1,'Atreyu.Views.CombinedHeatmapView.heatMapView()'],['../class_atreyu_1_1_views_1_1_heat_map_view.html#ad7b57ab8d59502e3479ef0161d18a992',1,'Atreyu.Views.HeatMapView.HeatMapView()']]],
+  ['heatmapview',['HeatMapView',['../class_atreyu_1_1_views_1_1_heat_map_view.html#ad7b57ab8d59502e3479ef0161d18a992',1,'Atreyu.Views.HeatMapView.HeatMapView()'],['../class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a7d80096df41363abf595d5c2dec68769',1,'Atreyu.Views.CombinedHeatmapView.heatMapView()']]],
   ['heatmapview_2examl_2ecs',['HeatMapView.xaml.cs',['../_heat_map_view_8xaml_8cs.html',1,'']]],
   ['heatmapviewmodel',['HeatMapViewModel',['../class_atreyu_1_1_view_models_1_1_heat_map_view_model.html',1,'Atreyu::ViewModels']]],
   ['heatmapviewmodel',['HeatMapViewModel',['../class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8',1,'Atreyu.ViewModels.CombinedHeatmapViewModel.HeatMapViewModel()'],['../class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a977238c08fd822b9131b111995ef5468',1,'Atreyu.ViewModels.HeatMapViewModel.HeatMapViewModel()']]],

@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['range_2ecs',['Range.cs',['../_range_8cs.html',1,'']]],
-  ['rangetype_2ecs',['RangeType.cs',['../_range_type_8cs.html',1,'']]],
-  ['regionnames_2ecs',['RegionNames.cs',['../_region_names_8cs.html',1,'']]],
-  ['resources_2edesigner_2ecs',['Resources.Designer.cs',['../_resources_8_designer_8cs.html',1,'']]]
+  ['mainwindow_2examl_2ecs',['MainWindow.xaml.cs',['../_main_window_8xaml_8cs.html',1,'']]],
+  ['mainwindowviewmodel_2ecs',['MainWindowViewModel.cs',['../_main_window_view_model_8cs.html',1,'']]],
+  ['mzspectraview_2examl_2ecs',['MzSpectraView.xaml.cs',['../_mz_spectra_view_8xaml_8cs.html',1,'']]],
+  ['mzspectraviewmodel_2ecs',['MzSpectraViewModel.cs',['../_mz_spectra_view_model_8cs.html',1,'']]]
 ];

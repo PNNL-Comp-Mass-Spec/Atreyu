@@ -1,7 +1,7 @@
 var NAVTREE =
 [
   [ "Atreyu", "index.html", [
-    [ "Todo List", "todo.html", null ],
+    [ "license", "md__falkor__atreyu_license.html", null ],
     [ "Packages", null, [
       [ "Packages", "namespaces.html", "namespaces" ],
       [ "Package Functions", "namespacemembers.html", [
@@ -31,7 +31,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_app_8xaml_8cs.html",
-"class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a7f414cec15e60fb388222c275330d81b"
+"class_atreyu_1_1_view_models_1_1_heat_map_view_model.html",
+"class_viewer_1_1_view_models_1_1_main_window_view_model.html#acd40132785ca45e9debe2abcc7fe004f"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

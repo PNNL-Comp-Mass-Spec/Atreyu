@@ -1,9 +1,29 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="UimfData.cs" company="">
+// <copyright file="UimfData.cs" company="Pacific Northwest National Laboratory">
+//   The MIT License (MIT)
 //   
+//   Copyright (c) 2015 Pacific Northwest National Laboratory
+//   
+//   Permission is hereby granted, free of charge, to any person obtaining a copy
+//   of this software and associated documentation files (the "Software"), to deal
+//   in the Software without restriction, including without limitation the rights
+//   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//   copies of the Software, and to permit persons to whom the Software is
+//   furnished to do so, subject to the following conditions:
+//   
+//   The above copyright notice and this permission notice shall be included in
+//   all copies or substantial portions of the Software.
+//   
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//   THE SOFTWARE.
 // </copyright>
 // <summary>
-//   TODO The uimf data.
+//   The uimf data.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Atreyu.Models
@@ -18,149 +38,149 @@ namespace Atreyu.Models
     using UIMFLibrary;
 
     /// <summary>
-    /// TODO The uimf data.
+    /// The uimf data.
     /// </summary>
     public class UimfData : ReactiveObject, IDisposable
     {
         #region Fields
 
         /// <summary>
-        /// TODO The bin to mz map.
+        /// The bin to mz map.
         /// </summary>
         private double[] binToMzMap;
 
         /// <summary>
-        /// TODO The calibrator.
+        /// The calibrator.
         /// </summary>
         private MzCalibrator calibrator;
 
         /// <summary>
-        /// TODO The checking.
+        /// The checking.
         /// </summary>
         private bool checking;
 
         /// <summary>
-        /// TODO The current max bin.
+        /// The current max bin.
         /// </summary>
         private int currentMaxBin;
 
         /// <summary>
-        /// TODO The current min bin.
+        /// The current min bin.
         /// </summary>
         private int currentMinBin;
 
         /// <summary>
-        /// TODO The data reader.
+        /// The data reader.
         /// </summary>
         private DataReader dataReader;
 
         /// <summary>
-        /// TODO The end frame number.
+        /// The end frame number.
         /// </summary>
         private int endFrameNumber;
 
         /// <summary>
-        /// TODO The end scan.
+        /// The end scan.
         /// </summary>
         private int endScan;
 
         /// <summary>
-        /// TODO The frame data.
+        /// The frame data.
         /// </summary>
         private double[,] frameData;
 
         /// <summary>
-        /// TODO The frame intercept.
+        /// The frame intercept.
         /// </summary>
         private double frameIntercept;
 
         /// <summary>
-        /// TODO The frame slope.
+        /// The frame slope.
         /// </summary>
         private double frameSlope;
 
         /// <summary>
-        /// TODO The frame type.
+        /// The frame type.
         /// </summary>
         private string frameType;
 
         /// <summary>
-        /// TODO The frames.
+        /// The frames.
         /// </summary>
         private int frames;
 
         /// <summary>
-        /// TODO The gated frame data.
+        /// The gated frame data.
         /// </summary>
         private double[,] gatedFrameData;
 
         /// <summary>
-        /// TODO The high gate.
+        /// The high gate.
         /// </summary>
         private double highGate = double.PositiveInfinity;
 
         /// <summary>
-        /// TODO The gate.
+        /// The gate.
         /// </summary>
         private double lowGate;
 
         /// <summary>
-        /// TODO The max bins.
+        /// The max bins.
         /// </summary>
         private int maxBins;
 
         /// <summary>
-        /// TODO The most recent height.
+        /// The most recent height.
         /// </summary>
         private int mostRecentHeight;
 
         /// <summary>
-        /// TODO The most recent width.
+        /// The most recent width.
         /// </summary>
         private int mostRecentWidth;
 
         /// <summary>
-        /// TODO The mz array.
+        /// The mz array.
         /// </summary>
         private double[] mzArray;
 
         /// <summary>
-        /// TODO The mz intensities.
+        /// The mz intensities.
         /// </summary>
         private int[] mzIntensities;
 
         /// <summary>
-        /// TODO The range update list.
+        /// The range update list.
         /// </summary>
         private ConcurrentQueue<Range> rangeUpdateList;
 
         /// <summary>
-        /// TODO The scans.
+        /// The scans.
         /// </summary>
         private int scans;
 
         /// <summary>
-        /// TODO The start frame number.
+        /// The start frame number.
         /// </summary>
         private int startFrameNumber;
 
         /// <summary>
-        /// TODO The start scan.
+        /// The start scan.
         /// </summary>
         private int startScan;
 
         /// <summary>
-        /// TODO The total bins.
+        /// The total bins.
         /// </summary>
         private int totalBins;
 
         /// <summary>
-        /// TODO The values per pixel x.
+        /// The values per pixel x.
         /// </summary>
         private double valuesPerPixelX;
 
         /// <summary>
-        /// TODO The values per pixel y.
+        /// The values per pixel y.
         /// </summary>
         private double valuesPerPixelY;
 
@@ -579,7 +599,7 @@ namespace Atreyu.Models
         #region Public Methods and Operators
 
         /// <summary>
-        /// TODO The check queue.
+        /// The check queue method that processes the queue of updates.
         /// </summary>
         /// <returns>
         /// The <see cref="Task"/>.
@@ -606,7 +626,7 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// TODO The dispose.
+        /// The dispose.
         /// </summary>
         public void Dispose()
         {
@@ -615,7 +635,7 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// The get full total ion chromatogram with the key based on scan number
+        /// Get full total ion chromatogram with the key based on scan number
         /// </summary>
         /// <param name="frameNumber">
         /// The frame number.
@@ -625,15 +645,14 @@ namespace Atreyu.Models
         /// </returns>
         public Task<List<ScanInfo>> GetFullScanInfo(int frameNumber)
         {
-            return Task.Run(
-                () => this.dataReader.GetFrameScans(frameNumber));
+            return Task.Run(() => this.dataReader.GetFrameScans(frameNumber));
         }
 
         /// <summary>
-        /// TODO The read data.
+        /// The read data.
         /// </summary>
         /// <param name="returnGatedData">
-        /// TODO The return gated data.
+        /// The return gated data.
         /// </param>
         /// <returns>
         /// The <see cref="Task"/>.
@@ -737,36 +756,36 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// TODO The read data.
+        /// The read data.
         /// </summary>
         /// <param name="startBin">
-        /// TODO The start bin.
+        /// The start bin.
         /// </param>
         /// <param name="endBin">
-        /// TODO The end bin.
+        /// The end bin.
         /// </param>
         /// <param name="startFrame">
-        /// TODO The start frame number.
+        /// The start frame number.
         /// </param>
         /// <param name="endFrame">
-        /// TODO The end frame number.
+        /// The end frame number.
         /// </param>
         /// <param name="height">
-        /// TODO The height.
+        /// The height.
         /// </param>
         /// <param name="width">
-        /// TODO The width.
+        /// The width.
         /// </param>
         /// <param name="startScanValue">
-        /// TODO The start scan.
+        /// The start scan.
         /// </param>
         /// <param name="endScanValue">
-        /// TODO The end scan.
+        /// The end scan.
         /// </param>
         /// <param name="returnGatedData">
         /// </param>
         /// <returns>
-        /// The <see cref="double[,]"/>.
+        /// The 2d array of doubles that represents the data, index 0 is bins, index 1 in scans.
         /// </returns>
         public async Task<double[,]> ReadData(
             int startBin, 
@@ -792,10 +811,10 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// TODO The update high gate.
+        /// The update high gate.
         /// </summary>
         /// <param name="newValue">
-        /// TODO The new value.
+        /// The new value.
         /// </param>
         public void UpdateHighGate(double newValue)
         {
@@ -804,10 +823,10 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// TODO The update low gate.
+        /// The update low gate.
         /// </summary>
         /// <param name="newValue">
-        /// TODO The new value.
+        /// The new value.
         /// </param>
         public void UpdateLowGate(double newValue)
         {
@@ -821,13 +840,13 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// TODO The update scan range.
+        /// The update scan range.
         /// </summary>
         /// <param name="startScanNew">
-        /// TODO The start scan new.
+        /// The start scan new.
         /// </param>
         /// <param name="endScanNew">
-        /// TODO The end scan new.
+        /// The end scan new.
         /// </param>
         public void UpdateScanRange(int startScanNew, int endScanNew)
         {
@@ -841,10 +860,10 @@ namespace Atreyu.Models
         #region Methods
 
         /// <summary>
-        /// TODO The dispose.
+        /// The dispose.
         /// </summary>
         /// <param name="disposing">
-        /// TODO The disposing.
+        /// The disposing.
         /// </param>
         protected virtual void Dispose(bool disposing)
         {
@@ -859,7 +878,7 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// TODO The gate data.
+        /// The gate data.
         /// </summary>
         private void GateData()
         {
@@ -886,19 +905,19 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// TODO The get frame type.
+        /// The get frame type.
         /// </summary>
-        /// <param name="frameType">
-        /// TODO The frame type.
+        /// <param name="frameTypeString">
+        /// The frame type.
         /// </param>
         /// <returns>
         /// The <see cref="FrameType"/>.
         /// </returns>
         /// <exception cref="NotImplementedException">
         /// </exception>
-        private DataReader.FrameType GetFrameType(string frameType)
+        private DataReader.FrameType GetFrameType(string frameTypeString)
         {
-            var temp = frameType.ToLower();
+            var temp = frameTypeString.ToLower();
             switch (temp)
             {
                 case "1":
@@ -916,10 +935,10 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// TODO The process data.
+        /// The process data.
         /// </summary>
         /// <param name="range">
-        /// TODO The range.
+        /// The range.
         /// </param>
         /// <exception cref="ArgumentException">
         /// </exception>

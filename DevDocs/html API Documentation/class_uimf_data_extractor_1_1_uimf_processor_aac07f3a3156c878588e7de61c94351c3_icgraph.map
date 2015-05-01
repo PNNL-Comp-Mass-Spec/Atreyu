@@ -1,0 +1,9 @@
+<map id="UimfDataExtractor.UimfProcessor.GetFrameType" name="UimfDataExtractor.UimfProcessor.GetFrameType">
+<area shape="rect" id="node2" href="$class_uimf_data_extractor_1_1_uimf_processor.html#a1a95617b5792690313a1318b275b19cd" title="Gets full mass over charge info for a given frame. " alt="" coords="275,5,496,47"/>
+<area shape="rect" id="node3" href="$class_uimf_data_extractor_1_1_uimf_processor.html#ae6119cdea786f3440fbf26c23804e608" title="The get mz. " alt="" coords="544,5,765,47"/>
+<area shape="rect" id="node4" href="$class_uimf_data_extractor_1_1_uimf_processor.html#a10b0bbbb9787425471677ea0f54d8b3d" title="Processes a single frame in a file. " alt="" coords="813,5,1035,47"/>
+<area shape="rect" id="node5" href="$class_uimf_data_extractor_1_1_uimf_processor.html#a5956f0a9123d2e242ac09e5f97b659e2" title="Processes a uimf. " alt="" coords="1083,5,1304,47"/>
+<area shape="rect" id="node6" href="$class_uimf_data_extractor_1_1_uimf_processor.html#a6f0218739e083fdbe407826c9f89a343" title="Process all uimf in a directory. " alt="" coords="1352,5,1573,47"/>
+<area shape="rect" id="node7" href="$class_uimf_data_extractor_1_1_uimf_processor.html#a880e59cd718e7b9d632cba98faba52af" title="The extract data method is the entry funtion to this process, it assumes you have set all the options..." alt="" coords="1899,5,2120,47"/>
+<area shape="rect" id="node8" href="$class_uimf_data_extractor_1_1_uimf_processor.html#a45b8f42507b2c2c4dc01e726e07b1555" title="Processes all uimf in directory and all the sub directories in that directory. " alt="" coords="1621,35,1851,76"/>
+</map>

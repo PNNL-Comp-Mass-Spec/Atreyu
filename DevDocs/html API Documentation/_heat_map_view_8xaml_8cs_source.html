@@ -31,9 +31,9 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Atreyu
-   &#160;<span id="projectnumber">1.5</span>
+   &#160;<span id="projectnumber">1.7</span>
    </div>
-   <div id="projectbrief">A light-weight viewer for Unified Ion Mobility Files</div>
+   <div id="projectbrief">A light-weight Ion mobility mass spectrometry data viewer and extractor, targeted toward PNNL&#39;s UIMF files</div>
   </td>
  </tr>
  </tbody>
@@ -109,83 +109,103 @@ $(document).ready(function(){initNavTree('_heat_map_view_8xaml_8cs_source.html',
 </div><!--header-->
 <div class="contents">
 <a href="_heat_map_view_8xaml_8cs.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// --------------------------------------------------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// &lt;copyright file=&quot;HeatMapView.xaml.cs&quot; company=&quot;&quot;&gt;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//   </span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// &lt;/copyright&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// &lt;summary&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">//   Interaction logic for HeatMapView.xaml</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// &lt;/summary&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">// --------------------------------------------------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span>Atreyu.Views</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;{</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">using</span> System;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">using</span> System.ComponentModel.Composition;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">using</span> System.Reactive.Linq;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">using</span> Atreyu.ViewModels;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keyword">using</span> ReactiveUI;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    [Export]</div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="class_atreyu_1_1_views_1_1_heat_map_view.html">   23</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">partial class </span><a class="code" href="class_atreyu_1_1_views_1_1_heat_map_view.html">HeatMapView</a> : IViewFor&lt;HeatMapViewModel&gt;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">        #region Constructors and Destructors</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        [ImportingConstructor]</div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="class_atreyu_1_1_views_1_1_heat_map_view.html#ad7b57ab8d59502e3479ef0161d18a992">   34</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_atreyu_1_1_views_1_1_heat_map_view.html#ad7b57ab8d59502e3479ef0161d18a992">HeatMapView</a>(<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html">HeatMapViewModel</a> viewModel)</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            this.ViewModel = viewModel;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            this.DataContext = this.ViewModel;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            this.InitializeComponent();</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            <span class="comment">// x and y are magically is assigned &quot;this&quot; via extension methods</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            this.WhenAnyValue(x =&gt; x.ActualHeight, y =&gt; y.ActualWidth)</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                .Throttle(TimeSpan.FromMilliseconds(200))</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                .Subscribe(</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                    z =&gt;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                        {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                            viewModel.Height = (int)z.Item1;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                            viewModel.<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#acc6fdf751ac2fbf3b5060104d1b58425">Width</a> = (<span class="keywordtype">int</span>)z.Item2;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                        });</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        }</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">        #endregion</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">        #region Public Properties</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="class_atreyu_1_1_views_1_1_heat_map_view.html#adead9651fcd423efaa615e72c2c05781">   58</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html">HeatMapViewModel</a> ViewModel { <span class="keyword">get</span>; set; }</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// &lt;copyright file=&quot;HeatMapView.xaml.cs&quot; company=&quot;Pacific Northwest National Laboratory&quot;&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//   The MIT License (MIT)</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">//   </span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//   Copyright (c) 2015 Pacific Northwest National Laboratory</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">//   </span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">//   Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">//   of this software and associated documentation files (the &quot;Software&quot;), to deal</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">//   in the Software without restriction, including without limitation the rights</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">//   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">//   copies of the Software, and to permit persons to whom the Software is</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">//   furnished to do so, subject to the following conditions:</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">//   </span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">//   The above copyright notice and this permission notice shall be included in</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">//   all copies or substantial portions of the Software.</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">//   </span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">//   THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">//   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">//   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">//   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">//   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">//   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">//   THE SOFTWARE.</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">// &lt;/copyright&gt;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">// &lt;summary&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">//   Interaction logic for HeatMapView.xaml</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">// &lt;/summary&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">// --------------------------------------------------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>Atreyu.Views</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">using</span> System;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">using</span> System.ComponentModel.Composition;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">using</span> System.Reactive.Linq;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">using</span> Atreyu.ViewModels;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">using</span> ReactiveUI;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    [Export]</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="class_atreyu_1_1_views_1_1_heat_map_view.html">   43</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">partial class </span><a class="code" href="class_atreyu_1_1_views_1_1_heat_map_view.html">HeatMapView</a> : IViewFor&lt;HeatMapViewModel&gt;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">        #region Constructors and Destructors</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        [ImportingConstructor]</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="class_atreyu_1_1_views_1_1_heat_map_view.html#ad7b57ab8d59502e3479ef0161d18a992">   54</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_atreyu_1_1_views_1_1_heat_map_view.html#ad7b57ab8d59502e3479ef0161d18a992">HeatMapView</a>(<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html">HeatMapViewModel</a> viewModel)</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            this.ViewModel = viewModel;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            this.DataContext = this.ViewModel;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            this.InitializeComponent();</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">        #endregion</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">        #region Explicit Interface Properties</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordtype">object</span> IViewFor.ViewModel</div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="class_atreyu_1_1_views_1_1_heat_map_view.html#a944ca9c93e7cbd4d4800f5dba10fc3fe">   68</a></span>&#160;        {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="keyword">get</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            {</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                <span class="keywordflow">return</span> this.ViewModel;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            }</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            set</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                this.ViewModel = value as <a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html">HeatMapViewModel</a>;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            }</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="comment">// x and y are magically is assigned &quot;this&quot; via extension methods</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            this.WhenAnyValue(x =&gt; x.ActualHeight, y =&gt; y.ActualWidth)</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                .Throttle(TimeSpan.FromMilliseconds(200))</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                .Subscribe(</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                    z =&gt;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                        {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                            viewModel.Height = (int)z.Item1;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                            viewModel.<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#acc6fdf751ac2fbf3b5060104d1b58425">Width</a> = (<span class="keywordtype">int</span>)z.Item2;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                        });</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        }</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">        #endregion</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">        #region Public Properties</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="class_atreyu_1_1_views_1_1_heat_map_view.html#adead9651fcd423efaa615e72c2c05781">   78</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html">HeatMapViewModel</a> ViewModel { <span class="keyword">get</span>; set; }</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">        #endregion</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    }</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_heat_map_view_model_html_acc6fdf751ac2fbf3b5060104d1b58425"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#acc6fdf751ac2fbf3b5060104d1b58425">Atreyu.ViewModels.HeatMapViewModel.Width</a></div><div class="ttdeci">int Width</div><div class="ttdoc">Gets or sets the width. </div><div class="ttdef"><b>Definition:</b> <a href="_heat_map_view_model_8cs_source.html#l00331">HeatMapViewModel.cs:331</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_views_1_1_heat_map_view_html"><div class="ttname"><a href="class_atreyu_1_1_views_1_1_heat_map_view.html">Atreyu.Views.HeatMapView</a></div><div class="ttdoc">Interaction logic for HeatMapView.xaml </div><div class="ttdef"><b>Definition:</b> <a href="_heat_map_view_8xaml_8cs_source.html#l00023">HeatMapView.xaml.cs:23</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_heat_map_view_model_html"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html">Atreyu.ViewModels.HeatMapViewModel</a></div><div class="ttdef"><b>Definition:</b> <a href="_heat_map_view_model_8cs_source.html#l00031">HeatMapViewModel.cs:31</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_views_1_1_heat_map_view_html_ad7b57ab8d59502e3479ef0161d18a992"><div class="ttname"><a href="class_atreyu_1_1_views_1_1_heat_map_view.html#ad7b57ab8d59502e3479ef0161d18a992">Atreyu.Views.HeatMapView.HeatMapView</a></div><div class="ttdeci">HeatMapView(HeatMapViewModel viewModel)</div><div class="ttdoc">Initializes a new instance of the HeatMapView class. </div><div class="ttdef"><b>Definition:</b> <a href="_heat_map_view_8xaml_8cs_source.html#l00034">HeatMapView.xaml.cs:34</a></div></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">        #region Explicit Interface Properties</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordtype">object</span> IViewFor.ViewModel</div>
+<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="class_atreyu_1_1_views_1_1_heat_map_view.html#a944ca9c93e7cbd4d4800f5dba10fc3fe">   88</a></span>&#160;        {</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            <span class="keyword">get</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                <span class="keywordflow">return</span> this.ViewModel;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            }</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            set</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            {</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                this.ViewModel = value as <a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html">HeatMapViewModel</a>;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            }</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        }</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="preprocessor">        #endregion</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    }</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;}</div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_heat_map_view_model_html_acc6fdf751ac2fbf3b5060104d1b58425"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#acc6fdf751ac2fbf3b5060104d1b58425">Atreyu.ViewModels.HeatMapViewModel.Width</a></div><div class="ttdeci">int Width</div><div class="ttdoc">Gets or sets the width. </div><div class="ttdef"><b>Definition:</b> <a href="_heat_map_view_model_8cs_source.html#l00347">HeatMapViewModel.cs:347</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_views_1_1_heat_map_view_html"><div class="ttname"><a href="class_atreyu_1_1_views_1_1_heat_map_view.html">Atreyu.Views.HeatMapView</a></div><div class="ttdoc">Interaction logic for HeatMapView.xaml </div><div class="ttdef"><b>Definition:</b> <a href="_heat_map_view_8xaml_8cs_source.html#l00043">HeatMapView.xaml.cs:43</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_heat_map_view_model_html"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html">Atreyu.ViewModels.HeatMapViewModel</a></div><div class="ttdoc">The heat map view model. </div><div class="ttdef"><b>Definition:</b> <a href="_heat_map_view_model_8cs_source.html#l00051">HeatMapViewModel.cs:51</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_views_1_1_heat_map_view_html_ad7b57ab8d59502e3479ef0161d18a992"><div class="ttname"><a href="class_atreyu_1_1_views_1_1_heat_map_view.html#ad7b57ab8d59502e3479ef0161d18a992">Atreyu.Views.HeatMapView.HeatMapView</a></div><div class="ttdeci">HeatMapView(HeatMapViewModel viewModel)</div><div class="ttdoc">Initializes a new instance of the HeatMapView class. </div><div class="ttdef"><b>Definition:</b> <a href="_heat_map_view_8xaml_8cs_source.html#l00054">HeatMapView.xaml.cs:54</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_26a57642325f3c609088cb4d72030692.html">Falkor</a></li><li class="navelem"><a class="el" href="dir_0cff26dc86242075b1285ba559db1a0a.html">Atreyu</a></li><li class="navelem"><a class="el" href="dir_a88288ddc9c67d13cd9fe3a9677c8fa0.html">Atreyu</a></li><li class="navelem"><a class="el" href="dir_0714ab7de4086ea275cac99673971c63.html">Views</a></li><li class="navelem"><a class="el" href="_heat_map_view_8xaml_8cs.html">HeatMapView.xaml.cs</a></li>
-    <li class="footer">Generated on Mon Mar 16 2015 16:31:36 for Atreyu by
+    <li class="footer">Generated on Thu Apr 30 2015 16:58:37 for Atreyu by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
   </ul>

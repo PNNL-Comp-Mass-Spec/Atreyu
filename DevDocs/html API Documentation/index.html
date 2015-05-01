@@ -31,9 +31,9 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Atreyu
-   &#160;<span id="projectnumber">1.5</span>
+   &#160;<span id="projectnumber">1.7</span>
    </div>
-   <div id="projectbrief">A light-weight viewer for Unified Ion Mobility Files</div>
+   <div id="projectbrief">A light-weight Ion mobility mass spectrometry data viewer and extractor, targeted toward PNNL&#39;s UIMF files</div>
   </td>
  </tr>
  </tbody>
@@ -103,12 +103,22 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="title">Atreyu Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
-</div><!-- contents -->
+<div class="textblock"><p><a class="el" href="namespace_atreyu.html">Atreyu</a> is three separate projects centred around viewing data from Pacific Northwest National Laboratory's Unified Ion Mobility Files (UIMF).</p>
+<p>The first project, this Repo's namesake <b><a class="el" href="namespace_atreyu.html">Atreyu</a></b>, is a collection of views to visually display the data using Oxyplot to drive the plot manipulation.</p>
+<p>The three plots are a heat map, which is the main control point; the mass over charge or m/z plot, which shows the summed intensity for each m/z currently in view; and the Total Ion Chromatogram or TiC, which shows the summed intensities for each arrival time in view.</p>
+<p>Both the m/z and TiC plots have a simple peak finding algorithm to display information about the peak's resolution. The TiC plot will show all peaks, while the m/z plot will only show the three highest peaks in view due to the nature of m/z data.</p>
+<p>The second project, <b><a class="el" href="namespace_viewer.html">Viewer</a></b>, is a thin wrapper around <a class="el" href="namespace_atreyu.html">Atreyu</a> in order to be a standalone windows application. This includes hooks to save the data in view (with the compressions needed to display the data) into csv format. This also includes options to save an image of the combined graphs.</p>
+<p>Finally, the third project is <b><a class="el" href="namespace_uimf_data_extractor.html">UimfDataExtractor</a></b>. <a class="el" href="namespace_uimf_data_extractor.html">UimfDataExtractor</a> started as a command line application that was later extended to be used either via CLI or GUI. When started without any arguments the gui will open.</p>
+<p><a class="el" href="namespace_uimf_data_extractor.html">UimfDataExtractor</a> is designed to do bulk exporting of data from many UIMFs to csv or xml files. The program will process all UIMFs in a single input directory, or optionally will recursively process through all the sub directories of the input directory.</p>
+<p>The user may choose to output csvs for the Heat map, m/z, Tic, and the eXtracted Ion Chromatogram (XiC) for a specific m/z range. The user may also select to output a xml file with detailed information of every peak in the m/z, TiC, and/or XiC of each file.</p>
+<p>Additionally the user may select to output a bulk comparison file that will have trimmed down details of every peak in all of the files for the axis or axes selected.</p>
+<p>Full API documentation and git practices are available in the DevDocs folder. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Mar 16 2015 16:31:38 for Atreyu by
+    <li class="footer">Generated on Thu Apr 30 2015 16:58:41 for Atreyu by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
   </ul>

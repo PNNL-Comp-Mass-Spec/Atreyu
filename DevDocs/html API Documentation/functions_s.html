@@ -31,9 +31,9 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Atreyu
-   &#160;<span id="projectnumber">1.5</span>
+   &#160;<span id="projectnumber">1.7</span>
    </div>
-   <div id="projectbrief">A light-weight viewer for Unified Ion Mobility Files</div>
+   <div id="projectbrief">A light-weight Ion mobility mass spectrometry data viewer and extractor, targeted toward PNNL&#39;s UIMF files</div>
   </td>
  </tr>
  </tbody>
@@ -107,6 +107,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_u.html#index_u"><span>u</span></a></li>
       <li><a href="functions_v.html#index_v"><span>v</span></a></li>
       <li><a href="functions_w.html#index_w"><span>w</span></a></li>
+      <li><a href="functions_x.html#index_x"><span>x</span></a></li>
       <li><a href="functions_z.html#index_z"><span>z</span></a></li>
     </ul>
   </div>
@@ -167,26 +168,40 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 <li>scans
 : <a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a004e64af05cb7c7f598e9bc3da00a4f2">Atreyu.Models.UimfData</a>
 </li>
+<li>SetInputDirectory
+: <a class="el" href="class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#a5402c26adf159c9db245d7a05b5d6bdd">UimfDataExtractor.UimfDataExtractorGui</a>
+</li>
+<li>SetInputDirectoryClick()
+: <a class="el" href="class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#a7aa5bad01e842e006766cf5618e6b8e2">UimfDataExtractor.UimfDataExtractorGui</a>
+</li>
+<li>SetOutputDirectory
+: <a class="el" href="class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#a09f1967a2786e99289b257ca6288a990">UimfDataExtractor.UimfDataExtractorGui</a>
+</li>
+<li>SetOutputDirectoryClick()
+: <a class="el" href="class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#a137b3ff2a2f63b29c6f04f92ccad03a0">UimfDataExtractor.UimfDataExtractorGui</a>
+</li>
 <li>SetUpPlot()
 : <a class="el" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a4a23d270d83655e72c7d56be24e8340e">Atreyu.ViewModels.HeatMapViewModel</a>
-</li>
-<li>showMz
-: <a class="el" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#adbb89e5735cc5a51a08d1fbd5285972c">Atreyu.ViewModels.MzSpectraViewModel</a>
 </li>
 <li>ShowMz
 : <a class="el" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a9e4b64c6a1a88593eb03c29474e551e2">Atreyu.ViewModels.MzSpectraViewModel</a>
 </li>
+<li>showMz
+: <a class="el" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#adbb89e5735cc5a51a08d1fbd5285972c">Atreyu.ViewModels.MzSpectraViewModel</a>
+</li>
 <li>SliderValueChanged()
 : <a class="el" href="class_atreyu_1_1_views_1_1_frame_manipulation_view.html#a6ee0f387b3261a9dff6a10ba3e9b5bdf">Atreyu.Views.FrameManipulationView</a>
-</li>
-<li>slope
-: <a class="el" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a9d99e3f04513bc88b0f72678915c60a3">Atreyu.ViewModels.MzSpectraViewModel</a>
 </li>
 <li>Slope
 : <a class="el" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a12227139329e29bb5858446eb2dad3d5">Atreyu.ViewModels.MzSpectraViewModel</a>
 </li>
+<li>slope
+: <a class="el" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a9d99e3f04513bc88b0f72678915c60a3">Atreyu.ViewModels.MzSpectraViewModel</a>
+</li>
 <li>SmoothedIntensity
 : <a class="el" href="struct_atreyu_1_1_view_models_1_1_mz_spectra_view_model_1_1_resolution_datapoint.html#a66d554d5811e1e47845db7bae8aa72b3">Atreyu.ViewModels.MzSpectraViewModel.ResolutionDatapoint</a>
+, <a class="el" href="class_uimf_data_extractor_1_1_peak_information.html#a69e1a129a880387716e96333a9af5ef2">UimfDataExtractor.PeakInformation</a>
+, <a class="el" href="class_uimf_data_extractor_1_1_point_information.html#ae00eac1e29aca90f029acc8a652331cf">UimfDataExtractor.PointInformation</a>
 </li>
 <li>startBin
 : <a class="el" href="class_atreyu_1_1_models_1_1_bin_range.html#ab396daa7ee108e87c42e73b8fa4454ac">Atreyu.Models.BinRange</a>
@@ -215,14 +230,12 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 <li>startMzBin
 : <a class="el" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#aa9c889ca9c614319f03be490e0a0aa7a">Atreyu.ViewModels.MzSpectraViewModel</a>
 </li>
-<li>StartScan
-: <a class="el" href="class_atreyu_1_1_models_1_1_scan_range.html#a77aa6908b7db9e015b0d5a27146c66d1">Atreyu.Models.ScanRange</a>
-</li>
 <li>startScan
 : <a class="el" href="class_atreyu_1_1_models_1_1_scan_range.html#a0e9933778b86ce523c0e97026293a7cd">Atreyu.Models.ScanRange</a>
 </li>
 <li>StartScan
-: <a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a97c3634985ebd858f2d61bf661aee9e1">Atreyu.Models.UimfData</a>
+: <a class="el" href="class_atreyu_1_1_models_1_1_scan_range.html#a77aa6908b7db9e015b0d5a27146c66d1">Atreyu.Models.ScanRange</a>
+, <a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a97c3634985ebd858f2d61bf661aee9e1">Atreyu.Models.UimfData</a>
 </li>
 <li>startScan
 : <a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a17f6b8a9292ff3276373035a8c50b493">Atreyu.Models.UimfData</a>
@@ -241,7 +254,7 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Mar 16 2015 16:31:38 for Atreyu by
+    <li class="footer">Generated on Thu Apr 30 2015 16:58:41 for Atreyu by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
   </ul>

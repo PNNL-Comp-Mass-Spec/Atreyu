@@ -1,9 +1,29 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MainWindowViewModel.cs" company="">
+// <copyright file="MainWindowViewModel.cs" company="Pacific Northwest National Laboratory">
+//   The MIT License (MIT)
 //   
+//   Copyright (c) 2015 Pacific Northwest National Laboratory
+//   
+//   Permission is hereby granted, free of charge, to any person obtaining a copy
+//   of this software and associated documentation files (the "Software"), to deal
+//   in the Software without restriction, including without limitation the rights
+//   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//   copies of the Software, and to permit persons to whom the Software is
+//   furnished to do so, subject to the following conditions:
+//   
+//   The above copyright notice and this permission notice shall be included in
+//   all copies or substantial portions of the Software.
+//   
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//   THE SOFTWARE.
 // </copyright>
 // <summary>
-//   TODO The main window view model.
+//   The main window view model.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Viewer.ViewModels
@@ -21,7 +41,7 @@ namespace Viewer.ViewModels
     using ReactiveUI;
 
     /// <summary>
-    /// TODO The main window view model.
+    /// The main window view model.
     /// </summary>
     public class MainWindowViewModel : ReactiveObject
     {
@@ -89,10 +109,10 @@ namespace Viewer.ViewModels
         #region Methods
 
         /// <summary>
-        /// TODO The get image format.
+        /// The get image format.
         /// </summary>
         /// <param name="fileName">
-        /// TODO The file name.
+        /// The file name.
         /// </param>
         /// <returns>
         /// The <see cref="ImageFormat"/>.
@@ -141,7 +161,7 @@ namespace Viewer.ViewModels
         }
 
         /// <summary>
-        /// TODO The get data filename.
+        /// The get data filename.
         /// </summary>
         /// <returns>
         /// The <see cref="string"/>.
@@ -162,7 +182,7 @@ namespace Viewer.ViewModels
         }
 
         /// <summary>
-        /// TODO The open heatmap file.
+        /// The open heatmap file.
         /// </summary>
         /// <returns>
         /// The <see cref="Task"/>.
@@ -188,7 +208,7 @@ namespace Viewer.ViewModels
         }
 
         /// <summary>
-        /// TODO The save exported heatmap compressed data.
+        /// The save exported heatmap compressed data.
         /// </summary>
         private void SaveExportedHeatmapCompressedData()
         {
@@ -217,7 +237,7 @@ namespace Viewer.ViewModels
         }
 
         /// <summary>
-        /// TODO The save exported mz compressed data.
+        /// The save exported mz compressed data.
         /// </summary>
         private void SaveExportedMzCompressedData()
         {
@@ -243,7 +263,7 @@ namespace Viewer.ViewModels
         }
 
         /// <summary>
-        /// TODO The save exported tic compressed data.
+        /// The save exported tic compressed data.
         /// </summary>
         private void SaveExportedTicCompressedData()
         {
@@ -269,7 +289,7 @@ namespace Viewer.ViewModels
         }
 
         /// <summary>
-        /// TODO The save heatmap image.
+        /// The save heatmap image.
         /// </summary>
         private void SaveHeatmapImage()
         {

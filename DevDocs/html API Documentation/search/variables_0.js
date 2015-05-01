@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['bintomzmap',['binToMzMap',['../class_atreyu_1_1_models_1_1_uimf_data.html#aa5aae32ec721fa32d7850d7af6db7c8f',1,'Atreyu::Models::UimfData']]]
+  ['allframes',['AllFrames',['../class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#acfac5ec338b3852a7c2d597ad06eddee',1,'UimfDataExtractor::UimfDataExtractorGui']]]
 ];

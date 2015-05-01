@@ -1,0 +1,4 @@
+<map id="UimfDataExtractor.UimfProcessor.GetTiC" name="UimfDataExtractor.UimfProcessor.GetTiC">
+<area shape="rect" id="node2" href="$class_uimf_data_extractor_1_1_uimf_processor.html#acf6fca589811627ed65b209b9c2749b1" title="Find the peaks in the current data set and adds an annotation point with the resolution to the m/z..." alt="" coords="275,5,496,47"/>
+<area shape="rect" id="node3" href="$class_uimf_data_extractor_1_1_uimf_processor.html#a67102708619de2fc7d9dbd3bdd5cc4e3" title="Gets the Total Ion Chromatogram info for a given frame. " alt="" coords="275,71,496,112"/>
+</map>

@@ -1,6 +1,7 @@
 var searchData=
 [
   ['uimfdata',['UimfData',['../class_atreyu_1_1_models_1_1_uimf_data.html#adb388217a4af9c12c8e8adbf0048ad56',1,'Atreyu::Models::UimfData']]],
+  ['uimfdataextractorgui',['UimfDataExtractorGui',['../class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#a4f25fca53dc28694073a365399fde2cc',1,'UimfDataExtractor::UimfDataExtractorGui']]],
   ['updatecurrentframenumber',['UpdateCurrentFrameNumber',['../class_atreyu_1_1_view_models_1_1_frame_manipulation_view_model.html#aa45110c8d6f25b5abe76478442b391b9',1,'Atreyu::ViewModels::FrameManipulationViewModel']]],
   ['updatedata',['UpdateData',['../class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a1e53ee6f1ff0e7bcdf9eb875cd4b392f',1,'Atreyu::ViewModels::HeatMapViewModel']]],
   ['updateframedata',['UpdateFrameData',['../class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a27e5d7fe0be69f8ef9900fe95ce8b52e',1,'Atreyu.ViewModels.MzSpectraViewModel.UpdateFrameData()'],['../class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#a98e66394a077e05888d97ecada4ddcf4',1,'Atreyu.ViewModels.TotalIonChromatogramViewModel.UpdateFrameData()']]],

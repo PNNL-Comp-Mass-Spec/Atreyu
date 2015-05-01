@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['heatmapdata',['heatMapData',['../class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a474f0a33858c9b8eb360028953693a6c',1,'Atreyu::ViewModels::HeatMapViewModel']]],
-  ['heatmapplotmodel',['heatMapPlotModel',['../class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a83422a92927aed5014387a095b98aae5',1,'Atreyu::ViewModels::HeatMapViewModel']]],
-  ['heatmapregion',['HeatMapRegion',['../class_atreyu_1_1_region_names.html#a211c8ac7cd10aa31b1d928da3d6cc89f',1,'Atreyu::RegionNames']]],
-  ['heatmapview',['heatMapView',['../class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a7d80096df41363abf595d5c2dec68769',1,'Atreyu::Views::CombinedHeatmapView']]],
-  ['height',['height',['../class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a1136828c4305cdd984af85d5b18cc76d',1,'Atreyu.ViewModels.CombinedHeatmapViewModel.height()'],['../class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a7d0026897a88e3a92815d9b15f28a484',1,'Atreyu.ViewModels.HeatMapViewModel.height()']]],
-  ['highgate',['highGate',['../class_atreyu_1_1_models_1_1_uimf_data.html#a9678f75a79bd8562dab1382d63099e25',1,'Atreyu::Models::UimfData']]],
-  ['highthreshold',['highThreshold',['../class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#af82f23e23dc2277140085eb1f711daa3',1,'Atreyu::ViewModels::HeatMapViewModel']]]
+  ['gate',['gate',['../class_atreyu_1_1_view_models_1_1_gate_slider_view_model.html#a3a78b6cd762ebeadd86e0e3faf179fc5',1,'Atreyu::ViewModels::GateSliderViewModel']]],
+  ['gatedframedata',['gatedFrameData',['../class_atreyu_1_1_models_1_1_uimf_data.html#a828185455878cdceaf50247bcc4b4c14',1,'Atreyu::Models::UimfData']]],
+  ['getheatmap',['GetHeatMap',['../class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#a2229892775938ca0ea55ca558d40699a',1,'UimfDataExtractor::UimfDataExtractorGui']]],
+  ['getmsms',['Getmsms',['../class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#a84fc9b872caec2ce4df2980a4168a94a',1,'UimfDataExtractor::UimfDataExtractorGui']]],
+  ['getmz',['GetMz',['../class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#a3335e01388ccc21fbb5325f5b907cc62',1,'UimfDataExtractor::UimfDataExtractorGui']]],
+  ['gettic',['GetTic',['../class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#aeb82cf14a8555a1fb80b1293c625d7bd',1,'UimfDataExtractor::UimfDataExtractorGui']]],
+  ['getxic',['GetXic',['../class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#aa766e3b1e5ab59aecc45bd33cf11c3e0',1,'UimfDataExtractor::UimfDataExtractorGui']]]
 ];
