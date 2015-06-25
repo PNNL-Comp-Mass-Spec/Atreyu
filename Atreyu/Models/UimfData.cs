@@ -913,8 +913,6 @@ namespace Atreyu.Models
         /// <returns>
         /// The <see cref="FrameType"/>.
         /// </returns>
-        /// <exception cref="NotImplementedException">
-        /// </exception>
         private DataReader.FrameType GetFrameType(string frameTypeString)
         {
             var temp = frameTypeString.ToLower();
@@ -929,8 +927,9 @@ namespace Atreyu.Models
                 case "4":
                     return DataReader.FrameType.Prescan;
                 default:
-                    throw new NotImplementedException(
-                        "Only the MS1, MS2, Calibration, and Prescan frame types have been implemented in this version");
+                    return DataReader.FrameType.MS1;
+                    ////throw new NotImplementedException(
+                    ////    "Only the MS1, MS2, Calibration, and Prescan frame types have been implemented in this version");
             }
         }
 

@@ -408,11 +408,25 @@ namespace UimfDataExtractor
                 return null;
             }
 
-            var frametype = GetFrameType(frameParams.GetValue(FrameParamKeyType.FrameType));
+            DataReader.FrameType frameType;
+            var type = frameParams.GetValue(FrameParamKeyType.FrameType);
+
+            try
+            {
+                frameType = GetFrameType(type);
+            }
+            catch (NotImplementedException)
+            {
+                Console.Error.WriteLine(
+                    "ERROR: An Unknown Frame Type was read on Frame: {0}, we wil continue as best we can by defaulting to MS1.  The Type read was {1}.",
+                    frameNumber,
+                    type);
+                frameType = DataReader.FrameType.MS1;
+            }
 
             double[] mzs;
             int[] intensities;
-            uimf.GetSpectrum(frameNumber, frameNumber, frametype, 1, maxScans, out mzs, out intensities);
+            uimf.GetSpectrum(frameNumber, frameNumber, frameType, 1, maxScans, out mzs, out intensities);
             var data = new List<KeyValuePair<double, int>>(mzs.Length);
             for (var i = 0; i < mzs.Length && i < intensities.Length; i++)
             {
