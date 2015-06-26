@@ -81,8 +81,8 @@ namespace Atreyu.Views
         {
             this.InitializeComponent();
             this.DataContextChanged += this.CombinedHeatmapViewDataContextChanged;
-            this.AllowDrop = true;
-            this.PreviewDrop += this.CombinedHeatmapViewPreviewDrop;
+            ////this.AllowDrop = true;
+            ////this.PreviewDrop += this.CombinedHeatmapViewPreviewDrop;
         }
 
         #endregion
@@ -166,8 +166,8 @@ namespace Atreyu.Views
             // Grid.SetRow(this.HighSliderView, 1);
             // Grid.SetColumn(this.HighSliderView, 4);
             // this.MainGrid.Children.Add(this.HighSliderView);
-            this.AllowDrop = true;
             this.PreviewDrop += this.MainTabControlPreviewDragEnter;
+            this.AllowDrop = true;
         }
 
         /// <summary>
@@ -249,12 +249,22 @@ namespace Atreyu.Views
                     }
                 }
             }
-
+            
             e.Effects = isCorrect ? DragDropEffects.All : DragDropEffects.None;
 
             if (isCorrect)
             {
-                await this.LoadFile(filenames[0]);
+                try
+                {
+                    await this.LoadFile(filenames[0]);
+                }
+                catch (Exception ex)
+                {
+                    if (!ex.Message.Contains("already active"))
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
             }
 
             e.Handled = true;
