@@ -402,6 +402,11 @@ namespace Atreyu.ViewModels
         /// </returns>
         public async Task InitializeUimfData(string file)
         {
+            if (string.IsNullOrWhiteSpace(file))
+            {
+                return;
+            }
+
             this.UimfData = new UimfData(file) { CurrentMinBin = 0 };
             this.UimfData.CurrentMaxBin = this.UimfData.TotalBins;
             await this.FetchSingleFrame(1);
