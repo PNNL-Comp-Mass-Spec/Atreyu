@@ -53,7 +53,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommandLine">
-      <HintPath>..\packages\CommandLineParser.1.9.71\lib\net45\CommandLine.dll</HintPath>
+      <HintPath>..\packages\CommandLineParser.2.0.9-alpha\lib\net45\CommandLine.dll</HintPath>
     </Reference>
     <Reference Include="MagnitudeConcavityPeakFinder">
       <HintPath>..\lib\MagnitudeConcavityPeakFinder\MagnitudeConcavityPeakFinder.dll</HintPath>
