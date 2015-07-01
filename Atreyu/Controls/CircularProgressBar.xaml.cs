@@ -35,7 +35,7 @@ namespace Atreyu.Controls
 
         private void Start()
         {
-            Mouse.OverrideCursor = Cursors.Wait;
+            ////Mouse.OverrideCursor = Cursors.Wait;
             animationTimer.Tick += HandleAnimationTick;
             animationTimer.Start();
         }
