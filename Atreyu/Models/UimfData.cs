@@ -615,6 +615,10 @@ namespace Atreyu.Models
             }
         }
 
+        public bool WindowMz { get; set; }
+        public double MzCenter { get; set; }
+        public double PartsPerMillion { get; set; }
+
         #endregion
 
         #region Public Methods and Operators
@@ -727,6 +731,20 @@ namespace Atreyu.Models
                 await Task.Run(
                     () =>
                         {
+                            this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
+
+                            if (WindowMz)
+                            {
+                                var mzOffset = MzCenter * (PartsPerMillion / 1000000.0);
+                                this.CurrentMinBin =
+                                    (int)
+                                    (this.Calibrator.MZtoTOF(MzCenter - mzOffset) / dataReader.TenthsOfNanoSecondsPerBin);
+                                this.CurrentMaxBin =
+                                    (int)
+                                    (this.Calibrator.MZtoTOF(MzCenter + mzOffset) / dataReader.TenthsOfNanoSecondsPerBin);
+                            }
+
+
                             var frametype = GetFrameType(this.frameType);
                             double[] mzs;
                             int[] intensities;
@@ -755,7 +773,6 @@ namespace Atreyu.Models
 
                             var tof = new double[arrayLength];
                             var mz = new double[arrayLength];
-                            this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
 
                             for (var i = 0; i < arrayLength; i++)
                             {
