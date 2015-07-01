@@ -121,6 +121,8 @@ namespace Atreyu.ViewModels
             this.LowValueGateSliderViewModel.ControlLabel = "Low Gate";
             this.LowValueGateSliderViewModel.UpdateGate(0);
 
+            this.WhenAnyValue(vm => vm.UimfData.LoadingData).Subscribe(x => this.CircularWaitIsVisible = x);
+
             this.ZoomOutFull = this.FrameManipulationViewModel.ZoomOutCommand;
             this.ZoomOutFull.Select(async _ => await this.ZoomOut()).Subscribe();
 

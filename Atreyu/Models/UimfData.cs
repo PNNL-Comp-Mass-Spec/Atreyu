@@ -184,6 +184,8 @@ namespace Atreyu.Models
         /// </summary>
         private double valuesPerPixelY;
 
+        private bool loadingData;
+
         #endregion
 
         #region Constructors and Destructors
@@ -415,6 +417,18 @@ namespace Atreyu.Models
             private set
             {
                 this.RaiseAndSetIfChanged(ref this.highGate, value);
+            }
+        }
+
+        public bool LoadingData
+        {
+            get
+            {
+                return this.loadingData;
+            }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.loadingData, value);
             }
         }
 
@@ -669,6 +683,8 @@ namespace Atreyu.Models
                 return new double[0, 0];
             }
 
+            this.LoadingData = true;
+
             var frameParams = this.dataReader.GetFrameParams(this.startFrameNumber);
 
             if (frameParams == null)
@@ -752,6 +768,7 @@ namespace Atreyu.Models
 
             this.GateData();
 
+            this.LoadingData = false;
             return returnGatedData ? this.GatedFrameData : this.FrameData;
         }
 
