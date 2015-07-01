@@ -30,7 +30,7 @@
                 </Grid.RowDefinitions>
                 <StackPanel Orientation="Horizontal" Grid.Row="0">
                     <Label VerticalAlignment="Center">M/Z</Label>
-                    <xctk:DecimalUpDown Name="MzUpDown" Height="30" Value="1000.0000" Minimum="0" MinWidth="90" MaxWidth="180" FormatString="F" VerticalAlignment="Center"/>
+                    <xctk:DecimalUpDown Name="MzUpDown" Height="30" Value="{Binding Path=MzCenter}" Minimum="0" MinWidth="90" MaxWidth="180" FormatString="F" VerticalAlignment="Center"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Grid.Row="1">

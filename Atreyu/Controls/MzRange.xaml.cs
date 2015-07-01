@@ -39,5 +39,17 @@ namespace Atreyu.Controls
             typeof(MzRange),
             new UIPropertyMetadata(string.Empty));
 
+        public double MzCenter
+        {
+            get { return (double)GetValue(MzCenterProperty); }
+            set { this.SetValue(MzCenterProperty, value); }
+        }
+
+        public static readonly DependencyProperty MzCenterProperty = DependencyProperty.Register(
+            "MzCenter",
+            typeof(string),
+            typeof(MzRange),
+            new UIPropertyMetadata("1000.00"));
+
     }
 }
