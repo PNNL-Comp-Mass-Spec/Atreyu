@@ -23,7 +23,21 @@ namespace Atreyu.Controls
         public MzRange()
         {
             InitializeComponent();
-
+            this.DataContext = this;
         }
+
+
+        public bool MzRangeEnabled
+        {
+            get { return (bool)GetValue(MzRangeEnabledProperty); }
+            set { this.SetValue(MzRangeEnabledProperty, value); }
+        }
+
+        public static readonly DependencyProperty MzRangeEnabledProperty = DependencyProperty.Register(
+            "MzRangeEnabled",
+            typeof(string),
+            typeof(MzRange),
+            new UIPropertyMetadata(string.Empty));
+
     }
 }
