@@ -87,6 +87,21 @@ namespace Atreyu.ViewModels
         /// </summary>
         private int width;
 
+        private bool circularWaitIsVisible;
+
+        public bool CircularWaitIsVisible
+        {
+            get
+            {
+                return this.circularWaitIsVisible;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.circularWaitIsVisible, value);
+            }
+        }
+
         #endregion
 
         #region Constructors and Destructors
