@@ -35,7 +35,7 @@
 
                 <StackPanel Orientation="Horizontal" Grid.Row="1">
                     <Label VerticalAlignment="Center">Range</Label>
-                    <xctk:DecimalUpDown Name="RangeUpDown" Height="30" Value="150" Minimum="0" MinWidth="90" VerticalAlignment="Center"/>
+                    <xctk:DecimalUpDown Name="RangeUpDown" Height="30" Value="{Binding Path=PartsPerMillion}" Minimum="0" MinWidth="90" VerticalAlignment="Center"/>
                     <Label VerticalAlignment="Center">PPM</Label>
                 </StackPanel>
             </Grid>

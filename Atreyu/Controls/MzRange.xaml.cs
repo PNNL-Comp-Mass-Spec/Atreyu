@@ -51,5 +51,17 @@ namespace Atreyu.Controls
             typeof(MzRange),
             new UIPropertyMetadata("1000.00"));
 
+        public double PartsPerMillion
+        {
+            get { return (double)GetValue(PartsPerMillionProperty); }
+            set { this.SetValue(PartsPerMillionProperty, value); }
+        }
+
+        public static readonly DependencyProperty PartsPerMillionProperty = DependencyProperty.Register(
+            "PartsPerMillion",
+            typeof(string),
+            typeof(MzRange),
+            new UIPropertyMetadata("150"));
+
     }
 }
