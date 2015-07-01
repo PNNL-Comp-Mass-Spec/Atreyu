@@ -120,6 +120,11 @@ namespace Atreyu.Models
         private double highGate = double.PositiveInfinity;
 
         /// <summary>
+        /// Backing field for a property that indicates whether this is currently loading data or not.
+        /// </summary>
+        private bool loadingData;
+
+        /// <summary>
         /// The gate.
         /// </summary>
         private double lowGate;
@@ -419,6 +424,22 @@ namespace Atreyu.Models
         }
 
         /// <summary>
+        /// Gets a value indicating whether this class is currently loading data or not.
+        /// </summary>
+        public bool LoadingData
+        {
+            get
+            {
+                return this.loadingData;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.loadingData, value);
+            }
+        }
+
+        /// <summary>
         /// Gets the gate.
         /// </summary>
         public double LowGate
@@ -669,6 +690,8 @@ namespace Atreyu.Models
                 return new double[0, 0];
             }
 
+            this.LoadingData = true;
+
             var frameParams = this.dataReader.GetFrameParams(this.startFrameNumber);
 
             if (frameParams == null)
@@ -704,7 +727,7 @@ namespace Atreyu.Models
                 await Task.Run(
                     () =>
                         {
-                            var frametype = this.GetFrameType(this.frameType);
+                            var frametype = GetFrameType(this.frameType);
                             double[] mzs;
                             int[] intensities;
                             this.dataReader.GetSpectrum(
@@ -752,6 +775,7 @@ namespace Atreyu.Models
 
             this.GateData();
 
+            this.LoadingData = false;
             return returnGatedData ? this.GatedFrameData : this.FrameData;
         }
 
@@ -783,6 +807,7 @@ namespace Atreyu.Models
         /// The end scan.
         /// </param>
         /// <param name="returnGatedData">
+        /// Whether or not the returned data should be gated
         /// </param>
         /// <returns>
         /// The 2d array of doubles that represents the data, index 0 is bins, index 1 in scans.
@@ -878,6 +903,36 @@ namespace Atreyu.Models
         }
 
         /// <summary>
+        /// The get frame type.
+        /// </summary>
+        /// <param name="frameTypeString">
+        /// The frame type.
+        /// </param>
+        /// <returns>
+        /// The <see cref="FrameType"/>.
+        /// </returns>
+        private static DataReader.FrameType GetFrameType(string frameTypeString)
+        {
+            var temp = frameTypeString.ToLower();
+            switch (temp)
+            {
+                case "1":
+                    return DataReader.FrameType.MS1;
+                case "2":
+                    return DataReader.FrameType.MS2;
+                case "3":
+                    return DataReader.FrameType.Calibration;
+                case "4":
+                    return DataReader.FrameType.Prescan;
+                default:
+                    return DataReader.FrameType.MS1;
+
+                    ////throw new NotImplementedException(
+                    ////    "Only the MS1, MS2, Calibration, and Prescan frame types have been implemented in this version");
+            }
+        }
+
+        /// <summary>
         /// The gate data.
         /// </summary>
         private void GateData()
@@ -905,43 +960,16 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// The get frame type.
-        /// </summary>
-        /// <param name="frameTypeString">
-        /// The frame type.
-        /// </param>
-        /// <returns>
-        /// The <see cref="FrameType"/>.
-        /// </returns>
-        private DataReader.FrameType GetFrameType(string frameTypeString)
-        {
-            var temp = frameTypeString.ToLower();
-            switch (temp)
-            {
-                case "1":
-                    return DataReader.FrameType.MS1;
-                case "2":
-                    return DataReader.FrameType.MS2;
-                case "3":
-                    return DataReader.FrameType.Calibration;
-                case "4":
-                    return DataReader.FrameType.Prescan;
-                default:
-                    return DataReader.FrameType.MS1;
-                    ////throw new NotImplementedException(
-                    ////    "Only the MS1, MS2, Calibration, and Prescan frame types have been implemented in this version");
-            }
-        }
-
-        /// <summary>
         /// The process data.
         /// </summary>
         /// <param name="range">
         /// The range.
         /// </param>
         /// <exception cref="ArgumentException">
+        /// thrown if the range type is set to a type that it cannot be cast to.
         /// </exception>
         /// <exception cref="NotImplementedException">
+        /// thrown if an unknown range type is used.  The currently known types are Bin, Frame, and Scan.
         /// </exception>
         private void ProcessData(Range range)
         {

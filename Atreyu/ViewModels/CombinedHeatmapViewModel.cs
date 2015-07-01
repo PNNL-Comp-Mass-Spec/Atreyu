@@ -58,6 +58,11 @@ namespace Atreyu.ViewModels
         #region Fields
 
         /// <summary>
+        /// A private backing field for a property that indicates whether The circular wait is visible.
+        /// </summary>
+        private bool circularWaitIsVisible;
+
+        /// <summary>
         /// The current end frame.
         /// </summary>
         private int currentEndFrame;
@@ -105,6 +110,8 @@ namespace Atreyu.ViewModels
 
             this.LowValueGateSliderViewModel.ControlLabel = "Low Gate";
             this.LowValueGateSliderViewModel.UpdateGate(0);
+
+            this.WhenAnyValue(vm => vm.UimfData.LoadingData).Subscribe(x => this.CircularWaitIsVisible = x);
 
             this.ZoomOutFull = this.FrameManipulationViewModel.ZoomOutCommand;
             this.ZoomOutFull.Select(async _ => await this.ZoomOut()).Subscribe();
@@ -208,6 +215,22 @@ namespace Atreyu.ViewModels
         #endregion
 
         #region Public Properties
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the circular wait is visible.
+        /// </summary>
+        public bool CircularWaitIsVisible
+        {
+            get
+            {
+                return this.circularWaitIsVisible;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.circularWaitIsVisible, value);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the current file.
@@ -341,7 +364,7 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// The set up plot mthod.
+        /// The set up plot method.
         /// </summary>
         /// <param name="frameNumber">
         /// The frame number to load.
