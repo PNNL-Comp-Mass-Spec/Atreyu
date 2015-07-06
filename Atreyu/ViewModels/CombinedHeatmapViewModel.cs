@@ -92,6 +92,12 @@ namespace Atreyu.ViewModels
         /// </summary>
         private int width;
 
+        private bool windowMz;
+
+        private double centerMz = 1000.0D;
+
+        private double partsPerMillion = 150.0D;
+
         #endregion
 
         #region Constructors and Destructors
@@ -229,6 +235,42 @@ namespace Atreyu.ViewModels
             set
             {
                 this.RaiseAndSetIfChanged(ref this.circularWaitIsVisible, value);
+            }
+        }
+
+        public bool MzRangeEnabled
+        {
+            get
+            {
+                return this.windowMz;
+            }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.windowMz, value);
+            }
+        }
+
+        public double MzCenter
+        {
+            get
+            {
+                return this.centerMz;
+            }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.centerMz, value);
+            }
+        }
+
+        public double PartsPerMillion
+        {
+            get
+            {
+                return this.partsPerMillion;
+            }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.partsPerMillion, value);
             }
         }
 
