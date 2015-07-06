@@ -215,6 +215,9 @@
     <Compile Include="Controls\CircularProgressBar.xaml.cs">
       <DependentUpon>CircularProgressBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\FieldUserControl.xaml.cs">
+      <DependentUpon>FieldUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MzRange.xaml.cs">
       <DependentUpon>MzRange.xaml</DependentUpon>
     </Compile>
@@ -251,6 +254,10 @@
     </Compile>
     <Compile Include="Models\UimfData.cs" />
     <Page Include="Controls\CircularProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\FieldUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
