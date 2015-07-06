@@ -23,7 +23,7 @@ namespace Atreyu.Controls
         public MzRange()
         {
             InitializeComponent();
-            this.DataContext = this;
+            RootPanel.DataContext = this;
         }
 
 
@@ -35,9 +35,9 @@ namespace Atreyu.Controls
 
         public static readonly DependencyProperty MzRangeEnabledProperty = DependencyProperty.Register(
             "MzRangeEnabled",
-            typeof(string),
+            typeof(bool),
             typeof(MzRange),
-            new UIPropertyMetadata(string.Empty));
+            new UIPropertyMetadata(false));
 
         public double MzCenter
         {
@@ -47,9 +47,9 @@ namespace Atreyu.Controls
 
         public static readonly DependencyProperty MzCenterProperty = DependencyProperty.Register(
             "MzCenter",
-            typeof(string),
+            typeof(double),
             typeof(MzRange),
-            new UIPropertyMetadata("1000.00"));
+            new UIPropertyMetadata(1000.00));
 
         public double PartsPerMillion
         {
@@ -59,9 +59,9 @@ namespace Atreyu.Controls
 
         public static readonly DependencyProperty PartsPerMillionProperty = DependencyProperty.Register(
             "PartsPerMillion",
-            typeof(string),
+            typeof(double),
             typeof(MzRange),
-            new UIPropertyMetadata("150"));
+            new UIPropertyMetadata(150.0));
 
     }
 }
