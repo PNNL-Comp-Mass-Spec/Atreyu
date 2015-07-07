@@ -733,18 +733,6 @@ namespace Atreyu.Models
                         {
                             this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
 
-                            if (WindowMz)
-                            {
-                                var mzOffset = MzCenter * (PartsPerMillion / 1000000.0);
-                                this.CurrentMinBin =
-                                    (int)
-                                    (this.Calibrator.MZtoTOF(MzCenter - mzOffset) / dataReader.TenthsOfNanoSecondsPerBin);
-                                this.CurrentMaxBin =
-                                    (int)
-                                    (this.Calibrator.MZtoTOF(MzCenter + mzOffset) / dataReader.TenthsOfNanoSecondsPerBin);
-                            }
-
-
                             var frametype = GetFrameType(this.frameType);
                             double[] mzs;
                             int[] intensities;
@@ -1001,8 +989,22 @@ namespace Atreyu.Models
                             "range");
                     }
 
-                    this.CurrentMinBin = binRange.StartBin;
-                    this.CurrentMaxBin = binRange.EndBin;
+                    if (this.WindowMz && this.dataReader != null && this.Calibrator != null)
+                    {
+                        var mzOffset = this.MzCenter * (this.PartsPerMillion / 1000000.0);
+                        this.CurrentMinBin =
+                            (int)
+                            (this.Calibrator.MZtoTOF(this.MzCenter - mzOffset) / this.dataReader.TenthsOfNanoSecondsPerBin);
+                        this.CurrentMaxBin =
+                            (int)
+                            (this.Calibrator.MZtoTOF(this.MzCenter + mzOffset) / this.dataReader.TenthsOfNanoSecondsPerBin);
+                    }
+                    else
+                    {
+                        this.CurrentMinBin = binRange.StartBin;
+                        this.CurrentMaxBin = binRange.EndBin;   
+                    }
+
                     break;
                 case RangeType.FrameRange:
                     var frameRange = range as FrameRange;
