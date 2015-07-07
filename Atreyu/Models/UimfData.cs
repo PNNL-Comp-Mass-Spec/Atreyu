@@ -659,6 +659,36 @@ namespace Atreyu.Models
             GC.SuppressFinalize(this);
         }
 
+        private BinRange mzWindow;
+
+        public BinRange GetBinRangeForMzWindow(double centerMz, double partsPerMillionTolerance)
+        {
+            this.MzCenter = centerMz;
+            this.PartsPerMillion = partsPerMillionTolerance;
+            var range = new BinRange();
+            
+            if (this.dataReader == null || this.Calibrator == null)
+            {
+                range.StartBin = 0;
+                range.EndBin = this.CurrentMaxBin;
+                this.mzWindow = range;
+                return range;
+            }
+            
+            var mzOffset = this.MzCenter * (this.PartsPerMillion / 1000000.0);
+
+            range.StartBin =
+                (int)
+                (this.Calibrator.MZtoTOF(this.MzCenter - mzOffset) / this.dataReader.TenthsOfNanoSecondsPerBin);
+
+            range.EndBin =
+                (int)
+                (this.Calibrator.MZtoTOF(this.MzCenter + mzOffset) / this.dataReader.TenthsOfNanoSecondsPerBin);
+
+            this.mzWindow = range;
+            return range;
+        }
+
         /// <summary>
         /// Get full total ion chromatogram with the key based on scan number
         /// </summary>
@@ -989,21 +1019,31 @@ namespace Atreyu.Models
                             "range");
                     }
 
-                    if (this.WindowMz && this.dataReader != null && this.Calibrator != null)
+                    int min, max;
+
+                    if (this.WindowMz && this.mzWindow != null)
                     {
-                        var mzOffset = this.MzCenter * (this.PartsPerMillion / 1000000.0);
-                        this.CurrentMinBin =
-                            (int)
-                            (this.Calibrator.MZtoTOF(this.MzCenter - mzOffset) / this.dataReader.TenthsOfNanoSecondsPerBin);
-                        this.CurrentMaxBin =
-                            (int)
-                            (this.Calibrator.MZtoTOF(this.MzCenter + mzOffset) / this.dataReader.TenthsOfNanoSecondsPerBin);
+                        min = this.mzWindow.StartBin;
+                        max = this.mzWindow.EndBin;
                     }
                     else
                     {
-                        this.CurrentMinBin = binRange.StartBin;
-                        this.CurrentMaxBin = binRange.EndBin;   
+                        min = 0;
+                        max = this.MaxBins;
                     }
+
+                    if (binRange.StartBin < min)
+                    {
+                        binRange.StartBin = min;
+                    }
+
+                    if (binRange.EndBin > max)
+                    {
+                        binRange.EndBin = max;
+                    }
+
+                    this.CurrentMinBin = binRange.StartBin;
+                    this.CurrentMaxBin = binRange.EndBin;
 
                     break;
                 case RangeType.FrameRange:
