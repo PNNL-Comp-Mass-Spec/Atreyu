@@ -261,6 +261,11 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether force min max mz.
+        /// </summary>
+        public bool ForceMinMaxMZ { get; set; }
+
+        /// <summary>
         /// Gets The heat map data (<seealso cref="UimfData"/>).
         /// </summary>
         public UimfData HeatMapData
@@ -341,6 +346,11 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
+        /// Gets or sets the mz window which will be enforced if <see cref="ForceMinMaxMZ"/> is true.
+        /// </summary>
+        public BinRange MzWindow { get; set; }
+
+        /// <summary>
         /// Gets or sets the width.
         /// </summary>
         public int Width
@@ -355,8 +365,6 @@ namespace Atreyu.ViewModels
                 this.RaiseAndSetIfChanged(ref this.width, value);
             }
         }
-
-        public BinRange MzWindow { get; set; }
 
         #endregion
 
@@ -486,8 +494,6 @@ namespace Atreyu.ViewModels
             this.HeatMapPlotModel.Series.Add(heatMapSeries1);
         }
 
-        public bool ForceMinMaxMZ { get; set; }
-
         /// <summary>
         /// The update data.
         /// </summary>
@@ -517,7 +523,7 @@ namespace Atreyu.ViewModels
                 this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.HeatMapData.MaxBins;
                 this.heatMapPlotModel.Axes[2].AbsoluteMinimum = 0;
             }
-            
+
             this.dataArray = framedata;
 
             series.Data = this.dataArray;
