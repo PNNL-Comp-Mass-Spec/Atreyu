@@ -40,6 +40,8 @@ namespace Atreyu.ViewModels
 
     using ReactiveUI;
 
+    using Xceed.Wpf.DataGrid.Converters;
+
     /// <summary>
     /// The combined heatmap view model.
     /// </summary>
@@ -92,6 +94,8 @@ namespace Atreyu.ViewModels
         /// </summary>
         private int width;
 
+        private BinRange mzWindow = new BinRange();
+
         private bool windowMz;
 
         private double centerMz = 1000.0D;
@@ -117,7 +121,25 @@ namespace Atreyu.ViewModels
             this.LowValueGateSliderViewModel.ControlLabel = "Low Gate";
             this.LowValueGateSliderViewModel.UpdateGate(0);
 
+            // Shows loading image
             this.WhenAnyValue(vm => vm.UimfData.LoadingData).Subscribe(x => this.CircularWaitIsVisible = x);
+
+            // Keep the M/Z mode settings updated
+            this.WhenAnyValue(vm => vm.MzRangeEnabled)
+                .Where(b => this.UimfData != null)
+                .Subscribe(x => this.UimfData.WindowMz = x);
+            this.WhenAnyValue(vm => vm.MzCenter)
+                .Where(b => this.UimfData != null)
+                .Subscribe(x => this.UimfData.MzCenter = x);
+            this.WhenAnyValue(vm => vm.PartsPerMillion)
+                .Where(b => this.UimfData != null)
+                .Subscribe(x => this.UimfData.PartsPerMillion = x);
+
+            this.WhenAnyValue(vm => vm.MzRangeEnabled, vm => vm.MzCenter, vm => vm.PartsPerMillion)
+                .Where(tuple => tuple.Item1 && this.UimfData != null)
+                .Subscribe(async _ => await this.UpdateMzWindow());
+
+
 
             this.ZoomOutFull = this.FrameManipulationViewModel.ZoomOutCommand;
             this.ZoomOutFull.Select(async _ => await this.ZoomOut()).Subscribe();
@@ -221,6 +243,15 @@ namespace Atreyu.ViewModels
         #endregion
 
         #region Public Properties
+
+        private async Task UpdateMzWindow()
+        {
+            this.mzWindow = this.uimfData.GetBinRangeForMzWindow(this.MzCenter, this.PartsPerMillion);
+            this.HeatMapViewModel.MzWindow = this.mzWindow;
+            this.UimfData.RangeUpdateList.Enqueue(this.mzWindow);
+            this.HeatMapViewModel.ForceMinMaxMZ = this.MzRangeEnabled;
+            await this.UimfData.CheckQueue();
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether the circular wait is visible.
