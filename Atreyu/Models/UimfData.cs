@@ -155,6 +155,11 @@ namespace Atreyu.Models
         private int[] mzIntensities;
 
         /// <summary>
+        /// The mz window that will be enforced if <see cref="WindowMz"/> it true.
+        /// </summary>
+        private BinRange mzWindow;
+
+        /// <summary>
         /// The range update list.
         /// </summary>
         private ConcurrentQueue<Range> rangeUpdateList;
@@ -488,6 +493,11 @@ namespace Atreyu.Models
         }
 
         /// <summary>
+        /// Gets or sets the mz center.
+        /// </summary>
+        public double MzCenter { get; set; }
+
+        /// <summary>
         /// Gets the mz intensities.
         /// </summary>
         public int[] MzIntensities
@@ -502,6 +512,11 @@ namespace Atreyu.Models
                 this.RaiseAndSetIfChanged(ref this.mzIntensities, value);
             }
         }
+
+        /// <summary>
+        /// Gets or sets the parts per million.
+        /// </summary>
+        public double PartsPerMillion { get; set; }
 
         /// <summary>
         /// Gets the range update list.
@@ -615,6 +630,11 @@ namespace Atreyu.Models
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether window mz.
+        /// </summary>
+        public bool WindowMz { get; set; }
+
         #endregion
 
         #region Public Methods and Operators
@@ -653,6 +673,44 @@ namespace Atreyu.Models
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Get bin range for a given mz window.
+        /// </summary>
+        /// <param name="centerMz">
+        /// The center mz.
+        /// </param>
+        /// <param name="partsPerMillionTolerance">
+        /// The parts per million tolerance.
+        /// </param>
+        /// <returns>
+        /// The <see cref="BinRange"/>.
+        /// </returns>
+        public BinRange GetBinRangeForMzWindow(double centerMz, double partsPerMillionTolerance)
+        {
+            this.MzCenter = centerMz;
+            this.PartsPerMillion = partsPerMillionTolerance;
+            var range = new BinRange();
+
+            if (this.dataReader == null || this.Calibrator == null)
+            {
+                range.StartBin = 0;
+                range.EndBin = this.CurrentMaxBin;
+                this.mzWindow = range;
+                return range;
+            }
+
+            var mzOffset = this.MzCenter * (this.PartsPerMillion / 1000000.0);
+
+            range.StartBin =
+                (int)(this.Calibrator.MZtoTOF(this.MzCenter - mzOffset) / this.dataReader.TenthsOfNanoSecondsPerBin);
+
+            range.EndBin =
+                (int)(this.Calibrator.MZtoTOF(this.MzCenter + mzOffset) / this.dataReader.TenthsOfNanoSecondsPerBin);
+
+            this.mzWindow = range;
+            return range;
         }
 
         /// <summary>
@@ -727,6 +785,8 @@ namespace Atreyu.Models
                 await Task.Run(
                     () =>
                         {
+                            this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
+
                             var frametype = GetFrameType(this.frameType);
                             double[] mzs;
                             int[] intensities;
@@ -755,7 +815,6 @@ namespace Atreyu.Models
 
                             var tof = new double[arrayLength];
                             var mz = new double[arrayLength];
-                            this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
 
                             for (var i = 0; i < arrayLength; i++)
                             {
@@ -984,8 +1043,32 @@ namespace Atreyu.Models
                             "range");
                     }
 
+                    int min, max;
+
+                    if (this.WindowMz && this.mzWindow != null)
+                    {
+                        min = this.mzWindow.StartBin;
+                        max = this.mzWindow.EndBin;
+                    }
+                    else
+                    {
+                        min = 0;
+                        max = this.MaxBins;
+                    }
+
+                    if (binRange.StartBin < min)
+                    {
+                        binRange.StartBin = min;
+                    }
+
+                    if (binRange.EndBin > max)
+                    {
+                        binRange.EndBin = max;
+                    }
+
                     this.CurrentMinBin = binRange.StartBin;
                     this.CurrentMaxBin = binRange.EndBin;
+
                     break;
                 case RangeType.FrameRange:
                     var frameRange = range as FrameRange;

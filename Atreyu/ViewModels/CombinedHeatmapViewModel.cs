@@ -58,6 +58,11 @@ namespace Atreyu.ViewModels
         #region Fields
 
         /// <summary>
+        /// The center of the m/z window.
+        /// </summary>
+        private double centerMz = 1000.0D;
+
+        /// <summary>
         /// A private backing field for a property that indicates whether The circular wait is visible.
         /// </summary>
         private bool circularWaitIsVisible;
@@ -83,6 +88,16 @@ namespace Atreyu.ViewModels
         private int height;
 
         /// <summary>
+        /// The m/z window represented as a <see cref="BinRange"/>.
+        /// </summary>
+        private BinRange mzWindow = new BinRange();
+
+        /// <summary>
+        /// The parts per million tolerance for the m/z window.
+        /// </summary>
+        private double partsPerMillion = 150.0D;
+
+        /// <summary>
         /// The uimf data.
         /// </summary>
         private UimfData uimfData;
@@ -91,6 +106,11 @@ namespace Atreyu.ViewModels
         /// The width of the view.
         /// </summary>
         private int width;
+
+        /// <summary>
+        /// Whether or not to window the M/Z.
+        /// </summary>
+        private bool windowMz;
 
         #endregion
 
@@ -111,7 +131,23 @@ namespace Atreyu.ViewModels
             this.LowValueGateSliderViewModel.ControlLabel = "Low Gate";
             this.LowValueGateSliderViewModel.UpdateGate(0);
 
+            // Shows loading image
             this.WhenAnyValue(vm => vm.UimfData.LoadingData).Subscribe(x => this.CircularWaitIsVisible = x);
+
+            // Keep the M/Z mode settings updated
+            this.WhenAnyValue(vm => vm.MzRangeEnabled)
+                .Where(b => this.UimfData != null)
+                .Subscribe(x => this.UimfData.WindowMz = x);
+            this.WhenAnyValue(vm => vm.MzCenter)
+                .Where(b => this.UimfData != null)
+                .Subscribe(x => this.UimfData.MzCenter = x);
+            this.WhenAnyValue(vm => vm.PartsPerMillion)
+                .Where(b => this.UimfData != null)
+                .Subscribe(x => this.UimfData.PartsPerMillion = x);
+
+            this.WhenAnyValue(vm => vm.MzRangeEnabled, vm => vm.MzCenter, vm => vm.PartsPerMillion)
+                .Where(tuple => tuple.Item1 && this.UimfData != null)
+                .Subscribe(async _ => await this.UpdateMzWindow());
 
             this.ZoomOutFull = this.FrameManipulationViewModel.ZoomOutCommand;
             this.ZoomOutFull.Select(async _ => await this.ZoomOut()).Subscribe();
@@ -280,9 +316,57 @@ namespace Atreyu.ViewModels
         public GateSliderViewModel LowValueGateSliderViewModel { get; private set; }
 
         /// <summary>
+        /// Gets or sets the mz center.
+        /// </summary>
+        public double MzCenter
+        {
+            get
+            {
+                return this.centerMz;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.centerMz, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether mz range enabled.
+        /// </summary>
+        public bool MzRangeEnabled
+        {
+            get
+            {
+                return this.windowMz;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.windowMz, value);
+            }
+        }
+
+        /// <summary>
         /// Gets the mz spectra view model.
         /// </summary>
         public MzSpectraViewModel MzSpectraViewModel { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the parts per million.
+        /// </summary>
+        public double PartsPerMillion
+        {
+            get
+            {
+                return this.partsPerMillion;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.partsPerMillion, value);
+            }
+        }
 
         /// <summary>
         /// Gets the total ion chromatogram view model.
@@ -501,6 +585,25 @@ namespace Atreyu.ViewModels
 
             this.UimfData.RangeUpdateList.Enqueue(scanRange);
             this.UimfData.RangeUpdateList.Enqueue(binRange);
+            await this.UimfData.CheckQueue();
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// TODO The update mz window.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        private async Task UpdateMzWindow()
+        {
+            this.mzWindow = this.uimfData.GetBinRangeForMzWindow(this.MzCenter, this.PartsPerMillion);
+            this.HeatMapViewModel.MzWindow = this.mzWindow;
+            this.UimfData.RangeUpdateList.Enqueue(this.mzWindow);
+            this.HeatMapViewModel.ForceMinMaxMZ = this.MzRangeEnabled;
             await this.UimfData.CheckQueue();
         }
 
