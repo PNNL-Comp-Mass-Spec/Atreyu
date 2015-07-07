@@ -418,8 +418,8 @@ namespace UimfDataExtractor
             catch (NotImplementedException)
             {
                 Console.Error.WriteLine(
-                    "ERROR: An Unknown Frame Type was read on Frame: {0}, we wil continue as best we can by defaulting to MS1.  The Type read was {1}.",
-                    frameNumber,
+                    "ERROR: An Unknown Frame Type was read on Frame: {0}, we wil continue as best we can by defaulting to MS1.  The Type read was {1}.", 
+                    frameNumber, 
                     type);
                 frameType = DataReader.FrameType.MS1;
             }
@@ -468,7 +468,6 @@ namespace UimfDataExtractor
         /// <returns>
         /// A List of Key, Value pairs, key is the m/z and the value is the intesity at that point.
         /// </returns>
-        // ReSharper disable once UnusedMethodReturnValue.Local
         private static List<KeyValuePair<double, int>> GetMz(DataReader uimf, FileInfo originFile, int frameNumber)
         {
             var mzData = GetFullMzInfo(uimf, frameNumber);
@@ -536,7 +535,6 @@ namespace UimfDataExtractor
         /// <returns>
         /// The List of ScanInfo.
         /// </returns>
-        // ReSharper disable once UnusedMethodReturnValue.Local
         private static List<ScanInfo> GetTiC(DataReader uimf, FileInfo originFile, int frameNumber)
         {
             var ticData = GetFullScanInfo(uimf, frameNumber);
@@ -596,7 +594,6 @@ namespace UimfDataExtractor
         /// <returns>
         /// The List of Key Value pairs where the Key is the scan, value is Intensity.
         /// </returns>
-        // ReSharper disable once UnusedMethodReturnValue.Local
         private static List<KeyValuePair<double, double>> GetXic(DataReader uimf, FileInfo originFile, int frameNumber)
         {
             var xicData = GetXicInfo(uimf, frameNumber, options.GetXiC, options.XicTolerance, options.Getmsms);
@@ -760,7 +757,6 @@ namespace UimfDataExtractor
         /// <param name="fileOrDirectory">
         /// The file or directory.
         /// </param>
-        // ReSharper disable once UnusedMember.Local
         private static void PrintNotFoundError(string fileOrDirectory)
         {
             Console.WriteLine();
