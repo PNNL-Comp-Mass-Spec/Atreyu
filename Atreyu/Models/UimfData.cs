@@ -155,6 +155,11 @@ namespace Atreyu.Models
         private int[] mzIntensities;
 
         /// <summary>
+        /// The mz window that will be enforced if <see cref="WindowMz"/> it true.
+        /// </summary>
+        private BinRange mzWindow;
+
+        /// <summary>
         /// The range update list.
         /// </summary>
         private ConcurrentQueue<Range> rangeUpdateList;
@@ -488,6 +493,11 @@ namespace Atreyu.Models
         }
 
         /// <summary>
+        /// Gets or sets the mz center.
+        /// </summary>
+        public double MzCenter { get; set; }
+
+        /// <summary>
         /// Gets the mz intensities.
         /// </summary>
         public int[] MzIntensities
@@ -502,6 +512,11 @@ namespace Atreyu.Models
                 this.RaiseAndSetIfChanged(ref this.mzIntensities, value);
             }
         }
+
+        /// <summary>
+        /// Gets or sets the parts per million.
+        /// </summary>
+        public double PartsPerMillion { get; set; }
 
         /// <summary>
         /// Gets the range update list.
@@ -615,9 +630,10 @@ namespace Atreyu.Models
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether window mz.
+        /// </summary>
         public bool WindowMz { get; set; }
-        public double MzCenter { get; set; }
-        public double PartsPerMillion { get; set; }
 
         #endregion
 
@@ -659,14 +675,24 @@ namespace Atreyu.Models
             GC.SuppressFinalize(this);
         }
 
-        private BinRange mzWindow;
-
+        /// <summary>
+        /// Get bin range for a given mz window.
+        /// </summary>
+        /// <param name="centerMz">
+        /// The center mz.
+        /// </param>
+        /// <param name="partsPerMillionTolerance">
+        /// The parts per million tolerance.
+        /// </param>
+        /// <returns>
+        /// The <see cref="BinRange"/>.
+        /// </returns>
         public BinRange GetBinRangeForMzWindow(double centerMz, double partsPerMillionTolerance)
         {
             this.MzCenter = centerMz;
             this.PartsPerMillion = partsPerMillionTolerance;
             var range = new BinRange();
-            
+
             if (this.dataReader == null || this.Calibrator == null)
             {
                 range.StartBin = 0;
@@ -674,16 +700,14 @@ namespace Atreyu.Models
                 this.mzWindow = range;
                 return range;
             }
-            
+
             var mzOffset = this.MzCenter * (this.PartsPerMillion / 1000000.0);
 
             range.StartBin =
-                (int)
-                (this.Calibrator.MZtoTOF(this.MzCenter - mzOffset) / this.dataReader.TenthsOfNanoSecondsPerBin);
+                (int)(this.Calibrator.MZtoTOF(this.MzCenter - mzOffset) / this.dataReader.TenthsOfNanoSecondsPerBin);
 
             range.EndBin =
-                (int)
-                (this.Calibrator.MZtoTOF(this.MzCenter + mzOffset) / this.dataReader.TenthsOfNanoSecondsPerBin);
+                (int)(this.Calibrator.MZtoTOF(this.MzCenter + mzOffset) / this.dataReader.TenthsOfNanoSecondsPerBin);
 
             this.mzWindow = range;
             return range;
