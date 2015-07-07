@@ -145,9 +145,12 @@ namespace Atreyu.ViewModels
                 .Where(b => this.UimfData != null)
                 .Subscribe(x => this.UimfData.PartsPerMillion = x);
 
+            this.WhenAnyValue(vm => vm.MzRangeEnabled).Subscribe(x => this.HeatMapViewModel.ForceMinMaxMZ = x);
+
             this.WhenAnyValue(vm => vm.MzRangeEnabled, vm => vm.MzCenter, vm => vm.PartsPerMillion)
                 .Where(tuple => tuple.Item1 && this.UimfData != null)
-                .Subscribe(async _ => await this.UpdateMzWindow());
+                .Select(async _ => await this.UpdateMzWindow())
+                .Subscribe();
 
             this.ZoomOutFull = this.FrameManipulationViewModel.ZoomOutCommand;
             this.ZoomOutFull.Select(async _ => await this.ZoomOut()).Subscribe();
@@ -581,7 +584,8 @@ namespace Atreyu.ViewModels
         public async Task ZoomOut()
         {
             var scanRange = new ScanRange(0, this.UimfData.Scans);
-            var binRange = new BinRange(0, this.UimfData.MaxBins);
+
+            var binRange = this.windowMz ? this.mzWindow : new BinRange(0, this.UimfData.MaxBins);
 
             this.UimfData.RangeUpdateList.Enqueue(scanRange);
             this.UimfData.RangeUpdateList.Enqueue(binRange);
@@ -593,7 +597,7 @@ namespace Atreyu.ViewModels
         #region Methods
 
         /// <summary>
-        /// TODO The update mz window.
+        /// Updates the mz window.
         /// </summary>
         /// <returns>
         /// The <see cref="Task"/>.
@@ -603,7 +607,6 @@ namespace Atreyu.ViewModels
             this.mzWindow = this.uimfData.GetBinRangeForMzWindow(this.MzCenter, this.PartsPerMillion);
             this.HeatMapViewModel.MzWindow = this.mzWindow;
             this.UimfData.RangeUpdateList.Enqueue(this.mzWindow);
-            this.HeatMapViewModel.ForceMinMaxMZ = this.MzRangeEnabled;
             await this.UimfData.CheckQueue();
         }
 
