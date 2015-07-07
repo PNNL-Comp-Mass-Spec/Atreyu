@@ -356,6 +356,8 @@ namespace Atreyu.ViewModels
             }
         }
 
+        public BinRange MzWindow { get; set; }
+
         #endregion
 
         #region Public Methods and Operators
@@ -507,8 +509,8 @@ namespace Atreyu.ViewModels
 
             if (this.ForceMinMaxMZ)
             {
-                this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.CurrentMaxBin;
-                this.heatMapPlotModel.Axes[2].AbsoluteMinimum = this.CurrentMinBin;
+                this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.MzWindow.EndBin;
+                this.heatMapPlotModel.Axes[2].AbsoluteMinimum = this.MzWindow.StartBin;
             }
             else
             {
