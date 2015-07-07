@@ -484,6 +484,8 @@ namespace Atreyu.ViewModels
             this.HeatMapPlotModel.Series.Add(heatMapSeries1);
         }
 
+        public bool ForceMinMaxMZ { get; set; }
+
         /// <summary>
         /// The update data.
         /// </summary>
@@ -503,6 +505,17 @@ namespace Atreyu.ViewModels
                 return;
             }
 
+            if (this.ForceMinMaxMZ)
+            {
+                this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.CurrentMaxBin;
+                this.heatMapPlotModel.Axes[2].AbsoluteMinimum = this.CurrentMinBin;
+            }
+            else
+            {
+                this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.HeatMapData.MaxBins;
+                this.heatMapPlotModel.Axes[2].AbsoluteMinimum = 0;
+            }
+            
             this.dataArray = framedata;
 
             series.Data = this.dataArray;
