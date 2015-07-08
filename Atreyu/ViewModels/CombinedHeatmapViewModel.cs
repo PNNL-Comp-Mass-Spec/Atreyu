@@ -145,7 +145,7 @@ namespace Atreyu.ViewModels
                 .Where(b => this.UimfData != null)
                 .Subscribe(x => this.UimfData.PartsPerMillion = x);
 
-            this.WhenAnyValue(vm => vm.MzRangeEnabled).Subscribe(x => this.HeatMapViewModel.ForceMinMaxMZ = x);
+            this.WhenAnyValue(vm => vm.MzRangeEnabled).Subscribe(x => this.HeatMapViewModel.ForceMinMaxMz = x);
 
             this.WhenAnyValue(vm => vm.MzRangeEnabled, vm => vm.MzCenter, vm => vm.PartsPerMillion)
                 .Where(tuple => tuple.Item1 && this.UimfData != null)

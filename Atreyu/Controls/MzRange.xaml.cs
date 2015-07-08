@@ -40,7 +40,7 @@ namespace Atreyu.Controls
         #region Static Fields
 
         /// <summary>
-        /// TODO The mz center property.
+        /// The mz center property.
         /// </summary>
         public static readonly DependencyProperty MzCenterProperty = DependencyProperty.Register(
             "MzCenter", 
@@ -49,7 +49,7 @@ namespace Atreyu.Controls
             new UIPropertyMetadata(1000.00));
 
         /// <summary>
-        /// TODO The mz range enabled property.
+        /// The mz range enabled property.
         /// </summary>
         public static readonly DependencyProperty MzRangeEnabledProperty = DependencyProperty.Register(
             "MzRangeEnabled", 
@@ -58,7 +58,7 @@ namespace Atreyu.Controls
             new UIPropertyMetadata(false));
 
         /// <summary>
-        /// TODO The parts per million property.
+        /// The parts per million property.
         /// </summary>
         public static readonly DependencyProperty PartsPerMillionProperty =
             DependencyProperty.Register(

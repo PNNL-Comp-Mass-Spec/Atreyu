@@ -52,7 +52,7 @@ namespace UimfDataExtractor
         public bool BulkPeakComparison { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to get the heatmap.
+        /// Gets or sets a value indicating whether to get the heat map.
         /// </summary>
         [Option('h', "heatmap", 
             HelpText = "specifies that you want the two-dimensional heatmap data *NotImplementedYet*")]
@@ -77,7 +77,7 @@ namespace UimfDataExtractor
         public double GetXiC { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether getmsms.
+        /// Gets or sets a value indicating whether to get ms ms data.
         /// </summary>
         [Option('s', "msms", HelpText = "get msms data instead of ms data when fetching the XiC")]
         public bool Getmsms { get; set; }
@@ -93,8 +93,7 @@ namespace UimfDataExtractor
         /// </summary>
         [Option('o', "output", 
             HelpText =
-                "Specify the output directory. If left empty results will be written into the same directory as the input directory"
-            )]
+                "Specify the output directory. If left empty results will be written into the same directory as the input directory")]
         public string OutputPath { get; set; }
 
         /// <summary>
@@ -117,7 +116,7 @@ namespace UimfDataExtractor
         public bool Verbose { get; set; }
 
         /// <summary>
-        /// Gets or sets the xic tolerance in Thompsons.
+        /// Gets or sets the tolerance in Thompsons for the extracted ion chromatogram.
         /// </summary>
         [Option('e', "tolerance", DefaultValue = 0.5, 
             HelpText = "Specifies the tolerance from the m/z that you want for the XiC")]

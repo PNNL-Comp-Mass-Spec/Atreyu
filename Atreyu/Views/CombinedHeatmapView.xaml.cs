@@ -40,7 +40,7 @@ namespace Atreyu.Views
 
     /// <summary>
     /// Interaction logic for CombinedHeatmapView
-    ///  </summary>
+    /// </summary>
     public partial class CombinedHeatmapView : IViewFor<CombinedHeatmapViewModel>
     {
         #region Fields
@@ -260,6 +260,7 @@ namespace Atreyu.Views
                 }
                 catch (Exception ex)
                 {
+                    // This ignores a known race condition with an uknown cause and allows the user to continue as if all is well.
                     if (!ex.Message.Contains("already active"))
                     {
                         MessageBox.Show(ex.Message);

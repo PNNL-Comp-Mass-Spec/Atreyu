@@ -41,7 +41,7 @@ namespace Atreyu.Controls
         #region Static Fields
 
         /// <summary>
-        /// TODO The label property.
+        /// The label property.
         /// </summary>
         public static readonly DependencyProperty LabelProperty = DependencyProperty.Register(
             "Label", 
@@ -50,7 +50,7 @@ namespace Atreyu.Controls
             new PropertyMetadata(string.Empty));
 
         /// <summary>
-        /// TODO The value property.
+        /// The value property.
         /// </summary>
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
             "Value", 
@@ -82,7 +82,7 @@ namespace Atreyu.Controls
         {
             get
             {
-                return (String)this.GetValue(LabelProperty);
+                return (string)this.GetValue(LabelProperty);
             }
 
             set
