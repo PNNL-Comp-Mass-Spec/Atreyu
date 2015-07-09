@@ -68,6 +68,7 @@ Global
 		{CD73D288-8F4C-42F5-9085-B7552DA30225}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{CD73D288-8F4C-42F5-9085-B7552DA30225}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{CD73D288-8F4C-42F5-9085-B7552DA30225}.Release|x64.ActiveCfg = Release|Any CPU
+		{CD73D288-8F4C-42F5-9085-B7552DA30225}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
