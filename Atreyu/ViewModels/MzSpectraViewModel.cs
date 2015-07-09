@@ -34,11 +34,8 @@ namespace Atreyu.ViewModels
     using System.Drawing;
     using System.Globalization;
     using System.IO;
-    using System.Linq;
 
     using Atreyu.Models;
-
-    using MagnitudeConcavityPeakFinder;
 
     using OxyPlot;
     using OxyPlot.Axes;
@@ -433,14 +430,13 @@ namespace Atreyu.ViewModels
                 // But as it seems users never use that mode, it is a non-issue for now.
                 return;
             }
-            
+
             // Create a new dictionary to work with the peak finder
             var tempFrameList = new List<KeyValuePair<double, double>>(this.uimfData.MaxBins);
 
             for (var i = 0; i < this.MzArray.Length && i < this.MzIntensities.Length; i++)
             {
-                tempFrameList.Add(
-                    new KeyValuePair<double, double>(this.MzArray[i], this.MzIntensities[i]));
+                tempFrameList.Add(new KeyValuePair<double, double>(this.MzArray[i], this.MzIntensities[i]));
             }
 
             var tempList = Utilities.PeakFinder.FindPeaks(tempFrameList, 3);
@@ -462,66 +458,5 @@ namespace Atreyu.ViewModels
         }
 
         #endregion
-
-        /// <summary>
-        /// The resolution data point.
-        /// </summary>
-        private struct ResolutionDatapoint
-        {
-            #region Fields
-
-            /// <summary>
-            /// The intensity.
-            /// </summary>
-            public double Intensity;
-
-            /// <summary>
-            /// The mz.
-            /// </summary>
-            public double Mz;
-
-            /// <summary>
-            /// The resolution.
-            /// </summary>
-            public double Resolution;
-
-            /// <summary>
-            /// The smoothed intensity (done by the peak finder).
-            /// </summary>
-            // ReSharper disable once NotAccessedField.Local
-            public double SmoothedIntensity;
-
-            #endregion
-        }
-
-        /// <summary>
-        /// A private class that specifies how to compare a Key Value Pair class where the key is an integer.
-        /// </summary>
-        /// <typeparam name="TValue">
-        /// May be any value, is not examined
-        /// </typeparam>
-        private class KvpCompare<TValue> : IComparer<KeyValuePair<int, TValue>>
-        {
-            #region Public Methods and Operators
-
-            /// <summary>
-            /// The compare function.
-            /// </summary>
-            /// <param name="x">
-            /// The x.
-            /// </param>
-            /// <param name="y">
-            /// The y.
-            /// </param>
-            /// <returns>
-            /// The <see cref="int"/>.
-            /// </returns>
-            public int Compare(KeyValuePair<int, TValue> x, KeyValuePair<int, TValue> y)
-            {
-                return x.Key - y.Key;
-            }
-
-            #endregion
-        }
     }
 }
