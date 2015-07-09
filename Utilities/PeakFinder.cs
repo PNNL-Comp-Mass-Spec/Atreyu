@@ -45,15 +45,18 @@ namespace Utilities
         #region Public Methods and Operators
 
         /// <summary>
-        /// Find the peaks in the current data set and adds an annotation point with the resolution to the m/z.
+        /// Find the peaks in the data set passed and returns a list of peak information.
         /// </summary>
         /// <param name="dataList">
         /// The data List.
         /// </param>
+        /// <param name="numberOfTopPeaks">
+        /// The number of peaks to return, starting with the highest intensity, if less than one it will return all peaks.
+        /// </param>
         /// <returns>
         /// The <see cref="System.Collections.Generic.List{T}"/> of peaks.
         /// </returns>
-        public static PeakSet FindPeaks(IReadOnlyList<KeyValuePair<double, double>> dataList)
+        public static PeakSet FindPeaks(IReadOnlyList<KeyValuePair<double, double>> dataList, int numberOfTopPeaks = 0)
         {
             var datapointList = new PeakSet();
             const int Precision = 100000;
@@ -84,8 +87,20 @@ namespace Utilities
                 originalpeakLocation, 
                 out smoothedY);
 
-            ////var topThreePeaks = allPeaks.OrderByDescending(peak => smoothedY[peak.LocationIndex]).Take(3);
-            foreach (var peak in allPeaks)
+            IEnumerable<clsPeak> peakSet;
+
+            if (numberOfTopPeaks > 0)
+            {
+                var topPeaks = allPeaks.OrderByDescending(peak => smoothedY[peak.LocationIndex]).Take(numberOfTopPeaks);
+                peakSet = topPeaks;
+            }
+            else
+            {
+                peakSet = allPeaks;
+            }
+
+
+            foreach (var peak in peakSet)
             {
                 const double Tolerance = 0.01;
                 var centerPoint = tempFrameList.ElementAt(peak.LocationIndex);
