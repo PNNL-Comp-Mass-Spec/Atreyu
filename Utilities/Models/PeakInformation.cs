@@ -28,6 +28,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Utilities.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
 
@@ -114,6 +115,26 @@ namespace Utilities.Models
         /// </summary>
         [DataMember]
         public List<PointInformation> TotalDataPointSet { get; set; }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The to string.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        public override string ToString()
+        {
+            var temp = "Peak Center: " + this.PeakCenter.ToString("N") + Environment.NewLine + "Intensity: "
+                       + this.Intensity.ToString("N") + Environment.NewLine + "Full Width Half Max: "
+                       + this.FullWidthHalfMax.ToString("N") + Environment.NewLine + "Resolving Power: "
+                       + this.ResolvingPower.ToString("N") + Environment.NewLine + "Area Under The Peak: "
+                       + this.AreaUnderThePeak.ToString("N");
+            return temp;
+        }
 
         #endregion
     }
