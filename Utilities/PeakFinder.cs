@@ -26,7 +26,6 @@
 //   The peak finder class file.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Utilities
 {
     using System;
@@ -38,7 +37,7 @@ namespace Utilities
     using Utilities.Models;
 
     /// <summary>
-    /// The peak finder class, gives additional information over what the Masic peak finder provides.
+    /// The peak finder class, gives additional information over what the magnitude peak finder provides.
     /// </summary>
     public static class PeakFinder
     {
@@ -98,7 +97,6 @@ namespace Utilities
             {
                 peakSet = allPeaks;
             }
-
 
             foreach (var peak in peakSet)
             {
