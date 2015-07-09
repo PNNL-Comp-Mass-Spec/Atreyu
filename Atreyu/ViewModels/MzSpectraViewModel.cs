@@ -34,11 +34,8 @@ namespace Atreyu.ViewModels
     using System.Drawing;
     using System.Globalization;
     using System.IO;
-    using System.Linq;
 
     using Atreyu.Models;
-
-    using MagnitudeConcavityPeakFinder;
 
     using OxyPlot;
     using OxyPlot.Axes;
@@ -425,8 +422,6 @@ namespace Atreyu.ViewModels
         /// </summary>
         private void FindPeaks()
         {
-            var datapointList = new List<ResolutionDatapoint>();
-            const int Precision = 10000;
             this.mzPlotModel.Annotations.Clear();
 
             if (!this.ShowMz)
@@ -436,222 +431,32 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            var peakDetector = new PeakDetector();
+            // Create a new dictionary to work with the peak finder
+            var tempFrameList = new List<KeyValuePair<double, double>>(this.uimfData.MaxBins);
 
-            var finderOptions = PeakDetector.GetDefaultSICPeakFinderOptions();
-
-            List<double> smoothedY;
-
-            // Create a new dictionary so we don't modify the original one
-            var tempFrameList = new List<KeyValuePair<int, double>>(this.uimfData.MaxBins);
-
-            // We have to give it integers, but we need the mz, so we will multiply the mz by the precision
-            // and later get the correct value back by dividing it out again
             for (var i = 0; i < this.MzArray.Length && i < this.MzIntensities.Length; i++)
             {
-                tempFrameList.Add(
-                    new KeyValuePair<int, double>((int)(this.MzArray[i] * Precision), this.MzIntensities[i]));
+                tempFrameList.Add(new KeyValuePair<double, double>(this.MzArray[i], this.MzIntensities[i]));
             }
 
-            // I am not sure what this does and need to talk to Matt Monroe, but in the example exe file that came with the library
-            // they used half of the length of the list in their previous examples and this seems to work on teh zoomed out version
-            // but not when we zoom in, it seems like an offset problem.
-            var originalpeakLocation = tempFrameList.Count / 2;
-
-            var allPeaks = peakDetector.FindPeaks(
-                finderOptions, 
-                tempFrameList.OrderBy(x => x.Key).ToList(), 
-                originalpeakLocation, 
-                out smoothedY);
-
-            var topThreePeaks = allPeaks.OrderByDescending(peak => smoothedY[peak.LocationIndex]).Take(3);
-
-            foreach (var peak in topThreePeaks)
-            {
-                const double Tolerance = 0.01;
-                var centerPoint = tempFrameList.ElementAt(peak.LocationIndex);
-                var offsetMz = centerPoint.Key; // + firstpoint.Key; 
-                var intensity = centerPoint.Value;
-                var smoothedPeakIntensity = smoothedY[peak.LocationIndex];
-
-                var realMz = (double)offsetMz / Precision;
-                var halfmax = smoothedPeakIntensity / 2.0;
-
-                var currPoint = new KeyValuePair<int, double>(0, 0);
-                var currPointIndex = 0;
-                double leftMidpoint = 0;
-                double rightMidPoint = 0;
-
-                var leftSidePeaks = new List<KeyValuePair<int, double>>();
-                for (var l = peak.LeftEdge; l < peak.LocationIndex && l < tempFrameList.Count; l++)
-                {
-                    leftSidePeaks.Add(tempFrameList[l]);
-                }
-
-                var rightSidePeaks = new List<KeyValuePair<int, double>>();
-                for (var r = peak.LocationIndex; r < peak.RightEdge && r < tempFrameList.Count; r++)
-                {
-                    rightSidePeaks.Add(tempFrameList[r]);
-                }
-
-                // find the left side half max
-                foreach (var leftSidePeak in leftSidePeaks)
-                {
-                    var prevPoint = currPoint;
-                    currPoint = leftSidePeak;
-                    var prevPointIndex = currPointIndex;
-
-                    currPointIndex = tempFrameList.BinarySearch(currPoint, new KvpCompare<double>());
-
-                    if (smoothedY[currPointIndex] < halfmax)
-                    {
-                        continue;
-                    }
-
-                    if (Math.Abs(smoothedY[currPointIndex] - halfmax) < Tolerance)
-                    {
-                        leftMidpoint = currPoint.Key;
-                        continue;
-                    }
-
-                    ////var slope = (prevPoint.Key - currPoint.Key) / (prevPoint.Value - currPoint.Value);
-                    double a1 = prevPoint.Key;
-                    double a2 = currPoint.Key;
-                    double c = halfmax;
-                    double b1 = smoothedY[prevPointIndex];
-                    double b2 = smoothedY[currPointIndex];
-
-                    leftMidpoint = a1 + ((a2 - a1) * ((c - b1) / (b2 - b1)));
-                    break;
-                }
-
-                // find the right side of the half max
-                foreach (var rightSidePeak in rightSidePeaks)
-                {
-                    var prevPoint = currPoint;
-                    currPoint = rightSidePeak;
-                    var prevPointIndex = currPointIndex;
-                    currPointIndex = tempFrameList.BinarySearch(currPoint, new KvpCompare<double>());
-
-                    if (smoothedY[currPointIndex] > halfmax || smoothedY[currPointIndex] < 0)
-                    {
-                        continue;
-                    }
-
-                    if (Math.Abs(smoothedY[currPointIndex] - halfmax) < Tolerance)
-                    {
-                        rightMidPoint = currPoint.Key;
-                        continue;
-                    }
-
-                    ////var slope = (prevPoint.Key - currPoint.Key) / (prevPoint.Value - currPoint.Value);
-                    double a1 = prevPoint.Key;
-                    double a2 = currPoint.Key;
-                    double c = halfmax;
-                    double b1 = smoothedY[prevPointIndex];
-                    double b2 = smoothedY[currPointIndex];
-
-                    rightMidPoint = a1 + ((a2 - a1) * ((c - b1) / (b2 - b1)));
-                    break;
-                }
-
-                var correctedRightMidPoint = rightMidPoint / Precision;
-                var correctedLeftMidPoint = leftMidpoint / Precision;
-
-                var resolution = realMz / (correctedRightMidPoint - correctedLeftMidPoint);
-
-                var temp = new ResolutionDatapoint
-                               {
-                                   Intensity = intensity, 
-                                   Mz = realMz, 
-                                   Resolution = resolution, 
-                                   SmoothedIntensity = smoothedPeakIntensity
-                               };
-                datapointList.Add(temp);
-            }
-
-            var tempList =
-                datapointList.Where(x => !double.IsInfinity(x.Resolution)).OrderByDescending(x => x.Intensity).Take(10);
+            var tempList = Utilities.PeakFinder.FindPeaks(tempFrameList, 3);
 
             // Put the points on the graph
-            foreach (var resolutionDatapoint in tempList)
+            foreach (var resolutionDatapoint in tempList.Peaks)
             {
-                var resolutionString = resolutionDatapoint.Resolution.ToString("F1", CultureInfo.InvariantCulture);
-                var annotationText = "Peak Location:" + resolutionDatapoint.Mz + Environment.NewLine + "Intensity:"
-                                     + resolutionDatapoint.Intensity + Environment.NewLine + "Resolution:"
-                                     + resolutionString;
+                var resolutionString = resolutionDatapoint.ResolvingPower.ToString("F1", CultureInfo.InvariantCulture);
+
                 var peakPoint = new OxyPlot.Annotations.PointAnnotation
                                     {
                                         Text = "R=" + resolutionString, 
                                         X = resolutionDatapoint.Intensity / 1.03125, 
-                                        Y = resolutionDatapoint.Mz, 
-                                        ToolTip = annotationText
+                                        Y = resolutionDatapoint.PeakCenter, 
+                                        ToolTip = resolutionDatapoint.ToString()
                                     };
                 this.mzPlotModel.Annotations.Add(peakPoint);
             }
         }
 
         #endregion
-
-        /// <summary>
-        /// The resolution data point.
-        /// </summary>
-        private struct ResolutionDatapoint
-        {
-            #region Fields
-
-            /// <summary>
-            /// The intensity.
-            /// </summary>
-            public double Intensity;
-
-            /// <summary>
-            /// The mz.
-            /// </summary>
-            public double Mz;
-
-            /// <summary>
-            /// The resolution.
-            /// </summary>
-            public double Resolution;
-
-            /// <summary>
-            /// The smoothed intensity (done by the peak finder).
-            /// </summary>
-            // ReSharper disable once NotAccessedField.Local
-            public double SmoothedIntensity;
-
-            #endregion
-        }
-
-        /// <summary>
-        /// A private class that specifies how to compare a Key Value Pair class where the key is an integer.
-        /// </summary>
-        /// <typeparam name="TValue">
-        /// May be any value, is not examined
-        /// </typeparam>
-        private class KvpCompare<TValue> : IComparer<KeyValuePair<int, TValue>>
-        {
-            #region Public Methods and Operators
-
-            /// <summary>
-            /// The compare function.
-            /// </summary>
-            /// <param name="x">
-            /// The x.
-            /// </param>
-            /// <param name="y">
-            /// The y.
-            /// </param>
-            /// <returns>
-            /// The <see cref="int"/>.
-            /// </returns>
-            public int Compare(KeyValuePair<int, TValue> x, KeyValuePair<int, TValue> y)
-            {
-                return x.Key - y.Key;
-            }
-
-            #endregion
-        }
     }
 }

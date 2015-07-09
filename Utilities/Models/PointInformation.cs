@@ -26,7 +26,7 @@
 //   The point information.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace UimfDataExtractor
+namespace Utilities.Models
 {
     using System.Runtime.Serialization;
 

@@ -26,8 +26,9 @@
 //   Classes for handling the peak information and the tags to allow xml output.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace UimfDataExtractor
+namespace Utilities.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
 
@@ -116,32 +117,24 @@ namespace UimfDataExtractor
         public List<PointInformation> TotalDataPointSet { get; set; }
 
         #endregion
-    }
 
-    /// <summary>
-    /// The peak set.
-    /// </summary>
-    public class PeakSet
-    {
-        #region Constructors and Destructors
+        #region Public Methods and Operators
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PeakSet"/> class.
+        /// The to string.
         /// </summary>
-        public PeakSet()
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        public override string ToString()
         {
-            this.Peaks = new List<PeakInformation>();
+            var temp = "Peak Center: " + this.PeakCenter.ToString("N") + Environment.NewLine + "Intensity: "
+                       + this.Intensity.ToString("N") + Environment.NewLine + "Full Width Half Max: "
+                       + this.FullWidthHalfMax.ToString("N") + Environment.NewLine + "Resolving Power: "
+                       + this.ResolvingPower.ToString("N") + Environment.NewLine + "Area Under The Peak: "
+                       + this.AreaUnderThePeak.ToString("N");
+            return temp;
         }
-
-        #endregion
-
-        #region Public Properties
-
-        /// <summary>
-        /// Gets or sets the peaks.
-        /// </summary>
-        [DataMember]
-        public List<PeakInformation> Peaks { get; set; }
 
         #endregion
     }
