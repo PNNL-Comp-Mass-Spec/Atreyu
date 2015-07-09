@@ -28,7 +28,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Atreyu.ViewModels
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Drawing;
@@ -37,8 +36,6 @@ namespace Atreyu.ViewModels
     using System.Linq;
 
     using Atreyu.Models;
-
-    using MagnitudeConcavityPeakFinder;
 
     using OxyPlot;
     using OxyPlot.Axes;
@@ -315,12 +312,12 @@ namespace Atreyu.ViewModels
                 var resolutionString = peakInformation.ResolvingPower.ToString("F1", CultureInfo.InvariantCulture);
 
                 var peakPoint = new OxyPlot.Annotations.PointAnnotation
-                {
-                    Text = "R=" + resolutionString,
-                    X = peakInformation.PeakCenter,
-                    Y = peakInformation.Intensity / 2.5,
-                    ToolTip = peakInformation.ToString()
-                };
+                                    {
+                                        Text = "R=" + resolutionString, 
+                                        X = peakInformation.PeakCenter, 
+                                        Y = peakInformation.Intensity / 2.5, 
+                                        ToolTip = peakInformation.ToString()
+                                    };
                 this.ticPlotModel.Annotations.Add(peakPoint);
             }
         }
