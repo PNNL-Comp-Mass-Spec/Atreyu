@@ -26,7 +26,6 @@
 //   Interaction logic for MzRange.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Atreyu.Controls
 {
     using System.Windows;

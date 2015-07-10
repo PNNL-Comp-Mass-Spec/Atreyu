@@ -26,7 +26,6 @@
 //   Interaction logic for CircularProgressBar.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Atreyu.Controls
 {
     using System;
@@ -61,11 +60,13 @@ namespace Atreyu.Controls
 
             this.animationTimer = new DispatcherTimer(DispatcherPriority.ContextIdle, this.Dispatcher)
                                       {
-                                          Interval = new TimeSpan(
-                                              0,
-                                              0,
-                                              0,
-                                              0,
+                                          Interval =
+                                              new TimeSpan
+                                              (
+                                              0, 
+                                              0, 
+                                              0, 
+                                              0, 
                                               75)
                                       };
         }

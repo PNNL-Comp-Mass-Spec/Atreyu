@@ -535,9 +535,9 @@ namespace Atreyu.ViewModels
             // bins
             series.Y0 = this.CurrentMinBin;
             series.Y1 = this.CurrentMaxBin;
-            
+
             if ((this.CurrentMinScan == 0 && this.CurrentMinBin == 0)
-             || (this.ForceMinMaxMz && this.CurrentMinBin == this.MzWindow.StartBin))
+                || (this.ForceMinMaxMz && this.CurrentMinBin == this.MzWindow.StartBin))
             {
                 this.heatMapPlotModel.ResetAllAxes();
             }

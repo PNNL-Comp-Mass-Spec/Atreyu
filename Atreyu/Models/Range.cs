@@ -42,9 +42,9 @@ namespace Atreyu.Models
         /// <summary>
         /// The range type.
         /// </summary>
-        [SuppressMessage("StyleCop.CSharp.NamingRules",
-            "SA1304:NonPrivateReadonlyFieldsMustBeginWithUpperCaseLetter",
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1304:NonPrivateReadonlyFieldsMustBeginWithUpperCaseLetter", 
             Justification = "Reviewed. Suppression is OK here.")]
+
         // ReSharper disable once InconsistentNaming
         protected readonly RangeType rangeType;
 

@@ -26,10 +26,8 @@
 //   Interaction logic for FieldUserControl.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Atreyu.Controls
 {
-    using System;
     using System.Windows;
     using System.Windows.Controls;
 
