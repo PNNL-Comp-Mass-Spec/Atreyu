@@ -297,7 +297,7 @@
             this.SetOutputDirectory.UseVisualStyleBackColor = true;
             this.SetOutputDirectory.Click += new System.EventHandler(this.SetOutputDirectoryClick);
             // 
-            // UimfDataExtractorGUI
+            // UimfDataExtractorGui
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -319,6 +319,7 @@
             this.Controls.Add(this.BulkPeakComparison);
             this.Controls.Add(this.AllFrames);
             this.Controls.Add(this.Extract);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "UimfDataExtractorGui";
             this.Text = "Uimf Data Extractor";
             this.XicSettingsGoupBox.ResumeLayout(false);
