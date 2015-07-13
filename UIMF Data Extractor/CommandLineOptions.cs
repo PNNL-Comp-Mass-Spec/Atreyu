@@ -28,6 +28,9 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace UimfDataExtractor
 {
+    using System;
+    using System.Linq;
+
     using CommandLine;
     using CommandLine.Text;
 
@@ -97,6 +100,9 @@ namespace UimfDataExtractor
             )]
         public string OutputPath { get; set; }
 
+        [ParserState]
+        public IParserState LastParserState { get; set; }
+
         /// <summary>
         /// Gets or sets a value indicating whether to peak find and print out information.
         /// </summary>
@@ -157,6 +163,17 @@ namespace UimfDataExtractor
             help.AddPreOptionsLine("      program will simply print what files it found.");
             help.AddPreOptionsLine("      If no output directory is specified, then it will default to the same");
             help.AddPreOptionsLine("      folder as the UIMF");
+
+            if (this.LastParserState.Errors.Any())
+            {
+                var errors = help.RenderParsingErrorsText(this, 2); // indent with two spaces
+
+                if (!string.IsNullOrEmpty(errors))
+                {
+                    help.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR(S):"));
+                    help.AddPreOptionsLine(errors);
+                }
+            }
 
             help.AddOptions(this);
 
