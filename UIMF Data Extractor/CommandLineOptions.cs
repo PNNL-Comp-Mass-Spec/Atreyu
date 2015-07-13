@@ -55,7 +55,7 @@ namespace UimfDataExtractor
         /// Gets or sets a value indicating whether to get the heat map.
         /// </summary>
         [Option('h', "heatmap", 
-            HelpText = "specifies that you want the two-dimensional heatmap data *NotImplementedYet*")]
+            HelpText = "specifies that you want the two-dimensional heatmap data")]
         public bool GetHeatmap { get; set; }
 
         /// <summary>

@@ -2,6 +2,7 @@
   <GlobalSettings>
     <CollectionProperty Name="RecognizedWords">
       <Value>heatmap</Value>
+      <Value>ms</Value>
       <Value>mz</Value>
       <Value>num</Value>
       <Value>uimf</Value>
