@@ -42,7 +42,7 @@ namespace UimfDataExtractor
         #region Public Properties
 
         /// <summary>
-        /// Gets or sets a value indicating whether to get the data from all frames or just the first one.
+        /// Gets or sets a value indicating whether to get the data from all frames, ignoring the single frame option.
         /// </summary>
         [Option('a', "allframes", HelpText = "Outputs all frames to csv instead of just the first one.")]
         public bool AllFrames { get; set; }
@@ -55,16 +55,22 @@ namespace UimfDataExtractor
         public bool BulkPeakComparison { get; set; }
 
         /// <summary>
+        /// Gets or sets the frame to output.
+        /// </summary>
+        [Option('f', "frame", HelpText = "Outputs a specific frame", DefaultValue = 1)]
+        public int Frame { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether to get the heat map.
         /// </summary>
         [Option('h', "heatmap", 
-            HelpText = "specifies that you want the two-dimensional heatmap data")]
+            HelpText = "Specifies that you want the two-dimensional heatmap data")]
         public bool GetHeatmap { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to output mass over charge data.
         /// </summary>
-        [Option('m', "mz", HelpText = "specifies that you want the m/z data")]
+        [Option('m', "mz", HelpText = "Specifies that you want the m/z data")]
         public bool GetMz { get; set; }
 
         /// <summary>
@@ -82,13 +88,13 @@ namespace UimfDataExtractor
         /// <summary>
         /// Gets or sets a value indicating whether to get ms ms data.
         /// </summary>
-        [Option('s', "msms", HelpText = "get msms data instead of ms data when fetching the XiC")]
+        [Option('s', "msms", HelpText = "Get msms data instead of ms data when fetching the XiC")]
         public bool Getmsms { get; set; }
 
         /// <summary>
         /// Gets or sets the input path.
         /// </summary>
-        [Option('i', "input", Required = true, HelpText = "specify the directory containing the UIMFs to process")]
+        [Option('i', "input", Required = true, HelpText = "Specify the directory containing the UIMFs to process")]
         public string InputPath { get; set; }
 
         /// <summary>

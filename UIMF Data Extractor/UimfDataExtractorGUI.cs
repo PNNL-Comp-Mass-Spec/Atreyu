@@ -99,6 +99,7 @@ namespace UimfDataExtractor
                                             OutputPath = this.outputDirectory, 
                                             AllFrames = this.AllFrames.Checked, 
                                             BulkPeakComparison = this.BulkPeakComparison.Checked, 
+                                            Frame = (int)this.FrameNumber.Value,
                                             GetHeatmap = this.GetHeatMap.Checked, 
                                             GetMz = this.GetMz.Checked, 
                                             GetTiC = this.GetTic.Checked, 
@@ -179,5 +180,12 @@ namespace UimfDataExtractor
         }
 
         #endregion
+
+        private void AllFrames_CheckedChanged(object sender, EventArgs e)
+        {
+            this.FrameNumber.Enabled = !this.AllFrames.Checked;
+            this.FrameNumberLabel.Enabled = !this.AllFrames.Checked;
+        }
+
     }
 }
