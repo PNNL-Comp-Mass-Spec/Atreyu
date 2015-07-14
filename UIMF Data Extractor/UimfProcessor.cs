@@ -731,7 +731,7 @@ namespace UimfDataExtractor
                 }
                 else
                 {
-                    ProcessFrame(uimfReader, file);
+                    ProcessFrame(uimfReader, file, options.Frame);
                 }
             }
 
