@@ -26,7 +26,7 @@
 //   The bulk peak data.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace UimfDataExtractor
+namespace UimfDataExtractor.Models
 {
     /// <summary>
     /// The bulk peak data.

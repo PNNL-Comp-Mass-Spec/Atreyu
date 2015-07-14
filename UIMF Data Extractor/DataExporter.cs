@@ -34,6 +34,8 @@ namespace UimfDataExtractor
     using System.Runtime.Serialization;
     using System.Xml;
 
+    using UimfDataExtractor.Models;
+
     using UIMFLibrary;
 
     using Utilities.Models;

@@ -36,6 +36,8 @@ namespace UimfDataExtractor
     using System.Linq;
     using System.Threading.Tasks;
 
+    using UimfDataExtractor.Models;
+
     using UIMFLibrary;
 
     using Utilities;
