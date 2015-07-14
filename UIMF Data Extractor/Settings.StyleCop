@@ -1,6 +1,7 @@
 <StyleCopSettings Version="105">
   <GlobalSettings>
     <CollectionProperty Name="RecognizedWords">
+      <Value>gui</Value>
       <Value>ms</Value>
       <Value>mz</Value>
       <Value>tic</Value>
