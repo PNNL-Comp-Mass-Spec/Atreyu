@@ -29,6 +29,7 @@
 namespace UimfDataExtractor
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     using CommandLine;
@@ -100,6 +101,7 @@ namespace UimfDataExtractor
         /// <summary>
         /// Gets or sets the output path.
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         [Option('o', "output", 
             HelpText =
                 "Specify the output directory. If left empty results will be written into the same directory as the input directory"
