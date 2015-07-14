@@ -3,7 +3,9 @@
     <CollectionProperty Name="RecognizedWords">
       <Value>ms</Value>
       <Value>mz</Value>
+      <Value>tic</Value>
       <Value>uimf</Value>
+      <Value>xic</Value>
     </CollectionProperty>
   </GlobalSettings>
   <Analyzers>
