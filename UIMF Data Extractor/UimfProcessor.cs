@@ -174,7 +174,7 @@ namespace UimfDataExtractor
         }
 
         /// <summary>
-        /// Gets full heatmap data from the <see cref="DataReader"/> that the UIMF is open in.
+        /// Gets full heat map data from the <see cref="DataReader"/> that the UIMF is open in.
         /// </summary>
         /// <param name="uimf">
         /// The uimf that data is to be fetched from.
@@ -278,8 +278,9 @@ namespace UimfDataExtractor
         /// The frame number.
         /// </param>
         /// <returns>
-        /// A List of Key, Value pairs, key is the m/z and the value is the intesity at that point.
+        /// A List of Key, Value pairs, key is the m/z and the value is the intensity at that point.
         /// </returns>
+        // ReSharper disable once UnusedMethodReturnValue.Local
         private static List<KeyValuePair<double, int>> GetMz(DataReader uimf, FileInfo originFile, int frameNumber)
         {
             var mzData = GetFullMzInfo(uimf, frameNumber);
@@ -347,6 +348,7 @@ namespace UimfDataExtractor
         /// <returns>
         /// The List of ScanInfo.
         /// </returns>
+        // ReSharper disable once UnusedMethodReturnValue.Local
         private static List<ScanInfo> GetTiC(DataReader uimf, FileInfo originFile, int frameNumber)
         {
             var ticData = GetFullScanInfo(uimf, frameNumber);
@@ -406,6 +408,7 @@ namespace UimfDataExtractor
         /// <returns>
         /// The List of Key Value pairs where the Key is the scan, value is Intensity.
         /// </returns>
+        // ReSharper disable once UnusedMethodReturnValue.Local
         private static List<KeyValuePair<double, double>> GetXic(DataReader uimf, FileInfo originFile, int frameNumber)
         {
             var xicData = GetXicInfo(uimf, frameNumber, options.GetXiC, options.XicTolerance, options.Getmsms);
@@ -468,7 +471,7 @@ namespace UimfDataExtractor
         /// The tolerance.
         /// </param>
         /// <param name="getMsms">
-        /// The get msms.
+        /// Specifies whether or not to get ms 2 instead of ms 1 data.
         /// </param>
         /// <returns>
         /// The List of Key Value pairs where the Key is the scan, value is Intensity.
@@ -525,6 +528,8 @@ namespace UimfDataExtractor
 
             var data = new List<KeyValuePair<double, double>>();
 
+            // I think this is more readable with a regular loop than a very long linq query
+            // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (var intensityPoint in frameData)
             {
                 var driftTime = uimf.GetDriftTime(intensityPoint.ScanLc + 1, intensityPoint.ScanIms, true);
@@ -569,6 +574,7 @@ namespace UimfDataExtractor
         /// <param name="fileOrDirectory">
         /// The file or directory.
         /// </param>
+        // ReSharper disable once UnusedMember.Local
         private static void PrintNotFoundError(string fileOrDirectory)
         {
             Console.WriteLine();
