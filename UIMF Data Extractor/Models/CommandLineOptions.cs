@@ -26,7 +26,7 @@
 //   The command line options for the UIMF Data Extractor
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace UimfDataExtractor
+namespace UimfDataExtractor.Models
 {
     using System;
     using System.Diagnostics.CodeAnalysis;

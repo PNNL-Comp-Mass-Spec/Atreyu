@@ -32,6 +32,8 @@ namespace UimfDataExtractor
     using System.Threading.Tasks;
     using System.Windows.Forms;
 
+    using UimfDataExtractor.Models;
+
     /// <summary>
     /// The uimf data extractor gui codebehind.
     /// </summary>

@@ -74,9 +74,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandLineOptions.cs" />
     <Compile Include="DataExporter.cs" />
     <Compile Include="Models\BulkPeakData.cs" />
+    <Compile Include="Models\CommandLineOptions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UimfDataExtractorGUI.cs">
