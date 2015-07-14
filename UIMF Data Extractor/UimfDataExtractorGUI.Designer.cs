@@ -78,7 +78,7 @@
             this.AllFrames.TabIndex = 1;
             this.AllFrames.Text = "Export All Frames";
             this.AllFrames.UseVisualStyleBackColor = true;
-            this.AllFrames.CheckedChanged += new System.EventHandler(this.AllFrames_CheckedChanged);
+            this.AllFrames.CheckedChanged += new System.EventHandler(this.AllFramesCheckedChanged);
             // 
             // BulkPeakComparison
             // 

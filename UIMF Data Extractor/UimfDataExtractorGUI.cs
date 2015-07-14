@@ -35,7 +35,7 @@ namespace UimfDataExtractor
     using UimfDataExtractor.Models;
 
     /// <summary>
-    /// The uimf data extractor gui codebehind.
+    /// The uimf data extractor gui code behind.
     /// </summary>
     public partial class UimfDataExtractorGui : Form
     {
@@ -183,11 +183,19 @@ namespace UimfDataExtractor
 
         #endregion
 
-        private void AllFrames_CheckedChanged(object sender, EventArgs e)
+        /// <summary>
+        /// The all frames checked changed event.  Enables and disables the frame number control.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The event arguments.
+        /// </param>
+        private void AllFramesCheckedChanged(object sender, EventArgs e)
         {
             this.FrameNumber.Enabled = !this.AllFrames.Checked;
             this.FrameNumberLabel.Enabled = !this.AllFrames.Checked;
         }
-
     }
 }
