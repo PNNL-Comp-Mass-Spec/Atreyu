@@ -71,6 +71,9 @@ namespace Utilities
 
             // We have to give it integers for the double, but we need this to handle doubles, so we will multiply the key by the precision
             // and later get the correct value back by dividing it out again
+            // resultant linq quesry is less readable than this.
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            // ReSharper disable once ForCanBeConvertedToForeach
             for (var i = 0; i < dataList.Count; i++)
             {
                 tempFrameList.Add(new KeyValuePair<int, double>((int)(dataList[i].Key * Precision), dataList[i].Value));
