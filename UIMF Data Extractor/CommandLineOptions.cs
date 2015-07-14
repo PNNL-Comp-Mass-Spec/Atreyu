@@ -106,6 +106,9 @@ namespace UimfDataExtractor
             )]
         public string OutputPath { get; set; }
 
+        /// <summary>
+        /// Gets or sets the last parser state, allowing for the automatic delivering of parsing errors.
+        /// </summary>
         [ParserState]
         public IParserState LastParserState { get; set; }
 
