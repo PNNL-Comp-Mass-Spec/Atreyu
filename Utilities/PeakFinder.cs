@@ -137,32 +137,9 @@ namespace Utilities
             double leftMidpoint = 0;
             double rightMidPoint = 0;
 
-            var allPoints = new List<PointInformation>();
-            var leftSidePoints = new List<KeyValuePair<int, double>>();
-            for (var l = peak.LeftEdge; l < peak.LocationIndex && l < originalList.Count; l++)
-            {
-                leftSidePoints.Add(originalList[l]);
-                allPoints.Add(
-                    new PointInformation
-                        {
-                            Location = (double)originalList[l].Key / precisionUsed,
-                            Intensity = originalList[l].Value,
-                            SmoothedIntensity = smoothedIntensityValues[l]
-                        });
-            }
-
-            var rightSidePoints = new List<KeyValuePair<int, double>>();
-            for (var r = peak.LocationIndex; r < peak.RightEdge && r < originalList.Count; r++)
-            {
-                rightSidePoints.Add(originalList[r]);
-                allPoints.Add(
-                    new PointInformation
-                        {
-                            Location = (double)originalList[r].Key / precisionUsed,
-                            Intensity = originalList[r].Value,
-                            SmoothedIntensity = smoothedIntensityValues[r]
-                        });
-            }
+            List<KeyValuePair<int, double>> leftSidePoints;
+            List<KeyValuePair<int, double>> rightSidePoints;
+            var allPoints = ExtractPointInformation(peak, originalList, smoothedIntensityValues, precisionUsed, out leftSidePoints, out rightSidePoints);
 
             // find the left side half max
             foreach (var leftSidePoint in leftSidePoints)
@@ -247,6 +224,43 @@ namespace Utilities
                                TotalDataPointSet = allPoints
                            };
             return temp;
+        }
+
+        private static List<PointInformation> ExtractPointInformation(
+            clsPeak peak,
+            IReadOnlyList<KeyValuePair<int, double>> originalList,
+            IReadOnlyList<double> smoothedIntensityValues,
+            int precisionUsed,
+            out List<KeyValuePair<int, double>> leftSidePoints,
+            out List<KeyValuePair<int, double>> rightSidePoints)
+        {
+            var allPoints = new List<PointInformation>();
+            leftSidePoints = new List<KeyValuePair<int, double>>();
+            for (var l = peak.LeftEdge; l < peak.LocationIndex && l < originalList.Count; l++)
+            {
+                leftSidePoints.Add(originalList[l]);
+                allPoints.Add(
+                    new PointInformation
+                        {
+                            Location = (double)originalList[l].Key / precisionUsed,
+                            Intensity = originalList[l].Value,
+                            SmoothedIntensity = smoothedIntensityValues[l]
+                        });
+            }
+
+            rightSidePoints = new List<KeyValuePair<int, double>>();
+            for (var r = peak.LocationIndex; r < peak.RightEdge && r < originalList.Count; r++)
+            {
+                rightSidePoints.Add(originalList[r]);
+                allPoints.Add(
+                    new PointInformation
+                        {
+                            Location = (double)originalList[r].Key / precisionUsed,
+                            Intensity = originalList[r].Value,
+                            SmoothedIntensity = smoothedIntensityValues[r]
+                        });
+            }
+            return allPoints;
         }
 
         #endregion
