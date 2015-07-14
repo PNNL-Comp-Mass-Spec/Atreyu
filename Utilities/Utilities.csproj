@@ -46,6 +46,7 @@
     <Compile Include="Models\PeakInformation.cs" />
     <Compile Include="Models\PeakSet.cs" />
     <Compile Include="Models\PointInformation.cs" />
+    <Compile Include="Models\Side.cs" />
     <Compile Include="PeakFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

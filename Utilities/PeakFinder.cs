@@ -134,77 +134,38 @@ namespace Utilities
 
             var currPoint = new KeyValuePair<int, double>(0, 0);
             var currPointIndex = 0;
-            double leftMidpoint = 0;
-            double rightMidPoint = 0;
 
             List<KeyValuePair<int, double>> leftSidePoints;
             List<KeyValuePair<int, double>> rightSidePoints;
-            var allPoints = ExtractPointInformation(peak, originalList, smoothedIntensityValues, precisionUsed, out leftSidePoints, out rightSidePoints);
+            var allPoints = ExtractPointInformation(
+                peak,
+                originalList,
+                smoothedIntensityValues,
+                precisionUsed,
+                out leftSidePoints,
+                out rightSidePoints);
 
             // find the left side half max
-            foreach (var leftSidePoint in leftSidePoints)
-            {
-                var prevPoint = currPoint;
-                currPoint = leftSidePoint;
-                var prevPointIndex = currPointIndex;
-
-                currPointIndex = originalList.BinarySearch(
-                    currPoint,
-                    Comparer<KeyValuePair<int, double>>.Create((left, right) => left.Key - right.Key));
-
-                if (smoothedIntensityValues[currPointIndex] < halfmax)
-                {
-                    continue;
-                }
-
-                if (Math.Abs(smoothedIntensityValues[currPointIndex] - halfmax) < Tolerance)
-                {
-                    leftMidpoint = currPoint.Key;
-                    continue;
-                }
-
-                ////var slope = (prevPoint.Key - currPoint.Key) / (prevPoint.Value - currPoint.Value);
-                double a1 = prevPoint.Key;
-                double a2 = currPoint.Key;
-                double c = halfmax;
-                double b1 = smoothedIntensityValues[prevPointIndex];
-                double b2 = smoothedIntensityValues[currPointIndex];
-
-                leftMidpoint = a1 + ((a2 - a1) * ((c - b1) / (b2 - b1)));
-                break;
-            }
+            var leftMidpoint = FindMidPoint(
+                originalList,
+                smoothedIntensityValues,
+                leftSidePoints,
+                ref currPoint,
+                halfmax,
+                Tolerance,
+                ref currPointIndex,
+                Side.LeftSide);
 
             // find the right side of the half max
-            foreach (var rightSidePoint in rightSidePoints)
-            {
-                var prevPoint = currPoint;
-                currPoint = rightSidePoint;
-                var prevPointIndex = currPointIndex;
-                currPointIndex = originalList.BinarySearch(
-                    currPoint,
-                    Comparer<KeyValuePair<int, double>>.Create((left, right) => left.Key - right.Key));
-
-                if (smoothedIntensityValues[currPointIndex] > halfmax || smoothedIntensityValues[currPointIndex] < 0)
-                {
-                    continue;
-                }
-
-                if (Math.Abs(smoothedIntensityValues[currPointIndex] - halfmax) < Tolerance)
-                {
-                    rightMidPoint = currPoint.Key;
-                    continue;
-                }
-
-                ////var slope = (prevPoint.Key - currPoint.Key) / (prevPoint.Value - currPoint.Value);
-                double a1 = prevPoint.Key;
-                double a2 = currPoint.Key;
-                double c = halfmax;
-                double b1 = smoothedIntensityValues[prevPointIndex];
-                double b2 = smoothedIntensityValues[currPointIndex];
-
-                rightMidPoint = a1 + ((a2 - a1) * ((c - b1) / (b2 - b1)));
-                break;
-            }
+            var rightMidPoint = FindMidPoint(
+                originalList,
+                smoothedIntensityValues,
+                rightSidePoints,
+                ref currPoint,
+                halfmax,
+                Tolerance,
+                ref currPointIndex,
+                Side.RightSide);
 
             var correctedRightMidPoint = rightMidPoint / precisionUsed;
             var correctedLeftMidPoint = leftMidpoint / precisionUsed;
@@ -224,6 +185,77 @@ namespace Utilities
                                TotalDataPointSet = allPoints
                            };
             return temp;
+        }
+
+        private static double FindMidPoint(
+            List<KeyValuePair<int, double>> originalList,
+            IReadOnlyList<double> smoothedIntensityValues,
+            IEnumerable<KeyValuePair<int, double>> sidePoints,
+            ref KeyValuePair<int, double> currPoint,
+            double halfmax,
+            double tolerance,
+            ref int currPointIndex,
+            Side sideToFind)
+        {
+            double midpoint = 0;
+            foreach (var sidePoint in sidePoints)
+            {
+                var prevPoint = currPoint;
+                currPoint = sidePoint;
+                var prevPointIndex = currPointIndex;
+
+                currPointIndex = originalList.BinarySearch(
+                    currPoint,
+                    Comparer<KeyValuePair<int, double>>.Create((left, right) => left.Key - right.Key));
+
+                switch (sideToFind)
+                {
+                    case Side.LeftSide:
+                        if (smoothedIntensityValues[currPointIndex] < halfmax)
+                        {
+                            continue;
+                        }
+
+                        if (Math.Abs(smoothedIntensityValues[currPointIndex] - halfmax) < tolerance)
+                        {
+                            midpoint = currPoint.Key;
+                            continue;
+                        }
+
+                        break;
+                    case Side.RightSide:
+                        if (smoothedIntensityValues[currPointIndex] > halfmax
+                            || smoothedIntensityValues[currPointIndex] < 0)
+                        {
+                            continue;
+                        }
+
+                        if (Math.Abs(smoothedIntensityValues[currPointIndex] - halfmax) < tolerance)
+                        {
+                            midpoint = currPoint.Key;
+                            continue;
+                        }
+
+                        break;
+                }
+
+                ////var slope = (prevPoint.Key - currPoint.Key) / (prevPoint.Value - currPoint.Value);
+                double a1 = prevPoint.Key;
+                double a2 = currPoint.Key;
+                double c = halfmax;
+                double b1 = smoothedIntensityValues[prevPointIndex];
+                double b2 = smoothedIntensityValues[currPointIndex];
+
+                midpoint = GetX(c, a1, b1, a2, b2);
+                break;
+            }
+
+            return midpoint;
+        }
+
+        private static double GetX(double yValue, double x1, double y1, double x2, double y2)
+        {
+            return x1 + ((x2 - x1) * ((yValue - y1) / (y2 - y1)));
         }
 
         private static List<PointInformation> ExtractPointInformation(
@@ -260,6 +292,7 @@ namespace Utilities
                             SmoothedIntensity = smoothedIntensityValues[r]
                         });
             }
+
             return allPoints;
         }
 
