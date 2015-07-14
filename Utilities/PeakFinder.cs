@@ -117,6 +117,24 @@ namespace Utilities
             ////    datapointList.Where(x => !double.IsInfinity(x.ResolvingPower)).OrderByDescending(x => x.Intensity).Take(10);
         }
 
+        /// <summary>
+        /// Calculates peak information.
+        /// </summary>
+        /// <param name="peak">
+        /// The peak to calculate.
+        /// </param>
+        /// <param name="originalList">
+        /// The original list given to the peak finder.
+        /// </param>
+        /// <param name="smoothedIntensityValues">
+        /// The smoothed intensity values from the peak finder.
+        /// </param>
+        /// <param name="precisionUsed">
+        /// The precision used when passing data to the peak finder so it can handle numbers with doubles.
+        /// </param>
+        /// <returns>
+        /// The <see cref="PeakInformation"/>.
+        /// </returns>
         private static PeakInformation CalculatePeakInformation(
             clsPeak peak,
             List<KeyValuePair<int, double>> originalList,
@@ -187,6 +205,36 @@ namespace Utilities
             return temp;
         }
 
+        /// <summary>
+        /// Finds the left or right half max point.
+        /// </summary>
+        /// <param name="originalList">
+        /// The original list.
+        /// </param>
+        /// <param name="smoothedIntensityValues">
+        /// The smoothed intensity values.
+        /// </param>
+        /// <param name="sidePoints">
+        /// The points making up the side you want to find.
+        /// </param>
+        /// <param name="currPoint">
+        /// The current point (designed to chain together.
+        /// </param>
+        /// <param name="halfmax">
+        /// The half max of the peak.
+        /// </param>
+        /// <param name="tolerance">
+        /// The tolerance for calculation.
+        /// </param>
+        /// <param name="currPointIndex">
+        /// The index of the original list for the <see cref="currPoint"/>.
+        /// </param>
+        /// <param name="sideToFind">
+        /// The side to find.
+        /// </param>
+        /// <returns>
+        /// The <see cref="double"/>.
+        /// </returns>
         private static double FindMidPoint(
             List<KeyValuePair<int, double>> originalList,
             IReadOnlyList<double> smoothedIntensityValues,
@@ -253,11 +301,56 @@ namespace Utilities
             return midpoint;
         }
 
+        /// <summary>
+        /// Gets an x value given a y value and two x,y points.
+        /// </summary>
+        /// <param name="yValue">
+        /// The y value.
+        /// </param>
+        /// <param name="x1">
+        /// The x 1.
+        /// </param>
+        /// <param name="y1">
+        /// The y 1.
+        /// </param>
+        /// <param name="x2">
+        /// The x 2.
+        /// </param>
+        /// <param name="y2">
+        /// The y 2.
+        /// </param>
+        /// <returns>
+        /// The <see cref="double"/>.
+        /// </returns>
         private static double GetX(double yValue, double x1, double y1, double x2, double y2)
         {
             return x1 + ((x2 - x1) * ((yValue - y1) / (y2 - y1)));
         }
 
+        /// <summary>
+        /// Gets information for points, required for calculations.
+        /// </summary>
+        /// <param name="peak">
+        /// The peak found.
+        /// </param>
+        /// <param name="originalList">
+        /// The original list given to the peak finder.
+        /// </param>
+        /// <param name="smoothedIntensityValues">
+        /// The smoothed intensity values output by the peak finder.
+        /// </param>
+        /// <param name="precisionUsed">
+        /// The precision used.
+        /// </param>
+        /// <param name="leftSidePoints">
+        /// The list to store the left side points.
+        /// </param>
+        /// <param name="rightSidePoints">
+        /// The list to store the right side points.
+        /// </param>
+        /// <returns>
+        /// The <see cref="List"/>.
+        /// </returns>
         private static List<PointInformation> ExtractPointInformation(
             clsPeak peak,
             IReadOnlyList<KeyValuePair<int, double>> originalList,
