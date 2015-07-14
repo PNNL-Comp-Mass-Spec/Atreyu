@@ -103,129 +103,7 @@ namespace Utilities
 
             foreach (var peak in peakSet)
             {
-                const double Tolerance = 0.01;
-                var centerPoint = tempFrameList.ElementAt(peak.LocationIndex);
-                var offsetCenter = centerPoint.Key; // + firstpoint.Key; 
-                var intensity = centerPoint.Value;
-                var smoothedPeakIntensity = smoothedY[peak.LocationIndex];
-
-                var realCenter = (double)offsetCenter / Precision;
-                var halfmax = smoothedPeakIntensity / 2.0;
-
-                var currPoint = new KeyValuePair<int, double>(0, 0);
-                var currPointIndex = 0;
-                double leftMidpoint = 0;
-                double rightMidPoint = 0;
-
-                var allPoints = new List<PointInformation>();
-                var leftSidePeaks = new List<KeyValuePair<int, double>>();
-                for (var l = peak.LeftEdge; l < peak.LocationIndex && l < tempFrameList.Count; l++)
-                {
-                    leftSidePeaks.Add(tempFrameList[l]);
-                    allPoints.Add(
-                        new PointInformation
-                            {
-                                Location = (double)tempFrameList[l].Key / Precision, 
-                                Intensity = tempFrameList[l].Value, 
-                                SmoothedIntensity = smoothedY[l]
-                            });
-                }
-
-                var rightSidePeaks = new List<KeyValuePair<int, double>>();
-                for (var r = peak.LocationIndex; r < peak.RightEdge && r < tempFrameList.Count; r++)
-                {
-                    rightSidePeaks.Add(tempFrameList[r]);
-                    allPoints.Add(
-                        new PointInformation
-                            {
-                                Location = (double)tempFrameList[r].Key / Precision, 
-                                Intensity = tempFrameList[r].Value, 
-                                SmoothedIntensity = smoothedY[r]
-                            });
-                }
-
-                // find the left side half max
-                foreach (var leftSidePeak in leftSidePeaks)
-                {
-                    var prevPoint = currPoint;
-                    currPoint = leftSidePeak;
-                    var prevPointIndex = currPointIndex;
-
-                    currPointIndex = tempFrameList.BinarySearch(
-                        currPoint, 
-                        Comparer<KeyValuePair<int, double>>.Create((left, right) => left.Key - right.Key));
-
-                    if (smoothedY[currPointIndex] < halfmax)
-                    {
-                        continue;
-                    }
-
-                    if (Math.Abs(smoothedY[currPointIndex] - halfmax) < Tolerance)
-                    {
-                        leftMidpoint = currPoint.Key;
-                        continue;
-                    }
-
-                    ////var slope = (prevPoint.Key - currPoint.Key) / (prevPoint.Value - currPoint.Value);
-                    double a1 = prevPoint.Key;
-                    double a2 = currPoint.Key;
-                    double c = halfmax;
-                    double b1 = smoothedY[prevPointIndex];
-                    double b2 = smoothedY[currPointIndex];
-
-                    leftMidpoint = a1 + ((a2 - a1) * ((c - b1) / (b2 - b1)));
-                    break;
-                }
-
-                // find the right side of the half max
-                foreach (var rightSidePeak in rightSidePeaks)
-                {
-                    var prevPoint = currPoint;
-                    currPoint = rightSidePeak;
-                    var prevPointIndex = currPointIndex;
-                    currPointIndex = tempFrameList.BinarySearch(
-                        currPoint, 
-                        Comparer<KeyValuePair<int, double>>.Create((left, right) => left.Key - right.Key));
-
-                    if (smoothedY[currPointIndex] > halfmax || smoothedY[currPointIndex] < 0)
-                    {
-                        continue;
-                    }
-
-                    if (Math.Abs(smoothedY[currPointIndex] - halfmax) < Tolerance)
-                    {
-                        rightMidPoint = currPoint.Key;
-                        continue;
-                    }
-
-                    ////var slope = (prevPoint.Key - currPoint.Key) / (prevPoint.Value - currPoint.Value);
-                    double a1 = prevPoint.Key;
-                    double a2 = currPoint.Key;
-                    double c = halfmax;
-                    double b1 = smoothedY[prevPointIndex];
-                    double b2 = smoothedY[currPointIndex];
-
-                    rightMidPoint = a1 + ((a2 - a1) * ((c - b1) / (b2 - b1)));
-                    break;
-                }
-
-                var correctedRightMidPoint = rightMidPoint / Precision;
-                var correctedLeftMidPoint = leftMidpoint / Precision;
-                var fullWidthHalfMax = correctedRightMidPoint - correctedLeftMidPoint;
-                var resolution = realCenter / fullWidthHalfMax;
-
-                var temp = new PeakInformation
-                               {
-                                   AreaUnderThePeak = peak.Area, 
-                                   FullWidthHalfMax = fullWidthHalfMax, 
-                                   Intensity = intensity, 
-                                   LeftMidpoint = correctedLeftMidPoint, 
-                                   PeakCenter = realCenter, 
-                                   RightMidpoint = correctedRightMidPoint, 
-                                   ResolvingPower = resolution, 
-                                   SmoothedIntensity = smoothedPeakIntensity, 
-                                   TotalDataPointSet = allPoints
-                               };
+                var temp = CalculatePeakInformation(peak, tempFrameList, smoothedY, Precision);
 
                 if (temp.ResolvingPower > 0 && !double.IsInfinity(temp.ResolvingPower))
                 {
@@ -237,6 +115,278 @@ namespace Utilities
 
             ////var tempList =
             ////    datapointList.Where(x => !double.IsInfinity(x.ResolvingPower)).OrderByDescending(x => x.Intensity).Take(10);
+        }
+
+        /// <summary>
+        /// Calculates peak information.
+        /// </summary>
+        /// <param name="peak">
+        /// The peak to calculate.
+        /// </param>
+        /// <param name="originalList">
+        /// The original list given to the peak finder.
+        /// </param>
+        /// <param name="smoothedIntensityValues">
+        /// The smoothed intensity values from the peak finder.
+        /// </param>
+        /// <param name="precisionUsed">
+        /// The precision used when passing data to the peak finder so it can handle numbers with doubles.
+        /// </param>
+        /// <returns>
+        /// The <see cref="PeakInformation"/>.
+        /// </returns>
+        private static PeakInformation CalculatePeakInformation(
+            clsPeak peak,
+            List<KeyValuePair<int, double>> originalList,
+            IReadOnlyList<double> smoothedIntensityValues,
+            int precisionUsed)
+        {
+            const double Tolerance = 0.01;
+            var centerPoint = originalList.ElementAt(peak.LocationIndex);
+            var offsetCenter = centerPoint.Key; // + firstpoint.Key; 
+            var intensity = centerPoint.Value;
+            var smoothedPeakIntensity = smoothedIntensityValues[peak.LocationIndex];
+
+            var realCenter = (double)offsetCenter / precisionUsed;
+            var halfmax = smoothedPeakIntensity / 2.0;
+
+            var currPoint = new KeyValuePair<int, double>(0, 0);
+            var currPointIndex = 0;
+
+            List<KeyValuePair<int, double>> leftSidePoints;
+            List<KeyValuePair<int, double>> rightSidePoints;
+            var allPoints = ExtractPointInformation(
+                peak,
+                originalList,
+                smoothedIntensityValues,
+                precisionUsed,
+                out leftSidePoints,
+                out rightSidePoints);
+
+            // find the left side half max
+            var leftMidpoint = FindMidPoint(
+                originalList,
+                smoothedIntensityValues,
+                leftSidePoints,
+                ref currPoint,
+                halfmax,
+                Tolerance,
+                ref currPointIndex,
+                Side.LeftSide);
+
+            // find the right side of the half max
+            var rightMidPoint = FindMidPoint(
+                originalList,
+                smoothedIntensityValues,
+                rightSidePoints,
+                ref currPoint,
+                halfmax,
+                Tolerance,
+                ref currPointIndex,
+                Side.RightSide);
+
+            var correctedRightMidPoint = rightMidPoint / precisionUsed;
+            var correctedLeftMidPoint = leftMidpoint / precisionUsed;
+            var fullWidthHalfMax = correctedRightMidPoint - correctedLeftMidPoint;
+            var resolution = realCenter / fullWidthHalfMax;
+
+            var temp = new PeakInformation
+                           {
+                               AreaUnderThePeak = peak.Area,
+                               FullWidthHalfMax = fullWidthHalfMax,
+                               Intensity = intensity,
+                               LeftMidpoint = correctedLeftMidPoint,
+                               PeakCenter = realCenter,
+                               RightMidpoint = correctedRightMidPoint,
+                               ResolvingPower = resolution,
+                               SmoothedIntensity = smoothedPeakIntensity,
+                               TotalDataPointSet = allPoints
+                           };
+            return temp;
+        }
+
+        /// <summary>
+        /// Finds the left or right half max point.
+        /// </summary>
+        /// <param name="originalList">
+        /// The original list.
+        /// </param>
+        /// <param name="smoothedIntensityValues">
+        /// The smoothed intensity values.
+        /// </param>
+        /// <param name="sidePoints">
+        /// The points making up the side you want to find.
+        /// </param>
+        /// <param name="currPoint">
+        /// The current point (designed to chain together.
+        /// </param>
+        /// <param name="halfmax">
+        /// The half max of the peak.
+        /// </param>
+        /// <param name="tolerance">
+        /// The tolerance for calculation.
+        /// </param>
+        /// <param name="currPointIndex">
+        /// The index of the original list for the <see cref="currPoint"/>.
+        /// </param>
+        /// <param name="sideToFind">
+        /// The side to find.
+        /// </param>
+        /// <returns>
+        /// The <see cref="double"/>.
+        /// </returns>
+        private static double FindMidPoint(
+            List<KeyValuePair<int, double>> originalList,
+            IReadOnlyList<double> smoothedIntensityValues,
+            IEnumerable<KeyValuePair<int, double>> sidePoints,
+            ref KeyValuePair<int, double> currPoint,
+            double halfmax,
+            double tolerance,
+            ref int currPointIndex,
+            Side sideToFind)
+        {
+            double midpoint = 0;
+            foreach (var sidePoint in sidePoints)
+            {
+                var prevPoint = currPoint;
+                currPoint = sidePoint;
+                var prevPointIndex = currPointIndex;
+
+                currPointIndex = originalList.BinarySearch(
+                    currPoint,
+                    Comparer<KeyValuePair<int, double>>.Create((left, right) => left.Key - right.Key));
+
+                switch (sideToFind)
+                {
+                    case Side.LeftSide:
+                        if (smoothedIntensityValues[currPointIndex] < halfmax)
+                        {
+                            continue;
+                        }
+
+                        if (Math.Abs(smoothedIntensityValues[currPointIndex] - halfmax) < tolerance)
+                        {
+                            midpoint = currPoint.Key;
+                            continue;
+                        }
+
+                        break;
+                    case Side.RightSide:
+                        if (smoothedIntensityValues[currPointIndex] > halfmax
+                            || smoothedIntensityValues[currPointIndex] < 0)
+                        {
+                            continue;
+                        }
+
+                        if (Math.Abs(smoothedIntensityValues[currPointIndex] - halfmax) < tolerance)
+                        {
+                            midpoint = currPoint.Key;
+                            continue;
+                        }
+
+                        break;
+                }
+
+                ////var slope = (prevPoint.Key - currPoint.Key) / (prevPoint.Value - currPoint.Value);
+                double a1 = prevPoint.Key;
+                double a2 = currPoint.Key;
+                double c = halfmax;
+                double b1 = smoothedIntensityValues[prevPointIndex];
+                double b2 = smoothedIntensityValues[currPointIndex];
+
+                midpoint = GetX(c, a1, b1, a2, b2);
+                break;
+            }
+
+            return midpoint;
+        }
+
+        /// <summary>
+        /// Gets an x value given a y value and two x,y points.
+        /// </summary>
+        /// <param name="yValue">
+        /// The y value.
+        /// </param>
+        /// <param name="x1">
+        /// The x 1.
+        /// </param>
+        /// <param name="y1">
+        /// The y 1.
+        /// </param>
+        /// <param name="x2">
+        /// The x 2.
+        /// </param>
+        /// <param name="y2">
+        /// The y 2.
+        /// </param>
+        /// <returns>
+        /// The <see cref="double"/>.
+        /// </returns>
+        private static double GetX(double yValue, double x1, double y1, double x2, double y2)
+        {
+            return x1 + ((x2 - x1) * ((yValue - y1) / (y2 - y1)));
+        }
+
+        /// <summary>
+        /// Gets information for points, required for calculations.
+        /// </summary>
+        /// <param name="peak">
+        /// The peak found.
+        /// </param>
+        /// <param name="originalList">
+        /// The original list given to the peak finder.
+        /// </param>
+        /// <param name="smoothedIntensityValues">
+        /// The smoothed intensity values output by the peak finder.
+        /// </param>
+        /// <param name="precisionUsed">
+        /// The precision used.
+        /// </param>
+        /// <param name="leftSidePoints">
+        /// The list to store the left side points.
+        /// </param>
+        /// <param name="rightSidePoints">
+        /// The list to store the right side points.
+        /// </param>
+        /// <returns>
+        /// The <see cref="List"/>.
+        /// </returns>
+        private static List<PointInformation> ExtractPointInformation(
+            clsPeak peak,
+            IReadOnlyList<KeyValuePair<int, double>> originalList,
+            IReadOnlyList<double> smoothedIntensityValues,
+            int precisionUsed,
+            out List<KeyValuePair<int, double>> leftSidePoints,
+            out List<KeyValuePair<int, double>> rightSidePoints)
+        {
+            var allPoints = new List<PointInformation>();
+            leftSidePoints = new List<KeyValuePair<int, double>>();
+            for (var l = peak.LeftEdge; l < peak.LocationIndex && l < originalList.Count; l++)
+            {
+                leftSidePoints.Add(originalList[l]);
+                allPoints.Add(
+                    new PointInformation
+                        {
+                            Location = (double)originalList[l].Key / precisionUsed,
+                            Intensity = originalList[l].Value,
+                            SmoothedIntensity = smoothedIntensityValues[l]
+                        });
+            }
+
+            rightSidePoints = new List<KeyValuePair<int, double>>();
+            for (var r = peak.LocationIndex; r < peak.RightEdge && r < originalList.Count; r++)
+            {
+                rightSidePoints.Add(originalList[r]);
+                allPoints.Add(
+                    new PointInformation
+                        {
+                            Location = (double)originalList[r].Key / precisionUsed,
+                            Intensity = originalList[r].Value,
+                            SmoothedIntensity = smoothedIntensityValues[r]
+                        });
+            }
+
+            return allPoints;
         }
 
         #endregion
