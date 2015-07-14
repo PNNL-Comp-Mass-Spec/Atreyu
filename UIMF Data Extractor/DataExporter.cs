@@ -386,7 +386,7 @@ namespace UimfDataExtractor
         }
 
         /// <summary>
-        /// The output xi cby time.
+        /// The output xic by time.
         /// </summary>
         /// <param name="data">
         /// The data.
