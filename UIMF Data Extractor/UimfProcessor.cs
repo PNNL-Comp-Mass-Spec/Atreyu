@@ -291,45 +291,48 @@ namespace UimfDataExtractor
                 Console.Error.WriteLine(
                     "ERROR: We had a problem getting the data for the MZ of" + Environment.NewLine + " frame "
                     + frameNumber + " in " + originFile.FullName);
+                return null;
             }
-            else
+
+            var mzOutputFile = DataExporter.GetOutputLocation(originFile, "Mz", frameNumber);
+            DataExporter.OutputMz(mzData, mzOutputFile, options.Verbose);
+            if (!options.PeakFind && !options.BulkPeakComparison)
             {
-                var mzOutputFile = DataExporter.GetOutputLocation(originFile, "Mz", frameNumber);
-                DataExporter.OutputMz(mzData, mzOutputFile, options.Verbose);
-                if (options.PeakFind || options.BulkPeakComparison)
-                {
-                    var doubleMzData =
-                        mzData.Select(
-                            keyValuePair => new KeyValuePair<double, double>(keyValuePair.Key, keyValuePair.Value))
-                            .ToList();
-                    var mzpeaks = PeakFinder.FindPeaks(doubleMzData);
+                return mzData;
+            }
 
-                    if (options.PeakFind)
-                    {
-                        var mzPeakOutputLocation = DataExporter.GetOutputLocation(
-                            originFile, 
-                            "Mz_Peaks", 
-                            frameNumber, 
-                            "xml");
-                        DataExporter.OutputPeaks(mzpeaks, mzPeakOutputLocation);
-                    }
+            var doubleMzData =
+                mzData.Select(
+                    keyValuePair => new KeyValuePair<double, double>(keyValuePair.Key, keyValuePair.Value))
+                    .ToList();
+            var mzpeaks = PeakFinder.FindPeaks(doubleMzData);
 
-                    if (options.BulkPeakComparison)
-                    {
-                        foreach (var peak in mzpeaks.Peaks)
-                        {
-                            var temp = new BulkPeakData
-                                           {
-                                               FileName = originFile.Name, 
-                                               FrameNumber = frameNumber, 
-                                               Location = peak.PeakCenter, 
-                                               FullWidthHalfMax = peak.FullWidthHalfMax, 
-                                               ResolvingPower = peak.ResolvingPower
-                                           };
-                            BulkMzPeaks.Add(temp);
-                        }
-                    }
-                }
+            if (options.PeakFind)
+            {
+                var mzPeakOutputLocation = DataExporter.GetOutputLocation(
+                    originFile, 
+                    "Mz_Peaks", 
+                    frameNumber, 
+                    "xml");
+                DataExporter.OutputPeaks(mzpeaks, mzPeakOutputLocation);
+            }
+
+            if (!options.BulkPeakComparison)
+            {
+                return mzData;
+            }
+
+            foreach (var peak in mzpeaks.Peaks)
+            {
+                var temp = new BulkPeakData
+                               {
+                                   FileName = originFile.Name, 
+                                   FrameNumber = frameNumber, 
+                                   Location = peak.PeakCenter, 
+                                   FullWidthHalfMax = peak.FullWidthHalfMax, 
+                                   ResolvingPower = peak.ResolvingPower
+                               };
+                BulkMzPeaks.Add(temp);
             }
 
             return mzData;
