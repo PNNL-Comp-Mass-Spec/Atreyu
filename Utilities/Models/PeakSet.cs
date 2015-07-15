@@ -47,6 +47,17 @@ namespace Utilities.Models
             this.Peaks = new List<PeakInformation>();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PeakSet"/> class.
+        /// </summary>
+        /// <param name="peakInformationEnumerable">
+        /// The peak information to initialize with.
+        /// </param>
+        public PeakSet(IEnumerable<PeakInformation> peakInformationEnumerable)
+        {
+            this.Peaks = new List<PeakInformation>(peakInformationEnumerable);
+        }
+
         #endregion
 
         #region Public Properties
