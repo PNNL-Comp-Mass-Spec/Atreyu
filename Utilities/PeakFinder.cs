@@ -57,7 +57,6 @@ namespace Utilities
         /// </returns>
         public static PeakSet FindPeaks(IReadOnlyList<KeyValuePair<double, double>> dataList, int numberOfTopPeaks = 0)
         {
-            var datapointList = new PeakSet();
             const int Precision = 100000;
 
             var peakDetector = new PeakDetector();
@@ -102,17 +101,11 @@ namespace Utilities
                 peakSet = allPeaks;
             }
 
-            foreach (var peak in peakSet)
-            {
-                var temp = CalculatePeakInformation(peak, tempFrameList, smoothedY, Precision);
-
-                if (temp.ResolvingPower > 0 && !double.IsInfinity(temp.ResolvingPower))
-                {
-                    datapointList.Peaks.Add(temp);
-                }
-            }
-
-            return datapointList;
+            var calculatedPeakSet =
+                peakSet.Select(peak => CalculatePeakInformation(peak, tempFrameList, smoothedY, Precision))
+                    .Where(p => p.ResolvingPower > 0 && !double.IsInfinity(p.ResolvingPower));
+            
+            return new PeakSet(calculatedPeakSet);
 
             ////var tempList =
             ////    datapointList.Where(x => !double.IsInfinity(x.ResolvingPower)).OrderByDescending(x => x.Intensity).Take(10);
