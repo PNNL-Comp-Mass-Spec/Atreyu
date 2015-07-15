@@ -78,8 +78,9 @@ namespace Utilities
                 tempFrameList.Add(new KeyValuePair<int, double>((int)(dataList[i].Key * Precision), dataList[i].Value));
             }
 
-            // I am not sure what this does but in the example exe file that came with the library
-            // they used half of the length of the list in their previous examples and this seems to work
+            // I am not sure what the library does with this but in the example exe file that came with the library
+            // they used half of the length of the list in their previous examples and this seems to work.
+            // To be extra clear to future programmers, changing this number causes memory out of bounds from the peak detector
             var originalpeakLocation = tempFrameList.Count / 2;
 
             var allPeaks = peakDetector.FindPeaks(
@@ -209,7 +210,7 @@ namespace Utilities
         /// The smoothed intensity values.
         /// </param>
         /// <param name="sidePoints">
-        /// The points making up the side you want to find.
+        /// The points making up the side you want to search for the mid point.
         /// </param>
         /// <param name="currPoint">
         /// The current point (designed to chain together.
@@ -253,11 +254,13 @@ namespace Utilities
                 switch (sideToFind)
                 {
                     case Side.LeftSide:
+                        // value is too small to be the half-max point
                         if (smoothedIntensityValues[currPointIndex] < halfmax)
                         {
                             continue;
                         }
 
+                        // we got lucky and have a point at the exact half way point
                         if (Math.Abs(smoothedIntensityValues[currPointIndex] - halfmax) < tolerance)
                         {
                             midpoint = currPoint.Key;
@@ -281,6 +284,7 @@ namespace Utilities
                         break;
                 }
 
+                // We didn't get luky and the two points we have are above and below where the half max would be, so we need to calculate it.
                 // Having the redundant argument names improves readability for the formula (which is broken out for future test cases
                 // ReSharper disable RedundantArgumentName
                 midpoint = GetX(
