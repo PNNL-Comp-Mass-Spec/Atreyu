@@ -169,7 +169,7 @@ namespace Viewer.ViewModels
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        private string GetDataFilename()
+        private static string GetDataFilename()
         {
             const string Filter = "Comma Seperated Values (*.csv)|*.csv";
             var dialogue = new SaveFileDialog { DefaultExt = ".csv", AddExtension = true, Filter = Filter };
@@ -215,7 +215,7 @@ namespace Viewer.ViewModels
         /// </summary>
         private void SaveExportedHeatmapCompressedData()
         {
-            var filename = this.GetDataFilename();
+            var filename = GetDataFilename();
 
             if (string.IsNullOrWhiteSpace(filename))
             {
@@ -244,7 +244,7 @@ namespace Viewer.ViewModels
         /// </summary>
         private void SaveExportedMzCompressedData()
         {
-            var filename = this.GetDataFilename();
+            var filename = GetDataFilename();
 
             if (string.IsNullOrWhiteSpace(filename))
             {
@@ -270,7 +270,7 @@ namespace Viewer.ViewModels
         /// </summary>
         private void SaveExportedTicCompressedData()
         {
-            var filename = this.GetDataFilename();
+            var filename = GetDataFilename();
 
             if (string.IsNullOrWhiteSpace(filename))
             {
