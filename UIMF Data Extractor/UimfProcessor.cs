@@ -426,39 +426,45 @@ namespace UimfDataExtractor
                 "XiC_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance + "_Frame", 
                 frameNumber);
 
-            if (xicData != null)
+            if (xicData == null)
             {
-                DataExporter.OutputXiCbyTime(xicData, xicOutputFile, options.Verbose);
+                return null;
+            }
 
-                if (options.PeakFind || options.BulkPeakComparison)
-                {
-                    var xicPeaks = PeakFinder.FindPeaks(xicData);
-                    if (options.PeakFind)
-                    {
-                        var xicPeakOutputLocation = DataExporter.GetOutputLocation(
-                            originFile, 
-                            "XiC_Peaks_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance + "_Frame", 
-                            frameNumber, 
-                            "xml");
-                        DataExporter.OutputPeaks(xicPeaks, xicPeakOutputLocation);
-                    }
+            DataExporter.OutputXiCbyTime(xicData, xicOutputFile, options.Verbose);
 
-                    if (options.BulkPeakComparison)
-                    {
-                        foreach (var peak in xicPeaks.Peaks)
-                        {
-                            var temp = new BulkPeakData
-                                           {
-                                               FileName = originFile.Name, 
-                                               FrameNumber = frameNumber, 
-                                               Location = peak.PeakCenter, 
-                                               FullWidthHalfMax = peak.FullWidthHalfMax, 
-                                               ResolvingPower = peak.ResolvingPower
-                                           };
-                            BulkXicPeaks.Add(temp);
-                        }
-                    }
-                }
+            if (!options.PeakFind && !options.BulkPeakComparison)
+            {
+                return xicData;
+            }
+
+            var xicPeaks = PeakFinder.FindPeaks(xicData);
+            if (options.PeakFind)
+            {
+                var xicPeakOutputLocation = DataExporter.GetOutputLocation(
+                    originFile, 
+                    "XiC_Peaks_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance + "_Frame", 
+                    frameNumber, 
+                    "xml");
+                DataExporter.OutputPeaks(xicPeaks, xicPeakOutputLocation);
+            }
+
+            if (!options.BulkPeakComparison)
+            {
+                return xicData;
+            }
+
+            foreach (var peak in xicPeaks.Peaks)
+            {
+                var temp = new BulkPeakData
+                               {
+                                   FileName = originFile.Name, 
+                                   FrameNumber = frameNumber, 
+                                   Location = peak.PeakCenter, 
+                                   FullWidthHalfMax = peak.FullWidthHalfMax, 
+                                   ResolvingPower = peak.ResolvingPower
+                               };
+                BulkXicPeaks.Add(temp);
             }
 
             return xicData;
