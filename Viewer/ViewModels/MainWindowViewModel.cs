@@ -109,6 +109,27 @@ namespace Viewer.ViewModels
         #region Methods
 
         /// <summary>
+        /// The get data filename.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        private static string GetDataFilename()
+        {
+            const string Filter = "Comma Seperated Values (*.csv)|*.csv";
+            var dialogue = new SaveFileDialog { DefaultExt = ".csv", AddExtension = true, Filter = Filter };
+
+            var result = dialogue.ShowDialog();
+
+            if (result != true)
+            {
+                return string.Empty;
+            }
+
+            return dialogue.FileName;
+        }
+
+        /// <summary>
         /// The get image format.
         /// </summary>
         /// <param name="fileName">
@@ -161,27 +182,6 @@ namespace Viewer.ViewModels
                     throw new NotImplementedException(
                         "The extension was not recognised, currently only  bmp, gif, ico, jpg, jpeg, png, tif, tiff, and wmf are recognized.");
             }
-        }
-
-        /// <summary>
-        /// The get data filename.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
-        private static string GetDataFilename()
-        {
-            const string Filter = "Comma Seperated Values (*.csv)|*.csv";
-            var dialogue = new SaveFileDialog { DefaultExt = ".csv", AddExtension = true, Filter = Filter };
-
-            var result = dialogue.ShowDialog();
-
-            if (result != true)
-            {
-                return string.Empty;
-            }
-
-            return dialogue.FileName;
         }
 
         /// <summary>
