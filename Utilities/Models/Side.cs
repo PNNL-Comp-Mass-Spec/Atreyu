@@ -30,7 +30,7 @@
 namespace Utilities.Models
 {
     /// <summary>
-    /// The side to traverse ni peak algorithm.
+    /// The side to traverse during the peak algorithm.
     /// </summary>
     public enum Side
     {
