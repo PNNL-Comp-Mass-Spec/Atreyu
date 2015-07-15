@@ -28,8 +28,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Atreyu.Models
 {
-    using System.Diagnostics.CodeAnalysis;
-
     using ReactiveUI;
 
     /// <summary>
