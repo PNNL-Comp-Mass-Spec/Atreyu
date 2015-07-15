@@ -358,38 +358,42 @@ namespace UimfDataExtractor
 
             DataExporter.OutputTiCbyTime(ticData, ticOutputFile, options.Verbose);
 
-            if (options.PeakFind || options.BulkPeakComparison)
+            if (!options.PeakFind && !options.BulkPeakComparison)
             {
-                var doubleTicData =
-                    ticData.Select(scanInfo => new KeyValuePair<double, double>(scanInfo.DriftTime, scanInfo.TIC))
-                        .ToList();
+                return ticData;
+            }
 
-                var ticPeaks = PeakFinder.FindPeaks(doubleTicData);
-                if (options.PeakFind)
-                {
-                    var mzPeakOutputLocation = DataExporter.GetOutputLocation(
-                        originFile, 
-                        "TiC_Peaks", 
-                        frameNumber, 
-                        "xml");
-                    DataExporter.OutputPeaks(ticPeaks, mzPeakOutputLocation);
-                }
+            var doubleTicData =
+                ticData.Select(scanInfo => new KeyValuePair<double, double>(scanInfo.DriftTime, scanInfo.TIC))
+                    .ToList();
 
-                if (options.BulkPeakComparison)
-                {
-                    foreach (var peak in ticPeaks.Peaks)
-                    {
-                        var temp = new BulkPeakData
-                                       {
-                                           FileName = originFile.Name, 
-                                           FrameNumber = frameNumber, 
-                                           Location = peak.PeakCenter, 
-                                           FullWidthHalfMax = peak.FullWidthHalfMax, 
-                                           ResolvingPower = peak.ResolvingPower
-                                       };
-                        BulkTicPeaks.Add(temp);
-                    }
-                }
+            var ticPeaks = PeakFinder.FindPeaks(doubleTicData);
+            if (options.PeakFind)
+            {
+                var mzPeakOutputLocation = DataExporter.GetOutputLocation(
+                    originFile, 
+                    "TiC_Peaks", 
+                    frameNumber, 
+                    "xml");
+                DataExporter.OutputPeaks(ticPeaks, mzPeakOutputLocation);
+            }
+
+            if (!options.BulkPeakComparison)
+            {
+                return ticData;
+            }
+
+            foreach (var peak in ticPeaks.Peaks)
+            {
+                var temp = new BulkPeakData
+                               {
+                                   FileName = originFile.Name, 
+                                   FrameNumber = frameNumber, 
+                                   Location = peak.PeakCenter, 
+                                   FullWidthHalfMax = peak.FullWidthHalfMax, 
+                                   ResolvingPower = peak.ResolvingPower
+                               };
+                BulkTicPeaks.Add(temp);
             }
 
             return ticData;
