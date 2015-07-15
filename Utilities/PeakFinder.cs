@@ -91,6 +91,7 @@ namespace Utilities
 
             IEnumerable<clsPeak> peakSet;
 
+            // if a few peaks are wanted, it is better that we trim them up front, before we calculate the extra information
             if (numberOfTopPeaks > 0)
             {
                 var topPeaks = allPeaks.OrderByDescending(peak => smoothedY[peak.LocationIndex]).Take(numberOfTopPeaks);
@@ -287,14 +288,15 @@ namespace Utilities
                         break;
                 }
 
-                ////var slope = (prevPoint.Key - currPoint.Key) / (prevPoint.Value - currPoint.Value);
-                double a1 = prevPoint.Key;
-                double a2 = currPoint.Key;
-                double c = halfmax;
-                double b1 = smoothedIntensityValues[prevPointIndex];
-                double b2 = smoothedIntensityValues[currPointIndex];
-
-                midpoint = GetX(c, a1, b1, a2, b2);
+                // Having the redundant argument names improves readability for the formula (which is broken out for future test cases
+                // ReSharper disable RedundantArgumentName
+                midpoint = GetX(
+                    yValue: halfmax,
+                    x1: prevPoint.Key,
+                    y1: smoothedIntensityValues[prevPointIndex],
+                    x2: currPoint.Key,
+                    y2: smoothedIntensityValues[currPointIndex]);
+                // ReSharper restore RedundantArgumentName
                 break;
             }
 
@@ -305,25 +307,30 @@ namespace Utilities
         /// Gets an x value given a y value and two x,y points.
         /// </summary>
         /// <param name="yValue">
-        /// The y value.
+        /// The y value for the point we want to calculate an x for.
         /// </param>
         /// <param name="x1">
-        /// The x 1.
+        /// The x value of the first point in the slope.
         /// </param>
         /// <param name="y1">
-        /// The y 1.
+        /// The y value of the first point in the slope.
         /// </param>
         /// <param name="x2">
-        /// The x 2.
+        /// The x value of the second point in the slope.
         /// </param>
         /// <param name="y2">
-        /// The y 2.
+        /// The y value of the second point in the slope.
         /// </param>
         /// <returns>
-        /// The <see cref="double"/>.
+        /// The the calculated c value, represented as a <see cref="double"/>.
         /// </returns>
         private static double GetX(double yValue, double x1, double y1, double x2, double y2)
         {
+            /*  Point/Slope solved for X:
+             *      (              (yValue - y1) )
+             * x1 + ( (x2 - x1) * ---------------)
+             *      (                (y2 - y1)   )
+             */
             return x1 + ((x2 - x1) * ((yValue - y1) / (y2 - y1)));
         }
 
@@ -349,7 +356,10 @@ namespace Utilities
         /// The list to store the right side points.
         /// </param>
         /// <returns>
-        /// The <see cref="List"/>.
+        /// The <see>
+        ///         <cref>List</cref>
+        ///     </see>
+        ///     .
         /// </returns>
         private static List<PointInformation> ExtractPointInformation(
             clsPeak peak,
@@ -360,6 +370,8 @@ namespace Utilities
             out List<KeyValuePair<int, double>> rightSidePoints)
         {
             var allPoints = new List<PointInformation>();
+
+            // build left side
             leftSidePoints = new List<KeyValuePair<int, double>>();
             for (var l = peak.LeftEdge; l < peak.LocationIndex && l < originalList.Count; l++)
             {
@@ -373,6 +385,7 @@ namespace Utilities
                         });
             }
 
+            // build right side
             rightSidePoints = new List<KeyValuePair<int, double>>();
             for (var r = peak.LocationIndex; r < peak.RightEdge && r < originalList.Count; r++)
             {
