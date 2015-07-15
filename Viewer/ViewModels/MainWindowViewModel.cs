@@ -115,11 +115,13 @@ namespace Viewer.ViewModels
         /// The file name.
         /// </param>
         /// <returns>
-        /// The <see cref="ImageFormat"/>.
+        /// The <see cref="ImageFormat"/> from the given extension.
         /// </returns>
         /// <exception cref="ArgumentException">
+        /// Thrown is the filename passed doesn't have any extension.
         /// </exception>
         /// <exception cref="NotImplementedException">
+        /// Thrown if an unknown extension is passed, currently bmp, gif, ico, jpg, jpeg, png, tif, tiff, and wmf are recognized.
         /// </exception>
         private static ImageFormat GetImageFormat(string fileName)
         {
@@ -156,7 +158,8 @@ namespace Viewer.ViewModels
                     return ImageFormat.Wmf;
 
                 default:
-                    throw new NotImplementedException();
+                    throw new NotImplementedException(
+                        "The extension was not recognised, currently only  bmp, gif, ico, jpg, jpeg, png, tif, tiff, and wmf are recognized.");
             }
         }
 
