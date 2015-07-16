@@ -50,15 +50,18 @@
             this.OutputDirectoryLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.SetOutputDirectory = new System.Windows.Forms.Button();
+            this.FrameNumber = new System.Windows.Forms.NumericUpDown();
+            this.FrameNumberLabel = new System.Windows.Forms.Label();
             this.XicSettingsGoupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.XicTolerance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.XicCenter)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FrameNumber)).BeginInit();
             this.SuspendLayout();
             // 
             // Extract
             // 
             this.Extract.Enabled = false;
-            this.Extract.Location = new System.Drawing.Point(358, 283);
+            this.Extract.Location = new System.Drawing.Point(358, 313);
             this.Extract.Name = "Extract";
             this.Extract.Size = new System.Drawing.Size(75, 23);
             this.Extract.TabIndex = 0;
@@ -69,17 +72,18 @@
             // AllFrames
             // 
             this.AllFrames.AutoSize = true;
-            this.AllFrames.Location = new System.Drawing.Point(13, 13);
+            this.AllFrames.Location = new System.Drawing.Point(52, 40);
             this.AllFrames.Name = "AllFrames";
             this.AllFrames.Size = new System.Drawing.Size(107, 17);
             this.AllFrames.TabIndex = 1;
             this.AllFrames.Text = "Export All Frames";
             this.AllFrames.UseVisualStyleBackColor = true;
+            this.AllFrames.CheckedChanged += new System.EventHandler(this.AllFramesCheckedChanged);
             // 
             // BulkPeakComparison
             // 
             this.BulkPeakComparison.AutoSize = true;
-            this.BulkPeakComparison.Location = new System.Drawing.Point(13, 37);
+            this.BulkPeakComparison.Location = new System.Drawing.Point(12, 61);
             this.BulkPeakComparison.Name = "BulkPeakComparison";
             this.BulkPeakComparison.Size = new System.Drawing.Size(168, 17);
             this.BulkPeakComparison.TabIndex = 2;
@@ -89,7 +93,7 @@
             // GetHeatMap
             // 
             this.GetHeatMap.AutoSize = true;
-            this.GetHeatMap.Location = new System.Drawing.Point(13, 61);
+            this.GetHeatMap.Location = new System.Drawing.Point(12, 85);
             this.GetHeatMap.Name = "GetHeatMap";
             this.GetHeatMap.Size = new System.Drawing.Size(93, 17);
             this.GetHeatMap.TabIndex = 3;
@@ -99,7 +103,7 @@
             // GetMz
             // 
             this.GetMz.AutoSize = true;
-            this.GetMz.Location = new System.Drawing.Point(13, 85);
+            this.GetMz.Location = new System.Drawing.Point(12, 109);
             this.GetMz.Name = "GetMz";
             this.GetMz.Size = new System.Drawing.Size(64, 17);
             this.GetMz.TabIndex = 4;
@@ -109,7 +113,7 @@
             // GetTic
             // 
             this.GetTic.AutoSize = true;
-            this.GetTic.Location = new System.Drawing.Point(12, 108);
+            this.GetTic.Location = new System.Drawing.Point(11, 132);
             this.GetTic.Name = "GetTic";
             this.GetTic.Size = new System.Drawing.Size(62, 17);
             this.GetTic.TabIndex = 5;
@@ -119,7 +123,7 @@
             // PeakFind
             // 
             this.PeakFind.AutoSize = true;
-            this.PeakFind.Location = new System.Drawing.Point(12, 132);
+            this.PeakFind.Location = new System.Drawing.Point(11, 156);
             this.PeakFind.Name = "PeakFind";
             this.PeakFind.Size = new System.Drawing.Size(158, 17);
             this.PeakFind.TabIndex = 6;
@@ -129,7 +133,7 @@
             // Recursive
             // 
             this.Recursive.AutoSize = true;
-            this.Recursive.Location = new System.Drawing.Point(12, 156);
+            this.Recursive.Location = new System.Drawing.Point(11, 180);
             this.Recursive.Name = "Recursive";
             this.Recursive.Size = new System.Drawing.Size(175, 17);
             this.Recursive.TabIndex = 7;
@@ -139,7 +143,7 @@
             // GetXic
             // 
             this.GetXic.AutoSize = true;
-            this.GetXic.Location = new System.Drawing.Point(12, 180);
+            this.GetXic.Location = new System.Drawing.Point(11, 204);
             this.GetXic.Name = "GetXic";
             this.GetXic.Size = new System.Drawing.Size(62, 17);
             this.GetXic.TabIndex = 8;
@@ -155,7 +159,7 @@
             this.XicSettingsGoupBox.Controls.Add(this.XicCenterLabel);
             this.XicSettingsGoupBox.Controls.Add(this.XicCenter);
             this.XicSettingsGoupBox.Enabled = false;
-            this.XicSettingsGoupBox.Location = new System.Drawing.Point(13, 204);
+            this.XicSettingsGoupBox.Location = new System.Drawing.Point(12, 228);
             this.XicSettingsGoupBox.Name = "XicSettingsGoupBox";
             this.XicSettingsGoupBox.Size = new System.Drawing.Size(214, 106);
             this.XicSettingsGoupBox.TabIndex = 9;
@@ -235,7 +239,7 @@
             // 
             this.ExtractDataDisabledLabel.AutoSize = true;
             this.ExtractDataDisabledLabel.ForeColor = System.Drawing.Color.Red;
-            this.ExtractDataDisabledLabel.Location = new System.Drawing.Point(338, 263);
+            this.ExtractDataDisabledLabel.Location = new System.Drawing.Point(338, 293);
             this.ExtractDataDisabledLabel.Name = "ExtractDataDisabledLabel";
             this.ExtractDataDisabledLabel.Size = new System.Drawing.Size(95, 13);
             this.ExtractDataDisabledLabel.TabIndex = 10;
@@ -243,7 +247,7 @@
             // 
             // SetInputDirectory
             // 
-            this.SetInputDirectory.Location = new System.Drawing.Point(287, 13);
+            this.SetInputDirectory.Location = new System.Drawing.Point(297, 12);
             this.SetInputDirectory.Name = "SetInputDirectory";
             this.SetInputDirectory.Size = new System.Drawing.Size(92, 41);
             this.SetInputDirectory.TabIndex = 11;
@@ -254,7 +258,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(244, 62);
+            this.label1.Location = new System.Drawing.Point(254, 61);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(97, 13);
             this.label1.TabIndex = 12;
@@ -263,7 +267,7 @@
             // InputDirectoryLabel
             // 
             this.InputDirectoryLabel.AutoSize = true;
-            this.InputDirectoryLabel.Location = new System.Drawing.Point(339, 62);
+            this.InputDirectoryLabel.Location = new System.Drawing.Point(349, 61);
             this.InputDirectoryLabel.Name = "InputDirectoryLabel";
             this.InputDirectoryLabel.Size = new System.Drawing.Size(78, 13);
             this.InputDirectoryLabel.TabIndex = 13;
@@ -272,7 +276,7 @@
             // OutputDirectoryLabel
             // 
             this.OutputDirectoryLabel.AutoSize = true;
-            this.OutputDirectoryLabel.Location = new System.Drawing.Point(339, 181);
+            this.OutputDirectoryLabel.Location = new System.Drawing.Point(349, 180);
             this.OutputDirectoryLabel.Name = "OutputDirectoryLabel";
             this.OutputDirectoryLabel.Size = new System.Drawing.Size(78, 13);
             this.OutputDirectoryLabel.TabIndex = 16;
@@ -281,7 +285,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(244, 181);
+            this.label2.Location = new System.Drawing.Point(254, 180);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(97, 13);
             this.label2.TabIndex = 15;
@@ -289,7 +293,7 @@
             // 
             // SetOutputDirectory
             // 
-            this.SetOutputDirectory.Location = new System.Drawing.Point(287, 122);
+            this.SetOutputDirectory.Location = new System.Drawing.Point(297, 121);
             this.SetOutputDirectory.Name = "SetOutputDirectory";
             this.SetOutputDirectory.Size = new System.Drawing.Size(92, 51);
             this.SetOutputDirectory.TabIndex = 14;
@@ -297,11 +301,40 @@
             this.SetOutputDirectory.UseVisualStyleBackColor = true;
             this.SetOutputDirectory.Click += new System.EventHandler(this.SetOutputDirectoryClick);
             // 
-            // UimfDataExtractorGUI
+            // FrameNumber
+            // 
+            this.FrameNumber.Location = new System.Drawing.Point(94, 14);
+            this.FrameNumber.Maximum = new decimal(new int[] {
+            int.MaxValue,
+            0,
+            0,
+            0});
+            this.FrameNumber.Name = "FrameNumber";
+            this.FrameNumber.Size = new System.Drawing.Size(65, 20);
+            this.FrameNumber.TabIndex = 17;
+            this.FrameNumber.ThousandsSeparator = true;
+            this.FrameNumber.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // FrameNumberLabel
+            // 
+            this.FrameNumberLabel.AutoSize = true;
+            this.FrameNumberLabel.Location = new System.Drawing.Point(12, 19);
+            this.FrameNumberLabel.Name = "FrameNumberLabel";
+            this.FrameNumberLabel.Size = new System.Drawing.Size(76, 13);
+            this.FrameNumberLabel.TabIndex = 18;
+            this.FrameNumberLabel.Text = "Frame Number";
+            // 
+            // UimfDataExtractorGui
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(445, 325);
+            this.ClientSize = new System.Drawing.Size(445, 344);
+            this.Controls.Add(this.FrameNumberLabel);
+            this.Controls.Add(this.FrameNumber);
             this.Controls.Add(this.OutputDirectoryLabel);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.SetOutputDirectory);
@@ -319,12 +352,14 @@
             this.Controls.Add(this.BulkPeakComparison);
             this.Controls.Add(this.AllFrames);
             this.Controls.Add(this.Extract);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "UimfDataExtractorGui";
             this.Text = "Uimf Data Extractor";
             this.XicSettingsGoupBox.ResumeLayout(false);
             this.XicSettingsGoupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.XicTolerance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.XicCenter)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FrameNumber)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -354,5 +389,7 @@
         private System.Windows.Forms.Label OutputDirectoryLabel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button SetOutputDirectory;
+        private System.Windows.Forms.NumericUpDown FrameNumber;
+        private System.Windows.Forms.Label FrameNumberLabel;
     }
 }

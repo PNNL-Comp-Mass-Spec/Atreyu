@@ -120,6 +120,11 @@ namespace Atreyu.Models
         private double highGate = double.PositiveInfinity;
 
         /// <summary>
+        /// Backing field for a property that indicates whether this is currently loading data or not.
+        /// </summary>
+        private bool loadingData;
+
+        /// <summary>
         /// The gate.
         /// </summary>
         private double lowGate;
@@ -148,6 +153,11 @@ namespace Atreyu.Models
         /// The mz intensities.
         /// </summary>
         private int[] mzIntensities;
+
+        /// <summary>
+        /// The mz window that will be enforced if <see cref="WindowMz"/> it true.
+        /// </summary>
+        private BinRange mzWindow;
 
         /// <summary>
         /// The range update list.
@@ -419,6 +429,22 @@ namespace Atreyu.Models
         }
 
         /// <summary>
+        /// Gets a value indicating whether this class is currently loading data or not.
+        /// </summary>
+        public bool LoadingData
+        {
+            get
+            {
+                return this.loadingData;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.loadingData, value);
+            }
+        }
+
+        /// <summary>
         /// Gets the gate.
         /// </summary>
         public double LowGate
@@ -467,6 +493,11 @@ namespace Atreyu.Models
         }
 
         /// <summary>
+        /// Gets or sets the mz center.
+        /// </summary>
+        public double MzCenter { get; set; }
+
+        /// <summary>
         /// Gets the mz intensities.
         /// </summary>
         public int[] MzIntensities
@@ -481,6 +512,11 @@ namespace Atreyu.Models
                 this.RaiseAndSetIfChanged(ref this.mzIntensities, value);
             }
         }
+
+        /// <summary>
+        /// Gets or sets the parts per million.
+        /// </summary>
+        public double PartsPerMillion { get; set; }
 
         /// <summary>
         /// Gets the range update list.
@@ -594,6 +630,11 @@ namespace Atreyu.Models
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether window mz.
+        /// </summary>
+        public bool WindowMz { get; set; }
+
         #endregion
 
         #region Public Methods and Operators
@@ -635,6 +676,44 @@ namespace Atreyu.Models
         }
 
         /// <summary>
+        /// Get bin range for a given mz window.
+        /// </summary>
+        /// <param name="centerMz">
+        /// The center mz.
+        /// </param>
+        /// <param name="partsPerMillionTolerance">
+        /// The parts per million tolerance.
+        /// </param>
+        /// <returns>
+        /// The <see cref="BinRange"/>.
+        /// </returns>
+        public BinRange GetBinRangeForMzWindow(double centerMz, double partsPerMillionTolerance)
+        {
+            this.MzCenter = centerMz;
+            this.PartsPerMillion = partsPerMillionTolerance;
+            var range = new BinRange();
+
+            if (this.dataReader == null || this.Calibrator == null)
+            {
+                range.StartBin = 0;
+                range.EndBin = this.CurrentMaxBin;
+                this.mzWindow = range;
+                return range;
+            }
+
+            var mzOffset = this.MzCenter * (this.PartsPerMillion / 1000000.0);
+
+            range.StartBin =
+                (int)(this.Calibrator.MZtoTOF(this.MzCenter - mzOffset) / this.dataReader.TenthsOfNanoSecondsPerBin);
+
+            range.EndBin =
+                (int)(this.Calibrator.MZtoTOF(this.MzCenter + mzOffset) / this.dataReader.TenthsOfNanoSecondsPerBin);
+
+            this.mzWindow = range;
+            return range;
+        }
+
+        /// <summary>
         /// Get full total ion chromatogram with the key based on scan number
         /// </summary>
         /// <param name="frameNumber">
@@ -668,6 +747,8 @@ namespace Atreyu.Models
             {
                 return new double[0, 0];
             }
+
+            this.LoadingData = true;
 
             var frameParams = this.dataReader.GetFrameParams(this.startFrameNumber);
 
@@ -704,7 +785,9 @@ namespace Atreyu.Models
                 await Task.Run(
                     () =>
                         {
-                            var frametype = this.GetFrameType(this.frameType);
+                            this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
+
+                            var frametype = GetFrameType(this.frameType);
                             double[] mzs;
                             int[] intensities;
                             this.dataReader.GetSpectrum(
@@ -732,7 +815,6 @@ namespace Atreyu.Models
 
                             var tof = new double[arrayLength];
                             var mz = new double[arrayLength];
-                            this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
 
                             for (var i = 0; i < arrayLength; i++)
                             {
@@ -752,6 +834,7 @@ namespace Atreyu.Models
 
             this.GateData();
 
+            this.LoadingData = false;
             return returnGatedData ? this.GatedFrameData : this.FrameData;
         }
 
@@ -783,6 +866,7 @@ namespace Atreyu.Models
         /// The end scan.
         /// </param>
         /// <param name="returnGatedData">
+        /// Whether or not the returned data should be gated
         /// </param>
         /// <returns>
         /// The 2d array of doubles that represents the data, index 0 is bins, index 1 in scans.
@@ -878,6 +962,36 @@ namespace Atreyu.Models
         }
 
         /// <summary>
+        /// The get frame type.
+        /// </summary>
+        /// <param name="frameTypeString">
+        /// The frame type.
+        /// </param>
+        /// <returns>
+        /// The <see cref="FrameType"/>.
+        /// </returns>
+        private static DataReader.FrameType GetFrameType(string frameTypeString)
+        {
+            var temp = frameTypeString.ToLower();
+            switch (temp)
+            {
+                case "1":
+                    return DataReader.FrameType.MS1;
+                case "2":
+                    return DataReader.FrameType.MS2;
+                case "3":
+                    return DataReader.FrameType.Calibration;
+                case "4":
+                    return DataReader.FrameType.Prescan;
+                default:
+                    return DataReader.FrameType.MS1;
+
+                    ////throw new NotImplementedException(
+                    ////    "Only the MS1, MS2, Calibration, and Prescan frame types have been implemented in this version");
+            }
+        }
+
+        /// <summary>
         /// The gate data.
         /// </summary>
         private void GateData()
@@ -905,43 +1019,16 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// The get frame type.
-        /// </summary>
-        /// <param name="frameTypeString">
-        /// The frame type.
-        /// </param>
-        /// <returns>
-        /// The <see cref="FrameType"/>.
-        /// </returns>
-        private DataReader.FrameType GetFrameType(string frameTypeString)
-        {
-            var temp = frameTypeString.ToLower();
-            switch (temp)
-            {
-                case "1":
-                    return DataReader.FrameType.MS1;
-                case "2":
-                    return DataReader.FrameType.MS2;
-                case "3":
-                    return DataReader.FrameType.Calibration;
-                case "4":
-                    return DataReader.FrameType.Prescan;
-                default:
-                    return DataReader.FrameType.MS1;
-                    ////throw new NotImplementedException(
-                    ////    "Only the MS1, MS2, Calibration, and Prescan frame types have been implemented in this version");
-            }
-        }
-
-        /// <summary>
         /// The process data.
         /// </summary>
         /// <param name="range">
         /// The range.
         /// </param>
         /// <exception cref="ArgumentException">
+        /// thrown if the range type is set to a type that it cannot be cast to.
         /// </exception>
         /// <exception cref="NotImplementedException">
+        /// thrown if an unknown range type is used.  The currently known types are Bin, Frame, and Scan.
         /// </exception>
         private void ProcessData(Range range)
         {
@@ -956,8 +1043,32 @@ namespace Atreyu.Models
                             "range");
                     }
 
+                    int min, max;
+
+                    if (this.WindowMz && this.mzWindow != null)
+                    {
+                        min = this.mzWindow.StartBin;
+                        max = this.mzWindow.EndBin;
+                    }
+                    else
+                    {
+                        min = 0;
+                        max = this.MaxBins;
+                    }
+
+                    if (binRange.StartBin < min)
+                    {
+                        binRange.StartBin = min;
+                    }
+
+                    if (binRange.EndBin > max)
+                    {
+                        binRange.EndBin = max;
+                    }
+
                     this.CurrentMinBin = binRange.StartBin;
                     this.CurrentMaxBin = binRange.EndBin;
+
                     break;
                 case RangeType.FrameRange:
                     var frameRange = range as FrameRange;

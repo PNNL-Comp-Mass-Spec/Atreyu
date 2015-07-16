@@ -261,6 +261,11 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether force min max mz.
+        /// </summary>
+        public bool ForceMinMaxMz { get; set; }
+
+        /// <summary>
         /// Gets The heat map data (<seealso cref="UimfData"/>).
         /// </summary>
         public UimfData HeatMapData
@@ -339,6 +344,11 @@ namespace Atreyu.ViewModels
                 this.RaiseAndSetIfChanged(ref this.lowThreshold, value);
             }
         }
+
+        /// <summary>
+        /// Gets or sets the mz window which will be enforced if <see cref="ForceMinMaxMz"/> is true.
+        /// </summary>
+        public BinRange MzWindow { get; set; }
 
         /// <summary>
         /// Gets or sets the width.
@@ -488,7 +498,7 @@ namespace Atreyu.ViewModels
         /// The update data.
         /// </summary>
         /// <param name="framedata">
-        /// The framedata.
+        /// The frame data.
         /// </param>
         public void UpdateData(double[,] framedata)
         {
@@ -503,6 +513,17 @@ namespace Atreyu.ViewModels
                 return;
             }
 
+            if (this.ForceMinMaxMz)
+            {
+                this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.MzWindow.EndBin;
+                this.heatMapPlotModel.Axes[2].AbsoluteMinimum = this.MzWindow.StartBin;
+            }
+            else
+            {
+                this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.HeatMapData.MaxBins;
+                this.heatMapPlotModel.Axes[2].AbsoluteMinimum = 0;
+            }
+
             this.dataArray = framedata;
 
             series.Data = this.dataArray;
@@ -515,7 +536,8 @@ namespace Atreyu.ViewModels
             series.Y0 = this.CurrentMinBin;
             series.Y1 = this.CurrentMaxBin;
 
-            if (this.CurrentMinScan == 0 && this.CurrentMinBin == 0)
+            if ((this.CurrentMinScan == 0 && this.CurrentMinBin == 0)
+                || (this.ForceMinMaxMz && this.CurrentMinBin == this.MzWindow.StartBin))
             {
                 this.heatMapPlotModel.ResetAllAxes();
             }

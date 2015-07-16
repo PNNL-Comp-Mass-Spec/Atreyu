@@ -1,7 +1,6 @@
 var class_uimf_data_extractor_1_1_uimf_processor =
 [
     [ "ExtractData", "class_uimf_data_extractor_1_1_uimf_processor.html#a880e59cd718e7b9d632cba98faba52af", null ],
-    [ "FindPeaks", "class_uimf_data_extractor_1_1_uimf_processor.html#acf6fca589811627ed65b209b9c2749b1", null ],
     [ "GetFrameType", "class_uimf_data_extractor_1_1_uimf_processor.html#aac07f3a3156c878588e7de61c94351c3", null ],
     [ "GetFullHeatmapData", "class_uimf_data_extractor_1_1_uimf_processor.html#a94a3607de24f7e9f32df177395d6e388", null ],
     [ "GetFullMzInfo", "class_uimf_data_extractor_1_1_uimf_processor.html#a1a95617b5792690313a1318b275b19cd", null ],

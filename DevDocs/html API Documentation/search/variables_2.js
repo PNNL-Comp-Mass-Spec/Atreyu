@@ -1,7 +1,9 @@
 var searchData=
 [
   ['calibrator',['calibrator',['../class_atreyu_1_1_models_1_1_uimf_data.html#a52a0d3a74498b2fbb5cf13c89bcd4491',1,'Atreyu::Models::UimfData']]],
+  ['centermz',['centerMz',['../class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#ad74beb5b4803614ea5ade10923a46d72',1,'Atreyu::ViewModels::CombinedHeatmapViewModel']]],
   ['checking',['checking',['../class_atreyu_1_1_models_1_1_uimf_data.html#ae8e44d296cd7b429445dd2873b2c07fb',1,'Atreyu::Models::UimfData']]],
+  ['circularwaitisvisible',['circularWaitIsVisible',['../class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a5b78389455422471a961ff3171243b19',1,'Atreyu::ViewModels::CombinedHeatmapViewModel']]],
   ['components',['components',['../class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#aeccd126d6b399ac33db50d4987ab6feb',1,'UimfDataExtractor::UimfDataExtractorGui']]],
   ['controllabel',['controlLabel',['../class_atreyu_1_1_view_models_1_1_gate_slider_view_model.html#a0bab2c2745876366a99c141f79f4f250',1,'Atreyu::ViewModels::GateSliderViewModel']]],
   ['currentbinrange',['currentBinRange',['../class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#aa81c3ce08fee1a1c56aa81a5873d1490',1,'Atreyu::ViewModels::HeatMapViewModel']]],

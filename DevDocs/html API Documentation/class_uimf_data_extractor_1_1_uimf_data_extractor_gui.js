@@ -1,6 +1,7 @@
 var class_uimf_data_extractor_1_1_uimf_data_extractor_gui =
 [
     [ "UimfDataExtractorGui", "class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#a4f25fca53dc28694073a365399fde2cc", null ],
+    [ "AllFramesCheckedChanged", "class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#a9368b1ded7a88d7dda5119fc1d56e093", null ],
     [ "Dispose", "class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#ac3971fdbea8615d7563beaadc593c0f4", null ],
     [ "ExtractClick", "class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#a431e9d64a727ed3f1d39115f9381e3e6", null ],
     [ "GetXicCheckedChanged", "class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#a018fb7ef668a13cc9692b15b509d34cb", null ],
@@ -12,6 +13,8 @@ var class_uimf_data_extractor_1_1_uimf_data_extractor_gui =
     [ "components", "class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#aeccd126d6b399ac33db50d4987ab6feb", null ],
     [ "Extract", "class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#a175780640abffd12302f08dcff3cad1d", null ],
     [ "ExtractDataDisabledLabel", "class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#ad9d35b7c10e0a6bfffb63d41d77274eb", null ],
+    [ "FrameNumber", "class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#ace2d8dd8fe1146c0d6b7a1c5b0fb1cb3", null ],
+    [ "FrameNumberLabel", "class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#ab615c35be07a52b3df522540c51facf1", null ],
     [ "GetHeatMap", "class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#a2229892775938ca0ea55ca558d40699a", null ],
     [ "Getmsms", "class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#a84fc9b872caec2ce4df2980a4168a94a", null ],
     [ "GetMz", "class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html#a3335e01388ccc21fbb5325f5b907cc62", null ],

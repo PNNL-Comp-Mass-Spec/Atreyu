@@ -34,7 +34,11 @@ namespace UimfDataExtractor
     using System.Runtime.Serialization;
     using System.Xml;
 
+    using UimfDataExtractor.Models;
+
     using UIMFLibrary;
+
+    using Utilities.Models;
 
     /// <summary>
     /// The data exporter class.
@@ -255,7 +259,7 @@ namespace UimfDataExtractor
         /// Handles writing the heat map to file.
         /// </summary>
         /// <param name="data">
-        /// The data tobe written.
+        /// The data to be written.
         /// </param>
         /// <param name="outputFile">
         /// The output file.
@@ -384,7 +388,7 @@ namespace UimfDataExtractor
         }
 
         /// <summary>
-        /// The output xi cby time.
+        /// The output xic by time.
         /// </summary>
         /// <param name="data">
         /// The data.
@@ -441,7 +445,7 @@ namespace UimfDataExtractor
             {
                 Console.WriteLine();
                 Console.Error.WriteLine(
-                    "ERROR: We will expand upong this later, but we couldn't find the directory of the output file and it will not be output");
+                    "ERROR: We will expand upon this later, but we couldn't find the directory of the output file and it will not be output");
                 Console.WriteLine();
                 return null;
             }

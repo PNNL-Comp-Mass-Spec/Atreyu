@@ -40,8 +40,7 @@ namespace Atreyu.Models
         /// <summary>
         /// The range type.
         /// </summary>
-        // ReSharper disable once InconsistentNaming
-        protected readonly RangeType rangeType;
+        private readonly RangeType rangeType;
 
         #endregion
 

@@ -32,8 +32,10 @@ namespace UimfDataExtractor
     using System.Threading.Tasks;
     using System.Windows.Forms;
 
+    using UimfDataExtractor.Models;
+
     /// <summary>
-    /// The uimf data extractor gui codebehind.
+    /// The uimf data extractor gui code behind.
     /// </summary>
     public partial class UimfDataExtractorGui : Form
     {
@@ -99,6 +101,7 @@ namespace UimfDataExtractor
                                             OutputPath = this.outputDirectory, 
                                             AllFrames = this.AllFrames.Checked, 
                                             BulkPeakComparison = this.BulkPeakComparison.Checked, 
+                                            Frame = (int)this.FrameNumber.Value,
                                             GetHeatmap = this.GetHeatMap.Checked, 
                                             GetMz = this.GetMz.Checked, 
                                             GetTiC = this.GetTic.Checked, 
@@ -179,5 +182,20 @@ namespace UimfDataExtractor
         }
 
         #endregion
+
+        /// <summary>
+        /// The all frames checked changed event.  Enables and disables the frame number control.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The event arguments.
+        /// </param>
+        private void AllFramesCheckedChanged(object sender, EventArgs e)
+        {
+            this.FrameNumber.Enabled = !this.AllFrames.Checked;
+            this.FrameNumberLabel.Enabled = !this.AllFrames.Checked;
+        }
     }
 }

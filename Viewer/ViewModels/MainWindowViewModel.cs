@@ -109,17 +109,40 @@ namespace Viewer.ViewModels
         #region Methods
 
         /// <summary>
+        /// The get data filename.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        private static string GetDataFilename()
+        {
+            const string Filter = "Comma Seperated Values (*.csv)|*.csv";
+            var dialogue = new SaveFileDialog { DefaultExt = ".csv", AddExtension = true, Filter = Filter };
+
+            var result = dialogue.ShowDialog();
+
+            if (result != true)
+            {
+                return string.Empty;
+            }
+
+            return dialogue.FileName;
+        }
+
+        /// <summary>
         /// The get image format.
         /// </summary>
         /// <param name="fileName">
         /// The file name.
         /// </param>
         /// <returns>
-        /// The <see cref="ImageFormat"/>.
+        /// The <see cref="ImageFormat"/> from the given extension.
         /// </returns>
         /// <exception cref="ArgumentException">
+        /// Thrown is the filename passed doesn't have any extension.
         /// </exception>
         /// <exception cref="NotImplementedException">
+        /// Thrown if an unknown extension is passed, currently bmp, gif, ico, jpg, jpeg, png, tif, tiff, and wmf are recognized.
         /// </exception>
         private static ImageFormat GetImageFormat(string fileName)
         {
@@ -156,29 +179,9 @@ namespace Viewer.ViewModels
                     return ImageFormat.Wmf;
 
                 default:
-                    throw new NotImplementedException();
+                    throw new NotImplementedException(
+                        "The extension was not recognised, currently only  bmp, gif, ico, jpg, jpeg, png, tif, tiff, and wmf are recognized.");
             }
-        }
-
-        /// <summary>
-        /// The get data filename.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
-        private string GetDataFilename()
-        {
-            const string Filter = "Comma Seperated Values (*.csv)|*.csv";
-            var dialogue = new SaveFileDialog { DefaultExt = ".csv", AddExtension = true, Filter = Filter };
-
-            var result = dialogue.ShowDialog();
-
-            if (result != true)
-            {
-                return string.Empty;
-            }
-
-            return dialogue.FileName;
         }
 
         /// <summary>
@@ -212,7 +215,7 @@ namespace Viewer.ViewModels
         /// </summary>
         private void SaveExportedHeatmapCompressedData()
         {
-            var filename = this.GetDataFilename();
+            var filename = GetDataFilename();
 
             if (string.IsNullOrWhiteSpace(filename))
             {
@@ -241,7 +244,7 @@ namespace Viewer.ViewModels
         /// </summary>
         private void SaveExportedMzCompressedData()
         {
-            var filename = this.GetDataFilename();
+            var filename = GetDataFilename();
 
             if (string.IsNullOrWhiteSpace(filename))
             {
@@ -267,7 +270,7 @@ namespace Viewer.ViewModels
         /// </summary>
         private void SaveExportedTicCompressedData()
         {
-            var filename = this.GetDataFilename();
+            var filename = GetDataFilename();
 
             if (string.IsNullOrWhiteSpace(filename))
             {

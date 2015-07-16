@@ -1,6 +1,7 @@
 var searchData=
 [
   ['calibrator',['Calibrator',['../class_atreyu_1_1_models_1_1_uimf_data.html#a95f2b52126fe827338e581decad43e4b',1,'Atreyu.Models.UimfData.Calibrator()'],['../class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a47849a62728e48620a60a250f72b16ef',1,'Atreyu.ViewModels.MzSpectraViewModel.Calibrator()']]],
+  ['circularwaitisvisible',['CircularWaitIsVisible',['../class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#ac7f332cb3e04d5184bfedba6c83a864d',1,'Atreyu::ViewModels::CombinedHeatmapViewModel']]],
   ['combinedheatmapviewmodel',['CombinedHeatmapViewModel',['../class_viewer_1_1_view_models_1_1_main_window_view_model.html#a7933c86250086c371703ea0bc2f5cb49',1,'Viewer::ViewModels::MainWindowViewModel']]],
   ['controllabel',['ControlLabel',['../class_atreyu_1_1_view_models_1_1_gate_slider_view_model.html#ad191913f91b5708ae4d1d323ffe03448',1,'Atreyu::ViewModels::GateSliderViewModel']]],
   ['culture',['Culture',['../class_viewer_1_1_properties_1_1_resources.html#a4f8f2a66b7509b3605a7678681412bef',1,'Viewer::Properties::Resources']]],

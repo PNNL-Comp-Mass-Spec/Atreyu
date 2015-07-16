@@ -4,16 +4,13 @@ var hierarchy =
     [ "ApplicationSettingsBase", null, [
       [ "Viewer.Properties.Settings", "class_viewer_1_1_properties_1_1_settings.html", null ]
     ] ],
-    [ "UimfDataExtractor.BulkPeakData", "struct_uimf_data_extractor_1_1_bulk_peak_data.html", null ],
-    [ "UimfDataExtractor.CommandLineOptions", "class_uimf_data_extractor_1_1_command_line_options.html", null ],
+    [ "UimfDataExtractor.Models.BulkPeakData", "struct_uimf_data_extractor_1_1_models_1_1_bulk_peak_data.html", null ],
+    [ "UimfDataExtractor.Models.CommandLineOptions", "class_uimf_data_extractor_1_1_models_1_1_command_line_options.html", null ],
     [ "UimfDataExtractor.DataExporter", "class_uimf_data_extractor_1_1_data_exporter.html", null ],
     [ "Form", null, [
       [ "UimfDataExtractor.UimfDataExtractorGui", "class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html", null ]
     ] ],
     [ "Atreyu.Views.GateSlider", "class_atreyu_1_1_views_1_1_gate_slider.html", null ],
-    [ "IComparer< KeyValuePair< int, TValue >>", null, [
-      [ "Atreyu.ViewModels.MzSpectraViewModel.KvpCompare< TValue >", "class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_1_1_kvp_compare_3_01_t_value_01_4.html", null ]
-    ] ],
     [ "IDisposable", null, [
       [ "Atreyu.Models.UimfData", "class_atreyu_1_1_models_1_1_uimf_data.html", null ]
     ] ],
@@ -39,9 +36,10 @@ var hierarchy =
       [ "Viewer.MainWindow", "class_viewer_1_1_main_window.html", null ]
     ] ],
     [ "Atreyu.Views.MzSpectraView", "class_atreyu_1_1_views_1_1_mz_spectra_view.html", null ],
-    [ "UimfDataExtractor.PeakInformation", "class_uimf_data_extractor_1_1_peak_information.html", null ],
-    [ "UimfDataExtractor.PeakSet", "class_uimf_data_extractor_1_1_peak_set.html", null ],
-    [ "UimfDataExtractor.PointInformation", "class_uimf_data_extractor_1_1_point_information.html", null ],
+    [ "Utilities.PeakFinder", "class_utilities_1_1_peak_finder.html", null ],
+    [ "Utilities.Models.PeakInformation", "class_utilities_1_1_models_1_1_peak_information.html", null ],
+    [ "Utilities.Models.PeakSet", "class_utilities_1_1_models_1_1_peak_set.html", null ],
+    [ "Utilities.Models.PointInformation", "class_utilities_1_1_models_1_1_point_information.html", null ],
     [ "UimfDataExtractor.Program", "class_uimf_data_extractor_1_1_program.html", null ],
     [ "ReactiveObject", null, [
       [ "Atreyu.Models.Range", "class_atreyu_1_1_models_1_1_range.html", [
@@ -59,8 +57,12 @@ var hierarchy =
       [ "Viewer.ViewModels.MainWindowViewModel", "class_viewer_1_1_view_models_1_1_main_window_view_model.html", null ]
     ] ],
     [ "Atreyu.RegionNames", "class_atreyu_1_1_region_names.html", null ],
-    [ "Atreyu.ViewModels.MzSpectraViewModel.ResolutionDatapoint", "struct_atreyu_1_1_view_models_1_1_mz_spectra_view_model_1_1_resolution_datapoint.html", null ],
     [ "Viewer.Properties.Resources", "class_viewer_1_1_properties_1_1_resources.html", null ],
     [ "Atreyu.Views.TotalIonChromatogramView", "class_atreyu_1_1_views_1_1_total_ion_chromatogram_view.html", null ],
-    [ "UimfDataExtractor.UimfProcessor", "class_uimf_data_extractor_1_1_uimf_processor.html", null ]
+    [ "UimfDataExtractor.UimfProcessor", "class_uimf_data_extractor_1_1_uimf_processor.html", null ],
+    [ "UserControl", null, [
+      [ "Atreyu.Controls.CircularProgressBar", "class_atreyu_1_1_controls_1_1_circular_progress_bar.html", null ],
+      [ "Atreyu.Controls.FieldUserControl", "class_atreyu_1_1_controls_1_1_field_user_control.html", null ],
+      [ "Atreyu.Controls.MzRange", "class_atreyu_1_1_controls_1_1_mz_range.html", null ]
+    ] ]
 ];

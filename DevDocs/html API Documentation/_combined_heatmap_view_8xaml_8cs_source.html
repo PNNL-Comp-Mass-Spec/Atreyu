@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Atreyu
-   &#160;<span id="projectnumber">1.7</span>
+   &#160;<span id="projectnumber">1.8</span>
    </div>
    <div id="projectbrief">A light-weight Ion mobility mass spectrometry data viewer and extractor, targeted toward PNNL&#39;s UIMF files</div>
   </td>
@@ -170,78 +170,76 @@ $(document).ready(function(){initNavTree('_combined_heatmap_view_8xaml_8cs_sourc
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        {</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            this.InitializeComponent();</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            this.DataContextChanged += this.CombinedHeatmapViewDataContextChanged;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            this.AllowDrop = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            this.PreviewDrop += this.CombinedHeatmapViewPreviewDrop;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        }</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">        #endregion</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="preprocessor">        #region Public Properties</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a028b38d59eaf2d06bbc80e8f0ef6d46d">   95</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html">CombinedHeatmapViewModel</a> ViewModel { <span class="keyword">get</span>; set; }</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor">        #endregion</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor">        #region Explicit Interface Properties</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keywordtype">object</span> IViewFor.ViewModel</div>
-<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a4807597519fda5177826825942908ee1">  105</a></span>&#160;        {</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <span class="keyword">get</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            {</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                <span class="keywordflow">return</span> this.ViewModel;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            }</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            set</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            {</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                this.ViewModel = value as <a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html">CombinedHeatmapViewModel</a>;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            }</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        }</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="preprocessor">        #endregion</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="preprocessor">        #region Methods</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
-<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a2e70e5b81e4f65844c9668dd08a753a9">  130</a></span>&#160;        <span class="keyword">private</span> <span class="keywordtype">void</span> <a class="code" href="class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a2e70e5b81e4f65844c9668dd08a753a9">CombinedHeatmapViewDataContextChanged</a>(<span class="keywordtype">object</span> sender, DependencyPropertyChangedEventArgs e)</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        {</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            this.ViewModel = e.NewValue as <a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html">CombinedHeatmapViewModel</a>;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            <span class="keywordflow">if</span> (this.ViewModel == null)</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            {</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;arguement e is only allowed to be of type CombinedHeatmapViewModel&quot;</span>, <span class="stringliteral">&quot;e&quot;</span>);</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            }</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            this.heatMapView = <span class="keyword">new</span> <a class="code" href="class_atreyu_1_1_views_1_1_heat_map_view.html">HeatMapView</a>(this.ViewModel.HeatMapViewModel);</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            Grid.SetColumn(this.heatMapView, 1);</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            Grid.SetRow(this.heatMapView, 1);</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;            Grid.SetColumnSpan(this.heatMapView, 2);</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            this.MainGrid.Children.Add(this.heatMapView);</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            this.frameManipulationView = <span class="keyword">new</span> <a class="code" href="class_atreyu_1_1_views_1_1_frame_manipulation_view.html">FrameManipulationView</a>(this.ViewModel.FrameManipulationViewModel);</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            Grid.SetColumn(this.frameManipulationView, 1);</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            Grid.SetRow(this.frameManipulationView, 0);</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            this.MainGrid.Children.Add(this.frameManipulationView);</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            this.mzSpectraView = <span class="keyword">new</span> <a class="code" href="class_atreyu_1_1_views_1_1_mz_spectra_view.html">MzSpectraView</a>(this.ViewModel.MzSpectraViewModel);</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            Grid.SetColumn(this.mzSpectraView, 0);</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            Grid.SetRow(this.mzSpectraView, 1);</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            this.MainGrid.Children.Add(this.mzSpectraView);</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            this.totalIonChromatogramView = <span class="keyword">new</span> <a class="code" href="class_atreyu_1_1_views_1_1_total_ion_chromatogram_view.html">TotalIonChromatogramView</a>(this.ViewModel.TotalIonChromatogramViewModel);</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            Grid.SetColumn(this.totalIonChromatogramView, 1);</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            Grid.SetRow(this.totalIonChromatogramView, 2);</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            Grid.SetColumnSpan(this.totalIonChromatogramView, 2);</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            this.MainGrid.Children.Add(this.totalIonChromatogramView);</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            this.lowSliderView = <span class="keyword">new</span> <a class="code" href="class_atreyu_1_1_views_1_1_gate_slider.html">GateSlider</a>(this.ViewModel.LowValueGateSliderViewModel);</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            Grid.SetRow(this.lowSliderView, 1);</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            Grid.SetColumn(this.lowSliderView, 3);</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;            this.MainGrid.Children.Add(this.lowSliderView);</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            <span class="comment">// Grid.SetRow(this.HighSliderView, 1);</span></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            <span class="comment">// Grid.SetColumn(this.HighSliderView, 4);</span></div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;            <span class="comment">// this.MainGrid.Children.Add(this.HighSliderView);</span></div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            this.AllowDrop = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            this.PreviewDrop += this.MainTabControlPreviewDragEnter;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor">        #endregion</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">        #region Public Properties</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a028b38d59eaf2d06bbc80e8f0ef6d46d">   96</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html">CombinedHeatmapViewModel</a> ViewModel { <span class="keyword">get</span>; set; }</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">        #endregion</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="preprocessor">        #region Explicit Interface Properties</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordtype">object</span> IViewFor.ViewModel</div>
+<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a4807597519fda5177826825942908ee1">  106</a></span>&#160;        {</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            <span class="keyword">get</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            {</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                <span class="keywordflow">return</span> this.ViewModel;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            }</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            set</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            {</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                this.ViewModel = value as <a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html">CombinedHeatmapViewModel</a>;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            }</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        }</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="preprocessor">        #endregion</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="preprocessor">        #region Methods</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
+<div class="line"><a name="l00131"></a><span class="lineno"><a class="line" href="class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a2e70e5b81e4f65844c9668dd08a753a9">  131</a></span>&#160;        <span class="keyword">private</span> <span class="keywordtype">void</span> <a class="code" href="class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a2e70e5b81e4f65844c9668dd08a753a9">CombinedHeatmapViewDataContextChanged</a>(<span class="keywordtype">object</span> sender, DependencyPropertyChangedEventArgs e)</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        {</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            this.ViewModel = e.NewValue as <a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html">CombinedHeatmapViewModel</a>;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            <span class="keywordflow">if</span> (this.ViewModel == null)</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            {</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;arguement e is only allowed to be of type CombinedHeatmapViewModel&quot;</span>, <span class="stringliteral">&quot;e&quot;</span>);</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            }</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            this.heatMapView = <span class="keyword">new</span> <a class="code" href="class_atreyu_1_1_views_1_1_heat_map_view.html">HeatMapView</a>(this.ViewModel.HeatMapViewModel);</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            Grid.SetColumn(this.heatMapView, 1);</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;            Grid.SetRow(this.heatMapView, 1);</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            Grid.SetColumnSpan(this.heatMapView, 2);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            this.MainGrid.Children.Add(this.heatMapView);</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            this.frameManipulationView = <span class="keyword">new</span> <a class="code" href="class_atreyu_1_1_views_1_1_frame_manipulation_view.html">FrameManipulationView</a>(this.ViewModel.FrameManipulationViewModel);</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            Grid.SetColumn(this.frameManipulationView, 1);</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            Grid.SetRow(this.frameManipulationView, 0);</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            this.MainGrid.Children.Add(this.frameManipulationView);</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            this.mzSpectraView = <span class="keyword">new</span> <a class="code" href="class_atreyu_1_1_views_1_1_mz_spectra_view.html">MzSpectraView</a>(this.ViewModel.MzSpectraViewModel);</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            Grid.SetColumn(this.mzSpectraView, 0);</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            Grid.SetRow(this.mzSpectraView, 1);</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            this.MainGrid.Children.Add(this.mzSpectraView);</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            this.totalIonChromatogramView = <span class="keyword">new</span> <a class="code" href="class_atreyu_1_1_views_1_1_total_ion_chromatogram_view.html">TotalIonChromatogramView</a>(this.ViewModel.TotalIonChromatogramViewModel);</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            Grid.SetColumn(this.totalIonChromatogramView, 1);</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            Grid.SetRow(this.totalIonChromatogramView, 2);</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            Grid.SetColumnSpan(this.totalIonChromatogramView, 2);</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            this.MainGrid.Children.Add(this.totalIonChromatogramView);</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            this.lowSliderView = <span class="keyword">new</span> <a class="code" href="class_atreyu_1_1_views_1_1_gate_slider.html">GateSlider</a>(this.ViewModel.LowValueGateSliderViewModel);</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            Grid.SetRow(this.lowSliderView, 1);</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;            Grid.SetColumn(this.lowSliderView, 3);</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            this.MainGrid.Children.Add(this.lowSliderView);</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            this.RangeControl.DataContext = this.ViewModel;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            this.PreviewDrop += this.MainTabControlPreviewDragEnter;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            this.AllowDrop = <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        }</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div>
 <div class="line"><a name="l00182"></a><span class="lineno"><a class="line" href="class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a446256bd6b67e945ea146cedb6f7a94f">  182</a></span>&#160;        <span class="keyword">private</span> async <span class="keywordtype">void</span> <a class="code" href="class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a446256bd6b67e945ea146cedb6f7a94f">CombinedHeatmapViewPreviewDrop</a>(<span class="keywordtype">object</span> sender, DragEventArgs e)</div>
@@ -301,15 +299,26 @@ $(document).ready(function(){initNavTree('_combined_heatmap_view_8xaml_8cs_sourc
 <div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;</div>
 <div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;            <span class="keywordflow">if</span> (isCorrect)</div>
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            {</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;                await this.LoadFile(filenames[0]);</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;            }</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            e.Handled = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        }</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;<span class="preprocessor">        #endregion</span></div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    }</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;}</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;                <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;                {</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;                    await this.LoadFile(filenames[0]);</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;                }</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                {</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                    <span class="comment">// This ignores a known race condition with an uknown cause and allows the user to continue as if all is well.</span></div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                    <span class="keywordflow">if</span> (!ex.Message.Contains(<span class="stringliteral">&quot;already active&quot;</span>))</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                    {</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;                        MessageBox.Show(ex.Message);</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;                    }</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                }</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;            }</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;            e.Handled = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        }</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;<span class="preprocessor">        #endregion</span></div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    }</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;}</div>
 <div class="ttc" id="class_atreyu_1_1_views_1_1_combined_heatmap_view_html_a74b0a61ba46539046bad4d91243bcbd8"><div class="ttname"><a href="class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a74b0a61ba46539046bad4d91243bcbd8">Atreyu.Views.CombinedHeatmapView.CombinedHeatmapView</a></div><div class="ttdeci">CombinedHeatmapView()</div><div class="ttdoc">Initializes a new instance of the CombinedHeatmapView class. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_8xaml_8cs_source.html#l00080">CombinedHeatmapView.xaml.cs:80</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_views_1_1_combined_heatmap_view_html"><div class="ttname"><a href="class_atreyu_1_1_views_1_1_combined_heatmap_view.html">Atreyu.Views.CombinedHeatmapView</a></div><div class="ttdoc">Interaction logic for CombinedHeatmapView </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_8xaml_8cs_source.html#l00044">CombinedHeatmapView.xaml.cs:44</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_views_1_1_combined_heatmap_view_html_af55f18de41b7c47900e3d320ed12c94f"><div class="ttname"><a href="class_atreyu_1_1_views_1_1_combined_heatmap_view.html#af55f18de41b7c47900e3d320ed12c94f">Atreyu.Views.CombinedHeatmapView.MainTabControlPreviewDragEnter</a></div><div class="ttdeci">async void MainTabControlPreviewDragEnter(object sender, DragEventArgs e)</div><div class="ttdoc">The main tab control preview drag enter. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_8xaml_8cs_source.html#l00228">CombinedHeatmapView.xaml.cs:228</a></div></div>
@@ -321,7 +330,7 @@ $(document).ready(function(){initNavTree('_combined_heatmap_view_8xaml_8cs_sourc
 <div class="ttc" id="class_atreyu_1_1_views_1_1_combined_heatmap_view_html_a932f8d573a198e4b0bdcf2ddbdedb8bb"><div class="ttname"><a href="class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a932f8d573a198e4b0bdcf2ddbdedb8bb">Atreyu.Views.CombinedHeatmapView.totalIonChromatogramView</a></div><div class="ttdeci">TotalIonChromatogramView totalIonChromatogramView</div><div class="ttdoc">The total ion chromatogram view. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_8xaml_8cs_source.html#l00071">CombinedHeatmapView.xaml.cs:71</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html">Atreyu.ViewModels.CombinedHeatmapViewModel</a></div><div class="ttdoc">The combined heatmap view model. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00047">CombinedHeatmapViewModel.cs:47</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_views_1_1_combined_heatmap_view_html_a7d80096df41363abf595d5c2dec68769"><div class="ttname"><a href="class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a7d80096df41363abf595d5c2dec68769">Atreyu.Views.CombinedHeatmapView.heatMapView</a></div><div class="ttdeci">HeatMapView heatMapView</div><div class="ttdoc">The heat map view. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_8xaml_8cs_source.html#l00056">CombinedHeatmapView.xaml.cs:56</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_views_1_1_combined_heatmap_view_html_a2e70e5b81e4f65844c9668dd08a753a9"><div class="ttname"><a href="class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a2e70e5b81e4f65844c9668dd08a753a9">Atreyu.Views.CombinedHeatmapView.CombinedHeatmapViewDataContextChanged</a></div><div class="ttdeci">void CombinedHeatmapViewDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)</div><div class="ttdoc">The combined heatmap view data context changed method. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_8xaml_8cs_source.html#l00130">CombinedHeatmapView.xaml.cs:130</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_views_1_1_combined_heatmap_view_html_a2e70e5b81e4f65844c9668dd08a753a9"><div class="ttname"><a href="class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a2e70e5b81e4f65844c9668dd08a753a9">Atreyu.Views.CombinedHeatmapView.CombinedHeatmapViewDataContextChanged</a></div><div class="ttdeci">void CombinedHeatmapViewDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)</div><div class="ttdoc">The combined heatmap view data context changed method. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_8xaml_8cs_source.html#l00131">CombinedHeatmapView.xaml.cs:131</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_views_1_1_combined_heatmap_view_html_acdfb0daae59f1d5752d2f5a194ae75dd"><div class="ttname"><a href="class_atreyu_1_1_views_1_1_combined_heatmap_view.html#acdfb0daae59f1d5752d2f5a194ae75dd">Atreyu.Views.CombinedHeatmapView.mzSpectraView</a></div><div class="ttdeci">MzSpectraView mzSpectraView</div><div class="ttdoc">The mz spectra view. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_8xaml_8cs_source.html#l00066">CombinedHeatmapView.xaml.cs:66</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_views_1_1_combined_heatmap_view_html_ab2e73ec6e2588c8dffa4dc455cd36c4a"><div class="ttname"><a href="class_atreyu_1_1_views_1_1_combined_heatmap_view.html#ab2e73ec6e2588c8dffa4dc455cd36c4a">Atreyu.Views.CombinedHeatmapView.frameManipulationView</a></div><div class="ttdeci">FrameManipulationView frameManipulationView</div><div class="ttdoc">The frame manipulation view. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_8xaml_8cs_source.html#l00051">CombinedHeatmapView.xaml.cs:51</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_views_1_1_combined_heatmap_view_html_a419091381d587ecfdcd2be088f69a3da"><div class="ttname"><a href="class_atreyu_1_1_views_1_1_combined_heatmap_view.html#a419091381d587ecfdcd2be088f69a3da">Atreyu.Views.CombinedHeatmapView.LoadFile</a></div><div class="ttdeci">async Task LoadFile(string fileName)</div><div class="ttdoc">The load file. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_8xaml_8cs_source.html#l00213">CombinedHeatmapView.xaml.cs:213</a></div></div>
@@ -333,7 +342,7 @@ $(document).ready(function(){initNavTree('_combined_heatmap_view_8xaml_8cs_sourc
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_26a57642325f3c609088cb4d72030692.html">Falkor</a></li><li class="navelem"><a class="el" href="dir_0cff26dc86242075b1285ba559db1a0a.html">Atreyu</a></li><li class="navelem"><a class="el" href="dir_a88288ddc9c67d13cd9fe3a9677c8fa0.html">Atreyu</a></li><li class="navelem"><a class="el" href="dir_0714ab7de4086ea275cac99673971c63.html">Views</a></li><li class="navelem"><a class="el" href="_combined_heatmap_view_8xaml_8cs.html">CombinedHeatmapView.xaml.cs</a></li>
-    <li class="footer">Generated on Thu Apr 30 2015 16:58:37 for Atreyu by
+    <li class="footer">Generated on Thu Jul 16 2015 07:27:57 for Atreyu by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
   </ul>

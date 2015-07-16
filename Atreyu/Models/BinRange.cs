@@ -190,6 +190,7 @@ namespace Atreyu.Models
             {
                 // ReSharper disable NonReadonlyFieldInGetHashCode
                 return (this.endBin * 397) ^ this.startBin;
+
                 // ReSharper restore NonReadonlyFieldInGetHashCode
             }
         }

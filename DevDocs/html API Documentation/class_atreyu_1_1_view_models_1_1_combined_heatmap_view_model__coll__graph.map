@@ -1,3 +1,5 @@
 <map id="Atreyu.ViewModels.CombinedHeatmapViewModel" name="Atreyu.ViewModels.CombinedHeatmapViewModel">
-<area shape="rect" id="node3" href="$class_atreyu_1_1_models_1_1_uimf_data.html" title="The uimf data. " alt="" coords="101,81,263,108"/>
+<area shape="rect" id="node3" href="$class_atreyu_1_1_models_1_1_uimf_data.html" title="The uimf data. " alt="" coords="197,247,360,273"/>
+<area shape="rect" id="node6" href="$class_atreyu_1_1_models_1_1_range.html" title="The range. " alt="" coords="231,81,289,108"/>
+<area shape="rect" id="node5" href="$class_atreyu_1_1_models_1_1_bin_range.html" title="The bin range. " alt="" coords="43,157,210,184"/>
 </map>

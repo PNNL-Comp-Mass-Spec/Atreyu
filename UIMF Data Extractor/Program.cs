@@ -30,6 +30,8 @@ namespace UimfDataExtractor
 {
     using System;
 
+    using UimfDataExtractor.Models;
+
     /// <summary>
     /// The program.
     /// </summary>
