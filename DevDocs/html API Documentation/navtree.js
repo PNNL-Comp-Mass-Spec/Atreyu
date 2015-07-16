@@ -31,8 +31,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_app_8xaml_8cs.html",
-"class_atreyu_1_1_view_models_1_1_heat_map_view_model.html",
-"class_viewer_1_1_view_models_1_1_main_window_view_model.html#acd40132785ca45e9debe2abcc7fe004f"
+"class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a58618fda7669fce5caaf9a10bab86f52",
+"class_uimf_data_extractor_1_1_uimf_processor.html#a05641e96aba63aa0b5a645a692d1d15c"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

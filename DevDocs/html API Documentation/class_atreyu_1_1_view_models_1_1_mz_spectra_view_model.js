@@ -1,7 +1,5 @@
 var class_atreyu_1_1_view_models_1_1_mz_spectra_view_model =
 [
-    [ "KvpCompare< TValue >", "class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_1_1_kvp_compare_3_01_t_value_01_4.html", "class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_1_1_kvp_compare_3_01_t_value_01_4" ],
-    [ "ResolutionDatapoint", "struct_atreyu_1_1_view_models_1_1_mz_spectra_view_model_1_1_resolution_datapoint.html", "struct_atreyu_1_1_view_models_1_1_mz_spectra_view_model_1_1_resolution_datapoint" ],
     [ "MzSpectraViewModel", "class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#af7aa326c313137cf671e1fdab9c47603", null ],
     [ "ChangeEndBin", "class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a346e9f92d388e77d74b02cac6dc6cb2e", null ],
     [ "ChangeStartBin", "class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#ac7eabf0685c3a117deb85bd40df1efc8", null ],

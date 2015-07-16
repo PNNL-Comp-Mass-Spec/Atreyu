@@ -1,0 +1,6 @@
+<map id="Utilities.PeakFinder.FindPeaks" name="Utilities.PeakFinder.FindPeaks">
+<area shape="rect" id="node2" href="$class_utilities_1_1_peak_finder.html#adef0d8b1feb38137bdc33fbc1e8a4b3e" title="Calculates peak information. " alt="" coords="217,39,411,80"/>
+<area shape="rect" id="node3" href="$class_utilities_1_1_peak_finder.html#a738e3496289286b5d1115c0cd2af8f34" title="Gets information for points, required for calculations. " alt="" coords="459,5,640,47"/>
+<area shape="rect" id="node4" href="$class_utilities_1_1_peak_finder.html#a48be86bd0008fb2e84a1ebfbbea97e0c" title="Finds the left or right half max point. " alt="" coords="467,71,631,112"/>
+<area shape="rect" id="node5" href="$class_utilities_1_1_peak_finder.html#ac885afc9fa4bf6ec42bc13ca9007ae80" title="Gets an x value given a y value and two x,y points. " alt="" coords="688,78,855,105"/>
+</map>

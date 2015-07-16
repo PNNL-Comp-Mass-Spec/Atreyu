@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['mainwindow',['MainWindow',['../class_viewer_1_1_main_window.html',1,'Viewer']]],
-  ['mainwindowviewmodel',['MainWindowViewModel',['../class_viewer_1_1_view_models_1_1_main_window_view_model.html',1,'Viewer::ViewModels']]],
-  ['mzspectraview',['MzSpectraView',['../class_atreyu_1_1_views_1_1_mz_spectra_view.html',1,'Atreyu::Views']]],
-  ['mzspectraviewmodel',['MzSpectraViewModel',['../class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html',1,'Atreyu::ViewModels']]]
+  ['peakfinder',['PeakFinder',['../class_utilities_1_1_peak_finder.html',1,'Utilities']]],
+  ['peakinformation',['PeakInformation',['../class_utilities_1_1_models_1_1_peak_information.html',1,'Utilities::Models']]],
+  ['peakset',['PeakSet',['../class_utilities_1_1_models_1_1_peak_set.html',1,'Utilities::Models']]],
+  ['pointinformation',['PointInformation',['../class_utilities_1_1_models_1_1_point_information.html',1,'Utilities::Models']]],
+  ['program',['Program',['../class_uimf_data_extractor_1_1_program.html',1,'UimfDataExtractor']]]
 ];

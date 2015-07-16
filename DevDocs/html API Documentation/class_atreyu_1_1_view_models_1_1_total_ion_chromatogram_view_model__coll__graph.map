@@ -1,3 +1,5 @@
 <map id="Atreyu.ViewModels.TotalIonChromatogramViewModel" name="Atreyu.ViewModels.TotalIonChromatogramViewModel">
-<area shape="rect" id="node3" href="$class_atreyu_1_1_models_1_1_uimf_data.html" title="The uimf data. " alt="" coords="97,81,260,108"/>
+<area shape="rect" id="node3" href="$class_atreyu_1_1_models_1_1_uimf_data.html" title="The uimf data. " alt="" coords="103,247,266,273"/>
+<area shape="rect" id="node6" href="$class_atreyu_1_1_models_1_1_range.html" title="The range. " alt="" coords="141,81,199,108"/>
+<area shape="rect" id="node5" href="$class_atreyu_1_1_models_1_1_bin_range.html" title="The bin range. " alt="" coords="141,157,308,184"/>
 </map>

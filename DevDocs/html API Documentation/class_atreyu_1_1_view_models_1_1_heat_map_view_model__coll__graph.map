@@ -1,6 +1,6 @@
 <map id="Atreyu.ViewModels.HeatMapViewModel" name="Atreyu.ViewModels.HeatMapViewModel">
-<area shape="rect" id="node3" href="$class_atreyu_1_1_models_1_1_uimf_data.html" title="The uimf data. " alt="" coords="170,197,333,224"/>
-<area shape="rect" id="node6" href="$class_atreyu_1_1_models_1_1_range.html" title="The range. " alt="" coords="222,96,281,123"/>
-<area shape="rect" id="node5" href="$class_atreyu_1_1_models_1_1_scan_range.html" title="The scan range. " alt="" coords="388,69,565,96"/>
-<area shape="rect" id="node8" href="$class_atreyu_1_1_models_1_1_bin_range.html" title="The bin range. " alt="" coords="393,120,560,147"/>
+<area shape="rect" id="node3" href="$class_atreyu_1_1_models_1_1_uimf_data.html" title="The uimf data. " alt="" coords="683,177,845,204"/>
+<area shape="rect" id="node6" href="$class_atreyu_1_1_models_1_1_range.html" title="The range. " alt="" coords="222,95,281,121"/>
+<area shape="rect" id="node5" href="$class_atreyu_1_1_models_1_1_bin_range.html" title="The bin range. " alt="" coords="393,123,560,149"/>
+<area shape="rect" id="node8" href="$class_atreyu_1_1_models_1_1_scan_range.html" title="The scan range. " alt="" coords="388,44,565,71"/>
 </map>

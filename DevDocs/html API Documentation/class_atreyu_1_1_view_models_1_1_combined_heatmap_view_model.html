@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Atreyu
-   &#160;<span id="projectnumber">1.7</span>
+   &#160;<span id="projectnumber">1.8</span>
    </div>
    <div id="projectbrief">A light-weight Ion mobility mass spectrometry data viewer and extractor, targeted toward PNNL&#39;s UIMF files</div>
   </td>
@@ -110,6 +110,7 @@ $(document).ready(function(){initNavTree('class_atreyu_1_1_view_models_1_1_combi
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#properties">Properties</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -131,7 +132,7 @@ Collaboration diagram for Atreyu.ViewModels.CombinedHeatmapViewModel:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model__coll__graph.png" border="0" usemap="#_atreyu_8_view_models_8_combined_heatmap_view_model_coll__map" alt="Collaboration graph"/></div>
 <map name="_atreyu_8_view_models_8_combined_heatmap_view_model_coll__map" id="_atreyu_8_view_models_8_combined_heatmap_view_model_coll__map">
-<area shape="rect" id="node3" href="class_atreyu_1_1_models_1_1_uimf_data.html" title="The uimf data. " alt="" coords="101,81,263,108"/></map>
+<area shape="rect" id="node3" href="class_atreyu_1_1_models_1_1_uimf_data.html" title="The uimf data. " alt="" coords="197,247,360,273"/><area shape="rect" id="node6" href="class_atreyu_1_1_models_1_1_range.html" title="The range. " alt="" coords="231,81,289,108"/><area shape="rect" id="node5" href="class_atreyu_1_1_models_1_1_bin_range.html" title="The bin range. " alt="" coords="43,157,210,184"/></map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -149,7 +150,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a498104fb7aab905cdab32090e25450b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The export tic data compressed method.  <a href="#a498104fb7aab905cdab32090e25450b6">More...</a><br /></td></tr>
 <tr class="separator:a498104fb7aab905cdab32090e25450b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9415ec46d748bda6af7a355d5c2e453d"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a9415ec46d748bda6af7a355d5c2e453d">FetchSingleFrame</a> (int frameNumber)</td></tr>
-<tr class="memdesc:a9415ec46d748bda6af7a355d5c2e453d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The set up plot mthod.  <a href="#a9415ec46d748bda6af7a355d5c2e453d">More...</a><br /></td></tr>
+<tr class="memdesc:a9415ec46d748bda6af7a355d5c2e453d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The set up plot method.  <a href="#a9415ec46d748bda6af7a355d5c2e453d">More...</a><br /></td></tr>
 <tr class="separator:a9415ec46d748bda6af7a355d5c2e453d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afbbdc1e36898360d8ab0c3a2cd2108fd"><td class="memItemLeft" align="right" valign="top">Image&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#afbbdc1e36898360d8ab0c3a2cd2108fd">GetImage</a> ()</td></tr>
 <tr class="memdesc:afbbdc1e36898360d8ab0c3a2cd2108fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">The get image method.  <a href="#afbbdc1e36898360d8ab0c3a2cd2108fd">More...</a><br /></td></tr>
@@ -169,6 +170,9 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
+<tr class="memitem:ac7f332cb3e04d5184bfedba6c83a864d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#ac7f332cb3e04d5184bfedba6c83a864d">CircularWaitIsVisible</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:ac7f332cb3e04d5184bfedba6c83a864d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets or sets a value indicating whether the circular wait is visible.  <a href="#ac7f332cb3e04d5184bfedba6c83a864d">More...</a><br /></td></tr>
+<tr class="separator:ac7f332cb3e04d5184bfedba6c83a864d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad98630495247fe6e3bb3db656dc76848"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#ad98630495247fe6e3bb3db656dc76848">CurrentFile</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:ad98630495247fe6e3bb3db656dc76848"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets or sets the current file.  <a href="#ad98630495247fe6e3bb3db656dc76848">More...</a><br /></td></tr>
 <tr class="separator:ad98630495247fe6e3bb3db656dc76848"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -184,9 +188,18 @@ Properties</h2></td></tr>
 <tr class="memitem:a98f8243f0dcd85e7d6d8e90d6ed0f470"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_atreyu_1_1_view_models_1_1_gate_slider_view_model.html">GateSliderViewModel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a98f8243f0dcd85e7d6d8e90d6ed0f470">LowValueGateSliderViewModel</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a98f8243f0dcd85e7d6d8e90d6ed0f470"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the low value gate slider view model.  <a href="#a98f8243f0dcd85e7d6d8e90d6ed0f470">More...</a><br /></td></tr>
 <tr class="separator:a98f8243f0dcd85e7d6d8e90d6ed0f470"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78fc67f16ff52cad017c310564f7d8ae"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a78fc67f16ff52cad017c310564f7d8ae">MzCenter</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a78fc67f16ff52cad017c310564f7d8ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets or sets the mz center.  <a href="#a78fc67f16ff52cad017c310564f7d8ae">More...</a><br /></td></tr>
+<tr class="separator:a78fc67f16ff52cad017c310564f7d8ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cb4aa21d7154f5d0a53a0638509331a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a7cb4aa21d7154f5d0a53a0638509331a">MzRangeEnabled</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a7cb4aa21d7154f5d0a53a0638509331a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets or sets a value indicating whether mz range enabled.  <a href="#a7cb4aa21d7154f5d0a53a0638509331a">More...</a><br /></td></tr>
+<tr class="separator:a7cb4aa21d7154f5d0a53a0638509331a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56b59c2c8f70f59f2973fca5c719e913"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html">MzSpectraViewModel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a56b59c2c8f70f59f2973fca5c719e913"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the mz spectra view model.  <a href="#a56b59c2c8f70f59f2973fca5c719e913">More...</a><br /></td></tr>
 <tr class="separator:a56b59c2c8f70f59f2973fca5c719e913"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca616caffccf1cd3d8c55a587b51b6c9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aca616caffccf1cd3d8c55a587b51b6c9">PartsPerMillion</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:aca616caffccf1cd3d8c55a587b51b6c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets or sets the parts per million.  <a href="#aca616caffccf1cd3d8c55a587b51b6c9">More...</a><br /></td></tr>
+<tr class="separator:aca616caffccf1cd3d8c55a587b51b6c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd9b65854ee9c33ebede4e71638d81ce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html">TotalIonChromatogramViewModel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#acd9b65854ee9c33ebede4e71638d81ce">TotalIonChromatogramViewModel</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:acd9b65854ee9c33ebede4e71638d81ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the total ion chromatogram view model.  <a href="#acd9b65854ee9c33ebede4e71638d81ce">More...</a><br /></td></tr>
 <tr class="separator:acd9b65854ee9c33ebede4e71638d81ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -200,11 +213,23 @@ Properties</h2></td></tr>
 <tr class="memdesc:a58618fda7669fce5caaf9a10bab86f52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the zoom out full.  <a href="#a58618fda7669fce5caaf9a10bab86f52">More...</a><br /></td></tr>
 <tr class="separator:a58618fda7669fce5caaf9a10bab86f52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a50e2721e6c2514d86eaa88a7cc9551a5"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a50e2721e6c2514d86eaa88a7cc9551a5">UpdateMzWindow</a> ()</td></tr>
+<tr class="memdesc:a50e2721e6c2514d86eaa88a7cc9551a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the mz window.  <a href="#a50e2721e6c2514d86eaa88a7cc9551a5">More...</a><br /></td></tr>
+<tr class="separator:a50e2721e6c2514d86eaa88a7cc9551a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a0a81439a33c11503c62c94ff63c983d9"><td class="memItemLeft" align="right" valign="top">const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a0a81439a33c11503c62c94ff63c983d9">ReturnGatedData</a> = true</td></tr>
 <tr class="memdesc:a0a81439a33c11503c62c94ff63c983d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The return gated data bool.  <a href="#a0a81439a33c11503c62c94ff63c983d9">More...</a><br /></td></tr>
 <tr class="separator:a0a81439a33c11503c62c94ff63c983d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad74beb5b4803614ea5ade10923a46d72"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#ad74beb5b4803614ea5ade10923a46d72">centerMz</a> = 1000.0D</td></tr>
+<tr class="memdesc:ad74beb5b4803614ea5ade10923a46d72"><td class="mdescLeft">&#160;</td><td class="mdescRight">The center of the m/z window.  <a href="#ad74beb5b4803614ea5ade10923a46d72">More...</a><br /></td></tr>
+<tr class="separator:ad74beb5b4803614ea5ade10923a46d72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b78389455422471a961ff3171243b19"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a5b78389455422471a961ff3171243b19">circularWaitIsVisible</a></td></tr>
+<tr class="memdesc:a5b78389455422471a961ff3171243b19"><td class="mdescLeft">&#160;</td><td class="mdescRight">A private backing field for a property that indicates whether The circular wait is visible.  <a href="#a5b78389455422471a961ff3171243b19">More...</a><br /></td></tr>
+<tr class="separator:a5b78389455422471a961ff3171243b19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1961815396b520108ee94f78df099531"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a1961815396b520108ee94f78df099531">currentEndFrame</a></td></tr>
 <tr class="memdesc:a1961815396b520108ee94f78df099531"><td class="mdescLeft">&#160;</td><td class="mdescRight">The current end frame.  <a href="#a1961815396b520108ee94f78df099531">More...</a><br /></td></tr>
 <tr class="separator:a1961815396b520108ee94f78df099531"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -217,12 +242,21 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a1136828c4305cdd984af85d5b18cc76d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a1136828c4305cdd984af85d5b18cc76d">height</a></td></tr>
 <tr class="memdesc:a1136828c4305cdd984af85d5b18cc76d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The height of the view.  <a href="#a1136828c4305cdd984af85d5b18cc76d">More...</a><br /></td></tr>
 <tr class="separator:a1136828c4305cdd984af85d5b18cc76d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17c8e3d54c42b3bcae07665bc57f13df"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_atreyu_1_1_models_1_1_bin_range.html">BinRange</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a17c8e3d54c42b3bcae07665bc57f13df">mzWindow</a> = new <a class="el" href="class_atreyu_1_1_models_1_1_bin_range.html">BinRange</a>()</td></tr>
+<tr class="memdesc:a17c8e3d54c42b3bcae07665bc57f13df"><td class="mdescLeft">&#160;</td><td class="mdescRight">The m/z window represented as a BinRange.  <a href="#a17c8e3d54c42b3bcae07665bc57f13df">More...</a><br /></td></tr>
+<tr class="separator:a17c8e3d54c42b3bcae07665bc57f13df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c50e85e5b0aabbbd1d456520803da9b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a9c50e85e5b0aabbbd1d456520803da9b">partsPerMillion</a> = 150.0D</td></tr>
+<tr class="memdesc:a9c50e85e5b0aabbbd1d456520803da9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The parts per million tolerance for the m/z window.  <a href="#a9c50e85e5b0aabbbd1d456520803da9b">More...</a><br /></td></tr>
+<tr class="separator:a9c50e85e5b0aabbbd1d456520803da9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a912566c9a735d109aea783af20f723fa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html">UimfData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a912566c9a735d109aea783af20f723fa">uimfData</a></td></tr>
 <tr class="memdesc:a912566c9a735d109aea783af20f723fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">The uimf data.  <a href="#a912566c9a735d109aea783af20f723fa">More...</a><br /></td></tr>
 <tr class="separator:a912566c9a735d109aea783af20f723fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad956536aff88dabe0eef949d0e4bc43"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aad956536aff88dabe0eef949d0e4bc43">width</a></td></tr>
 <tr class="memdesc:aad956536aff88dabe0eef949d0e4bc43"><td class="mdescLeft">&#160;</td><td class="mdescRight">The width of the view.  <a href="#aad956536aff88dabe0eef949d0e4bc43">More...</a><br /></td></tr>
 <tr class="separator:aad956536aff88dabe0eef949d0e4bc43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebb659bfb53d211abf7dc2c3e4a8df8e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aebb659bfb53d211abf7dc2c3e4a8df8e">windowMz</a></td></tr>
+<tr class="memdesc:aebb659bfb53d211abf7dc2c3e4a8df8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether or not to window the M/Z.  <a href="#aebb659bfb53d211abf7dc2c3e4a8df8e">More...</a><br /></td></tr>
+<tr class="separator:aebb659bfb53d211abf7dc2c3e4a8df8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The combined heatmap view model. </p>
@@ -244,152 +278,175 @@ Private Attributes</h2></td></tr>
 
 <p>Initializes a new instance of the <a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html" title="The combined heatmap view model. ">CombinedHeatmapViewModel</a> class. </p>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00097">97</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00122">122</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
 
-<p>References <a class="el" href="_mz_spectra_view_model_8cs_source.html#l00133">Atreyu.ViewModels.MzSpectraViewModel.BinToMzMap</a>, <a class="el" href="_heat_map_view_model_8cs_source.html#l00149">Atreyu.ViewModels.HeatMapViewModel.BinToMzMap</a>, <a class="el" href="_mz_spectra_view_model_8cs_source.html#l00138">Atreyu.ViewModels.MzSpectraViewModel.Calibrator</a>, <a class="el" href="_mz_spectra_view_model_8cs_source.html#l00229">Atreyu.ViewModels.MzSpectraViewModel.ChangeEndBin()</a>, <a class="el" href="_total_ion_chromatogram_view_model_8cs_source.html#l00134">Atreyu.ViewModels.TotalIonChromatogramViewModel.ChangeEndScan()</a>, <a class="el" href="_mz_spectra_view_model_8cs_source.html#l00240">Atreyu.ViewModels.MzSpectraViewModel.ChangeStartBin()</a>, <a class="el" href="_total_ion_chromatogram_view_model_8cs_source.html#l00145">Atreyu.ViewModels.TotalIonChromatogramViewModel.ChangeStartScan()</a>, <a class="el" href="_heat_map_view_model_8cs_source.html#l00155">Atreyu.ViewModels.HeatMapViewModel.CurrentBinRange</a>, <a class="el" href="_heat_map_view_model_8cs_source.html#l00187">Atreyu.ViewModels.HeatMapViewModel.CurrentMaxBin</a>, <a class="el" href="_heat_map_view_model_8cs_source.html#l00203">Atreyu.ViewModels.HeatMapViewModel.CurrentMaxScan</a>, <a class="el" href="_heat_map_view_model_8cs_source.html#l00219">Atreyu.ViewModels.HeatMapViewModel.CurrentMinBin</a>, <a class="el" href="_heat_map_view_model_8cs_source.html#l00235">Atreyu.ViewModels.HeatMapViewModel.CurrentMinScan</a>, <a class="el" href="_heat_map_view_model_8cs_source.html#l00251">Atreyu.ViewModels.HeatMapViewModel.CurrentScanRange</a>, <a class="el" href="_frame_manipulation_view_model_8cs_source.html#l00127">Atreyu.ViewModels.FrameManipulationViewModel.FrameType</a>, <a class="el" href="_mz_spectra_view_model_8cs_source.html#l00159">Atreyu.ViewModels.MzSpectraViewModel.MzArray</a>, <a class="el" href="_mz_spectra_view_model_8cs_source.html#l00164">Atreyu.ViewModels.MzSpectraViewModel.MzIntensities</a>, <a class="el" href="_mz_spectra_view_model_8cs_source.html#l00186">Atreyu.ViewModels.MzSpectraViewModel.ShowMz</a>, <a class="el" href="_heat_map_view_model_8cs_source.html#l00493">Atreyu.ViewModels.HeatMapViewModel.UpdateData()</a>, <a class="el" href="_total_ion_chromatogram_view_model_8cs_source.html#l00187">Atreyu.ViewModels.TotalIonChromatogramViewModel.UpdateFrameData()</a>, <a class="el" href="_mz_spectra_view_model_8cs_source.html#l00323">Atreyu.ViewModels.MzSpectraViewModel.UpdateFrameData()</a>, <a class="el" href="_total_ion_chromatogram_view_model_8cs_source.html#l00253">Atreyu.ViewModels.TotalIonChromatogramViewModel.UpdateReference()</a>, <a class="el" href="_mz_spectra_view_model_8cs_source.html#l00408">Atreyu.ViewModels.MzSpectraViewModel.UpdateReference()</a>, <a class="el" href="_heat_map_view_model_8cs_source.html#l00532">Atreyu.ViewModels.HeatMapViewModel.UpdateReference()</a>, <a class="el" href="_frame_manipulation_view_model_8cs_source.html#l00239">Atreyu.ViewModels.FrameManipulationViewModel.UpdateUimf()</a>, and <a class="el" href="_mz_spectra_view_model_8cs_source.html#l00217">Atreyu.ViewModels.MzSpectraViewModel.ValuesPerPixelY</a>.</p>
-<div class="fragment"><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        {</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="comment">// I wonder if I should break this up a little, as it is over 100 lines and breaking them up logically might make it more readable and maintainable</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            this.FrameManipulationViewModel = <span class="keyword">new</span> <a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a95c8a3af88a2fb50eef88d0c16207ee2">FrameManipulationViewModel</a>();</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            this.HeatMapViewModel = <span class="keyword">new</span> <a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">HeatMapViewModel</a>();</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            this.MzSpectraViewModel = <span class="keyword">new</span> <a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a>();</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            this.LowValueGateSliderViewModel = <span class="keyword">new</span> GateSliderViewModel();</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            this.TotalIonChromatogramViewModel = <span class="keyword">new</span> <a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#acd9b65854ee9c33ebede4e71638d81ce">TotalIonChromatogramViewModel</a>();</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            this.LowValueGateSliderViewModel.ControlLabel = <span class="stringliteral">&quot;Low Gate&quot;</span>;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            this.LowValueGateSliderViewModel.UpdateGate(0);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            this.ZoomOutFull = this.FrameManipulationViewModel.ZoomOutCommand;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            this.ZoomOutFull.Select(async _ =&gt; await this.ZoomOut()).Subscribe();</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            <span class="comment">// update the uimf data for the various components</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData).Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#acd9b65854ee9c33ebede4e71638d81ce">TotalIonChromatogramViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#ad0da4f7f38427b5418330ca8d451ff1c">UpdateReference</a>);</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData).Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">HeatMapViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a7f414cec15e60fb388222c275330d81b">UpdateReference</a>);</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData).Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a95c8a3af88a2fb50eef88d0c16207ee2">FrameManipulationViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_frame_manipulation_view_model.html#a777fe384e757521b819e996acdd96cfb">UpdateUimf</a>);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData).Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#af094793d9c5375f30739461ae564c5aa">UpdateReference</a>);</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            <span class="comment">// update the frame data of the TIC plot when needed; apparently the Throttler should always specify the schedule.</span></div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.GatedFrameData)</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                .Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#acd9b65854ee9c33ebede4e71638d81ce">TotalIonChromatogramViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#a98e66394a077e05888d97ecada4ddcf4">UpdateFrameData</a>);</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            <span class="comment">// Update the Framedata of the M/Z plot when needed</span></div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.GatedFrameData).Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a27e5d7fe0be69f8ef9900fe95ce8b52e">UpdateFrameData</a>);</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.GatedFrameData).Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">HeatMapViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a1e53ee6f1ff0e7bcdf9eb875cd4b392f">UpdateData</a>);</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            <span class="comment">// update the frame whenever it is changed via the frame manipulation view</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            this.WhenAnyValue(vm =&gt; vm.FrameManipulationViewModel.CurrentFrame)</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                .Select(async x =&gt; await this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a9415ec46d748bda6af7a355d5c2e453d">FetchSingleFrame</a>(x))</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                .Subscribe();</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            <span class="comment">// hook up the frame summing feature</span></div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            this.WhenAnyValue(vm =&gt; vm.FrameManipulationViewModel.Range).Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#adc3f0edf966d7a39453c7e88c38c5796">SumFrames</a>);</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            <span class="comment">// These make the axis on the TIC update properly</span></div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.StartScan).Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#acd9b65854ee9c33ebede4e71638d81ce">TotalIonChromatogramViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#ad7c1488768aefccff2700f5442b81afd">ChangeStartScan</a>);</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.EndScan).Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#acd9b65854ee9c33ebede4e71638d81ce">TotalIonChromatogramViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#a2a8055648a857ead7391b5367ed2a4ca">ChangeEndScan</a>);</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;            <span class="comment">// These make the axis on the mz plot update properly</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.CurrentMinBin).Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#ac7eabf0685c3a117deb85bd40df1efc8">ChangeStartBin</a>);</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.CurrentMaxBin).Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a346e9f92d388e77d74b02cac6dc6cb2e">ChangeEndBin</a>);</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            <span class="comment">// Update the Heatmap axes</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.StartScan).Subscribe(i =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">HeatMapViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a1528078b97682e2dcf425c58cff93c64">CurrentMinScan</a> = i);</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.EndScan).Subscribe(i =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">HeatMapViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a5e3123fa48521fdfd749ccba7bd07941">CurrentMaxScan</a> = i);</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.CurrentMinBin).Subscribe(i =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">HeatMapViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a61a028dab0f0fef830427b446d131f1d">CurrentMinBin</a> = i);</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.CurrentMaxBin).Subscribe(i =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">HeatMapViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a430eb0aa98e37f1785b2bfa2334c7578">CurrentMaxBin</a> = i);</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            <span class="comment">// This makes the axis of the mz plot be in mz mode properly</span></div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            this.WhenAnyValue(vm =&gt; vm.FrameManipulationViewModel.MzModeEnabled)</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                .Subscribe(b =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a9e4b64c6a1a88593eb03c29474e551e2">ShowMz</a> = b);</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            <span class="comment">// These two allow the mz calculation to be done on the fly so it is fast, instead of calling the hard drive again </span></div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.FrameSlope)</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                .Where(b =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a> != null)</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                .Subscribe(d =&gt; this.MzSpectraViewModel.Slope = d);</div>
+<p>References <a class="el" href="_mz_spectra_view_model_8cs_source.html#l00130">Atreyu.ViewModels.MzSpectraViewModel.BinToMzMap</a>, <a class="el" href="_heat_map_view_model_8cs_source.html#l00149">Atreyu.ViewModels.HeatMapViewModel.BinToMzMap</a>, <a class="el" href="_mz_spectra_view_model_8cs_source.html#l00135">Atreyu.ViewModels.MzSpectraViewModel.Calibrator</a>, <a class="el" href="_mz_spectra_view_model_8cs_source.html#l00226">Atreyu.ViewModels.MzSpectraViewModel.ChangeEndBin()</a>, <a class="el" href="_total_ion_chromatogram_view_model_8cs_source.html#l00131">Atreyu.ViewModels.TotalIonChromatogramViewModel.ChangeEndScan()</a>, <a class="el" href="_mz_spectra_view_model_8cs_source.html#l00237">Atreyu.ViewModels.MzSpectraViewModel.ChangeStartBin()</a>, <a class="el" href="_total_ion_chromatogram_view_model_8cs_source.html#l00142">Atreyu.ViewModels.TotalIonChromatogramViewModel.ChangeStartScan()</a>, <a class="el" href="_heat_map_view_model_8cs_source.html#l00155">Atreyu.ViewModels.HeatMapViewModel.CurrentBinRange</a>, <a class="el" href="_heat_map_view_model_8cs_source.html#l00187">Atreyu.ViewModels.HeatMapViewModel.CurrentMaxBin</a>, <a class="el" href="_heat_map_view_model_8cs_source.html#l00203">Atreyu.ViewModels.HeatMapViewModel.CurrentMaxScan</a>, <a class="el" href="_heat_map_view_model_8cs_source.html#l00219">Atreyu.ViewModels.HeatMapViewModel.CurrentMinBin</a>, <a class="el" href="_heat_map_view_model_8cs_source.html#l00235">Atreyu.ViewModels.HeatMapViewModel.CurrentMinScan</a>, <a class="el" href="_heat_map_view_model_8cs_source.html#l00251">Atreyu.ViewModels.HeatMapViewModel.CurrentScanRange</a>, <a class="el" href="_heat_map_view_model_8cs_source.html#l00266">Atreyu.ViewModels.HeatMapViewModel.ForceMinMaxMz</a>, <a class="el" href="_frame_manipulation_view_model_8cs_source.html#l00127">Atreyu.ViewModels.FrameManipulationViewModel.FrameType</a>, <a class="el" href="_mz_spectra_view_model_8cs_source.html#l00156">Atreyu.ViewModels.MzSpectraViewModel.MzArray</a>, <a class="el" href="_mz_spectra_view_model_8cs_source.html#l00161">Atreyu.ViewModels.MzSpectraViewModel.MzIntensities</a>, <a class="el" href="_mz_spectra_view_model_8cs_source.html#l00183">Atreyu.ViewModels.MzSpectraViewModel.ShowMz</a>, <a class="el" href="_heat_map_view_model_8cs_source.html#l00503">Atreyu.ViewModels.HeatMapViewModel.UpdateData()</a>, <a class="el" href="_total_ion_chromatogram_view_model_8cs_source.html#l00184">Atreyu.ViewModels.TotalIonChromatogramViewModel.UpdateFrameData()</a>, <a class="el" href="_mz_spectra_view_model_8cs_source.html#l00320">Atreyu.ViewModels.MzSpectraViewModel.UpdateFrameData()</a>, <a class="el" href="_total_ion_chromatogram_view_model_8cs_source.html#l00250">Atreyu.ViewModels.TotalIonChromatogramViewModel.UpdateReference()</a>, <a class="el" href="_mz_spectra_view_model_8cs_source.html#l00405">Atreyu.ViewModels.MzSpectraViewModel.UpdateReference()</a>, <a class="el" href="_heat_map_view_model_8cs_source.html#l00554">Atreyu.ViewModels.HeatMapViewModel.UpdateReference()</a>, <a class="el" href="_frame_manipulation_view_model_8cs_source.html#l00239">Atreyu.ViewModels.FrameManipulationViewModel.UpdateUimf()</a>, and <a class="el" href="_mz_spectra_view_model_8cs_source.html#l00214">Atreyu.ViewModels.MzSpectraViewModel.ValuesPerPixelY</a>.</p>
+<div class="fragment"><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        {</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            <span class="comment">// I wonder if I should break this up a little, as it is over 100 lines and breaking them up logically might make it more readable and maintainable</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            this.FrameManipulationViewModel = <span class="keyword">new</span> <a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a95c8a3af88a2fb50eef88d0c16207ee2">FrameManipulationViewModel</a>();</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            this.HeatMapViewModel = <span class="keyword">new</span> <a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">HeatMapViewModel</a>();</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            this.MzSpectraViewModel = <span class="keyword">new</span> <a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a>();</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            this.LowValueGateSliderViewModel = <span class="keyword">new</span> GateSliderViewModel();</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            this.TotalIonChromatogramViewModel = <span class="keyword">new</span> <a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#acd9b65854ee9c33ebede4e71638d81ce">TotalIonChromatogramViewModel</a>();</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            this.LowValueGateSliderViewModel.ControlLabel = <span class="stringliteral">&quot;Low Gate&quot;</span>;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            this.LowValueGateSliderViewModel.UpdateGate(0);</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            <span class="comment">// Shows loading image</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.LoadingData).Subscribe(x =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#ac7f332cb3e04d5184bfedba6c83a864d">CircularWaitIsVisible</a> = x);</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            <span class="comment">// Keep the M/Z mode settings updated</span></div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            this.WhenAnyValue(vm =&gt; vm.MzRangeEnabled)</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                .Where(b =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a> != null)</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                .Subscribe(x =&gt; this.UimfData.WindowMz = x);</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            this.WhenAnyValue(vm =&gt; vm.MzCenter)</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                .Where(b =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a> != null)</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                .Subscribe(x =&gt; this.UimfData.MzCenter = x);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            this.WhenAnyValue(vm =&gt; vm.PartsPerMillion)</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                .Where(b =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a> != null)</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                .Subscribe(x =&gt; this.UimfData.PartsPerMillion = x);</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            this.WhenAnyValue(vm =&gt; vm.MzRangeEnabled).Subscribe(x =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">HeatMapViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#ae8feeaf084dc814dbd6c22028d457d8c">ForceMinMaxMz</a> = x);</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            this.WhenAnyValue(vm =&gt; vm.MzRangeEnabled, vm =&gt; vm.MzCenter, vm =&gt; vm.PartsPerMillion)</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                .Where(tuple =&gt; tuple.Item1 &amp;&amp; <span class="keyword">this</span>.UimfData != null)</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                .Select(async _ =&gt; await this.UpdateMzWindow())</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                .Subscribe();</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            this.ZoomOutFull = this.FrameManipulationViewModel.ZoomOutCommand;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            this.ZoomOutFull.Select(async _ =&gt; await this.ZoomOut()).Subscribe();</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            <span class="comment">// update the uimf data for the various components</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData).Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#acd9b65854ee9c33ebede4e71638d81ce">TotalIonChromatogramViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#ad0da4f7f38427b5418330ca8d451ff1c">UpdateReference</a>);</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.FrameIntercept)</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                .Where(b =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a> != null)</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                .Subscribe(d =&gt; this.MzSpectraViewModel.Intercept = d);</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData).Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">HeatMapViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a7f414cec15e60fb388222c275330d81b">UpdateReference</a>);</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData).Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a95c8a3af88a2fb50eef88d0c16207ee2">FrameManipulationViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_frame_manipulation_view_model.html#a777fe384e757521b819e996acdd96cfb">UpdateUimf</a>);</div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            <span class="comment">// Attach the heatmap threshold to the slider&#39;s gate, using Throttle so it doesn&#39;t seem jerky.</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            this.WhenAnyValue(vm =&gt; vm.LowValueGateSliderViewModel.LogarithmicGate)</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;                .Where(b =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a> != null)</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                .Throttle(TimeSpan.FromMilliseconds(50), RxApp.MainThreadScheduler)</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                .Subscribe(this.UpdateLowGate);</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData).Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#af094793d9c5375f30739461ae564c5aa">UpdateReference</a>);</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            <span class="comment">// update the frame data of the TIC plot when needed; apparently the Throttler should always specify the schedule.</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.GatedFrameData)</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                .Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#acd9b65854ee9c33ebede4e71638d81ce">TotalIonChromatogramViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#a98e66394a077e05888d97ecada4ddcf4">UpdateFrameData</a>);</div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;            <span class="comment">// Update the frame type on the Fram Manipulation view</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.FrameType).Subscribe(s =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a95c8a3af88a2fb50eef88d0c16207ee2">FrameManipulationViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_frame_manipulation_view_model.html#ac302f57de524c0b530f140fe1fb0a15b">FrameType</a> = s);</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;            <span class="comment">// Update the Framedata of the M/Z plot when needed</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.GatedFrameData).Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a27e5d7fe0be69f8ef9900fe95ce8b52e">UpdateFrameData</a>);</div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            <span class="comment">// update the values per pixel so that the m/z adjusts correctly</span></div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.ValuesPerPixelY)</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                .Subscribe(d =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a4224dbd58450603baa50679786570914">ValuesPerPixelY</a> = d);</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.BinToMzMap).Subscribe(d =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a9be17e50c8b3684cc5b9dd770df59920">BinToMzMap</a> = d);</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.MzArray).Subscribe(d =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a95a6ae257ed5c9d6cc1385dab3e77847">MzArray</a> = d);</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.MzIntensities).Subscribe(i =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a0345b542e8d5652529a7cf00ea8a48e3">MzIntensities</a> = i);</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.BinToMzMap).Subscribe(d =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">HeatMapViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a7cadcca09a118d06502d6276357ed66a">BinToMzMap</a> = d);</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.GatedFrameData).Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">HeatMapViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a1e53ee6f1ff0e7bcdf9eb875cd4b392f">UpdateData</a>);</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            <span class="comment">// update the frame whenever it is changed via the frame manipulation view</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;            this.WhenAnyValue(vm =&gt; vm.FrameManipulationViewModel.CurrentFrame)</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                .Select(async x =&gt; await this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a9415ec46d748bda6af7a355d5c2e453d">FetchSingleFrame</a>(x))</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;                .Subscribe();</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;            <span class="comment">// hook up the frame summing feature</span></div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            this.WhenAnyValue(vm =&gt; vm.FrameManipulationViewModel.Range).Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#adc3f0edf966d7a39453c7e88c38c5796">SumFrames</a>);</div>
 <div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.Calibrator).Subscribe(c =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a47849a62728e48620a60a250f72b16ef">Calibrator</a> = c);</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            this.WhenAnyValue(vm =&gt; vm.HeatMapViewModel.Height).Subscribe(d =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a0a880b8986096ae4e666e2346f08229f">Height</a> = d);</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            this.WhenAnyValue(vm =&gt; vm.HeatMapViewModel.Width).Subscribe(d =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#ac66d6a86be6dc8bc599801ec6b879937">Width</a> = d);</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;            this.HeatMapViewModel.WhenAnyValue(hm =&gt; hm.CurrentBinRange)</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                .Where(_ =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a> != null &amp;&amp; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">HeatMapViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a8545100d6f4f3fa4e9a2e34ae901dd9e">CurrentBinRange</a> != null)</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                .Select(</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                    async x =&gt;</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;                        {</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                            this.UimfData.RangeUpdateList.Enqueue(x);</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                            await this.uimfData.CheckQueue();</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                        }).Subscribe();</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            <span class="comment">// These make the axis on the TIC update properly</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.StartScan).Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#acd9b65854ee9c33ebede4e71638d81ce">TotalIonChromatogramViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#ad7c1488768aefccff2700f5442b81afd">ChangeStartScan</a>);</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.EndScan).Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#acd9b65854ee9c33ebede4e71638d81ce">TotalIonChromatogramViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#a2a8055648a857ead7391b5367ed2a4ca">ChangeEndScan</a>);</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;            <span class="comment">// These make the axis on the mz plot update properly</span></div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.CurrentMinBin).Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#ac7eabf0685c3a117deb85bd40df1efc8">ChangeStartBin</a>);</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.CurrentMaxBin).Subscribe(this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a346e9f92d388e77d74b02cac6dc6cb2e">ChangeEndBin</a>);</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            <span class="comment">// Update the Heatmap axes</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.StartScan).Subscribe(i =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">HeatMapViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a1528078b97682e2dcf425c58cff93c64">CurrentMinScan</a> = i);</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.EndScan).Subscribe(i =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">HeatMapViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a5e3123fa48521fdfd749ccba7bd07941">CurrentMaxScan</a> = i);</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.CurrentMinBin).Subscribe(i =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">HeatMapViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a61a028dab0f0fef830427b446d131f1d">CurrentMinBin</a> = i);</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.CurrentMaxBin).Subscribe(i =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">HeatMapViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a430eb0aa98e37f1785b2bfa2334c7578">CurrentMaxBin</a> = i);</div>
 <div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;            this.HeatMapViewModel.WhenAnyValue(hm =&gt; hm.CurrentScanRange)</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                .Where(_ =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a> != null &amp;&amp; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">HeatMapViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a8c5609c0aec0f7cd89785e9da17644b2">CurrentScanRange</a> != null)</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                .Select(</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                    async x =&gt;</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                        {</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                            this.UimfData.RangeUpdateList.Enqueue(x);</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                            await this.uimfData.CheckQueue();</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                        }).Subscribe();</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        }</div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_a9415ec46d748bda6af7a355d5c2e453d"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a9415ec46d748bda6af7a355d5c2e453d">Atreyu.ViewModels.CombinedHeatmapViewModel.FetchSingleFrame</a></div><div class="ttdeci">async Task FetchSingleFrame(int frameNumber)</div><div class="ttdoc">The set up plot mthod. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00352">CombinedHeatmapViewModel.cs:352</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_a4224dbd58450603baa50679786570914"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a4224dbd58450603baa50679786570914">Atreyu.ViewModels.MzSpectraViewModel.ValuesPerPixelY</a></div><div class="ttdeci">double ValuesPerPixelY</div><div class="ttdoc">Gets or sets the values per pixel y. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00217">MzSpectraViewModel.cs:217</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_a95a6ae257ed5c9d6cc1385dab3e77847"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a95a6ae257ed5c9d6cc1385dab3e77847">Atreyu.ViewModels.MzSpectraViewModel.MzArray</a></div><div class="ttdeci">double[] MzArray</div><div class="ttdoc">Gets or sets the mz array. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00159">MzSpectraViewModel.cs:159</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_a346e9f92d388e77d74b02cac6dc6cb2e"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a346e9f92d388e77d74b02cac6dc6cb2e">Atreyu.ViewModels.MzSpectraViewModel.ChangeEndBin</a></div><div class="ttdeci">void ChangeEndBin(int bin)</div><div class="ttdoc">Changes the end bin for proper graph display. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00229">MzSpectraViewModel.cs:229</a></div></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;            <span class="comment">// This makes the axis of the mz plot be in mz mode properly</span></div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;            this.WhenAnyValue(vm =&gt; vm.FrameManipulationViewModel.MzModeEnabled)</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                .Subscribe(b =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a9e4b64c6a1a88593eb03c29474e551e2">ShowMz</a> = b);</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;            <span class="comment">// These two allow the mz calculation to be done on the fly so it is fast, instead of calling the hard drive again </span></div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.FrameSlope)</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                .Where(b =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a> != null)</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                .Subscribe(d =&gt; this.MzSpectraViewModel.Slope = d);</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.FrameIntercept)</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                .Where(b =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a> != null)</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                .Subscribe(d =&gt; this.MzSpectraViewModel.Intercept = d);</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;            <span class="comment">// Attach the heatmap threshold to the slider&#39;s gate, using Throttle so it doesn&#39;t seem jerky.</span></div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;            this.WhenAnyValue(vm =&gt; vm.LowValueGateSliderViewModel.LogarithmicGate)</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                .Where(b =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a> != null)</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                .Throttle(TimeSpan.FromMilliseconds(50), RxApp.MainThreadScheduler)</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                .Subscribe(this.UpdateLowGate);</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            <span class="comment">// Update the frame type on the Fram Manipulation view</span></div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.FrameType).Subscribe(s =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a95c8a3af88a2fb50eef88d0c16207ee2">FrameManipulationViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_frame_manipulation_view_model.html#ac302f57de524c0b530f140fe1fb0a15b">FrameType</a> = s);</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;            <span class="comment">// update the values per pixel so that the m/z adjusts correctly</span></div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.ValuesPerPixelY)</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                .Subscribe(d =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a4224dbd58450603baa50679786570914">ValuesPerPixelY</a> = d);</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.BinToMzMap).Subscribe(d =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a9be17e50c8b3684cc5b9dd770df59920">BinToMzMap</a> = d);</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.MzArray).Subscribe(d =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a95a6ae257ed5c9d6cc1385dab3e77847">MzArray</a> = d);</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.MzIntensities).Subscribe(i =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a0345b542e8d5652529a7cf00ea8a48e3">MzIntensities</a> = i);</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.BinToMzMap).Subscribe(d =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">HeatMapViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a7cadcca09a118d06502d6276357ed66a">BinToMzMap</a> = d);</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;            this.WhenAnyValue(vm =&gt; vm.UimfData.Calibrator).Subscribe(c =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">MzSpectraViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a47849a62728e48620a60a250f72b16ef">Calibrator</a> = c);</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;            this.WhenAnyValue(vm =&gt; vm.HeatMapViewModel.Height).Subscribe(d =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a0a880b8986096ae4e666e2346f08229f">Height</a> = d);</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;            this.WhenAnyValue(vm =&gt; vm.HeatMapViewModel.Width).Subscribe(d =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#ac66d6a86be6dc8bc599801ec6b879937">Width</a> = d);</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;            this.HeatMapViewModel.WhenAnyValue(hm =&gt; hm.CurrentBinRange)</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                .Where(_ =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a> != null &amp;&amp; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">HeatMapViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a8545100d6f4f3fa4e9a2e34ae901dd9e">CurrentBinRange</a> != null)</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;                .Select(</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;                    async x =&gt;</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;                        {</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;                            this.UimfData.RangeUpdateList.Enqueue(x);</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                            await this.uimfData.CheckQueue();</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                        }).Subscribe();</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;            this.HeatMapViewModel.WhenAnyValue(hm =&gt; hm.CurrentScanRange)</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                .Where(_ =&gt; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a> != null &amp;&amp; this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">HeatMapViewModel</a>.<a class="code" href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a8c5609c0aec0f7cd89785e9da17644b2">CurrentScanRange</a> != null)</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;                .Select(</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;                    async x =&gt;</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                        {</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;                            this.UimfData.RangeUpdateList.Enqueue(x);</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                            await this.uimfData.CheckQueue();</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;                        }).Subscribe();</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        }</div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_a9415ec46d748bda6af7a355d5c2e453d"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a9415ec46d748bda6af7a355d5c2e453d">Atreyu.ViewModels.CombinedHeatmapViewModel.FetchSingleFrame</a></div><div class="ttdeci">async Task FetchSingleFrame(int frameNumber)</div><div class="ttdoc">The set up plot method. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00462">CombinedHeatmapViewModel.cs:462</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_a4224dbd58450603baa50679786570914"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a4224dbd58450603baa50679786570914">Atreyu.ViewModels.MzSpectraViewModel.ValuesPerPixelY</a></div><div class="ttdeci">double ValuesPerPixelY</div><div class="ttdoc">Gets or sets the values per pixel y. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00214">MzSpectraViewModel.cs:214</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_a95a6ae257ed5c9d6cc1385dab3e77847"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a95a6ae257ed5c9d6cc1385dab3e77847">Atreyu.ViewModels.MzSpectraViewModel.MzArray</a></div><div class="ttdeci">double[] MzArray</div><div class="ttdoc">Gets or sets the mz array. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00156">MzSpectraViewModel.cs:156</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_heat_map_view_model_html_ae8feeaf084dc814dbd6c22028d457d8c"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#ae8feeaf084dc814dbd6c22028d457d8c">Atreyu.ViewModels.HeatMapViewModel.ForceMinMaxMz</a></div><div class="ttdeci">bool ForceMinMaxMz</div><div class="ttdoc">Gets or sets a value indicating whether force min max mz. </div><div class="ttdef"><b>Definition:</b> <a href="_heat_map_view_model_8cs_source.html#l00266">HeatMapViewModel.cs:266</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_a346e9f92d388e77d74b02cac6dc6cb2e"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a346e9f92d388e77d74b02cac6dc6cb2e">Atreyu.ViewModels.MzSpectraViewModel.ChangeEndBin</a></div><div class="ttdeci">void ChangeEndBin(int bin)</div><div class="ttdoc">Changes the end bin for proper graph display. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00226">MzSpectraViewModel.cs:226</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_frame_manipulation_view_model_html_a777fe384e757521b819e996acdd96cfb"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_frame_manipulation_view_model.html#a777fe384e757521b819e996acdd96cfb">Atreyu.ViewModels.FrameManipulationViewModel.UpdateUimf</a></div><div class="ttdeci">void UpdateUimf(UimfData uimfData)</div><div class="ttdoc">The update uimf method. </div><div class="ttdef"><b>Definition:</b> <a href="_frame_manipulation_view_model_8cs_source.html#l00239">FrameManipulationViewModel.cs:239</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_heat_map_view_model_html_a1e53ee6f1ff0e7bcdf9eb875cd4b392f"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a1e53ee6f1ff0e7bcdf9eb875cd4b392f">Atreyu.ViewModels.HeatMapViewModel.UpdateData</a></div><div class="ttdeci">void UpdateData(double[,] framedata)</div><div class="ttdoc">The update data. </div><div class="ttdef"><b>Definition:</b> <a href="_heat_map_view_model_8cs_source.html#l00493">HeatMapViewModel.cs:493</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_heat_map_view_model_html_a1e53ee6f1ff0e7bcdf9eb875cd4b392f"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a1e53ee6f1ff0e7bcdf9eb875cd4b392f">Atreyu.ViewModels.HeatMapViewModel.UpdateData</a></div><div class="ttdeci">void UpdateData(double[,] framedata)</div><div class="ttdoc">The update data. </div><div class="ttdef"><b>Definition:</b> <a href="_heat_map_view_model_8cs_source.html#l00503">HeatMapViewModel.cs:503</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_heat_map_view_model_html_a430eb0aa98e37f1785b2bfa2334c7578"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a430eb0aa98e37f1785b2bfa2334c7578">Atreyu.ViewModels.HeatMapViewModel.CurrentMaxBin</a></div><div class="ttdeci">int CurrentMaxBin</div><div class="ttdoc">Gets or sets the current max bin. </div><div class="ttdef"><b>Definition:</b> <a href="_heat_map_view_model_8cs_source.html#l00187">HeatMapViewModel.cs:187</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_heat_map_view_model_html_a1528078b97682e2dcf425c58cff93c64"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a1528078b97682e2dcf425c58cff93c64">Atreyu.ViewModels.HeatMapViewModel.CurrentMinScan</a></div><div class="ttdeci">int CurrentMinScan</div><div class="ttdoc">Gets or sets the current min scan. </div><div class="ttdef"><b>Definition:</b> <a href="_heat_map_view_model_8cs_source.html#l00235">HeatMapViewModel.cs:235</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_a9be17e50c8b3684cc5b9dd770df59920"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a9be17e50c8b3684cc5b9dd770df59920">Atreyu.ViewModels.MzSpectraViewModel.BinToMzMap</a></div><div class="ttdeci">double[] BinToMzMap</div><div class="ttdoc">Gets or sets the bin to mz map. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00133">MzSpectraViewModel.cs:133</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_af094793d9c5375f30739461ae564c5aa"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#af094793d9c5375f30739461ae564c5aa">Atreyu.ViewModels.MzSpectraViewModel.UpdateReference</a></div><div class="ttdeci">void UpdateReference(UimfData uimfDataNew)</div><div class="ttdoc">Updates the reference to UIMF data. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00408">MzSpectraViewModel.cs:408</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_a9be17e50c8b3684cc5b9dd770df59920"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a9be17e50c8b3684cc5b9dd770df59920">Atreyu.ViewModels.MzSpectraViewModel.BinToMzMap</a></div><div class="ttdeci">double[] BinToMzMap</div><div class="ttdoc">Gets or sets the bin to mz map. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00130">MzSpectraViewModel.cs:130</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_af094793d9c5375f30739461ae564c5aa"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#af094793d9c5375f30739461ae564c5aa">Atreyu.ViewModels.MzSpectraViewModel.UpdateReference</a></div><div class="ttdeci">void UpdateReference(UimfData uimfDataNew)</div><div class="ttdoc">Updates the reference to UIMF data. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00405">MzSpectraViewModel.cs:405</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_heat_map_view_model_html_a8545100d6f4f3fa4e9a2e34ae901dd9e"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a8545100d6f4f3fa4e9a2e34ae901dd9e">Atreyu.ViewModels.HeatMapViewModel.CurrentBinRange</a></div><div class="ttdeci">BinRange CurrentBinRange</div><div class="ttdoc">Gets or sets the current bin range. </div><div class="ttdef"><b>Definition:</b> <a href="_heat_map_view_model_8cs_source.html#l00155">HeatMapViewModel.cs:155</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_heat_map_view_model_html_a8c5609c0aec0f7cd89785e9da17644b2"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a8c5609c0aec0f7cd89785e9da17644b2">Atreyu.ViewModels.HeatMapViewModel.CurrentScanRange</a></div><div class="ttdeci">ScanRange CurrentScanRange</div><div class="ttdoc">Gets or sets the current scan range. </div><div class="ttdef"><b>Definition:</b> <a href="_heat_map_view_model_8cs_source.html#l00251">HeatMapViewModel.cs:251</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_a9e4b64c6a1a88593eb03c29474e551e2"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a9e4b64c6a1a88593eb03c29474e551e2">Atreyu.ViewModels.MzSpectraViewModel.ShowMz</a></div><div class="ttdeci">bool ShowMz</div><div class="ttdoc">Gets or sets a value indicating whether show mz. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00186">MzSpectraViewModel.cs:186</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_a47849a62728e48620a60a250f72b16ef"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a47849a62728e48620a60a250f72b16ef">Atreyu.ViewModels.MzSpectraViewModel.Calibrator</a></div><div class="ttdeci">MzCalibrator Calibrator</div><div class="ttdoc">Gets or sets the mz calibrator. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00138">MzSpectraViewModel.cs:138</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_ac66d6a86be6dc8bc599801ec6b879937"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#ac66d6a86be6dc8bc599801ec6b879937">Atreyu.ViewModels.CombinedHeatmapViewModel.Width</a></div><div class="ttdeci">int Width</div><div class="ttdoc">Gets the width of the Heat map plot. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00289">CombinedHeatmapViewModel.cs:289</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_a9e4b64c6a1a88593eb03c29474e551e2"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a9e4b64c6a1a88593eb03c29474e551e2">Atreyu.ViewModels.MzSpectraViewModel.ShowMz</a></div><div class="ttdeci">bool ShowMz</div><div class="ttdoc">Gets or sets a value indicating whether show mz. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00183">MzSpectraViewModel.cs:183</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_a47849a62728e48620a60a250f72b16ef"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a47849a62728e48620a60a250f72b16ef">Atreyu.ViewModels.MzSpectraViewModel.Calibrator</a></div><div class="ttdeci">MzCalibrator Calibrator</div><div class="ttdoc">Gets or sets the mz calibrator. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00135">MzSpectraViewModel.cs:135</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_ac66d6a86be6dc8bc599801ec6b879937"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#ac66d6a86be6dc8bc599801ec6b879937">Atreyu.ViewModels.CombinedHeatmapViewModel.Width</a></div><div class="ttdeci">int Width</div><div class="ttdoc">Gets the width of the Heat map plot. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00399">CombinedHeatmapViewModel.cs:399</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_frame_manipulation_view_model_html_ac302f57de524c0b530f140fe1fb0a15b"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_frame_manipulation_view_model.html#ac302f57de524c0b530f140fe1fb0a15b">Atreyu.ViewModels.FrameManipulationViewModel.FrameType</a></div><div class="ttdeci">string FrameType</div><div class="ttdoc">Gets or sets the frame type. </div><div class="ttdef"><b>Definition:</b> <a href="_frame_manipulation_view_model_8cs_source.html#l00127">FrameManipulationViewModel.cs:127</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_a041130d9c959a916fad0cb1cb1ca34e8"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">Atreyu.ViewModels.CombinedHeatmapViewModel.HeatMapViewModel</a></div><div class="ttdeci">HeatMapViewModel HeatMapViewModel</div><div class="ttdoc">Gets the heat map view model. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00236">CombinedHeatmapViewModel.cs:236</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model_html_a98e66394a077e05888d97ecada4ddcf4"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#a98e66394a077e05888d97ecada4ddcf4">Atreyu.ViewModels.TotalIonChromatogramViewModel.UpdateFrameData</a></div><div class="ttdeci">void UpdateFrameData(double[,] data)</div><div class="ttdoc">The update frame data. </div><div class="ttdef"><b>Definition:</b> <a href="_total_ion_chromatogram_view_model_8cs_source.html#l00187">TotalIonChromatogramViewModel.cs:187</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_a95c8a3af88a2fb50eef88d0c16207ee2"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a95c8a3af88a2fb50eef88d0c16207ee2">Atreyu.ViewModels.CombinedHeatmapViewModel.FrameManipulationViewModel</a></div><div class="ttdeci">FrameManipulationViewModel FrameManipulationViewModel</div><div class="ttdoc">Gets the frame manipulation view model. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00231">CombinedHeatmapViewModel.cs:231</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_ac7eabf0685c3a117deb85bd40df1efc8"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#ac7eabf0685c3a117deb85bd40df1efc8">Atreyu.ViewModels.MzSpectraViewModel.ChangeStartBin</a></div><div class="ttdeci">void ChangeStartBin(int bin)</div><div class="ttdoc">Changes the start bin for proper graph display. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00240">MzSpectraViewModel.cs:240</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model_html_ad0da4f7f38427b5418330ca8d451ff1c"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#ad0da4f7f38427b5418330ca8d451ff1c">Atreyu.ViewModels.TotalIonChromatogramViewModel.UpdateReference</a></div><div class="ttdeci">void UpdateReference(UimfData uimfDataNew)</div><div class="ttdoc">The update reference. </div><div class="ttdef"><b>Definition:</b> <a href="_total_ion_chromatogram_view_model_8cs_source.html#l00253">TotalIonChromatogramViewModel.cs:253</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_a041130d9c959a916fad0cb1cb1ca34e8"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a041130d9c959a916fad0cb1cb1ca34e8">Atreyu.ViewModels.CombinedHeatmapViewModel.HeatMapViewModel</a></div><div class="ttdeci">HeatMapViewModel HeatMapViewModel</div><div class="ttdoc">Gets the heat map view model. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00298">CombinedHeatmapViewModel.cs:298</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model_html_a98e66394a077e05888d97ecada4ddcf4"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#a98e66394a077e05888d97ecada4ddcf4">Atreyu.ViewModels.TotalIonChromatogramViewModel.UpdateFrameData</a></div><div class="ttdeci">void UpdateFrameData(double[,] data)</div><div class="ttdoc">The update frame data. </div><div class="ttdef"><b>Definition:</b> <a href="_total_ion_chromatogram_view_model_8cs_source.html#l00184">TotalIonChromatogramViewModel.cs:184</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_a95c8a3af88a2fb50eef88d0c16207ee2"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a95c8a3af88a2fb50eef88d0c16207ee2">Atreyu.ViewModels.CombinedHeatmapViewModel.FrameManipulationViewModel</a></div><div class="ttdeci">FrameManipulationViewModel FrameManipulationViewModel</div><div class="ttdoc">Gets the frame manipulation view model. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00293">CombinedHeatmapViewModel.cs:293</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_ac7eabf0685c3a117deb85bd40df1efc8"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#ac7eabf0685c3a117deb85bd40df1efc8">Atreyu.ViewModels.MzSpectraViewModel.ChangeStartBin</a></div><div class="ttdeci">void ChangeStartBin(int bin)</div><div class="ttdoc">Changes the start bin for proper graph display. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00237">MzSpectraViewModel.cs:237</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model_html_ad0da4f7f38427b5418330ca8d451ff1c"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#ad0da4f7f38427b5418330ca8d451ff1c">Atreyu.ViewModels.TotalIonChromatogramViewModel.UpdateReference</a></div><div class="ttdeci">void UpdateReference(UimfData uimfDataNew)</div><div class="ttdoc">The update reference. </div><div class="ttdef"><b>Definition:</b> <a href="_total_ion_chromatogram_view_model_8cs_source.html#l00250">TotalIonChromatogramViewModel.cs:250</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_heat_map_view_model_html_a7cadcca09a118d06502d6276357ed66a"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a7cadcca09a118d06502d6276357ed66a">Atreyu.ViewModels.HeatMapViewModel.BinToMzMap</a></div><div class="ttdeci">double[] BinToMzMap</div><div class="ttdoc">Gets or sets the bin to mz map. </div><div class="ttdef"><b>Definition:</b> <a href="_heat_map_view_model_8cs_source.html#l00149">HeatMapViewModel.cs:149</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model_html_a2a8055648a857ead7391b5367ed2a4ca"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#a2a8055648a857ead7391b5367ed2a4ca">Atreyu.ViewModels.TotalIonChromatogramViewModel.ChangeEndScan</a></div><div class="ttdeci">void ChangeEndScan(int value)</div><div class="ttdoc">The change end scan. </div><div class="ttdef"><b>Definition:</b> <a href="_total_ion_chromatogram_view_model_8cs_source.html#l00134">TotalIonChromatogramViewModel.cs:134</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_heat_map_view_model_html_a7f414cec15e60fb388222c275330d81b"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a7f414cec15e60fb388222c275330d81b">Atreyu.ViewModels.HeatMapViewModel.UpdateReference</a></div><div class="ttdeci">void UpdateReference(UimfData uimfData)</div><div class="ttdoc">The update reference. </div><div class="ttdef"><b>Definition:</b> <a href="_heat_map_view_model_8cs_source.html#l00532">HeatMapViewModel.cs:532</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_a27e5d7fe0be69f8ef9900fe95ce8b52e"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a27e5d7fe0be69f8ef9900fe95ce8b52e">Atreyu.ViewModels.MzSpectraViewModel.UpdateFrameData</a></div><div class="ttdeci">void UpdateFrameData(double[,] framedata)</div><div class="ttdoc">Update frame data. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00323">MzSpectraViewModel.cs:323</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_a0345b542e8d5652529a7cf00ea8a48e3"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a0345b542e8d5652529a7cf00ea8a48e3">Atreyu.ViewModels.MzSpectraViewModel.MzIntensities</a></div><div class="ttdeci">int[] MzIntensities</div><div class="ttdoc">Gets or sets the mz intensities. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00164">MzSpectraViewModel.cs:164</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model_html_a2a8055648a857ead7391b5367ed2a4ca"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#a2a8055648a857ead7391b5367ed2a4ca">Atreyu.ViewModels.TotalIonChromatogramViewModel.ChangeEndScan</a></div><div class="ttdeci">void ChangeEndScan(int value)</div><div class="ttdoc">The change end scan. </div><div class="ttdef"><b>Definition:</b> <a href="_total_ion_chromatogram_view_model_8cs_source.html#l00131">TotalIonChromatogramViewModel.cs:131</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_heat_map_view_model_html_a7f414cec15e60fb388222c275330d81b"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a7f414cec15e60fb388222c275330d81b">Atreyu.ViewModels.HeatMapViewModel.UpdateReference</a></div><div class="ttdeci">void UpdateReference(UimfData uimfData)</div><div class="ttdoc">The update reference. </div><div class="ttdef"><b>Definition:</b> <a href="_heat_map_view_model_8cs_source.html#l00554">HeatMapViewModel.cs:554</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_a27e5d7fe0be69f8ef9900fe95ce8b52e"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a27e5d7fe0be69f8ef9900fe95ce8b52e">Atreyu.ViewModels.MzSpectraViewModel.UpdateFrameData</a></div><div class="ttdeci">void UpdateFrameData(double[,] framedata)</div><div class="ttdoc">Update frame data. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00320">MzSpectraViewModel.cs:320</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_ac7f332cb3e04d5184bfedba6c83a864d"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#ac7f332cb3e04d5184bfedba6c83a864d">Atreyu.ViewModels.CombinedHeatmapViewModel.CircularWaitIsVisible</a></div><div class="ttdeci">bool CircularWaitIsVisible</div><div class="ttdoc">Gets or sets a value indicating whether the circular wait is visible. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00262">CombinedHeatmapViewModel.cs:262</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_html_a0345b542e8d5652529a7cf00ea8a48e3"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html#a0345b542e8d5652529a7cf00ea8a48e3">Atreyu.ViewModels.MzSpectraViewModel.MzIntensities</a></div><div class="ttdeci">int[] MzIntensities</div><div class="ttdoc">Gets or sets the mz intensities. </div><div class="ttdef"><b>Definition:</b> <a href="_mz_spectra_view_model_8cs_source.html#l00161">MzSpectraViewModel.cs:161</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_heat_map_view_model_html_a5e3123fa48521fdfd749ccba7bd07941"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a5e3123fa48521fdfd749ccba7bd07941">Atreyu.ViewModels.HeatMapViewModel.CurrentMaxScan</a></div><div class="ttdeci">int CurrentMaxScan</div><div class="ttdoc">Gets or sets the current max scan. </div><div class="ttdef"><b>Definition:</b> <a href="_heat_map_view_model_8cs_source.html#l00203">HeatMapViewModel.cs:203</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_a56b59c2c8f70f59f2973fca5c719e913"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">Atreyu.ViewModels.CombinedHeatmapViewModel.MzSpectraViewModel</a></div><div class="ttdeci">MzSpectraViewModel MzSpectraViewModel</div><div class="ttdoc">Gets the mz spectra view model. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00262">CombinedHeatmapViewModel.cs:262</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_a0a880b8986096ae4e666e2346f08229f"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a0a880b8986096ae4e666e2346f08229f">Atreyu.ViewModels.CombinedHeatmapViewModel.Height</a></div><div class="ttdeci">int Height</div><div class="ttdoc">Gets the height of the Heat map plot. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00242">CombinedHeatmapViewModel.cs:242</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_adc3f0edf966d7a39453c7e88c38c5796"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#adc3f0edf966d7a39453c7e88c38c5796">Atreyu.ViewModels.CombinedHeatmapViewModel.SumFrames</a></div><div class="ttdeci">async void SumFrames(FrameRange sumFrames)</div><div class="ttdoc">The sum frames. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00418">CombinedHeatmapViewModel.cs:418</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_a56b59c2c8f70f59f2973fca5c719e913"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a56b59c2c8f70f59f2973fca5c719e913">Atreyu.ViewModels.CombinedHeatmapViewModel.MzSpectraViewModel</a></div><div class="ttdeci">MzSpectraViewModel MzSpectraViewModel</div><div class="ttdoc">Gets the mz spectra view model. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00356">CombinedHeatmapViewModel.cs:356</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_a0a880b8986096ae4e666e2346f08229f"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a0a880b8986096ae4e666e2346f08229f">Atreyu.ViewModels.CombinedHeatmapViewModel.Height</a></div><div class="ttdeci">int Height</div><div class="ttdoc">Gets the height of the Heat map plot. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00304">CombinedHeatmapViewModel.cs:304</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_adc3f0edf966d7a39453c7e88c38c5796"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#adc3f0edf966d7a39453c7e88c38c5796">Atreyu.ViewModels.CombinedHeatmapViewModel.SumFrames</a></div><div class="ttdeci">async void SumFrames(FrameRange sumFrames)</div><div class="ttdoc">The sum frames. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00533">CombinedHeatmapViewModel.cs:533</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_heat_map_view_model_html_a61a028dab0f0fef830427b446d131f1d"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a61a028dab0f0fef830427b446d131f1d">Atreyu.ViewModels.HeatMapViewModel.CurrentMinBin</a></div><div class="ttdeci">int CurrentMinBin</div><div class="ttdoc">Gets or sets the current min bin. </div><div class="ttdef"><b>Definition:</b> <a href="_heat_map_view_model_8cs_source.html#l00219">HeatMapViewModel.cs:219</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_acd9b65854ee9c33ebede4e71638d81ce"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#acd9b65854ee9c33ebede4e71638d81ce">Atreyu.ViewModels.CombinedHeatmapViewModel.TotalIonChromatogramViewModel</a></div><div class="ttdeci">TotalIonChromatogramViewModel TotalIonChromatogramViewModel</div><div class="ttdoc">Gets the total ion chromatogram view model. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00267">CombinedHeatmapViewModel.cs:267</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model_html_ad7c1488768aefccff2700f5442b81afd"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#ad7c1488768aefccff2700f5442b81afd">Atreyu.ViewModels.TotalIonChromatogramViewModel.ChangeStartScan</a></div><div class="ttdeci">void ChangeStartScan(int value)</div><div class="ttdoc">The change start scan. </div><div class="ttdef"><b>Definition:</b> <a href="_total_ion_chromatogram_view_model_8cs_source.html#l00145">TotalIonChromatogramViewModel.cs:145</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_aee65aecfb043d9128b10654ce80832a0"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">Atreyu.ViewModels.CombinedHeatmapViewModel.UimfData</a></div><div class="ttdeci">UimfData UimfData</div><div class="ttdoc">Gets or sets the data relevant to the UIMF that is loaded. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00273">CombinedHeatmapViewModel.cs:273</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_acd9b65854ee9c33ebede4e71638d81ce"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#acd9b65854ee9c33ebede4e71638d81ce">Atreyu.ViewModels.CombinedHeatmapViewModel.TotalIonChromatogramViewModel</a></div><div class="ttdeci">TotalIonChromatogramViewModel TotalIonChromatogramViewModel</div><div class="ttdoc">Gets the total ion chromatogram view model. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00377">CombinedHeatmapViewModel.cs:377</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model_html_ad7c1488768aefccff2700f5442b81afd"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_total_ion_chromatogram_view_model.html#ad7c1488768aefccff2700f5442b81afd">Atreyu.ViewModels.TotalIonChromatogramViewModel.ChangeStartScan</a></div><div class="ttdeci">void ChangeStartScan(int value)</div><div class="ttdoc">The change start scan. </div><div class="ttdef"><b>Definition:</b> <a href="_total_ion_chromatogram_view_model_8cs_source.html#l00142">TotalIonChromatogramViewModel.cs:142</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_aee65aecfb043d9128b10654ce80832a0"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">Atreyu.ViewModels.CombinedHeatmapViewModel.UimfData</a></div><div class="ttdeci">UimfData UimfData</div><div class="ttdoc">Gets or sets the data relevant to the UIMF that is loaded. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00383">CombinedHeatmapViewModel.cs:383</a></div></div>
 </div><!-- fragment -->
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
@@ -419,10 +476,10 @@ Here is the call graph for this function:</div>
 <p>The export heatmap data compressed. </p>
 <dl class="section return"><dt>Returns</dt><dd>The 2d array of doubles that represents that data in the view. </dd></dl>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00316">316</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        {</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;            <span class="keywordflow">return</span> this.HeatMapViewModel.GetCompressedDataInView();</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        }</div>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00426">426</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;        {</div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;            <span class="keywordflow">return</span> this.HeatMapViewModel.GetCompressedDataInView();</div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -442,10 +499,10 @@ Here is the call graph for this function:</div>
 <p>The export mz data compressed method. </p>
 <dl class="section return"><dt>Returns</dt><dd>The dictionary of data, keyed by mz. </dd></dl>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00327">327</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;        {</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;            <span class="keywordflow">return</span> this.MzSpectraViewModel.GetMzDataCompressed();</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;        }</div>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00437">437</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;        {</div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;            <span class="keywordflow">return</span> this.MzSpectraViewModel.GetMzDataCompressed();</div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -465,10 +522,10 @@ Here is the call graph for this function:</div>
 <p>The export tic data compressed method. </p>
 <dl class="section return"><dt>Returns</dt><dd>The dictionary of data, keyed by scan. </dd></dl>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00338">338</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;        {</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;            <span class="keywordflow">return</span> this.TotalIonChromatogramViewModel.GetTicData();</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;        }</div>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00448">448</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;        {</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;            <span class="keywordflow">return</span> this.TotalIonChromatogramViewModel.GetTicData();</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -486,7 +543,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>The set up plot mthod. </p>
+<p>The set up plot method. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">frameNumber</td><td>The frame number to load. </td></tr>
@@ -495,23 +552,23 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The Task. </dd></dl>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00352">352</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;        {</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;            this.currentStartFrame = frameNumber;</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;            this.currentEndFrame = frameNumber;</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;            await</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;                this.UimfData.ReadData(</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;                    1, </div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;                    this.UimfData.MaxBins, </div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;                    frameNumber, </div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;                    frameNumber, </div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;                    this.Height, </div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;                    this.Width, </div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;                    0, </div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;                    this.UimfData.Scans, </div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;                    <a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a0a81439a33c11503c62c94ff63c983d9">ReturnGatedData</a>);</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;        }</div>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00462">462</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;        {</div>
+<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;            this.currentStartFrame = frameNumber;</div>
+<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;            this.currentEndFrame = frameNumber;</div>
+<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;</div>
+<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;            await</div>
+<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;                this.UimfData.ReadData(</div>
+<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;                    1, </div>
+<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;                    this.UimfData.MaxBins, </div>
+<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;                    frameNumber, </div>
+<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;                    frameNumber, </div>
+<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;                    this.Height, </div>
+<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;                    this.Width, </div>
+<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;                    0, </div>
+<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;                    this.UimfData.Scans, </div>
+<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;                    <a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a0a81439a33c11503c62c94ff63c983d9">ReturnGatedData</a>);</div>
+<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;        }</div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_a0a81439a33c11503c62c94ff63c983d9"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a0a81439a33c11503c62c94ff63c983d9">Atreyu.ViewModels.CombinedHeatmapViewModel.ReturnGatedData</a></div><div class="ttdeci">const bool ReturnGatedData</div><div class="ttdoc">The return gated data bool. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00054">CombinedHeatmapViewModel.cs:54</a></div></div>
 </div><!-- fragment -->
 </div>
@@ -532,23 +589,23 @@ Here is the call graph for this function:</div>
 <p>The get image method. </p>
 <dl class="section return"><dt>Returns</dt><dd>The Image of the current three plots in view. </dd></dl>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00376">376</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;        {</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;            var tic = this.TotalIonChromatogramViewModel.GetTicImage();</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;            var mz = this.MzSpectraViewModel.GetMzImage();</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;            var heatmap = this.HeatMapViewModel.GetHeatmapImage();</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">int</span> Alignment = 25;</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;            var bitmap = <span class="keyword">new</span> Bitmap(mz.Width + heatmap.Width, heatmap.Height + tic.Height + Alignment);</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;            <span class="keyword">using</span> (var g = Graphics.FromImage(bitmap))</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;            {</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;                g.DrawImage(mz, 0, 0);</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;                g.DrawImage(heatmap, mz.Width, Alignment);</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;                g.DrawImage(tic, mz.Width, heatmap.Height + Alignment);</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;            }</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;            <span class="keywordflow">return</span> bitmap;</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;        }</div>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00486">486</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;        {</div>
+<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;            var tic = this.TotalIonChromatogramViewModel.GetTicImage();</div>
+<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;            var mz = this.MzSpectraViewModel.GetMzImage();</div>
+<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;            var heatmap = this.HeatMapViewModel.GetHeatmapImage();</div>
+<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">int</span> Alignment = 25;</div>
+<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;</div>
+<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;            var bitmap = <span class="keyword">new</span> Bitmap(mz.Width + heatmap.Width, heatmap.Height + tic.Height + Alignment);</div>
+<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;            <span class="keyword">using</span> (var g = Graphics.FromImage(bitmap))</div>
+<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;            {</div>
+<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;                g.DrawImage(mz, 0, 0);</div>
+<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;                g.DrawImage(heatmap, mz.Width, Alignment);</div>
+<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;                g.DrawImage(tic, mz.Width, heatmap.Height + Alignment);</div>
+<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;            }</div>
+<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;</div>
+<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;            <span class="keywordflow">return</span> bitmap;</div>
+<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -575,15 +632,20 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The Task. </dd></dl>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00403">403</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;        {</div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;            this.UimfData = <span class="keyword">new</span> <a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a>(file) { CurrentMinBin = 0 };</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;            this.UimfData.CurrentMaxBin = this.UimfData.TotalBins;</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;            await this.FetchSingleFrame(1);</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;            this.CurrentFile = Path.GetFileNameWithoutExtension(file);</div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;            this.HeatMapViewModel.CurrentFile = Path.GetFileNameWithoutExtension(file);</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;        }</div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_aee65aecfb043d9128b10654ce80832a0"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">Atreyu.ViewModels.CombinedHeatmapViewModel.UimfData</a></div><div class="ttdeci">UimfData UimfData</div><div class="ttdoc">Gets or sets the data relevant to the UIMF that is loaded. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00273">CombinedHeatmapViewModel.cs:273</a></div></div>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00513">513</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;        {</div>
+<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;            <span class="keywordflow">if</span> (<span class="keywordtype">string</span>.IsNullOrWhiteSpace(file))</div>
+<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;            {</div>
+<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;                <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;            }</div>
+<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;</div>
+<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;            this.UimfData = <span class="keyword">new</span> <a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a>(file) { CurrentMinBin = 0 };</div>
+<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;            this.UimfData.CurrentMaxBin = this.UimfData.TotalBins;</div>
+<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;            await this.FetchSingleFrame(1);</div>
+<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;            this.CurrentFile = Path.GetFileNameWithoutExtension(file);</div>
+<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;            this.HeatMapViewModel.CurrentFile = Path.GetFileNameWithoutExtension(file);</div>
+<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;        }</div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_aee65aecfb043d9128b10654ce80832a0"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">Atreyu.ViewModels.CombinedHeatmapViewModel.UimfData</a></div><div class="ttdeci">UimfData UimfData</div><div class="ttdoc">Gets or sets the data relevant to the UIMF that is loaded. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00383">CombinedHeatmapViewModel.cs:383</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -609,36 +671,36 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00418">418</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;        {</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;            <span class="keywordflow">if</span> (sumFrames == null)</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;            {</div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;                <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;            }</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;</div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;            <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a> == null)</div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;            {</div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;                <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;            }</div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;</div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;            this.currentStartFrame = sumFrames.StartFrame &lt; 1 ? 1 : sumFrames.StartFrame;</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;</div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;            this.currentEndFrame = sumFrames.EndFrame &lt; 1 ? 1 : sumFrames.EndFrame;</div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;            await</div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;                this.UimfData.ReadData(</div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;                    this.UimfData.CurrentMinBin, </div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;                    this.UimfData.CurrentMaxBin, </div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;                    this.currentStartFrame, </div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;                    this.currentEndFrame, </div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;                    this.Height, </div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;                    this.Width, </div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;                    this.UimfData.StartScan, </div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;                    this.UimfData.EndScan, </div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;                    <a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a0a81439a33c11503c62c94ff63c983d9">ReturnGatedData</a>);</div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;        }</div>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00533">533</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;        {</div>
+<div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;            <span class="keywordflow">if</span> (sumFrames == null)</div>
+<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;            {</div>
+<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;                <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;            }</div>
+<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;</div>
+<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;            <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a> == null)</div>
+<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;            {</div>
+<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;                <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;            }</div>
+<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;</div>
+<div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160;            this.currentStartFrame = sumFrames.StartFrame &lt; 1 ? 1 : sumFrames.StartFrame;</div>
+<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160;</div>
+<div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;            this.currentEndFrame = sumFrames.EndFrame &lt; 1 ? 1 : sumFrames.EndFrame;</div>
+<div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;</div>
+<div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160;            await</div>
+<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;                this.UimfData.ReadData(</div>
+<div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;                    this.UimfData.CurrentMinBin, </div>
+<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;                    this.UimfData.CurrentMaxBin, </div>
+<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;                    this.currentStartFrame, </div>
+<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;                    this.currentEndFrame, </div>
+<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;                    this.Height, </div>
+<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;                    this.Width, </div>
+<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;                    this.UimfData.StartScan, </div>
+<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;                    this.UimfData.EndScan, </div>
+<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;                    <a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a0a81439a33c11503c62c94ff63c983d9">ReturnGatedData</a>);</div>
+<div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160;        }</div>
 <div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_a0a81439a33c11503c62c94ff63c983d9"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#a0a81439a33c11503c62c94ff63c983d9">Atreyu.ViewModels.CombinedHeatmapViewModel.ReturnGatedData</a></div><div class="ttdeci">const bool ReturnGatedData</div><div class="ttdoc">The return gated data bool. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00054">CombinedHeatmapViewModel.cs:54</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_aee65aecfb043d9128b10654ce80832a0"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">Atreyu.ViewModels.CombinedHeatmapViewModel.UimfData</a></div><div class="ttdeci">UimfData UimfData</div><div class="ttdoc">Gets or sets the data relevant to the UIMF that is loaded. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00273">CombinedHeatmapViewModel.cs:273</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_aee65aecfb043d9128b10654ce80832a0"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">Atreyu.ViewModels.CombinedHeatmapViewModel.UimfData</a></div><div class="ttdeci">UimfData UimfData</div><div class="ttdoc">Gets or sets the data relevant to the UIMF that is loaded. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00383">CombinedHeatmapViewModel.cs:383</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -664,16 +726,50 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00453">453</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;        {</div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;            <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a> == null)</div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;            {</div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;                <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;            }</div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;</div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;            this.UimfData.UpdateLowGate(gate);</div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;        }</div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_aee65aecfb043d9128b10654ce80832a0"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">Atreyu.ViewModels.CombinedHeatmapViewModel.UimfData</a></div><div class="ttdeci">UimfData UimfData</div><div class="ttdoc">Gets or sets the data relevant to the UIMF that is loaded. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00273">CombinedHeatmapViewModel.cs:273</a></div></div>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00568">568</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;        {</div>
+<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;            <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a> == null)</div>
+<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;            {</div>
+<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;                <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;            }</div>
+<div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160;</div>
+<div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;            this.UimfData.UpdateLowGate(gate);</div>
+<div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160;        }</div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_aee65aecfb043d9128b10654ce80832a0"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">Atreyu.ViewModels.CombinedHeatmapViewModel.UimfData</a></div><div class="ttdeci">UimfData UimfData</div><div class="ttdoc">Gets or sets the data relevant to the UIMF that is loaded. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00383">CombinedHeatmapViewModel.cs:383</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a50e2721e6c2514d86eaa88a7cc9551a5"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">async Task Atreyu.ViewModels.CombinedHeatmapViewModel.UpdateMzWindow </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Updates the mz window. </p>
+<dl class="section return"><dt>Returns</dt><dd>The Task. </dd></dl>
+
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00605">605</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;        {</div>
+<div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;            this.mzWindow = this.uimfData.GetBinRangeForMzWindow(this.MzCenter, this.PartsPerMillion);</div>
+<div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;            this.HeatMapViewModel.MzWindow = this.mzWindow;</div>
+<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;            this.UimfData.RangeUpdateList.Enqueue(this.mzWindow);</div>
+<div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160;            await this.UimfData.CheckQueue();</div>
+<div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -693,26 +789,75 @@ Here is the call graph for this function:</div>
 <p>The zoom out. </p>
 <dl class="section return"><dt>Returns</dt><dd>The Task. </dd></dl>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00469">469</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00584">584</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
 
-<p>References <a class="el" href="_uimf_data_8cs_source.html#l00441">Atreyu.Models.UimfData.MaxBins</a>, and <a class="el" href="_uimf_data_8cs_source.html#l00505">Atreyu.Models.UimfData.Scans</a>.</p>
-<div class="fragment"><div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;        {</div>
-<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;            var scanRange = <span class="keyword">new</span> <a class="code" href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362a09434489ff1c422748213ec680e69854">ScanRange</a>(0, this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a>.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#af051d43e75c352c6e1f82881e994a576">Scans</a>);</div>
-<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;            var binRange = <span class="keyword">new</span> <a class="code" href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362a849f2309e2ab4e40463cb4fcf20862f2">BinRange</a>(0, this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a>.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#abc5c044f9a98108571f1857f2cd06c04">MaxBins</a>);</div>
-<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;</div>
-<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;            this.UimfData.RangeUpdateList.Enqueue(scanRange);</div>
-<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;            this.UimfData.RangeUpdateList.Enqueue(binRange);</div>
-<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;            await this.UimfData.CheckQueue();</div>
-<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;        }</div>
+<p>References <a class="el" href="_uimf_data_8cs_source.html#l00467">Atreyu.Models.UimfData.MaxBins</a>, and <a class="el" href="_uimf_data_8cs_source.html#l00541">Atreyu.Models.UimfData.Scans</a>.</p>
+<div class="fragment"><div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;        {</div>
+<div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;            var scanRange = <span class="keyword">new</span> <a class="code" href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362a09434489ff1c422748213ec680e69854">ScanRange</a>(0, this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a>.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#af051d43e75c352c6e1f82881e994a576">Scans</a>);</div>
+<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;</div>
+<div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160;            var binRange = this.windowMz ? this.mzWindow : <span class="keyword">new</span> <a class="code" href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362a849f2309e2ab4e40463cb4fcf20862f2">BinRange</a>(0, this.<a class="code" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">UimfData</a>.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#abc5c044f9a98108571f1857f2cd06c04">MaxBins</a>);</div>
+<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;</div>
+<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;            this.UimfData.RangeUpdateList.Enqueue(scanRange);</div>
+<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;            this.UimfData.RangeUpdateList.Enqueue(binRange);</div>
+<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;            await this.UimfData.CheckQueue();</div>
+<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;        }</div>
 <div class="ttc" id="namespace_atreyu_1_1_models_html_a61e06e946363f7e1ff66e584a1b24362a09434489ff1c422748213ec680e69854"><div class="ttname"><a href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362a09434489ff1c422748213ec680e69854">Atreyu.Models.ScanRange</a></div><div class="ttdoc">The scan range. </div></div>
-<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_af051d43e75c352c6e1f82881e994a576"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#af051d43e75c352c6e1f82881e994a576">Atreyu.Models.UimfData.Scans</a></div><div class="ttdeci">int Scans</div><div class="ttdoc">Gets the scans. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00505">UimfData.cs:505</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_af051d43e75c352c6e1f82881e994a576"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#af051d43e75c352c6e1f82881e994a576">Atreyu.Models.UimfData.Scans</a></div><div class="ttdeci">int Scans</div><div class="ttdoc">Gets the scans. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00541">UimfData.cs:541</a></div></div>
 <div class="ttc" id="namespace_atreyu_1_1_models_html_a61e06e946363f7e1ff66e584a1b24362a849f2309e2ab4e40463cb4fcf20862f2"><div class="ttname"><a href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362a849f2309e2ab4e40463cb4fcf20862f2">Atreyu.Models.BinRange</a></div><div class="ttdoc">The bin range. </div></div>
-<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_abc5c044f9a98108571f1857f2cd06c04"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#abc5c044f9a98108571f1857f2cd06c04">Atreyu.Models.UimfData.MaxBins</a></div><div class="ttdeci">int MaxBins</div><div class="ttdoc">Gets or sets the max bins. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00441">UimfData.cs:441</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_aee65aecfb043d9128b10654ce80832a0"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">Atreyu.ViewModels.CombinedHeatmapViewModel.UimfData</a></div><div class="ttdeci">UimfData UimfData</div><div class="ttdoc">Gets or sets the data relevant to the UIMF that is loaded. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00273">CombinedHeatmapViewModel.cs:273</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_abc5c044f9a98108571f1857f2cd06c04"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#abc5c044f9a98108571f1857f2cd06c04">Atreyu.Models.UimfData.MaxBins</a></div><div class="ttdeci">int MaxBins</div><div class="ttdoc">Gets or sets the max bins. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00467">UimfData.cs:467</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model_html_aee65aecfb043d9128b10654ce80832a0"><div class="ttname"><a href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html#aee65aecfb043d9128b10654ce80832a0">Atreyu.ViewModels.CombinedHeatmapViewModel.UimfData</a></div><div class="ttdeci">UimfData UimfData</div><div class="ttdoc">Gets or sets the data relevant to the UIMF that is loaded. </div><div class="ttdef"><b>Definition:</b> <a href="_combined_heatmap_view_model_8cs_source.html#l00383">CombinedHeatmapViewModel.cs:383</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="ad74beb5b4803614ea5ade10923a46d72"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double Atreyu.ViewModels.CombinedHeatmapViewModel.centerMz = 1000.0D</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The center of the m/z window. </p>
+
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00063">63</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5b78389455422471a961ff3171243b19"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Atreyu.ViewModels.CombinedHeatmapViewModel.circularWaitIsVisible</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A private backing field for a property that indicates whether The circular wait is visible. </p>
+
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00068">68</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a1961815396b520108ee94f78df099531"></a>
 <div class="memitem">
 <div class="memproto">
@@ -733,7 +878,7 @@ Here is the call graph for this function:</div>
 
 <p>The current end frame. </p>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00063">63</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00073">73</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
 
 </div>
 </div>
@@ -757,7 +902,7 @@ Here is the call graph for this function:</div>
 
 <p>The name of the current file that is loaded, without path or extension. </p>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00068">68</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00078">78</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
 
 </div>
 </div>
@@ -781,7 +926,7 @@ Here is the call graph for this function:</div>
 
 <p>The current start frame. </p>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00073">73</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00083">83</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
 
 </div>
 </div>
@@ -805,7 +950,55 @@ Here is the call graph for this function:</div>
 
 <p>The height of the view. </p>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00078">78</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00088">88</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a17c8e3d54c42b3bcae07665bc57f13df"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_atreyu_1_1_models_1_1_bin_range.html">BinRange</a> Atreyu.ViewModels.CombinedHeatmapViewModel.mzWindow = new <a class="el" href="class_atreyu_1_1_models_1_1_bin_range.html">BinRange</a>()</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The m/z window represented as a BinRange. </p>
+
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00093">93</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9c50e85e5b0aabbbd1d456520803da9b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double Atreyu.ViewModels.CombinedHeatmapViewModel.partsPerMillion = 150.0D</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The parts per million tolerance for the m/z window. </p>
+
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00098">98</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
 
 </div>
 </div>
@@ -853,7 +1046,7 @@ Here is the call graph for this function:</div>
 
 <p>The uimf data. </p>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00083">83</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00103">103</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
 
 </div>
 </div>
@@ -877,11 +1070,59 @@ Here is the call graph for this function:</div>
 
 <p>The width of the view. </p>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00088">88</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00108">108</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aebb659bfb53d211abf7dc2c3e4a8df8e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Atreyu.ViewModels.CombinedHeatmapViewModel.windowMz</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Whether or not to window the M/Z. </p>
+
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00113">113</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
+<a class="anchor" id="ac7f332cb3e04d5184bfedba6c83a864d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Atreyu.ViewModels.CombinedHeatmapViewModel.CircularWaitIsVisible</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets or sets a value indicating whether the circular wait is visible. </p>
+
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00262">262</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="ad98630495247fe6e3bb3db656dc76848"></a>
 <div class="memitem">
 <div class="memproto">
@@ -902,7 +1143,7 @@ Here is the call graph for this function:</div>
 
 <p>Gets or sets the current file. </p>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00216">216</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00278">278</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
 
 </div>
 </div>
@@ -926,7 +1167,7 @@ Here is the call graph for this function:</div>
 
 <p>Gets the frame manipulation view model. </p>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00231">231</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00293">293</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
 
 </div>
 </div>
@@ -950,7 +1191,7 @@ Here is the call graph for this function:</div>
 
 <p>Gets the heat map view model. </p>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00236">236</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00298">298</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
 
 </div>
 </div>
@@ -974,7 +1215,7 @@ Here is the call graph for this function:</div>
 
 <p>Gets the height of the Heat map plot. </p>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00242">242</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00304">304</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
 
 </div>
 </div>
@@ -998,7 +1239,55 @@ Here is the call graph for this function:</div>
 
 <p>Gets the low value gate slider view model. </p>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00257">257</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00319">319</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a78fc67f16ff52cad017c310564f7d8ae"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double Atreyu.ViewModels.CombinedHeatmapViewModel.MzCenter</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets or sets the mz center. </p>
+
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00325">325</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7cb4aa21d7154f5d0a53a0638509331a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Atreyu.ViewModels.CombinedHeatmapViewModel.MzRangeEnabled</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets or sets a value indicating whether mz range enabled. </p>
+
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00341">341</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
 
 </div>
 </div>
@@ -1022,7 +1311,31 @@ Here is the call graph for this function:</div>
 
 <p>Gets the mz spectra view model. </p>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00262">262</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00356">356</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aca616caffccf1cd3d8c55a587b51b6c9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double Atreyu.ViewModels.CombinedHeatmapViewModel.PartsPerMillion</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets or sets the parts per million. </p>
+
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00362">362</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
 
 </div>
 </div>
@@ -1046,7 +1359,7 @@ Here is the call graph for this function:</div>
 
 <p>Gets the total ion chromatogram view model. </p>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00267">267</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00377">377</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
 
 </div>
 </div>
@@ -1070,7 +1383,7 @@ Here is the call graph for this function:</div>
 
 <p>Gets or sets the data relevant to the UIMF that is loaded. </p>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00273">273</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00383">383</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
 
 </div>
 </div>
@@ -1094,7 +1407,7 @@ Here is the call graph for this function:</div>
 
 <p>Gets the width of the Heat map plot. </p>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00289">289</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00399">399</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
 
 </div>
 </div>
@@ -1118,7 +1431,7 @@ Here is the call graph for this function:</div>
 
 <p>Gets the zoom out full. </p>
 
-<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00304">304</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
+<p>Definition at line <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00414">414</a> of file <a class="el" href="_combined_heatmap_view_model_8cs_source.html">CombinedHeatmapViewModel.cs</a>.</p>
 
 </div>
 </div>
@@ -1131,7 +1444,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespace_atreyu.html">Atreyu</a></li><li class="navelem"><a class="el" href="namespace_atreyu_1_1_view_models.html">ViewModels</a></li><li class="navelem"><a class="el" href="class_atreyu_1_1_view_models_1_1_combined_heatmap_view_model.html">CombinedHeatmapViewModel</a></li>
-    <li class="footer">Generated on Thu Apr 30 2015 16:58:38 for Atreyu by
+    <li class="footer">Generated on Thu Jul 16 2015 07:27:59 for Atreyu by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
   </ul>

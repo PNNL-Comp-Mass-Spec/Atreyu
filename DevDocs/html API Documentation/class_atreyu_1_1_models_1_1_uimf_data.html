@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Atreyu
-   &#160;<span id="projectnumber">1.7</span>
+   &#160;<span id="projectnumber">1.8</span>
    </div>
    <div id="projectbrief">A light-weight Ion mobility mass spectrometry data viewer and extractor, targeted toward PNNL&#39;s UIMF files</div>
   </td>
@@ -112,6 +112,7 @@ $(document).ready(function(){initNavTree('class_atreyu_1_1_models_1_1_uimf_data.
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#properties">Properties</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_atreyu_1_1_models_1_1_uimf_data-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -133,7 +134,7 @@ Collaboration diagram for Atreyu.Models.UimfData:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_atreyu_1_1_models_1_1_uimf_data__coll__graph.png" border="0" usemap="#_atreyu_8_models_8_uimf_data_coll__map" alt="Collaboration graph"/></div>
 <map name="_atreyu_8_models_8_uimf_data_coll__map" id="_atreyu_8_models_8_uimf_data_coll__map">
-</map>
+<area shape="rect" id="node5" href="class_atreyu_1_1_models_1_1_range.html" title="The range. " alt="" coords="73,81,132,108"/><area shape="rect" id="node4" href="class_atreyu_1_1_models_1_1_bin_range.html" title="The bin range. " alt="" coords="74,157,241,184"/></map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -147,6 +148,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a12804b71c50d51fe9103c9d37343a516"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a12804b71c50d51fe9103c9d37343a516">Dispose</a> ()</td></tr>
 <tr class="memdesc:a12804b71c50d51fe9103c9d37343a516"><td class="mdescLeft">&#160;</td><td class="mdescRight">The dispose.  <a href="#a12804b71c50d51fe9103c9d37343a516">More...</a><br /></td></tr>
 <tr class="separator:a12804b71c50d51fe9103c9d37343a516"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5957d23142375ac02f6f8bbb95dbc0f7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_atreyu_1_1_models_1_1_bin_range.html">BinRange</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a5957d23142375ac02f6f8bbb95dbc0f7">GetBinRangeForMzWindow</a> (double centerMz, double partsPerMillionTolerance)</td></tr>
+<tr class="memdesc:a5957d23142375ac02f6f8bbb95dbc0f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get bin range for a given mz window.  <a href="#a5957d23142375ac02f6f8bbb95dbc0f7">More...</a><br /></td></tr>
+<tr class="separator:a5957d23142375ac02f6f8bbb95dbc0f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55eaac3f16736537e016f4e6bf88b2a7"><td class="memItemLeft" align="right" valign="top">Task&lt; List&lt; ScanInfo &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a55eaac3f16736537e016f4e6bf88b2a7">GetFullScanInfo</a> (int frameNumber)</td></tr>
 <tr class="memdesc:a55eaac3f16736537e016f4e6bf88b2a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get full total ion chromatogram with the key based on scan number  <a href="#a55eaac3f16736537e016f4e6bf88b2a7">More...</a><br /></td></tr>
 <tr class="separator:a55eaac3f16736537e016f4e6bf88b2a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -213,6 +217,9 @@ Properties</h2></td></tr>
 <tr class="memitem:ac7c0a9daa04cfb089dc954500d3fff5f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#ac7c0a9daa04cfb089dc954500d3fff5f">HighGate</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:ac7c0a9daa04cfb089dc954500d3fff5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the high gate.  <a href="#ac7c0a9daa04cfb089dc954500d3fff5f">More...</a><br /></td></tr>
 <tr class="separator:ac7c0a9daa04cfb089dc954500d3fff5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab775ef2cca1307693a4c454fe1eb6d1f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#ab775ef2cca1307693a4c454fe1eb6d1f">LoadingData</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:ab775ef2cca1307693a4c454fe1eb6d1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a value indicating whether this class is currently loading data or not.  <a href="#ab775ef2cca1307693a4c454fe1eb6d1f">More...</a><br /></td></tr>
+<tr class="separator:ab775ef2cca1307693a4c454fe1eb6d1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad58ba9a604c11abe4c889c10ba465cdd"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#ad58ba9a604c11abe4c889c10ba465cdd">LowGate</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:ad58ba9a604c11abe4c889c10ba465cdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the gate.  <a href="#ad58ba9a604c11abe4c889c10ba465cdd">More...</a><br /></td></tr>
 <tr class="separator:ad58ba9a604c11abe4c889c10ba465cdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -222,9 +229,15 @@ Properties</h2></td></tr>
 <tr class="memitem:a9c3149a8859d477829824723592822b2"><td class="memItemLeft" align="right" valign="top">double[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a9c3149a8859d477829824723592822b2">MzArray</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a9c3149a8859d477829824723592822b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the mz array.  <a href="#a9c3149a8859d477829824723592822b2">More...</a><br /></td></tr>
 <tr class="separator:a9c3149a8859d477829824723592822b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02d82d525ba92c8d667c5fac594b28e8"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a02d82d525ba92c8d667c5fac594b28e8">MzCenter</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a02d82d525ba92c8d667c5fac594b28e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets or sets the mz center.  <a href="#a02d82d525ba92c8d667c5fac594b28e8">More...</a><br /></td></tr>
+<tr class="separator:a02d82d525ba92c8d667c5fac594b28e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b49497c13c6dac7bda2c3ab06fde3d6"><td class="memItemLeft" align="right" valign="top">int[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a3b49497c13c6dac7bda2c3ab06fde3d6">MzIntensities</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a3b49497c13c6dac7bda2c3ab06fde3d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the mz intensities.  <a href="#a3b49497c13c6dac7bda2c3ab06fde3d6">More...</a><br /></td></tr>
 <tr class="separator:a3b49497c13c6dac7bda2c3ab06fde3d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5714cc57278411b4f412b5f486146f24"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a5714cc57278411b4f412b5f486146f24">PartsPerMillion</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a5714cc57278411b4f412b5f486146f24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets or sets the parts per million.  <a href="#a5714cc57278411b4f412b5f486146f24">More...</a><br /></td></tr>
+<tr class="separator:a5714cc57278411b4f412b5f486146f24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0388a0e34cc7c3ef976123a08a78ef25"><td class="memItemLeft" align="right" valign="top">ConcurrentQueue&lt; <a class="el" href="class_atreyu_1_1_models_1_1_range.html">Range</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a0388a0e34cc7c3ef976123a08a78ef25">RangeUpdateList</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a0388a0e34cc7c3ef976123a08a78ef25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the range update list.  <a href="#a0388a0e34cc7c3ef976123a08a78ef25">More...</a><br /></td></tr>
 <tr class="separator:a0388a0e34cc7c3ef976123a08a78ef25"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -246,18 +259,24 @@ Properties</h2></td></tr>
 <tr class="memitem:a011958ff28f0faebb33d2af8f48536b1"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a011958ff28f0faebb33d2af8f48536b1">ValuesPerPixelY</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a011958ff28f0faebb33d2af8f48536b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the values per pixel y.  <a href="#a011958ff28f0faebb33d2af8f48536b1">More...</a><br /></td></tr>
 <tr class="separator:a011958ff28f0faebb33d2af8f48536b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4457e49101cd3e516ded02964239abe5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a4457e49101cd3e516ded02964239abe5">WindowMz</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a4457e49101cd3e516ded02964239abe5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets or sets a value indicating whether window mz.  <a href="#a4457e49101cd3e516ded02964239abe5">More...</a><br /></td></tr>
+<tr class="separator:a4457e49101cd3e516ded02964239abe5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a424a9ce357b24cb132a0c956804ffa50"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a424a9ce357b24cb132a0c956804ffa50">GateData</a> ()</td></tr>
 <tr class="memdesc:a424a9ce357b24cb132a0c956804ffa50"><td class="mdescLeft">&#160;</td><td class="mdescRight">The gate data.  <a href="#a424a9ce357b24cb132a0c956804ffa50">More...</a><br /></td></tr>
 <tr class="separator:a424a9ce357b24cb132a0c956804ffa50"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a630a6054c6b0749ed9afcc8d26c475"><td class="memItemLeft" align="right" valign="top">DataReader.FrameType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a3a630a6054c6b0749ed9afcc8d26c475">GetFrameType</a> (string frameTypeString)</td></tr>
-<tr class="memdesc:a3a630a6054c6b0749ed9afcc8d26c475"><td class="mdescLeft">&#160;</td><td class="mdescRight">The get frame type.  <a href="#a3a630a6054c6b0749ed9afcc8d26c475">More...</a><br /></td></tr>
-<tr class="separator:a3a630a6054c6b0749ed9afcc8d26c475"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a963e48c3079d2840a905fa5521476b71"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a963e48c3079d2840a905fa5521476b71">ProcessData</a> (<a class="el" href="class_atreyu_1_1_models_1_1_range.html">Range</a> range)</td></tr>
 <tr class="memdesc:a963e48c3079d2840a905fa5521476b71"><td class="mdescLeft">&#160;</td><td class="mdescRight">The process data.  <a href="#a963e48c3079d2840a905fa5521476b71">More...</a><br /></td></tr>
 <tr class="separator:a963e48c3079d2840a905fa5521476b71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
+Static Private Member Functions</h2></td></tr>
+<tr class="memitem:a9710c83ea95be9a3ffa3b3e4aa4bfba5"><td class="memItemLeft" align="right" valign="top">static DataReader.FrameType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a9710c83ea95be9a3ffa3b3e4aa4bfba5">GetFrameType</a> (string frameTypeString)</td></tr>
+<tr class="memdesc:a9710c83ea95be9a3ffa3b3e4aa4bfba5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The get frame type.  <a href="#a9710c83ea95be9a3ffa3b3e4aa4bfba5">More...</a><br /></td></tr>
+<tr class="separator:a9710c83ea95be9a3ffa3b3e4aa4bfba5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -306,6 +325,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a9678f75a79bd8562dab1382d63099e25"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a9678f75a79bd8562dab1382d63099e25">highGate</a> = double.PositiveInfinity</td></tr>
 <tr class="memdesc:a9678f75a79bd8562dab1382d63099e25"><td class="mdescLeft">&#160;</td><td class="mdescRight">The high gate.  <a href="#a9678f75a79bd8562dab1382d63099e25">More...</a><br /></td></tr>
 <tr class="separator:a9678f75a79bd8562dab1382d63099e25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4652ac895260c0c153b51da60d3ffa5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#ac4652ac895260c0c153b51da60d3ffa5">loadingData</a></td></tr>
+<tr class="memdesc:ac4652ac895260c0c153b51da60d3ffa5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Backing field for a property that indicates whether this is currently loading data or not.  <a href="#ac4652ac895260c0c153b51da60d3ffa5">More...</a><br /></td></tr>
+<tr class="separator:ac4652ac895260c0c153b51da60d3ffa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9124fd485fce9319857441e56eeefb3e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a9124fd485fce9319857441e56eeefb3e">lowGate</a></td></tr>
 <tr class="memdesc:a9124fd485fce9319857441e56eeefb3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The gate.  <a href="#a9124fd485fce9319857441e56eeefb3e">More...</a><br /></td></tr>
 <tr class="separator:a9124fd485fce9319857441e56eeefb3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -324,6 +346,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a5001d454be67b7be7a05e5ef05d56bc7"><td class="memItemLeft" align="right" valign="top">int[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a5001d454be67b7be7a05e5ef05d56bc7">mzIntensities</a></td></tr>
 <tr class="memdesc:a5001d454be67b7be7a05e5ef05d56bc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The mz intensities.  <a href="#a5001d454be67b7be7a05e5ef05d56bc7">More...</a><br /></td></tr>
 <tr class="separator:a5001d454be67b7be7a05e5ef05d56bc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a816d4543184dd124b54177d7ad708e56"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_atreyu_1_1_models_1_1_bin_range.html">BinRange</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a816d4543184dd124b54177d7ad708e56">mzWindow</a></td></tr>
+<tr class="memdesc:a816d4543184dd124b54177d7ad708e56"><td class="mdescLeft">&#160;</td><td class="mdescRight">The mz window that will be enforced if <a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a4457e49101cd3e516ded02964239abe5" title="Gets or sets a value indicating whether window mz. ">WindowMz</a> it true.  <a href="#a816d4543184dd124b54177d7ad708e56">More...</a><br /></td></tr>
+<tr class="separator:a816d4543184dd124b54177d7ad708e56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad17a607d5cbb8458655b98f232b532e8"><td class="memItemLeft" align="right" valign="top">ConcurrentQueue&lt; <a class="el" href="class_atreyu_1_1_models_1_1_range.html">Range</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#ad17a607d5cbb8458655b98f232b532e8">rangeUpdateList</a></td></tr>
 <tr class="memdesc:ad17a607d5cbb8458655b98f232b532e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The range update list.  <a href="#ad17a607d5cbb8458655b98f232b532e8">More...</a><br /></td></tr>
 <tr class="separator:ad17a607d5cbb8458655b98f232b532e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -373,18 +398,18 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00197">197</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        {</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;            this.RangeUpdateList = <span class="keyword">new</span> ConcurrentQueue&lt;Range&gt;();</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;            this.dataReader = <span class="keyword">new</span> DataReader(uimfFile);</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;            var global = this.dataReader.GetGlobalParams();</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;            this.Frames = this.dataReader.GetGlobalParams().NumFrames;</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;            this.MaxBins = global.Bins;</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;            this.TotalBins = this.MaxBins;</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;            this.Scans = this.dataReader.GetFrameParams(1).<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#af051d43e75c352c6e1f82881e994a576">Scans</a>;</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;            this.checking = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        }</div>
-<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_af051d43e75c352c6e1f82881e994a576"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#af051d43e75c352c6e1f82881e994a576">Atreyu.Models.UimfData.Scans</a></div><div class="ttdeci">int Scans</div><div class="ttdoc">Gets the scans. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00505">UimfData.cs:505</a></div></div>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00207">207</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        {</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            this.RangeUpdateList = <span class="keyword">new</span> ConcurrentQueue&lt;Range&gt;();</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;            this.dataReader = <span class="keyword">new</span> DataReader(uimfFile);</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;            var global = this.dataReader.GetGlobalParams();</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;            this.Frames = this.dataReader.GetGlobalParams().NumFrames;</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;            this.MaxBins = global.Bins;</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;            this.TotalBins = this.MaxBins;</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;            this.Scans = this.dataReader.GetFrameParams(1).<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#af051d43e75c352c6e1f82881e994a576">Scans</a>;</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;            this.checking = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        }</div>
+<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_af051d43e75c352c6e1f82881e994a576"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#af051d43e75c352c6e1f82881e994a576">Atreyu.Models.UimfData.Scans</a></div><div class="ttdeci">int Scans</div><div class="ttdoc">Gets the scans. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00541">UimfData.cs:541</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -405,28 +430,28 @@ Private Attributes</h2></td></tr>
 <p>The check queue method that processes the queue of updates. </p>
 <dl class="section return"><dt>Returns</dt><dd>The Task. </dd></dl>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00607">607</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;        {</div>
-<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;            <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#ae8e44d296cd7b429445dd2873b2c07fb">checking</a>)</div>
-<div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160;            {</div>
-<div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;                <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;            }</div>
-<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;</div>
-<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;            this.checking = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;            Range currentRange;</div>
-<div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;</div>
-<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;            <span class="keywordflow">while</span> (this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a0388a0e34cc7c3ef976123a08a78ef25">RangeUpdateList</a>.TryDequeue(out currentRange))</div>
-<div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;            {</div>
-<div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;                this.ProcessData(currentRange);</div>
-<div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160;                await Task.Delay(1);</div>
-<div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;            }</div>
-<div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160;</div>
-<div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;            await this.ReadData();</div>
-<div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;</div>
-<div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;            this.checking = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;        }</div>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00648">648</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160;        {</div>
+<div class="line"><a name="l00650"></a><span class="lineno">  650</span>&#160;            <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#ae8e44d296cd7b429445dd2873b2c07fb">checking</a>)</div>
+<div class="line"><a name="l00651"></a><span class="lineno">  651</span>&#160;            {</div>
+<div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160;                <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00653"></a><span class="lineno">  653</span>&#160;            }</div>
+<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;</div>
+<div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;            this.checking = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;            Range currentRange;</div>
+<div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160;</div>
+<div class="line"><a name="l00658"></a><span class="lineno">  658</span>&#160;            <span class="keywordflow">while</span> (this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a0388a0e34cc7c3ef976123a08a78ef25">RangeUpdateList</a>.TryDequeue(out currentRange))</div>
+<div class="line"><a name="l00659"></a><span class="lineno">  659</span>&#160;            {</div>
+<div class="line"><a name="l00660"></a><span class="lineno">  660</span>&#160;                this.ProcessData(currentRange);</div>
+<div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160;                await Task.Delay(1);</div>
+<div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160;            }</div>
+<div class="line"><a name="l00663"></a><span class="lineno">  663</span>&#160;</div>
+<div class="line"><a name="l00664"></a><span class="lineno">  664</span>&#160;            await this.ReadData();</div>
+<div class="line"><a name="l00665"></a><span class="lineno">  665</span>&#160;</div>
+<div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160;            this.checking = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00667"></a><span class="lineno">  667</span>&#160;        }</div>
 <div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_ae8e44d296cd7b429445dd2873b2c07fb"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#ae8e44d296cd7b429445dd2873b2c07fb">Atreyu.Models.UimfData.checking</a></div><div class="ttdeci">bool checking</div><div class="ttdoc">The checking. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00060">UimfData.cs:60</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_a0388a0e34cc7c3ef976123a08a78ef25"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#a0388a0e34cc7c3ef976123a08a78ef25">Atreyu.Models.UimfData.RangeUpdateList</a></div><div class="ttdeci">ConcurrentQueue&lt; Range &gt; RangeUpdateList</div><div class="ttdoc">Gets the range update list. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00489">UimfData.cs:489</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_a0388a0e34cc7c3ef976123a08a78ef25"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#a0388a0e34cc7c3ef976123a08a78ef25">Atreyu.Models.UimfData.RangeUpdateList</a></div><div class="ttdeci">ConcurrentQueue&lt; Range &gt; RangeUpdateList</div><div class="ttdoc">Gets the range update list. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00525">UimfData.cs:525</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -445,11 +470,11 @@ Private Attributes</h2></td></tr>
 
 <p>The dispose. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00631">631</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;        {</div>
-<div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;            this.Dispose(<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00634"></a><span class="lineno">  634</span>&#160;            GC.SuppressFinalize(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160;        }</div>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00672">672</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00673"></a><span class="lineno">  673</span>&#160;        {</div>
+<div class="line"><a name="l00674"></a><span class="lineno">  674</span>&#160;            this.Dispose(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00675"></a><span class="lineno">  675</span>&#160;            GC.SuppressFinalize(<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00676"></a><span class="lineno">  676</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -483,17 +508,17 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00868">868</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00869"></a><span class="lineno">  869</span>&#160;        {</div>
-<div class="line"><a name="l00870"></a><span class="lineno">  870</span>&#160;            <span class="keywordflow">if</span> (disposing)</div>
-<div class="line"><a name="l00871"></a><span class="lineno">  871</span>&#160;            {</div>
-<div class="line"><a name="l00872"></a><span class="lineno">  872</span>&#160;                <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a6d3baf2972d3b8d2abe1ce25d3ee5b74">dataReader</a> != null)</div>
-<div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;                {</div>
-<div class="line"><a name="l00874"></a><span class="lineno">  874</span>&#160;                    this.dataReader.Dispose();</div>
-<div class="line"><a name="l00875"></a><span class="lineno">  875</span>&#160;                    this.dataReader = null;</div>
-<div class="line"><a name="l00876"></a><span class="lineno">  876</span>&#160;                }</div>
-<div class="line"><a name="l00877"></a><span class="lineno">  877</span>&#160;            }</div>
-<div class="line"><a name="l00878"></a><span class="lineno">  878</span>&#160;        }</div>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00952">952</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00953"></a><span class="lineno">  953</span>&#160;        {</div>
+<div class="line"><a name="l00954"></a><span class="lineno">  954</span>&#160;            <span class="keywordflow">if</span> (disposing)</div>
+<div class="line"><a name="l00955"></a><span class="lineno">  955</span>&#160;            {</div>
+<div class="line"><a name="l00956"></a><span class="lineno">  956</span>&#160;                <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a6d3baf2972d3b8d2abe1ce25d3ee5b74">dataReader</a> != null)</div>
+<div class="line"><a name="l00957"></a><span class="lineno">  957</span>&#160;                {</div>
+<div class="line"><a name="l00958"></a><span class="lineno">  958</span>&#160;                    this.dataReader.Dispose();</div>
+<div class="line"><a name="l00959"></a><span class="lineno">  959</span>&#160;                    this.dataReader = null;</div>
+<div class="line"><a name="l00960"></a><span class="lineno">  960</span>&#160;                }</div>
+<div class="line"><a name="l00961"></a><span class="lineno">  961</span>&#160;            }</div>
+<div class="line"><a name="l00962"></a><span class="lineno">  962</span>&#160;        }</div>
 <div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_a6d3baf2972d3b8d2abe1ce25d3ee5b74"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#a6d3baf2972d3b8d2abe1ce25d3ee5b74">Atreyu.Models.UimfData.dataReader</a></div><div class="ttdeci">DataReader dataReader</div><div class="ttdoc">The data reader. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00075">UimfData.cs:75</a></div></div>
 </div><!-- fragment -->
 </div>
@@ -521,36 +546,101 @@ Private Attributes</h2></td></tr>
 
 <p>The gate data. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00883">883</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00884"></a><span class="lineno">  884</span>&#160;        {</div>
-<div class="line"><a name="l00885"></a><span class="lineno">  885</span>&#160;            <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#ad58ba9a604c11abe4c889c10ba465cdd">LowGate</a> &lt;= 0)</div>
-<div class="line"><a name="l00886"></a><span class="lineno">  886</span>&#160;            {</div>
-<div class="line"><a name="l00887"></a><span class="lineno">  887</span>&#160;                this.GatedFrameData = this.FrameData;</div>
-<div class="line"><a name="l00888"></a><span class="lineno">  888</span>&#160;                <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00889"></a><span class="lineno">  889</span>&#160;            }</div>
-<div class="line"><a name="l00890"></a><span class="lineno">  890</span>&#160;</div>
-<div class="line"><a name="l00891"></a><span class="lineno">  891</span>&#160;            var temp = <span class="keyword">new</span> <span class="keywordtype">double</span>[this.FrameData.GetLength(0), this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a036eeee27ba979d66778c0c1d3481693">FrameData</a>.GetLength(1)];</div>
-<div class="line"><a name="l00892"></a><span class="lineno">  892</span>&#160;</div>
-<div class="line"><a name="l00893"></a><span class="lineno">  893</span>&#160;            <span class="keywordflow">for</span> (var x = 0; x &lt; temp.GetLength(0); x++)</div>
-<div class="line"><a name="l00894"></a><span class="lineno">  894</span>&#160;            {</div>
-<div class="line"><a name="l00895"></a><span class="lineno">  895</span>&#160;                <span class="keywordflow">for</span> (var y = 0; y &lt; temp.GetLength(1); y++)</div>
-<div class="line"><a name="l00896"></a><span class="lineno">  896</span>&#160;                {</div>
-<div class="line"><a name="l00897"></a><span class="lineno">  897</span>&#160;                    <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a036eeee27ba979d66778c0c1d3481693">FrameData</a>[x, y] &gt; this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#ad58ba9a604c11abe4c889c10ba465cdd">LowGate</a> &amp;&amp; this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a036eeee27ba979d66778c0c1d3481693">FrameData</a>[x, y] &lt; this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#ac7c0a9daa04cfb089dc954500d3fff5f">HighGate</a>)</div>
-<div class="line"><a name="l00898"></a><span class="lineno">  898</span>&#160;                    {</div>
-<div class="line"><a name="l00899"></a><span class="lineno">  899</span>&#160;                        temp[x, y] = this.FrameData[x, y];</div>
-<div class="line"><a name="l00900"></a><span class="lineno">  900</span>&#160;                    }</div>
-<div class="line"><a name="l00901"></a><span class="lineno">  901</span>&#160;                }</div>
-<div class="line"><a name="l00902"></a><span class="lineno">  902</span>&#160;            }</div>
-<div class="line"><a name="l00903"></a><span class="lineno">  903</span>&#160;</div>
-<div class="line"><a name="l00904"></a><span class="lineno">  904</span>&#160;            this.GatedFrameData = temp;</div>
-<div class="line"><a name="l00905"></a><span class="lineno">  905</span>&#160;        }</div>
-<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_ad58ba9a604c11abe4c889c10ba465cdd"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#ad58ba9a604c11abe4c889c10ba465cdd">Atreyu.Models.UimfData.LowGate</a></div><div class="ttdeci">double LowGate</div><div class="ttdoc">Gets the gate. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00425">UimfData.cs:425</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_ac7c0a9daa04cfb089dc954500d3fff5f"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#ac7c0a9daa04cfb089dc954500d3fff5f">Atreyu.Models.UimfData.HighGate</a></div><div class="ttdeci">double HighGate</div><div class="ttdoc">Gets the high gate. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00409">UimfData.cs:409</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_a036eeee27ba979d66778c0c1d3481693"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#a036eeee27ba979d66778c0c1d3481693">Atreyu.Models.UimfData.FrameData</a></div><div class="ttdeci">double[,] FrameData</div><div class="ttdoc">Gets the frame data. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00313">UimfData.cs:313</a></div></div>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00997">997</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00998"></a><span class="lineno">  998</span>&#160;        {</div>
+<div class="line"><a name="l00999"></a><span class="lineno">  999</span>&#160;            <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#ad58ba9a604c11abe4c889c10ba465cdd">LowGate</a> &lt;= 0)</div>
+<div class="line"><a name="l01000"></a><span class="lineno"> 1000</span>&#160;            {</div>
+<div class="line"><a name="l01001"></a><span class="lineno"> 1001</span>&#160;                this.GatedFrameData = this.FrameData;</div>
+<div class="line"><a name="l01002"></a><span class="lineno"> 1002</span>&#160;                <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l01003"></a><span class="lineno"> 1003</span>&#160;            }</div>
+<div class="line"><a name="l01004"></a><span class="lineno"> 1004</span>&#160;</div>
+<div class="line"><a name="l01005"></a><span class="lineno"> 1005</span>&#160;            var temp = <span class="keyword">new</span> <span class="keywordtype">double</span>[this.FrameData.GetLength(0), this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a036eeee27ba979d66778c0c1d3481693">FrameData</a>.GetLength(1)];</div>
+<div class="line"><a name="l01006"></a><span class="lineno"> 1006</span>&#160;</div>
+<div class="line"><a name="l01007"></a><span class="lineno"> 1007</span>&#160;            <span class="keywordflow">for</span> (var x = 0; x &lt; temp.GetLength(0); x++)</div>
+<div class="line"><a name="l01008"></a><span class="lineno"> 1008</span>&#160;            {</div>
+<div class="line"><a name="l01009"></a><span class="lineno"> 1009</span>&#160;                <span class="keywordflow">for</span> (var y = 0; y &lt; temp.GetLength(1); y++)</div>
+<div class="line"><a name="l01010"></a><span class="lineno"> 1010</span>&#160;                {</div>
+<div class="line"><a name="l01011"></a><span class="lineno"> 1011</span>&#160;                    <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a036eeee27ba979d66778c0c1d3481693">FrameData</a>[x, y] &gt; this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#ad58ba9a604c11abe4c889c10ba465cdd">LowGate</a> &amp;&amp; this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a036eeee27ba979d66778c0c1d3481693">FrameData</a>[x, y] &lt; this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#ac7c0a9daa04cfb089dc954500d3fff5f">HighGate</a>)</div>
+<div class="line"><a name="l01012"></a><span class="lineno"> 1012</span>&#160;                    {</div>
+<div class="line"><a name="l01013"></a><span class="lineno"> 1013</span>&#160;                        temp[x, y] = this.FrameData[x, y];</div>
+<div class="line"><a name="l01014"></a><span class="lineno"> 1014</span>&#160;                    }</div>
+<div class="line"><a name="l01015"></a><span class="lineno"> 1015</span>&#160;                }</div>
+<div class="line"><a name="l01016"></a><span class="lineno"> 1016</span>&#160;            }</div>
+<div class="line"><a name="l01017"></a><span class="lineno"> 1017</span>&#160;</div>
+<div class="line"><a name="l01018"></a><span class="lineno"> 1018</span>&#160;            this.GatedFrameData = temp;</div>
+<div class="line"><a name="l01019"></a><span class="lineno"> 1019</span>&#160;        }</div>
+<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_ad58ba9a604c11abe4c889c10ba465cdd"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#ad58ba9a604c11abe4c889c10ba465cdd">Atreyu.Models.UimfData.LowGate</a></div><div class="ttdeci">double LowGate</div><div class="ttdoc">Gets the gate. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00451">UimfData.cs:451</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_ac7c0a9daa04cfb089dc954500d3fff5f"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#ac7c0a9daa04cfb089dc954500d3fff5f">Atreyu.Models.UimfData.HighGate</a></div><div class="ttdeci">double HighGate</div><div class="ttdoc">Gets the high gate. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00419">UimfData.cs:419</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_a036eeee27ba979d66778c0c1d3481693"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#a036eeee27ba979d66778c0c1d3481693">Atreyu.Models.UimfData.FrameData</a></div><div class="ttdeci">double[,] FrameData</div><div class="ttdoc">Gets the frame data. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00323">UimfData.cs:323</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
-<a class="anchor" id="a3a630a6054c6b0749ed9afcc8d26c475"></a>
+<a class="anchor" id="a5957d23142375ac02f6f8bbb95dbc0f7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_atreyu_1_1_models_1_1_bin_range.html">BinRange</a> Atreyu.Models.UimfData.GetBinRangeForMzWindow </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>centerMz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>partsPerMillionTolerance</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get bin range for a given mz window. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">centerMz</td><td>The center mz. </td></tr>
+    <tr><td class="paramname">partsPerMillionTolerance</td><td>The parts per million tolerance. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="class_atreyu_1_1_models_1_1_bin_range.html" title="The bin range. ">BinRange</a>. </dd></dl>
+
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00690">690</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00691"></a><span class="lineno">  691</span>&#160;        {</div>
+<div class="line"><a name="l00692"></a><span class="lineno">  692</span>&#160;            this.MzCenter = centerMz;</div>
+<div class="line"><a name="l00693"></a><span class="lineno">  693</span>&#160;            this.PartsPerMillion = partsPerMillionTolerance;</div>
+<div class="line"><a name="l00694"></a><span class="lineno">  694</span>&#160;            var range = <span class="keyword">new</span> <a class="code" href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362a849f2309e2ab4e40463cb4fcf20862f2">BinRange</a>();</div>
+<div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160;</div>
+<div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160;            <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a6d3baf2972d3b8d2abe1ce25d3ee5b74">dataReader</a> == null || this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a95f2b52126fe827338e581decad43e4b">Calibrator</a> == null)</div>
+<div class="line"><a name="l00697"></a><span class="lineno">  697</span>&#160;            {</div>
+<div class="line"><a name="l00698"></a><span class="lineno">  698</span>&#160;                range.StartBin = 0;</div>
+<div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160;                range.EndBin = this.CurrentMaxBin;</div>
+<div class="line"><a name="l00700"></a><span class="lineno">  700</span>&#160;                this.mzWindow = range;</div>
+<div class="line"><a name="l00701"></a><span class="lineno">  701</span>&#160;                <span class="keywordflow">return</span> range;</div>
+<div class="line"><a name="l00702"></a><span class="lineno">  702</span>&#160;            }</div>
+<div class="line"><a name="l00703"></a><span class="lineno">  703</span>&#160;</div>
+<div class="line"><a name="l00704"></a><span class="lineno">  704</span>&#160;            var mzOffset = this.MzCenter * (this.PartsPerMillion / 1000000.0);</div>
+<div class="line"><a name="l00705"></a><span class="lineno">  705</span>&#160;</div>
+<div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;            range.StartBin =</div>
+<div class="line"><a name="l00707"></a><span class="lineno">  707</span>&#160;                (int)(this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a95f2b52126fe827338e581decad43e4b">Calibrator</a>.MZtoTOF(<span class="keyword">this</span>.MzCenter - mzOffset) / this.dataReader.TenthsOfNanoSecondsPerBin);</div>
+<div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;</div>
+<div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;            range.EndBin =</div>
+<div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;                (int)(this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a95f2b52126fe827338e581decad43e4b">Calibrator</a>.MZtoTOF(<span class="keyword">this</span>.MzCenter + mzOffset) / this.dataReader.TenthsOfNanoSecondsPerBin);</div>
+<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;</div>
+<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;            this.mzWindow = range;</div>
+<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;            <span class="keywordflow">return</span> range;</div>
+<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;        }</div>
+<div class="ttc" id="namespace_atreyu_1_1_models_html_a61e06e946363f7e1ff66e584a1b24362a849f2309e2ab4e40463cb4fcf20862f2"><div class="ttname"><a href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362a849f2309e2ab4e40463cb4fcf20862f2">Atreyu.Models.BinRange</a></div><div class="ttdoc">The bin range. </div></div>
+<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_a95f2b52126fe827338e581decad43e4b"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#a95f2b52126fe827338e581decad43e4b">Atreyu.Models.UimfData.Calibrator</a></div><div class="ttdeci">MzCalibrator Calibrator</div><div class="ttdoc">Gets the m/z calibrator that converts TOF to m/z. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00243">UimfData.cs:243</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_a6d3baf2972d3b8d2abe1ce25d3ee5b74"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#a6d3baf2972d3b8d2abe1ce25d3ee5b74">Atreyu.Models.UimfData.dataReader</a></div><div class="ttdeci">DataReader dataReader</div><div class="ttdoc">The data reader. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00075">UimfData.cs:75</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a9710c83ea95be9a3ffa3b3e4aa4bfba5"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -558,7 +648,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">DataReader.FrameType Atreyu.Models.UimfData.GetFrameType </td>
+          <td class="memname">static DataReader.FrameType Atreyu.Models.UimfData.GetFrameType </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>frameTypeString</em></td><td>)</td>
@@ -567,7 +657,7 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -580,31 +670,25 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#ad9bfdd02eb4328f8ddf4e1751f05bcb3" title="Gets the frame type. ">FrameType</a>. </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">NotImplementedException</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00918">918</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00919"></a><span class="lineno">  919</span>&#160;        {</div>
-<div class="line"><a name="l00920"></a><span class="lineno">  920</span>&#160;            var temp = frameTypeString.ToLower();</div>
-<div class="line"><a name="l00921"></a><span class="lineno">  921</span>&#160;            <span class="keywordflow">switch</span> (temp)</div>
-<div class="line"><a name="l00922"></a><span class="lineno">  922</span>&#160;            {</div>
-<div class="line"><a name="l00923"></a><span class="lineno">  923</span>&#160;                <span class="keywordflow">case</span> <span class="stringliteral">&quot;1&quot;</span>:</div>
-<div class="line"><a name="l00924"></a><span class="lineno">  924</span>&#160;                    <span class="keywordflow">return</span> DataReader.FrameType.MS1;</div>
-<div class="line"><a name="l00925"></a><span class="lineno">  925</span>&#160;                <span class="keywordflow">case</span> <span class="stringliteral">&quot;2&quot;</span>:</div>
-<div class="line"><a name="l00926"></a><span class="lineno">  926</span>&#160;                    <span class="keywordflow">return</span> DataReader.FrameType.MS2;</div>
-<div class="line"><a name="l00927"></a><span class="lineno">  927</span>&#160;                <span class="keywordflow">case</span> <span class="stringliteral">&quot;3&quot;</span>:</div>
-<div class="line"><a name="l00928"></a><span class="lineno">  928</span>&#160;                    <span class="keywordflow">return</span> DataReader.FrameType.Calibration;</div>
-<div class="line"><a name="l00929"></a><span class="lineno">  929</span>&#160;                <span class="keywordflow">case</span> <span class="stringliteral">&quot;4&quot;</span>:</div>
-<div class="line"><a name="l00930"></a><span class="lineno">  930</span>&#160;                    <span class="keywordflow">return</span> DataReader.FrameType.Prescan;</div>
-<div class="line"><a name="l00931"></a><span class="lineno">  931</span>&#160;                <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00932"></a><span class="lineno">  932</span>&#160;                    <span class="keywordflow">throw</span> <span class="keyword">new</span> NotImplementedException(</div>
-<div class="line"><a name="l00933"></a><span class="lineno">  933</span>&#160;                        <span class="stringliteral">&quot;Only the MS1, MS2, Calibration, and Prescan frame types have been implemented in this version&quot;</span>);</div>
-<div class="line"><a name="l00934"></a><span class="lineno">  934</span>&#160;            }</div>
-<div class="line"><a name="l00935"></a><span class="lineno">  935</span>&#160;        }</div>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00973">973</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00974"></a><span class="lineno">  974</span>&#160;        {</div>
+<div class="line"><a name="l00975"></a><span class="lineno">  975</span>&#160;            var temp = frameTypeString.ToLower();</div>
+<div class="line"><a name="l00976"></a><span class="lineno">  976</span>&#160;            <span class="keywordflow">switch</span> (temp)</div>
+<div class="line"><a name="l00977"></a><span class="lineno">  977</span>&#160;            {</div>
+<div class="line"><a name="l00978"></a><span class="lineno">  978</span>&#160;                <span class="keywordflow">case</span> <span class="stringliteral">&quot;1&quot;</span>:</div>
+<div class="line"><a name="l00979"></a><span class="lineno">  979</span>&#160;                    <span class="keywordflow">return</span> DataReader.FrameType.MS1;</div>
+<div class="line"><a name="l00980"></a><span class="lineno">  980</span>&#160;                <span class="keywordflow">case</span> <span class="stringliteral">&quot;2&quot;</span>:</div>
+<div class="line"><a name="l00981"></a><span class="lineno">  981</span>&#160;                    <span class="keywordflow">return</span> DataReader.FrameType.MS2;</div>
+<div class="line"><a name="l00982"></a><span class="lineno">  982</span>&#160;                <span class="keywordflow">case</span> <span class="stringliteral">&quot;3&quot;</span>:</div>
+<div class="line"><a name="l00983"></a><span class="lineno">  983</span>&#160;                    <span class="keywordflow">return</span> DataReader.FrameType.Calibration;</div>
+<div class="line"><a name="l00984"></a><span class="lineno">  984</span>&#160;                <span class="keywordflow">case</span> <span class="stringliteral">&quot;4&quot;</span>:</div>
+<div class="line"><a name="l00985"></a><span class="lineno">  985</span>&#160;                    <span class="keywordflow">return</span> DataReader.FrameType.Prescan;</div>
+<div class="line"><a name="l00986"></a><span class="lineno">  986</span>&#160;                <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00987"></a><span class="lineno">  987</span>&#160;                    <span class="keywordflow">return</span> DataReader.FrameType.MS1;</div>
+<div class="line"><a name="l00988"></a><span class="lineno">  988</span>&#160;</div>
+<div class="line"><a name="l00991"></a><span class="lineno">  991</span>&#160;            }</div>
+<div class="line"><a name="l00992"></a><span class="lineno">  992</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -631,10 +715,10 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The Task. </dd></dl>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00646">646</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;        {</div>
-<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;            <span class="keywordflow">return</span> Task.Run(() =&gt; this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a6d3baf2972d3b8d2abe1ce25d3ee5b74">dataReader</a>.GetFrameScans(frameNumber));</div>
-<div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160;        }</div>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00725">725</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160;        {</div>
+<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;            <span class="keywordflow">return</span> Task.Run(() =&gt; this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a6d3baf2972d3b8d2abe1ce25d3ee5b74">dataReader</a>.GetFrameScans(frameNumber));</div>
+<div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160;        }</div>
 <div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_a6d3baf2972d3b8d2abe1ce25d3ee5b74"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#a6d3baf2972d3b8d2abe1ce25d3ee5b74">Atreyu.Models.UimfData.dataReader</a></div><div class="ttdeci">DataReader dataReader</div><div class="ttdoc">The data reader. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00075">UimfData.cs:75</a></div></div>
 </div><!-- fragment -->
 </div>
@@ -670,63 +754,89 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">ArgumentException</td><td></td></tr>
-    <tr><td class="paramname">NotImplementedException</td><td></td></tr>
+    <tr><td class="paramname">ArgumentException</td><td>thrown if the range type is set to a type that it cannot be cast to. </td></tr>
+    <tr><td class="paramname">NotImplementedException</td><td>thrown if an unknown range type is used. The currently known types are Bin, Frame, and Scan. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00947">947</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l01033">1033</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
-<p>References <a class="el" href="_range_8cs_source.html#l00069">Atreyu.Models.Range.RangeType</a>.</p>
-<div class="fragment"><div class="line"><a name="l00948"></a><span class="lineno">  948</span>&#160;        {</div>
-<div class="line"><a name="l00949"></a><span class="lineno">  949</span>&#160;            <span class="keywordflow">switch</span> (range.RangeType)</div>
-<div class="line"><a name="l00950"></a><span class="lineno">  950</span>&#160;            {</div>
-<div class="line"><a name="l00951"></a><span class="lineno">  951</span>&#160;                <span class="keywordflow">case</span> RangeType.BinRange:</div>
-<div class="line"><a name="l00952"></a><span class="lineno">  952</span>&#160;                    var binRange = range as <a class="code" href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362a849f2309e2ab4e40463cb4fcf20862f2">BinRange</a>;</div>
-<div class="line"><a name="l00953"></a><span class="lineno">  953</span>&#160;                    <span class="keywordflow">if</span> (binRange == null)</div>
-<div class="line"><a name="l00954"></a><span class="lineno">  954</span>&#160;                    {</div>
-<div class="line"><a name="l00955"></a><span class="lineno">  955</span>&#160;                        <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(</div>
-<div class="line"><a name="l00956"></a><span class="lineno">  956</span>&#160;                            <span class="stringliteral">&quot;Range has it&#39;s RangeType set to BinRange but cannot be cast to BinRange&quot;</span>, </div>
-<div class="line"><a name="l00957"></a><span class="lineno">  957</span>&#160;                            <span class="stringliteral">&quot;range&quot;</span>);</div>
-<div class="line"><a name="l00958"></a><span class="lineno">  958</span>&#160;                    }</div>
-<div class="line"><a name="l00959"></a><span class="lineno">  959</span>&#160;</div>
-<div class="line"><a name="l00960"></a><span class="lineno">  960</span>&#160;                    this.CurrentMinBin = binRange.StartBin;</div>
-<div class="line"><a name="l00961"></a><span class="lineno">  961</span>&#160;                    this.CurrentMaxBin = binRange.EndBin;</div>
-<div class="line"><a name="l00962"></a><span class="lineno">  962</span>&#160;                    <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00963"></a><span class="lineno">  963</span>&#160;                <span class="keywordflow">case</span> RangeType.FrameRange:</div>
-<div class="line"><a name="l00964"></a><span class="lineno">  964</span>&#160;                    var frameRange = range as <a class="code" href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362ae8ba2a78b8aa2bca06b84c49af2a485d">FrameRange</a>;</div>
-<div class="line"><a name="l00965"></a><span class="lineno">  965</span>&#160;                    <span class="keywordflow">if</span> (frameRange == null)</div>
-<div class="line"><a name="l00966"></a><span class="lineno">  966</span>&#160;                    {</div>
-<div class="line"><a name="l00967"></a><span class="lineno">  967</span>&#160;                        <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(</div>
-<div class="line"><a name="l00968"></a><span class="lineno">  968</span>&#160;                            <span class="stringliteral">&quot;Range has it&#39;s RangeType set to FrameRange but cannot be cast to FrameRange&quot;</span>, </div>
-<div class="line"><a name="l00969"></a><span class="lineno">  969</span>&#160;                            <span class="stringliteral">&quot;range&quot;</span>);</div>
-<div class="line"><a name="l00970"></a><span class="lineno">  970</span>&#160;                    }</div>
-<div class="line"><a name="l00971"></a><span class="lineno">  971</span>&#160;</div>
-<div class="line"><a name="l00972"></a><span class="lineno">  972</span>&#160;                    this.StartFrameNumber = frameRange.StartFrame;</div>
-<div class="line"><a name="l00973"></a><span class="lineno">  973</span>&#160;                    this.EndFrameNumber = frameRange.EndFrame;</div>
-<div class="line"><a name="l00974"></a><span class="lineno">  974</span>&#160;                    <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00975"></a><span class="lineno">  975</span>&#160;                <span class="keywordflow">case</span> RangeType.ScanRange:</div>
-<div class="line"><a name="l00976"></a><span class="lineno">  976</span>&#160;                    var scanRange = range as <a class="code" href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362a09434489ff1c422748213ec680e69854">ScanRange</a>;</div>
-<div class="line"><a name="l00977"></a><span class="lineno">  977</span>&#160;                    <span class="keywordflow">if</span> (scanRange == null)</div>
-<div class="line"><a name="l00978"></a><span class="lineno">  978</span>&#160;                    {</div>
-<div class="line"><a name="l00979"></a><span class="lineno">  979</span>&#160;                        <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(</div>
-<div class="line"><a name="l00980"></a><span class="lineno">  980</span>&#160;                            <span class="stringliteral">&quot;Range has it&#39;s RangeType set to ScanRange but cannot be cast to ScanRange&quot;</span>, </div>
-<div class="line"><a name="l00981"></a><span class="lineno">  981</span>&#160;                            <span class="stringliteral">&quot;range&quot;</span>);</div>
-<div class="line"><a name="l00982"></a><span class="lineno">  982</span>&#160;                    }</div>
-<div class="line"><a name="l00983"></a><span class="lineno">  983</span>&#160;</div>
-<div class="line"><a name="l00984"></a><span class="lineno">  984</span>&#160;                    this.StartScan = scanRange.StartScan;</div>
-<div class="line"><a name="l00985"></a><span class="lineno">  985</span>&#160;                    this.EndScan = scanRange.EndScan;</div>
-<div class="line"><a name="l00986"></a><span class="lineno">  986</span>&#160;                    <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00987"></a><span class="lineno">  987</span>&#160;                <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00988"></a><span class="lineno">  988</span>&#160;                    <span class="keywordflow">throw</span> <span class="keyword">new</span> NotImplementedException(</div>
-<div class="line"><a name="l00989"></a><span class="lineno">  989</span>&#160;                        <span class="stringliteral">&quot;Currently ProcessRangeData only supports types of BinRange, FrameRange, and ScanRange, &quot;</span></div>
-<div class="line"><a name="l00990"></a><span class="lineno">  990</span>&#160;                        + <span class="stringliteral">&quot;but you passed something else and it scared us too much to continue.&quot;</span>);</div>
-<div class="line"><a name="l00991"></a><span class="lineno">  991</span>&#160;            }</div>
-<div class="line"><a name="l00992"></a><span class="lineno">  992</span>&#160;        }</div>
+<p>References <a class="el" href="_range_8cs_source.html#l00068">Atreyu.Models.Range.RangeType</a>.</p>
+<div class="fragment"><div class="line"><a name="l01034"></a><span class="lineno"> 1034</span>&#160;        {</div>
+<div class="line"><a name="l01035"></a><span class="lineno"> 1035</span>&#160;            <span class="keywordflow">switch</span> (range.RangeType)</div>
+<div class="line"><a name="l01036"></a><span class="lineno"> 1036</span>&#160;            {</div>
+<div class="line"><a name="l01037"></a><span class="lineno"> 1037</span>&#160;                <span class="keywordflow">case</span> RangeType.BinRange:</div>
+<div class="line"><a name="l01038"></a><span class="lineno"> 1038</span>&#160;                    var binRange = range as <a class="code" href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362a849f2309e2ab4e40463cb4fcf20862f2">BinRange</a>;</div>
+<div class="line"><a name="l01039"></a><span class="lineno"> 1039</span>&#160;                    <span class="keywordflow">if</span> (binRange == null)</div>
+<div class="line"><a name="l01040"></a><span class="lineno"> 1040</span>&#160;                    {</div>
+<div class="line"><a name="l01041"></a><span class="lineno"> 1041</span>&#160;                        <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(</div>
+<div class="line"><a name="l01042"></a><span class="lineno"> 1042</span>&#160;                            <span class="stringliteral">&quot;Range has it&#39;s RangeType set to BinRange but cannot be cast to BinRange&quot;</span>, </div>
+<div class="line"><a name="l01043"></a><span class="lineno"> 1043</span>&#160;                            <span class="stringliteral">&quot;range&quot;</span>);</div>
+<div class="line"><a name="l01044"></a><span class="lineno"> 1044</span>&#160;                    }</div>
+<div class="line"><a name="l01045"></a><span class="lineno"> 1045</span>&#160;</div>
+<div class="line"><a name="l01046"></a><span class="lineno"> 1046</span>&#160;                    <span class="keywordtype">int</span> min, max;</div>
+<div class="line"><a name="l01047"></a><span class="lineno"> 1047</span>&#160;</div>
+<div class="line"><a name="l01048"></a><span class="lineno"> 1048</span>&#160;                    <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a4457e49101cd3e516ded02964239abe5">WindowMz</a> &amp;&amp; this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a816d4543184dd124b54177d7ad708e56">mzWindow</a> != null)</div>
+<div class="line"><a name="l01049"></a><span class="lineno"> 1049</span>&#160;                    {</div>
+<div class="line"><a name="l01050"></a><span class="lineno"> 1050</span>&#160;                        min = this.mzWindow.StartBin;</div>
+<div class="line"><a name="l01051"></a><span class="lineno"> 1051</span>&#160;                        max = this.mzWindow.EndBin;</div>
+<div class="line"><a name="l01052"></a><span class="lineno"> 1052</span>&#160;                    }</div>
+<div class="line"><a name="l01053"></a><span class="lineno"> 1053</span>&#160;                    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l01054"></a><span class="lineno"> 1054</span>&#160;                    {</div>
+<div class="line"><a name="l01055"></a><span class="lineno"> 1055</span>&#160;                        min = 0;</div>
+<div class="line"><a name="l01056"></a><span class="lineno"> 1056</span>&#160;                        max = this.MaxBins;</div>
+<div class="line"><a name="l01057"></a><span class="lineno"> 1057</span>&#160;                    }</div>
+<div class="line"><a name="l01058"></a><span class="lineno"> 1058</span>&#160;</div>
+<div class="line"><a name="l01059"></a><span class="lineno"> 1059</span>&#160;                    <span class="keywordflow">if</span> (binRange.StartBin &lt; min)</div>
+<div class="line"><a name="l01060"></a><span class="lineno"> 1060</span>&#160;                    {</div>
+<div class="line"><a name="l01061"></a><span class="lineno"> 1061</span>&#160;                        binRange.StartBin = min;</div>
+<div class="line"><a name="l01062"></a><span class="lineno"> 1062</span>&#160;                    }</div>
+<div class="line"><a name="l01063"></a><span class="lineno"> 1063</span>&#160;</div>
+<div class="line"><a name="l01064"></a><span class="lineno"> 1064</span>&#160;                    <span class="keywordflow">if</span> (binRange.EndBin &gt; max)</div>
+<div class="line"><a name="l01065"></a><span class="lineno"> 1065</span>&#160;                    {</div>
+<div class="line"><a name="l01066"></a><span class="lineno"> 1066</span>&#160;                        binRange.EndBin = max;</div>
+<div class="line"><a name="l01067"></a><span class="lineno"> 1067</span>&#160;                    }</div>
+<div class="line"><a name="l01068"></a><span class="lineno"> 1068</span>&#160;</div>
+<div class="line"><a name="l01069"></a><span class="lineno"> 1069</span>&#160;                    this.CurrentMinBin = binRange.StartBin;</div>
+<div class="line"><a name="l01070"></a><span class="lineno"> 1070</span>&#160;                    this.CurrentMaxBin = binRange.EndBin;</div>
+<div class="line"><a name="l01071"></a><span class="lineno"> 1071</span>&#160;</div>
+<div class="line"><a name="l01072"></a><span class="lineno"> 1072</span>&#160;                    <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l01073"></a><span class="lineno"> 1073</span>&#160;                <span class="keywordflow">case</span> RangeType.FrameRange:</div>
+<div class="line"><a name="l01074"></a><span class="lineno"> 1074</span>&#160;                    var frameRange = range as <a class="code" href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362ae8ba2a78b8aa2bca06b84c49af2a485d">FrameRange</a>;</div>
+<div class="line"><a name="l01075"></a><span class="lineno"> 1075</span>&#160;                    <span class="keywordflow">if</span> (frameRange == null)</div>
+<div class="line"><a name="l01076"></a><span class="lineno"> 1076</span>&#160;                    {</div>
+<div class="line"><a name="l01077"></a><span class="lineno"> 1077</span>&#160;                        <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(</div>
+<div class="line"><a name="l01078"></a><span class="lineno"> 1078</span>&#160;                            <span class="stringliteral">&quot;Range has it&#39;s RangeType set to FrameRange but cannot be cast to FrameRange&quot;</span>, </div>
+<div class="line"><a name="l01079"></a><span class="lineno"> 1079</span>&#160;                            <span class="stringliteral">&quot;range&quot;</span>);</div>
+<div class="line"><a name="l01080"></a><span class="lineno"> 1080</span>&#160;                    }</div>
+<div class="line"><a name="l01081"></a><span class="lineno"> 1081</span>&#160;</div>
+<div class="line"><a name="l01082"></a><span class="lineno"> 1082</span>&#160;                    this.StartFrameNumber = frameRange.StartFrame;</div>
+<div class="line"><a name="l01083"></a><span class="lineno"> 1083</span>&#160;                    this.EndFrameNumber = frameRange.EndFrame;</div>
+<div class="line"><a name="l01084"></a><span class="lineno"> 1084</span>&#160;                    <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l01085"></a><span class="lineno"> 1085</span>&#160;                <span class="keywordflow">case</span> RangeType.ScanRange:</div>
+<div class="line"><a name="l01086"></a><span class="lineno"> 1086</span>&#160;                    var scanRange = range as <a class="code" href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362a09434489ff1c422748213ec680e69854">ScanRange</a>;</div>
+<div class="line"><a name="l01087"></a><span class="lineno"> 1087</span>&#160;                    <span class="keywordflow">if</span> (scanRange == null)</div>
+<div class="line"><a name="l01088"></a><span class="lineno"> 1088</span>&#160;                    {</div>
+<div class="line"><a name="l01089"></a><span class="lineno"> 1089</span>&#160;                        <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(</div>
+<div class="line"><a name="l01090"></a><span class="lineno"> 1090</span>&#160;                            <span class="stringliteral">&quot;Range has it&#39;s RangeType set to ScanRange but cannot be cast to ScanRange&quot;</span>, </div>
+<div class="line"><a name="l01091"></a><span class="lineno"> 1091</span>&#160;                            <span class="stringliteral">&quot;range&quot;</span>);</div>
+<div class="line"><a name="l01092"></a><span class="lineno"> 1092</span>&#160;                    }</div>
+<div class="line"><a name="l01093"></a><span class="lineno"> 1093</span>&#160;</div>
+<div class="line"><a name="l01094"></a><span class="lineno"> 1094</span>&#160;                    this.StartScan = scanRange.StartScan;</div>
+<div class="line"><a name="l01095"></a><span class="lineno"> 1095</span>&#160;                    this.EndScan = scanRange.EndScan;</div>
+<div class="line"><a name="l01096"></a><span class="lineno"> 1096</span>&#160;                    <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l01097"></a><span class="lineno"> 1097</span>&#160;                <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l01098"></a><span class="lineno"> 1098</span>&#160;                    <span class="keywordflow">throw</span> <span class="keyword">new</span> NotImplementedException(</div>
+<div class="line"><a name="l01099"></a><span class="lineno"> 1099</span>&#160;                        <span class="stringliteral">&quot;Currently ProcessRangeData only supports types of BinRange, FrameRange, and ScanRange, &quot;</span></div>
+<div class="line"><a name="l01100"></a><span class="lineno"> 1100</span>&#160;                        + <span class="stringliteral">&quot;but you passed something else and it scared us too much to continue.&quot;</span>);</div>
+<div class="line"><a name="l01101"></a><span class="lineno"> 1101</span>&#160;            }</div>
+<div class="line"><a name="l01102"></a><span class="lineno"> 1102</span>&#160;        }</div>
 <div class="ttc" id="namespace_atreyu_1_1_models_html_a61e06e946363f7e1ff66e584a1b24362a09434489ff1c422748213ec680e69854"><div class="ttname"><a href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362a09434489ff1c422748213ec680e69854">Atreyu.Models.ScanRange</a></div><div class="ttdoc">The scan range. </div></div>
+<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_a816d4543184dd124b54177d7ad708e56"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#a816d4543184dd124b54177d7ad708e56">Atreyu.Models.UimfData.mzWindow</a></div><div class="ttdeci">BinRange mzWindow</div><div class="ttdoc">The mz window that will be enforced if WindowMz it true. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00160">UimfData.cs:160</a></div></div>
 <div class="ttc" id="namespace_atreyu_1_1_models_html_a61e06e946363f7e1ff66e584a1b24362ae8ba2a78b8aa2bca06b84c49af2a485d"><div class="ttname"><a href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362ae8ba2a78b8aa2bca06b84c49af2a485d">Atreyu.Models.FrameRange</a></div><div class="ttdoc">The frame range. </div></div>
 <div class="ttc" id="namespace_atreyu_1_1_models_html_a61e06e946363f7e1ff66e584a1b24362a849f2309e2ab4e40463cb4fcf20862f2"><div class="ttname"><a href="namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362a849f2309e2ab4e40463cb4fcf20862f2">Atreyu.Models.BinRange</a></div><div class="ttdoc">The bin range. </div></div>
+<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_a4457e49101cd3e516ded02964239abe5"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#a4457e49101cd3e516ded02964239abe5">Atreyu.Models.UimfData.WindowMz</a></div><div class="ttdeci">bool WindowMz</div><div class="ttdoc">Gets or sets a value indicating whether window mz. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00636">UimfData.cs:636</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -753,107 +863,113 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The Task. </dd></dl>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00660">660</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160;        {</div>
-<div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160;            <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#aa676796d65e980d6e8736f6047b363b4">CurrentMaxBin</a> &lt; 1)</div>
-<div class="line"><a name="l00663"></a><span class="lineno">  663</span>&#160;            {</div>
-<div class="line"><a name="l00664"></a><span class="lineno">  664</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">new</span> <span class="keywordtype">double</span>[0, 0];</div>
-<div class="line"><a name="l00665"></a><span class="lineno">  665</span>&#160;            }</div>
-<div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160;</div>
-<div class="line"><a name="l00667"></a><span class="lineno">  667</span>&#160;            <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#acf8b809fbf15cbbe92a5e227135711e7">endScan</a> &lt; 1)</div>
-<div class="line"><a name="l00668"></a><span class="lineno">  668</span>&#160;            {</div>
-<div class="line"><a name="l00669"></a><span class="lineno">  669</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">new</span> <span class="keywordtype">double</span>[0, 0];</div>
-<div class="line"><a name="l00670"></a><span class="lineno">  670</span>&#160;            }</div>
-<div class="line"><a name="l00671"></a><span class="lineno">  671</span>&#160;</div>
-<div class="line"><a name="l00672"></a><span class="lineno">  672</span>&#160;            var frameParams = this.dataReader.GetFrameParams(this.startFrameNumber);</div>
-<div class="line"><a name="l00673"></a><span class="lineno">  673</span>&#160;</div>
-<div class="line"><a name="l00674"></a><span class="lineno">  674</span>&#160;            <span class="keywordflow">if</span> (frameParams == null)</div>
-<div class="line"><a name="l00675"></a><span class="lineno">  675</span>&#160;            {</div>
-<div class="line"><a name="l00676"></a><span class="lineno">  676</span>&#160;                <span class="comment">// Frame number is out of range</span></div>
-<div class="line"><a name="l00677"></a><span class="lineno">  677</span>&#160;                this.FrameData = <span class="keyword">new</span> <span class="keywordtype">double</span>[0, 0];</div>
-<div class="line"><a name="l00678"></a><span class="lineno">  678</span>&#160;            }</div>
-<div class="line"><a name="l00679"></a><span class="lineno">  679</span>&#160;            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00680"></a><span class="lineno">  680</span>&#160;            {</div>
-<div class="line"><a name="l00681"></a><span class="lineno">  681</span>&#160;                this.TotalBins = this.CurrentMaxBin - this.CurrentMinBin + 1;</div>
-<div class="line"><a name="l00682"></a><span class="lineno">  682</span>&#160;</div>
-<div class="line"><a name="l00683"></a><span class="lineno">  683</span>&#160;                this.ValuesPerPixelY = (int)(this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a00432fe0556d83fb678b724e44021027">TotalBins</a> / (<span class="keywordtype">double</span>)this.mostRecentHeight);</div>
-<div class="line"><a name="l00684"></a><span class="lineno">  684</span>&#160;</div>
-<div class="line"><a name="l00685"></a><span class="lineno">  685</span>&#160;                var totalScans = this.EndScan - this.StartScan + 1;</div>
-<div class="line"><a name="l00686"></a><span class="lineno">  686</span>&#160;                this.ValuesPerPixelX = (int)(totalScans / (<span class="keywordtype">double</span>)this.mostRecentWidth);</div>
-<div class="line"><a name="l00687"></a><span class="lineno">  687</span>&#160;</div>
-<div class="line"><a name="l00688"></a><span class="lineno">  688</span>&#160;                <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a011958ff28f0faebb33d2af8f48536b1">ValuesPerPixelY</a> &lt; 1)</div>
-<div class="line"><a name="l00689"></a><span class="lineno">  689</span>&#160;                {</div>
-<div class="line"><a name="l00690"></a><span class="lineno">  690</span>&#160;                    this.ValuesPerPixelY = 1;</div>
-<div class="line"><a name="l00691"></a><span class="lineno">  691</span>&#160;                }</div>
-<div class="line"><a name="l00692"></a><span class="lineno">  692</span>&#160;</div>
-<div class="line"><a name="l00693"></a><span class="lineno">  693</span>&#160;                <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a1229b27550ed046eb5506a0d584cdb41">ValuesPerPixelX</a> &lt; 1)</div>
-<div class="line"><a name="l00694"></a><span class="lineno">  694</span>&#160;                {</div>
-<div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160;                    this.ValuesPerPixelX = 1;</div>
-<div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160;                }</div>
-<div class="line"><a name="l00697"></a><span class="lineno">  697</span>&#160;</div>
-<div class="line"><a name="l00698"></a><span class="lineno">  698</span>&#160;                this.FrameSlope = frameParams.GetValueDouble(FrameParamKeyType.CalibrationSlope);</div>
-<div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160;                this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);</div>
-<div class="line"><a name="l00700"></a><span class="lineno">  700</span>&#160;</div>
-<div class="line"><a name="l00701"></a><span class="lineno">  701</span>&#160;                this.FrameType = frameParams.GetValue(FrameParamKeyType.FrameType);</div>
-<div class="line"><a name="l00702"></a><span class="lineno">  702</span>&#160;                this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);</div>
-<div class="line"><a name="l00703"></a><span class="lineno">  703</span>&#160;</div>
-<div class="line"><a name="l00704"></a><span class="lineno">  704</span>&#160;                await Task.Run(</div>
-<div class="line"><a name="l00705"></a><span class="lineno">  705</span>&#160;                    () =&gt;</div>
-<div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;                        {</div>
-<div class="line"><a name="l00707"></a><span class="lineno">  707</span>&#160;                            var frametype = this.GetFrameType(this.frameType);</div>
-<div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;                            <span class="keywordtype">double</span>[] mzs;</div>
-<div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;                            <span class="keywordtype">int</span>[] intensities;</div>
-<div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;                            this.dataReader.GetSpectrum(</div>
-<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;                                this.StartFrameNumber, </div>
-<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;                                this.EndFrameNumber, </div>
-<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;                                frametype, </div>
-<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;                                this.StartScan, </div>
-<div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160;                                this.EndScan, </div>
-<div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;                                out mzs, </div>
-<div class="line"><a name="l00717"></a><span class="lineno">  717</span>&#160;                                out intensities);</div>
-<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;</div>
-<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;                            var temp = this.dataReader.AccumulateFrameData(</div>
-<div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;                                this.startFrameNumber, </div>
-<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;                                this.EndFrameNumber, </div>
-<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;                                <span class="keyword">false</span>, </div>
-<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160;                                this.StartScan, </div>
-<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160;                                this.EndScan, </div>
-<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;                                this.CurrentMinBin, </div>
-<div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160;                                this.CurrentMaxBin, </div>
-<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;                                (int)this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a1229b27550ed046eb5506a0d584cdb41">ValuesPerPixelX</a>, </div>
-<div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160;                                (<span class="keywordtype">int</span>)this.ValuesPerPixelY);</div>
-<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;</div>
-<div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160;                            var arrayLength =</div>
-<div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;                                (int)Math.Round((<span class="keyword">this</span>.CurrentMaxBin - <span class="keyword">this</span>.currentMinBin + 1) / <span class="keyword">this</span>.ValuesPerPixelY);</div>
-<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;</div>
-<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;                            var tof = <span class="keyword">new</span> <span class="keywordtype">double</span>[arrayLength];</div>
-<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;                            var mz = <span class="keyword">new</span> <span class="keywordtype">double</span>[arrayLength];</div>
-<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;                            this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);</div>
-<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;</div>
-<div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160;                            <span class="keywordflow">for</span> (var i = 0; i &lt; arrayLength; i++)</div>
-<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;                            {</div>
-<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;                                tof[i] = this.dataReader.GetPixelMZ(i);</div>
-<div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;                                mz[i] = this.calibrator.TOFtoMZ(tof[i] * 10);</div>
-<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;                            }</div>
-<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;</div>
-<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;                            this.MzArray = mzs;</div>
-<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;</div>
-<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;                            this.MzIntensities = intensities;</div>
-<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;</div>
-<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;                            this.BinToMzMap = mz;</div>
-<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;</div>
-<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;                            this.FrameData = temp;</div>
-<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;                        });</div>
-<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;            }</div>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00739">739</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;        {</div>
+<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;            <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#aa676796d65e980d6e8736f6047b363b4">CurrentMaxBin</a> &lt; 1)</div>
+<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;            {</div>
+<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">new</span> <span class="keywordtype">double</span>[0, 0];</div>
+<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;            }</div>
+<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;</div>
+<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;            <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#acf8b809fbf15cbbe92a5e227135711e7">endScan</a> &lt; 1)</div>
+<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;            {</div>
+<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">new</span> <span class="keywordtype">double</span>[0, 0];</div>
+<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;            }</div>
+<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;</div>
+<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;            this.LoadingData = <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;</div>
-<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;            this.GateData();</div>
+<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;            var frameParams = this.dataReader.GetFrameParams(this.startFrameNumber);</div>
 <div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;</div>
-<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;            <span class="keywordflow">return</span> returnGatedData ? this.GatedFrameData : this.FrameData;</div>
-<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;        }</div>
-<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_aa676796d65e980d6e8736f6047b363b4"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#aa676796d65e980d6e8736f6047b363b4">Atreyu.Models.UimfData.CurrentMaxBin</a></div><div class="ttdeci">int CurrentMaxBin</div><div class="ttdoc">Gets or sets the current max bin. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00249">UimfData.cs:249</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_a011958ff28f0faebb33d2af8f48536b1"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#a011958ff28f0faebb33d2af8f48536b1">Atreyu.Models.UimfData.ValuesPerPixelY</a></div><div class="ttdeci">double ValuesPerPixelY</div><div class="ttdoc">Gets the values per pixel y. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00585">UimfData.cs:585</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_a00432fe0556d83fb678b724e44021027"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#a00432fe0556d83fb678b724e44021027">Atreyu.Models.UimfData.TotalBins</a></div><div class="ttdeci">int TotalBins</div><div class="ttdoc">Gets the total bins currently queried. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00553">UimfData.cs:553</a></div></div>
-<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_a1229b27550ed046eb5506a0d584cdb41"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#a1229b27550ed046eb5506a0d584cdb41">Atreyu.Models.UimfData.ValuesPerPixelX</a></div><div class="ttdeci">double ValuesPerPixelX</div><div class="ttdoc">Gets the values per pixel x. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00569">UimfData.cs:569</a></div></div>
+<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;            <span class="keywordflow">if</span> (frameParams == null)</div>
+<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;            {</div>
+<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;                <span class="comment">// Frame number is out of range</span></div>
+<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;                this.FrameData = <span class="keyword">new</span> <span class="keywordtype">double</span>[0, 0];</div>
+<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;            }</div>
+<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;            {</div>
+<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;                this.TotalBins = this.CurrentMaxBin - this.CurrentMinBin + 1;</div>
+<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;</div>
+<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;                this.ValuesPerPixelY = (int)(this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a00432fe0556d83fb678b724e44021027">TotalBins</a> / (<span class="keywordtype">double</span>)this.mostRecentHeight);</div>
+<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;</div>
+<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;                var totalScans = this.EndScan - this.StartScan + 1;</div>
+<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;                this.ValuesPerPixelX = (int)(totalScans / (<span class="keywordtype">double</span>)this.mostRecentWidth);</div>
+<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;</div>
+<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;                <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a011958ff28f0faebb33d2af8f48536b1">ValuesPerPixelY</a> &lt; 1)</div>
+<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;                {</div>
+<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;                    this.ValuesPerPixelY = 1;</div>
+<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;                }</div>
+<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;</div>
+<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;                <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a1229b27550ed046eb5506a0d584cdb41">ValuesPerPixelX</a> &lt; 1)</div>
+<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;                {</div>
+<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;                    this.ValuesPerPixelX = 1;</div>
+<div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;                }</div>
+<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;</div>
+<div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160;                this.FrameSlope = frameParams.GetValueDouble(FrameParamKeyType.CalibrationSlope);</div>
+<div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;                this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);</div>
+<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;</div>
+<div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160;                this.FrameType = frameParams.GetValue(FrameParamKeyType.FrameType);</div>
+<div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160;                this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);</div>
+<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;</div>
+<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;                await Task.Run(</div>
+<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;                    () =&gt;</div>
+<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;                        {</div>
+<div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;                            this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);</div>
+<div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;</div>
+<div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;                            var frametype = <a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a9710c83ea95be9a3ffa3b3e4aa4bfba5">GetFrameType</a>(this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#ad754d76851216bd87e723858ace0a31b">frameType</a>);</div>
+<div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;                            <span class="keywordtype">double</span>[] mzs;</div>
+<div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;                            <span class="keywordtype">int</span>[] intensities;</div>
+<div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;                            this.dataReader.GetSpectrum(</div>
+<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;                                this.StartFrameNumber, </div>
+<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;                                this.EndFrameNumber, </div>
+<div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;                                frametype, </div>
+<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;                                this.StartScan, </div>
+<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;                                this.EndScan, </div>
+<div class="line"><a name="l00799"></a><span class="lineno">  799</span>&#160;                                out mzs, </div>
+<div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160;                                out intensities);</div>
+<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;</div>
+<div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160;                            var temp = this.dataReader.AccumulateFrameData(</div>
+<div class="line"><a name="l00803"></a><span class="lineno">  803</span>&#160;                                this.startFrameNumber, </div>
+<div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160;                                this.EndFrameNumber, </div>
+<div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160;                                <span class="keyword">false</span>, </div>
+<div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;                                this.StartScan, </div>
+<div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;                                this.EndScan, </div>
+<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;                                this.CurrentMinBin, </div>
+<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;                                this.CurrentMaxBin, </div>
+<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;                                (int)this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#a1229b27550ed046eb5506a0d584cdb41">ValuesPerPixelX</a>, </div>
+<div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;                                (<span class="keywordtype">int</span>)this.ValuesPerPixelY);</div>
+<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;</div>
+<div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160;                            var arrayLength =</div>
+<div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160;                                (int)Math.Round((<span class="keyword">this</span>.CurrentMaxBin - <span class="keyword">this</span>.currentMinBin + 1) / <span class="keyword">this</span>.ValuesPerPixelY);</div>
+<div class="line"><a name="l00815"></a><span class="lineno">  815</span>&#160;</div>
+<div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160;                            var tof = <span class="keyword">new</span> <span class="keywordtype">double</span>[arrayLength];</div>
+<div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;                            var mz = <span class="keyword">new</span> <span class="keywordtype">double</span>[arrayLength];</div>
+<div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;</div>
+<div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160;                            <span class="keywordflow">for</span> (var i = 0; i &lt; arrayLength; i++)</div>
+<div class="line"><a name="l00820"></a><span class="lineno">  820</span>&#160;                            {</div>
+<div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160;                                tof[i] = this.dataReader.GetPixelMZ(i);</div>
+<div class="line"><a name="l00822"></a><span class="lineno">  822</span>&#160;                                mz[i] = this.calibrator.TOFtoMZ(tof[i] * 10);</div>
+<div class="line"><a name="l00823"></a><span class="lineno">  823</span>&#160;                            }</div>
+<div class="line"><a name="l00824"></a><span class="lineno">  824</span>&#160;</div>
+<div class="line"><a name="l00825"></a><span class="lineno">  825</span>&#160;                            this.MzArray = mzs;</div>
+<div class="line"><a name="l00826"></a><span class="lineno">  826</span>&#160;</div>
+<div class="line"><a name="l00827"></a><span class="lineno">  827</span>&#160;                            this.MzIntensities = intensities;</div>
+<div class="line"><a name="l00828"></a><span class="lineno">  828</span>&#160;</div>
+<div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160;                            this.BinToMzMap = mz;</div>
+<div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160;</div>
+<div class="line"><a name="l00831"></a><span class="lineno">  831</span>&#160;                            this.FrameData = temp;</div>
+<div class="line"><a name="l00832"></a><span class="lineno">  832</span>&#160;                        });</div>
+<div class="line"><a name="l00833"></a><span class="lineno">  833</span>&#160;            }</div>
+<div class="line"><a name="l00834"></a><span class="lineno">  834</span>&#160;</div>
+<div class="line"><a name="l00835"></a><span class="lineno">  835</span>&#160;            this.GateData();</div>
+<div class="line"><a name="l00836"></a><span class="lineno">  836</span>&#160;</div>
+<div class="line"><a name="l00837"></a><span class="lineno">  837</span>&#160;            this.LoadingData = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00838"></a><span class="lineno">  838</span>&#160;            <span class="keywordflow">return</span> returnGatedData ? this.GatedFrameData : this.FrameData;</div>
+<div class="line"><a name="l00839"></a><span class="lineno">  839</span>&#160;        }</div>
+<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_aa676796d65e980d6e8736f6047b363b4"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#aa676796d65e980d6e8736f6047b363b4">Atreyu.Models.UimfData.CurrentMaxBin</a></div><div class="ttdeci">int CurrentMaxBin</div><div class="ttdoc">Gets or sets the current max bin. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00259">UimfData.cs:259</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_ad754d76851216bd87e723858ace0a31b"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#ad754d76851216bd87e723858ace0a31b">Atreyu.Models.UimfData.frameType</a></div><div class="ttdeci">string frameType</div><div class="ttdoc">The frame type. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00105">UimfData.cs:105</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_a011958ff28f0faebb33d2af8f48536b1"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#a011958ff28f0faebb33d2af8f48536b1">Atreyu.Models.UimfData.ValuesPerPixelY</a></div><div class="ttdeci">double ValuesPerPixelY</div><div class="ttdoc">Gets the values per pixel y. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00621">UimfData.cs:621</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_a9710c83ea95be9a3ffa3b3e4aa4bfba5"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#a9710c83ea95be9a3ffa3b3e4aa4bfba5">Atreyu.Models.UimfData.GetFrameType</a></div><div class="ttdeci">static DataReader.FrameType GetFrameType(string frameTypeString)</div><div class="ttdoc">The get frame type. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00973">UimfData.cs:973</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_a00432fe0556d83fb678b724e44021027"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#a00432fe0556d83fb678b724e44021027">Atreyu.Models.UimfData.TotalBins</a></div><div class="ttdeci">int TotalBins</div><div class="ttdoc">Gets the total bins currently queried. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00589">UimfData.cs:589</a></div></div>
+<div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_a1229b27550ed046eb5506a0d584cdb41"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#a1229b27550ed046eb5506a0d584cdb41">Atreyu.Models.UimfData.ValuesPerPixelX</a></div><div class="ttdeci">double ValuesPerPixelX</div><div class="ttdoc">Gets the values per pixel x. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00605">UimfData.cs:605</a></div></div>
 <div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_acf8b809fbf15cbbe92a5e227135711e7"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#acf8b809fbf15cbbe92a5e227135711e7">Atreyu.Models.UimfData.endScan</a></div><div class="ttdeci">int endScan</div><div class="ttdoc">The end scan. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00085">UimfData.cs:85</a></div></div>
 </div><!-- fragment -->
 </div>
@@ -935,25 +1051,25 @@ Private Attributes</h2></td></tr>
     <tr><td class="paramname">width</td><td>The width. </td></tr>
     <tr><td class="paramname">startScanValue</td><td>The start scan. </td></tr>
     <tr><td class="paramname">endScanValue</td><td>The end scan. </td></tr>
-    <tr><td class="paramname">returnGatedData</td><td></td></tr>
+    <tr><td class="paramname">returnGatedData</td><td>Whether or not the returned data should be gated </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The 2d array of doubles that represents the data, index 0 is bins, index 1 in scans. </dd></dl>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00790">790</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160;        {</div>
-<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;            this.UpdateScanRange(startScanValue, endScanValue);</div>
-<div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160;</div>
-<div class="line"><a name="l00803"></a><span class="lineno">  803</span>&#160;            this.CurrentMinBin = startBin &lt; 0 ? 0 : startBin;</div>
-<div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160;            this.CurrentMaxBin = endBin &gt; this.MaxBins ? this.MaxBins : endBin;</div>
-<div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160;</div>
-<div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;            this.StartFrameNumber = startFrame;</div>
-<div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;            this.EndFrameNumber = endFrame;</div>
-<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;            this.mostRecentHeight = height;</div>
-<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;            this.mostRecentWidth = width;</div>
-<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;            <span class="keywordflow">return</span> await this.ReadData(returnGatedData);</div>
-<div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;        }</div>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00874">874</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00884"></a><span class="lineno">  884</span>&#160;        {</div>
+<div class="line"><a name="l00885"></a><span class="lineno">  885</span>&#160;            this.UpdateScanRange(startScanValue, endScanValue);</div>
+<div class="line"><a name="l00886"></a><span class="lineno">  886</span>&#160;</div>
+<div class="line"><a name="l00887"></a><span class="lineno">  887</span>&#160;            this.CurrentMinBin = startBin &lt; 0 ? 0 : startBin;</div>
+<div class="line"><a name="l00888"></a><span class="lineno">  888</span>&#160;            this.CurrentMaxBin = endBin &gt; this.MaxBins ? this.MaxBins : endBin;</div>
+<div class="line"><a name="l00889"></a><span class="lineno">  889</span>&#160;</div>
+<div class="line"><a name="l00890"></a><span class="lineno">  890</span>&#160;            this.StartFrameNumber = startFrame;</div>
+<div class="line"><a name="l00891"></a><span class="lineno">  891</span>&#160;            this.EndFrameNumber = endFrame;</div>
+<div class="line"><a name="l00892"></a><span class="lineno">  892</span>&#160;            this.mostRecentHeight = height;</div>
+<div class="line"><a name="l00893"></a><span class="lineno">  893</span>&#160;            this.mostRecentWidth = width;</div>
+<div class="line"><a name="l00894"></a><span class="lineno">  894</span>&#160;            <span class="keywordflow">return</span> await this.ReadData(returnGatedData);</div>
+<div class="line"><a name="l00895"></a><span class="lineno">  895</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -979,11 +1095,11 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00819">819</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00820"></a><span class="lineno">  820</span>&#160;        {</div>
-<div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160;            this.HighGate = newValue;</div>
-<div class="line"><a name="l00822"></a><span class="lineno">  822</span>&#160;            this.GateData();</div>
-<div class="line"><a name="l00823"></a><span class="lineno">  823</span>&#160;        }</div>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00903">903</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00904"></a><span class="lineno">  904</span>&#160;        {</div>
+<div class="line"><a name="l00905"></a><span class="lineno">  905</span>&#160;            this.HighGate = newValue;</div>
+<div class="line"><a name="l00906"></a><span class="lineno">  906</span>&#160;            this.GateData();</div>
+<div class="line"><a name="l00907"></a><span class="lineno">  907</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1009,16 +1125,16 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00831">831</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00832"></a><span class="lineno">  832</span>&#160;        {</div>
-<div class="line"><a name="l00833"></a><span class="lineno">  833</span>&#160;            <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#ab3149b456c0898fa8de1a7d207683c81">frameData</a> == null)</div>
-<div class="line"><a name="l00834"></a><span class="lineno">  834</span>&#160;            {</div>
-<div class="line"><a name="l00835"></a><span class="lineno">  835</span>&#160;                <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00836"></a><span class="lineno">  836</span>&#160;            }</div>
-<div class="line"><a name="l00837"></a><span class="lineno">  837</span>&#160;</div>
-<div class="line"><a name="l00838"></a><span class="lineno">  838</span>&#160;            this.LowGate = newValue;</div>
-<div class="line"><a name="l00839"></a><span class="lineno">  839</span>&#160;            this.GateData();</div>
-<div class="line"><a name="l00840"></a><span class="lineno">  840</span>&#160;        }</div>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00915">915</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00916"></a><span class="lineno">  916</span>&#160;        {</div>
+<div class="line"><a name="l00917"></a><span class="lineno">  917</span>&#160;            <span class="keywordflow">if</span> (this.<a class="code" href="class_atreyu_1_1_models_1_1_uimf_data.html#ab3149b456c0898fa8de1a7d207683c81">frameData</a> == null)</div>
+<div class="line"><a name="l00918"></a><span class="lineno">  918</span>&#160;            {</div>
+<div class="line"><a name="l00919"></a><span class="lineno">  919</span>&#160;                <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00920"></a><span class="lineno">  920</span>&#160;            }</div>
+<div class="line"><a name="l00921"></a><span class="lineno">  921</span>&#160;</div>
+<div class="line"><a name="l00922"></a><span class="lineno">  922</span>&#160;            this.LowGate = newValue;</div>
+<div class="line"><a name="l00923"></a><span class="lineno">  923</span>&#160;            this.GateData();</div>
+<div class="line"><a name="l00924"></a><span class="lineno">  924</span>&#160;        }</div>
 <div class="ttc" id="class_atreyu_1_1_models_1_1_uimf_data_html_ab3149b456c0898fa8de1a7d207683c81"><div class="ttname"><a href="class_atreyu_1_1_models_1_1_uimf_data.html#ab3149b456c0898fa8de1a7d207683c81">Atreyu.Models.UimfData.frameData</a></div><div class="ttdeci">double[,] frameData</div><div class="ttdoc">The frame data. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_8cs_source.html#l00090">UimfData.cs:90</a></div></div>
 </div><!-- fragment -->
 </div>
@@ -1056,12 +1172,12 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00851">851</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00852"></a><span class="lineno">  852</span>&#160;        {</div>
-<div class="line"><a name="l00853"></a><span class="lineno">  853</span>&#160;            this.EndScan = endScanNew &gt; this.Scans ? this.Scans : endScanNew;</div>
-<div class="line"><a name="l00854"></a><span class="lineno">  854</span>&#160;</div>
-<div class="line"><a name="l00855"></a><span class="lineno">  855</span>&#160;            this.StartScan = startScanNew &lt; 0 ? 0 : startScanNew;</div>
-<div class="line"><a name="l00856"></a><span class="lineno">  856</span>&#160;        }</div>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00935">935</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00936"></a><span class="lineno">  936</span>&#160;        {</div>
+<div class="line"><a name="l00937"></a><span class="lineno">  937</span>&#160;            this.EndScan = endScanNew &gt; this.Scans ? this.Scans : endScanNew;</div>
+<div class="line"><a name="l00938"></a><span class="lineno">  938</span>&#160;</div>
+<div class="line"><a name="l00939"></a><span class="lineno">  939</span>&#160;            this.StartScan = startScanNew &lt; 0 ? 0 : startScanNew;</div>
+<div class="line"><a name="l00940"></a><span class="lineno">  940</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1426,6 +1542,30 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ac4652ac895260c0c153b51da60d3ffa5"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Atreyu.Models.UimfData.loadingData</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Backing field for a property that indicates whether this is currently loading data or not. </p>
+
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00125">125</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a9124fd485fce9319857441e56eeefb3e"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1446,7 +1586,7 @@ Private Attributes</h2></td></tr>
 
 <p>The gate. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00125">125</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00130">130</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1470,7 +1610,7 @@ Private Attributes</h2></td></tr>
 
 <p>The max bins. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00130">130</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00135">135</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1494,7 +1634,7 @@ Private Attributes</h2></td></tr>
 
 <p>The most recent height. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00135">135</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00140">140</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1518,7 +1658,7 @@ Private Attributes</h2></td></tr>
 
 <p>The most recent width. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00140">140</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00145">145</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1542,7 +1682,7 @@ Private Attributes</h2></td></tr>
 
 <p>The mz array. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00145">145</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00150">150</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1566,7 +1706,31 @@ Private Attributes</h2></td></tr>
 
 <p>The mz intensities. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00150">150</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00155">155</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a816d4543184dd124b54177d7ad708e56"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_atreyu_1_1_models_1_1_bin_range.html">BinRange</a> Atreyu.Models.UimfData.mzWindow</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The mz window that will be enforced if <a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html#a4457e49101cd3e516ded02964239abe5" title="Gets or sets a value indicating whether window mz. ">WindowMz</a> it true. </p>
+
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00160">160</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1590,7 +1754,7 @@ Private Attributes</h2></td></tr>
 
 <p>The range update list. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00155">155</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00165">165</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1614,7 +1778,7 @@ Private Attributes</h2></td></tr>
 
 <p>The scans. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00160">160</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00170">170</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1638,7 +1802,7 @@ Private Attributes</h2></td></tr>
 
 <p>The start frame number. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00165">165</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00175">175</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1662,7 +1826,7 @@ Private Attributes</h2></td></tr>
 
 <p>The start scan. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00170">170</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00180">180</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1686,7 +1850,7 @@ Private Attributes</h2></td></tr>
 
 <p>The total bins. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00175">175</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00185">185</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1710,7 +1874,7 @@ Private Attributes</h2></td></tr>
 
 <p>The values per pixel x. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00180">180</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00190">190</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1734,7 +1898,7 @@ Private Attributes</h2></td></tr>
 
 <p>The values per pixel y. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00185">185</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00195">195</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1759,7 +1923,7 @@ Private Attributes</h2></td></tr>
 
 <p>Gets the bin to mz map. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00217">217</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00227">227</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1783,7 +1947,7 @@ Private Attributes</h2></td></tr>
 
 <p>Gets the m/z calibrator that converts TOF to m/z. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00233">233</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00243">243</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1807,7 +1971,7 @@ Private Attributes</h2></td></tr>
 
 <p>Gets or sets the current max bin. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00249">249</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00259">259</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1831,7 +1995,7 @@ Private Attributes</h2></td></tr>
 
 <p>Gets or sets the current min bin. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00265">265</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00275">275</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1855,7 +2019,7 @@ Private Attributes</h2></td></tr>
 
 <p>Gets the end frame number. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00281">281</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00291">291</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1879,7 +2043,7 @@ Private Attributes</h2></td></tr>
 
 <p>Gets or sets the end scan. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00297">297</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00307">307</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1903,7 +2067,7 @@ Private Attributes</h2></td></tr>
 
 <p>Gets the frame data. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00313">313</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00323">323</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1927,7 +2091,7 @@ Private Attributes</h2></td></tr>
 
 <p>Gets the frame intercept. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00329">329</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00339">339</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1951,7 +2115,7 @@ Private Attributes</h2></td></tr>
 
 <p>Gets the frames. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00377">377</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00387">387</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1975,7 +2139,7 @@ Private Attributes</h2></td></tr>
 
 <p>Gets the frame slope. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00345">345</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00355">355</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -1999,7 +2163,7 @@ Private Attributes</h2></td></tr>
 
 <p>Gets the frame type. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00361">361</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00371">371</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -2023,7 +2187,7 @@ Private Attributes</h2></td></tr>
 
 <p>Gets the gated frame data. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00393">393</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00403">403</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -2047,7 +2211,31 @@ Private Attributes</h2></td></tr>
 
 <p>Gets the high gate. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00409">409</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00419">419</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab775ef2cca1307693a4c454fe1eb6d1f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Atreyu.Models.UimfData.LoadingData</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets a value indicating whether this class is currently loading data or not. </p>
+
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00435">435</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -2071,7 +2259,7 @@ Private Attributes</h2></td></tr>
 
 <p>Gets the gate. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00425">425</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00451">451</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -2095,9 +2283,9 @@ Private Attributes</h2></td></tr>
 
 <p>Gets or sets the max bins. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00441">441</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00467">467</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00469">Atreyu.ViewModels.CombinedHeatmapViewModel.ZoomOut()</a>.</p>
+<p>Referenced by <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00584">Atreyu.ViewModels.CombinedHeatmapViewModel.ZoomOut()</a>.</p>
 
 </div>
 </div>
@@ -2121,7 +2309,31 @@ Private Attributes</h2></td></tr>
 
 <p>Gets the mz array. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00457">457</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00483">483</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a02d82d525ba92c8d667c5fac594b28e8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double Atreyu.Models.UimfData.MzCenter</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets or sets the mz center. </p>
+
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00498">498</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -2145,7 +2357,31 @@ Private Attributes</h2></td></tr>
 
 <p>Gets the mz intensities. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00473">473</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00504">504</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5714cc57278411b4f412b5f486146f24"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double Atreyu.Models.UimfData.PartsPerMillion</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets or sets the parts per million. </p>
+
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00519">519</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -2169,7 +2405,7 @@ Private Attributes</h2></td></tr>
 
 <p>Gets the range update list. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00489">489</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00525">525</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -2193,9 +2429,9 @@ Private Attributes</h2></td></tr>
 
 <p>Gets the scans. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00505">505</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00541">541</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00469">Atreyu.ViewModels.CombinedHeatmapViewModel.ZoomOut()</a>.</p>
+<p>Referenced by <a class="el" href="_combined_heatmap_view_model_8cs_source.html#l00584">Atreyu.ViewModels.CombinedHeatmapViewModel.ZoomOut()</a>.</p>
 
 </div>
 </div>
@@ -2219,7 +2455,7 @@ Private Attributes</h2></td></tr>
 
 <p>Gets the start frame number. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00521">521</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00557">557</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -2243,7 +2479,7 @@ Private Attributes</h2></td></tr>
 
 <p>Gets or sets the start scan. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00537">537</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00573">573</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -2267,7 +2503,7 @@ Private Attributes</h2></td></tr>
 
 <p>Gets the total bins currently queried. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00553">553</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00589">589</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -2291,7 +2527,7 @@ Private Attributes</h2></td></tr>
 
 <p>Gets the values per pixel x. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00569">569</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00605">605</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -2315,7 +2551,31 @@ Private Attributes</h2></td></tr>
 
 <p>Gets the values per pixel y. </p>
 
-<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00585">585</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00621">621</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4457e49101cd3e516ded02964239abe5"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Atreyu.Models.UimfData.WindowMz</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets or sets a value indicating whether window mz. </p>
+
+<p>Definition at line <a class="el" href="_uimf_data_8cs_source.html#l00636">636</a> of file <a class="el" href="_uimf_data_8cs_source.html">UimfData.cs</a>.</p>
 
 </div>
 </div>
@@ -2328,7 +2588,7 @@ Private Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespace_atreyu.html">Atreyu</a></li><li class="navelem"><a class="el" href="namespace_atreyu_1_1_models.html">Models</a></li><li class="navelem"><a class="el" href="class_atreyu_1_1_models_1_1_uimf_data.html">UimfData</a></li>
-    <li class="footer">Generated on Thu Apr 30 2015 16:58:38 for Atreyu by
+    <li class="footer">Generated on Thu Jul 16 2015 07:27:59 for Atreyu by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
   </ul>

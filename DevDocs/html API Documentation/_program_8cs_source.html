@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Atreyu
-   &#160;<span id="projectnumber">1.7</span>
+   &#160;<span id="projectnumber">1.8</span>
    </div>
    <div id="projectbrief">A light-weight Ion mobility mass spectrometry data viewer and extractor, targeted toward PNNL&#39;s UIMF files</div>
   </td>
@@ -140,51 +140,53 @@ $(document).ready(function(){initNavTree('_program_8cs_source.html','');});
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">using</span> System;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="class_uimf_data_extractor_1_1_program.html">   36</a></span>&#160;    <span class="keyword">internal</span> <span class="keyword">class </span><a class="code" href="class_uimf_data_extractor_1_1_program.html">Program</a></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">        #region Public Methods and Operators</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        [STAThread]</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="class_uimf_data_extractor_1_1_program.html#ac06705030a3cf5d82072378a2ed34761">   47</a></span>&#160;        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="class_uimf_data_extractor_1_1_program.html#ac06705030a3cf5d82072378a2ed34761">Main</a>(<span class="keywordtype">string</span>[] args)</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordflow">if</span> (args.Length &lt; 1)</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                Console.WriteLine(<span class="stringliteral">&quot;Starting windows application&quot;</span>);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                var gui = <span class="keyword">new</span> <a class="code" href="class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html">UimfDataExtractorGui</a>();</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                gui.ShowDialog();</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                UimfProcessor.Options = <span class="keyword">new</span> <a class="code" href="class_uimf_data_extractor_1_1_command_line_options.html">CommandLineOptions</a>();</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                <span class="keywordflow">if</span> (!CommandLine.Parser.Default.ParseArgumentsStrict(args, <a class="code" href="class_uimf_data_extractor_1_1_uimf_processor.html">UimfProcessor</a>.<a class="code" href="class_uimf_data_extractor_1_1_uimf_processor.html#a854cdb68b833a4b931bfadf3f27c2ab4">Options</a>))</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                }</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                <span class="comment">// Domain logic here</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                UimfProcessor.ExtractData();</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            }</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            Console.WriteLine(<span class="stringliteral">&quot;Exiting&quot;</span>);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        }</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">        #endregion</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    }</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
-<div class="ttc" id="class_uimf_data_extractor_1_1_uimf_processor_html"><div class="ttname"><a href="class_uimf_data_extractor_1_1_uimf_processor.html">UimfDataExtractor.UimfProcessor</a></div><div class="ttdoc">The uimf processor class handles finding and fetching data from the UIMFs. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_processor_8cs_source.html#l00046">UimfProcessor.cs:46</a></div></div>
-<div class="ttc" id="class_uimf_data_extractor_1_1_command_line_options_html"><div class="ttname"><a href="class_uimf_data_extractor_1_1_command_line_options.html">UimfDataExtractor.CommandLineOptions</a></div><div class="ttdoc">The command line options. </div><div class="ttdef"><b>Definition:</b> <a href="_command_line_options_8cs_source.html#l00037">CommandLineOptions.cs:37</a></div></div>
-<div class="ttc" id="class_uimf_data_extractor_1_1_program_html"><div class="ttname"><a href="class_uimf_data_extractor_1_1_program.html">UimfDataExtractor.Program</a></div><div class="ttdoc">The program. </div><div class="ttdef"><b>Definition:</b> <a href="_program_8cs_source.html#l00036">Program.cs:36</a></div></div>
-<div class="ttc" id="class_uimf_data_extractor_1_1_uimf_data_extractor_gui_html"><div class="ttname"><a href="class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html">UimfDataExtractor.UimfDataExtractorGui</a></div><div class="ttdoc">The uimf data extractor gui codebehind. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_extractor_g_u_i_8cs_source.html#l00038">UimfDataExtractorGUI.cs:38</a></div></div>
-<div class="ttc" id="class_uimf_data_extractor_1_1_uimf_processor_html_a854cdb68b833a4b931bfadf3f27c2ab4"><div class="ttname"><a href="class_uimf_data_extractor_1_1_uimf_processor.html#a854cdb68b833a4b931bfadf3f27c2ab4">UimfDataExtractor.UimfProcessor.Options</a></div><div class="ttdeci">static CommandLineOptions Options</div><div class="ttdoc">Gets or sets the options. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_processor_8cs_source.html#l00063">UimfProcessor.cs:63</a></div></div>
-<div class="ttc" id="class_uimf_data_extractor_1_1_program_html_ac06705030a3cf5d82072378a2ed34761"><div class="ttname"><a href="class_uimf_data_extractor_1_1_program.html#ac06705030a3cf5d82072378a2ed34761">UimfDataExtractor.Program.Main</a></div><div class="ttdeci">static void Main(string[] args)</div><div class="ttdoc">The main entry to the program. </div><div class="ttdef"><b>Definition:</b> <a href="_program_8cs_source.html#l00047">Program.cs:47</a></div></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">using</span> UimfDataExtractor.Models;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="class_uimf_data_extractor_1_1_program.html">   38</a></span>&#160;    <span class="keyword">internal</span> <span class="keyword">class </span><a class="code" href="class_uimf_data_extractor_1_1_program.html">Program</a></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">        #region Public Methods and Operators</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        [STAThread]</div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="class_uimf_data_extractor_1_1_program.html#ac06705030a3cf5d82072378a2ed34761">   49</a></span>&#160;        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="class_uimf_data_extractor_1_1_program.html#ac06705030a3cf5d82072378a2ed34761">Main</a>(<span class="keywordtype">string</span>[] args)</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="keywordflow">if</span> (args.Length &lt; 1)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                Console.WriteLine(<span class="stringliteral">&quot;Starting windows application&quot;</span>);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                var gui = <span class="keyword">new</span> <a class="code" href="class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html">UimfDataExtractorGui</a>();</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                gui.ShowDialog();</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            }</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                UimfProcessor.Options = <span class="keyword">new</span> <a class="code" href="class_uimf_data_extractor_1_1_models_1_1_command_line_options.html">CommandLineOptions</a>();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <span class="keywordflow">if</span> (!CommandLine.Parser.Default.ParseArgumentsStrict(args, <a class="code" href="class_uimf_data_extractor_1_1_uimf_processor.html">UimfProcessor</a>.<a class="code" href="class_uimf_data_extractor_1_1_uimf_processor.html#a854cdb68b833a4b931bfadf3f27c2ab4">Options</a>))</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                <span class="comment">// Domain logic here</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                UimfProcessor.ExtractData();</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            Console.WriteLine(<span class="stringliteral">&quot;Exiting&quot;</span>);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">        #endregion</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
+<div class="ttc" id="class_uimf_data_extractor_1_1_uimf_processor_html"><div class="ttname"><a href="class_uimf_data_extractor_1_1_uimf_processor.html">UimfDataExtractor.UimfProcessor</a></div><div class="ttdoc">The uimf processor class handles finding and fetching data from the UIMFs. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_processor_8cs_source.html#l00048">UimfProcessor.cs:48</a></div></div>
+<div class="ttc" id="class_uimf_data_extractor_1_1_program_html"><div class="ttname"><a href="class_uimf_data_extractor_1_1_program.html">UimfDataExtractor.Program</a></div><div class="ttdoc">The program. </div><div class="ttdef"><b>Definition:</b> <a href="_program_8cs_source.html#l00038">Program.cs:38</a></div></div>
+<div class="ttc" id="class_uimf_data_extractor_1_1_uimf_data_extractor_gui_html"><div class="ttname"><a href="class_uimf_data_extractor_1_1_uimf_data_extractor_gui.html">UimfDataExtractor.UimfDataExtractorGui</a></div><div class="ttdoc">The uimf data extractor gui code behind. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_data_extractor_g_u_i_8cs_source.html#l00040">UimfDataExtractorGUI.cs:40</a></div></div>
+<div class="ttc" id="class_uimf_data_extractor_1_1_models_1_1_command_line_options_html"><div class="ttname"><a href="class_uimf_data_extractor_1_1_models_1_1_command_line_options.html">UimfDataExtractor.Models.CommandLineOptions</a></div><div class="ttdoc">The command line options. </div><div class="ttdef"><b>Definition:</b> <a href="_command_line_options_8cs_source.html#l00041">CommandLineOptions.cs:41</a></div></div>
+<div class="ttc" id="class_uimf_data_extractor_1_1_uimf_processor_html_a854cdb68b833a4b931bfadf3f27c2ab4"><div class="ttname"><a href="class_uimf_data_extractor_1_1_uimf_processor.html#a854cdb68b833a4b931bfadf3f27c2ab4">UimfDataExtractor.UimfProcessor.Options</a></div><div class="ttdeci">static CommandLineOptions Options</div><div class="ttdoc">Gets or sets the options. </div><div class="ttdef"><b>Definition:</b> <a href="_uimf_processor_8cs_source.html#l00065">UimfProcessor.cs:65</a></div></div>
+<div class="ttc" id="class_uimf_data_extractor_1_1_program_html_ac06705030a3cf5d82072378a2ed34761"><div class="ttname"><a href="class_uimf_data_extractor_1_1_program.html#ac06705030a3cf5d82072378a2ed34761">UimfDataExtractor.Program.Main</a></div><div class="ttdeci">static void Main(string[] args)</div><div class="ttdoc">The main entry to the program. </div><div class="ttdef"><b>Definition:</b> <a href="_program_8cs_source.html#l00049">Program.cs:49</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_26a57642325f3c609088cb4d72030692.html">Falkor</a></li><li class="navelem"><a class="el" href="dir_0cff26dc86242075b1285ba559db1a0a.html">Atreyu</a></li><li class="navelem"><a class="el" href="dir_a36ad409f86d034c8789354c4f512f27.html">UIMF Data Extractor</a></li><li class="navelem"><a class="el" href="_program_8cs.html">Program.cs</a></li>
-    <li class="footer">Generated on Thu Apr 30 2015 16:58:37 for Atreyu by
+    <li class="footer">Generated on Thu Jul 16 2015 07:27:57 for Atreyu by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
   </ul>

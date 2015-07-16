@@ -1,0 +1,4 @@
+<map id="Utilities.PeakFinder.FindMidPoint" name="Utilities.PeakFinder.FindMidPoint">
+<area shape="rect" id="node2" href="$class_utilities_1_1_peak_finder.html#adef0d8b1feb38137bdc33fbc1e8a4b3e" title="Calculates peak information. " alt="" coords="217,5,411,47"/>
+<area shape="rect" id="node3" href="$class_utilities_1_1_peak_finder.html#a6e19926005d0707f1833216478c0fae5" title="Find the peaks in the data set passed and returns a list of peak information. " alt="" coords="459,5,623,47"/>
+</map>
