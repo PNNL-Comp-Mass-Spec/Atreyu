@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['scanrange',['ScanRange',['../namespace_atreyu_1_1_models.html#a61e06e946363f7e1ff66e584a1b24362a09434489ff1c422748213ec680e69854',1,'Atreyu::Models']]]
+  ['leftside',['LeftSide',['../namespace_utilities_1_1_models.html#a6c7fcc979fa67a1909fc66f8a60ba5d2a21f9f4fa7394dc2ccb46641e396a18e0',1,'Utilities::Models']]]
 ];

@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Atreyu
-   &#160;<span id="projectnumber">1.7</span>
+   &#160;<span id="projectnumber">1.8</span>
    </div>
    <div id="projectbrief">A light-weight Ion mobility mass spectrometry data viewer and extractor, targeted toward PNNL&#39;s UIMF files</div>
   </td>
@@ -127,7 +127,7 @@ Static Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The program. </p>
 
-<p>Definition at line <a class="el" href="_program_8cs_source.html#l00036">36</a> of file <a class="el" href="_program_8cs_source.html">Program.cs</a>.</p>
+<p>Definition at line <a class="el" href="_program_8cs_source.html#l00038">38</a> of file <a class="el" href="_program_8cs_source.html">Program.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="ac06705030a3cf5d82072378a2ed34761"></a>
 <div class="memitem">
@@ -159,31 +159,31 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_program_8cs_source.html#l00047">47</a> of file <a class="el" href="_program_8cs_source.html">Program.cs</a>.</p>
+<p>Definition at line <a class="el" href="_program_8cs_source.html#l00049">49</a> of file <a class="el" href="_program_8cs_source.html">Program.cs</a>.</p>
 
-<p>References <a class="el" href="_uimf_processor_8cs_source.html#l00063">UimfDataExtractor.UimfProcessor.Options</a>.</p>
-<div class="fragment"><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordflow">if</span> (args.Length &lt; 1)</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                Console.WriteLine(<span class="stringliteral">&quot;Starting windows application&quot;</span>);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                var gui = <span class="keyword">new</span> UimfDataExtractorGui();</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                gui.ShowDialog();</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                UimfProcessor.Options = <span class="keyword">new</span> CommandLineOptions();</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                <span class="keywordflow">if</span> (!CommandLine.Parser.Default.ParseArgumentsStrict(args, UimfProcessor.Options))</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                }</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                <span class="comment">// Domain logic here</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                UimfProcessor.ExtractData();</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            }</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            Console.WriteLine(<span class="stringliteral">&quot;Exiting&quot;</span>);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        }</div>
+<p>References <a class="el" href="_uimf_processor_8cs_source.html#l00065">UimfDataExtractor.UimfProcessor.Options</a>.</p>
+<div class="fragment"><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="keywordflow">if</span> (args.Length &lt; 1)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                Console.WriteLine(<span class="stringliteral">&quot;Starting windows application&quot;</span>);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                var gui = <span class="keyword">new</span> UimfDataExtractorGui();</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                gui.ShowDialog();</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            }</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                UimfProcessor.Options = <span class="keyword">new</span> CommandLineOptions();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <span class="keywordflow">if</span> (!CommandLine.Parser.Default.ParseArgumentsStrict(args, UimfProcessor.Options))</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                <span class="comment">// Domain logic here</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                UimfProcessor.ExtractData();</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            Console.WriteLine(<span class="stringliteral">&quot;Exiting&quot;</span>);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -196,7 +196,7 @@ Static Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespace_uimf_data_extractor.html">UimfDataExtractor</a></li><li class="navelem"><a class="el" href="class_uimf_data_extractor_1_1_program.html">Program</a></li>
-    <li class="footer">Generated on Thu Apr 30 2015 16:58:40 for Atreyu by
+    <li class="footer">Generated on Thu Jul 16 2015 07:28:00 for Atreyu by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
   </ul>

@@ -1,4 +1,8 @@
 var searchData=
 [
-  ['kvpcompare_3c_20tvalue_20_3e',['KvpCompare&lt; TValue &gt;',['../class_atreyu_1_1_view_models_1_1_mz_spectra_view_model_1_1_kvp_compare_3_01_t_value_01_4.html',1,'Atreyu::ViewModels::MzSpectraViewModel']]]
+  ['mainwindow',['MainWindow',['../class_viewer_1_1_main_window.html',1,'Viewer']]],
+  ['mainwindowviewmodel',['MainWindowViewModel',['../class_viewer_1_1_view_models_1_1_main_window_view_model.html',1,'Viewer::ViewModels']]],
+  ['mzrange',['MzRange',['../class_atreyu_1_1_controls_1_1_mz_range.html',1,'Atreyu::Controls']]],
+  ['mzspectraview',['MzSpectraView',['../class_atreyu_1_1_views_1_1_mz_spectra_view.html',1,'Atreyu::Views']]],
+  ['mzspectraviewmodel',['MzSpectraViewModel',['../class_atreyu_1_1_view_models_1_1_mz_spectra_view_model.html',1,'Atreyu::ViewModels']]]
 ];

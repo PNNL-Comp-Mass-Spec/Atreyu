@@ -31,10 +31,12 @@ var class_atreyu_1_1_view_models_1_1_heat_map_view_model =
     [ "CurrentMinBin", "class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a61a028dab0f0fef830427b446d131f1d", null ],
     [ "CurrentMinScan", "class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a1528078b97682e2dcf425c58cff93c64", null ],
     [ "CurrentScanRange", "class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a8c5609c0aec0f7cd89785e9da17644b2", null ],
+    [ "ForceMinMaxMz", "class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#ae8feeaf084dc814dbd6c22028d457d8c", null ],
     [ "HeatMapData", "class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a868c358252832ac0075035bdb613ce57", null ],
     [ "HeatMapPlotModel", "class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a004e836c60795d53b30fec79c2fdf163", null ],
     [ "Height", "class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#ae02770e474ebd30013a50a9addf13e1c", null ],
     [ "HighThreshold", "class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a1a861ba2e9ac2e05aefa37265e323646", null ],
     [ "LowThreshold", "class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#ac1ea85f40b1e426da4416adc6063948e", null ],
+    [ "MzWindow", "class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#a44dc79ed0acb08e94669a53dd68f6328", null ],
     [ "Width", "class_atreyu_1_1_view_models_1_1_heat_map_view_model.html#acc6fdf751ac2fbf3b5060104d1b58425", null ]
 ];
