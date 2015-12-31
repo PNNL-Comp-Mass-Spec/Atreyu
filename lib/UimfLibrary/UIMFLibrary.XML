@@ -254,6 +254,11 @@
             Current task.
             </param>
         </member>
+        <member name="E:UIMFLibrary.BinCentricTableCreation.OnError">
+            <summary>
+            Error event handler
+            </summary>
+        </member>
         <member name="E:UIMFLibrary.BinCentricTableCreation.Message">
             <summary>
             Message event handler.
@@ -295,6 +300,266 @@
         <member name="T:UIMFLibrary.FrameParamKeyType">
             <summary>
             Known frame parameters
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.Unknown">
+            <summary>
+            Unknown frame parameter key
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.StartTimeMinutes">
+            <summary>
+            Key: Frame start time
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.DurationSeconds">
+            <summary>
+            Key: Duration of frame
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.Accumulations">
+            <summary>
+            Key: Number of accumulations in frame
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.FrameType">
+            <summary>
+            Key: FrameType
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.Decoded">
+            <summary>
+            Key: Decoded
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.CalibrationDone">
+            <summary>
+            Key: Calibration done
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.Scans">
+            <summary>
+            Key: Scans
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.MultiplexingEncodingSequence">
+            <summary>
+            Key: Multiplexing Encoding sequence
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.MPBitOrder">
+            <summary>
+            Key: Multiplexing bit order
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.TOFLosses">
+            <summary>
+            Key: TOF Losses
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.AverageTOFLength">
+            <summary>
+            Key: Average TOF length
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.CalibrationSlope">
+            <summary>
+            Key: Calibration Slope
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.CalibrationIntercept">
+            <summary>
+            Key: Calibration Intercept
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.MassCalibrationCoefficienta2">
+            <summary>
+            Key: Mass Calibration Coefficient: a2
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.MassCalibrationCoefficientb2">
+            <summary>
+            Key: Mass Calibration Coefficient: b2
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.MassCalibrationCoefficientc2">
+            <summary>
+            Key: Mass Calibration Coefficient: c2
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.MassCalibrationCoefficientd2">
+            <summary>
+            Key: Mass Calibration Coefficient: d2
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.MassCalibrationCoefficiente2">
+            <summary>
+            Key: Mass Calibration Coefficient: e2
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.MassCalibrationCoefficientf2">
+            <summary>
+            Key: Mass Calibration Coefficient: f2
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.AmbientTemperature">
+            <summary>
+            Key: Ambient temperature
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.VoltHVRack1">
+            <summary>
+            Key: Voltage High Voltage Rack 1
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.VoltHVRack2">
+            <summary>
+            Key: Voltage High Voltage Rack 2
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.VoltHVRack3">
+            <summary>
+            Key: Voltage High Voltage Rack 3
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.VoltHVRack4">
+            <summary>
+            Key: Voltage High Voltage Rack 4
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.VoltCapInlet">
+            <summary>
+            Key: Voltage Cap Inlet
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.VoltEntranceHPFIn">
+            <summary>
+            Key: Voltage Entrance HPF In
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.VoltEntranceHPFOut">
+            <summary>
+            Key: Voltage Entrance HPF Out
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.VoltEntranceCondLmt">
+            <summary>
+            Key: Voltage Entrance CondLmt
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.VoltTrapOut">
+            <summary>
+            Key: Voltage Trap Out
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.VoltTrapIn">
+            <summary>
+            Key: Voltage Trap In
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.VoltJetDist">
+            <summary>
+            Key: Voltage Jet Dist
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.VoltQuad1">
+            <summary>
+            Key: Voltage Quad 1
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.VoltCond1">
+            <summary>
+            Key: Voltage Cond 1
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.VoltQuad2">
+            <summary>
+            Key: Voltage Quad 2
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.VoltCond2">
+            <summary>
+            Key: Voltage Cond 2
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.VoltIMSOut">
+            <summary>
+            Key: Voltage IMS Out
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.VoltExitHPFIn">
+            <summary>
+            Key: Voltage Exit HPF In
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.VoltExitHPFOut">
+            <summary>
+            Key: Voltage Exit HPF Out
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.VoltExitCondLmt">
+            <summary>
+            Key: Voltage Exit CondLmt
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.PressureFront">
+            <summary>
+            Key: Pressure Front
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.PressureBack">
+            <summary>
+            Key: Pressure Back
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.HighPressureFunnelPressure">
+            <summary>
+            Key: High Pressure Funnel Pressure
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.IonFunnelTrapPressure">
+            <summary>
+            Key: Ion Funnel Trap Pressure
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.RearIonFunnelPressure">
+            <summary>
+            Key: Rear Ion Funnel Pressure
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.QuadrupolePressure">
+            <summary>
+            Key: Quadrupole Pressure
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.ESIVoltage">
+            <summary>
+            Key: ESI Voltage
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.FloatVoltage">
+            <summary>
+            Key: Float Voltage
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.FragmentationProfile">
+            <summary>
+            Key: Fragmentation Profile
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.ScanNumFirst">
+            <summary>
+            Key: Scan Number First
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.ScanNumLast">
+            <summary>
+            Key: Scan Number Last
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParamKeyType.PressureUnits">
+            <summary>
+            Key: Pressure Units
             </summary>
         </member>
         <member name="T:UIMFLibrary.FrameParamDef">
@@ -514,6 +779,41 @@
             </summary>
             <remarks>Returns 0 if not defined</remarks>
         </member>
+        <member name="T:UIMFLibrary.FrameParams.MassCalibrationCoefficientsType">
+            <summary>
+            Mass Calibration Coefficients
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParams.MassCalibrationCoefficientsType.a2">
+            <summary>
+            Calibration Coefficient a2
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParams.MassCalibrationCoefficientsType.b2">
+            <summary>
+            Calibration Coefficient b2
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParams.MassCalibrationCoefficientsType.c2">
+            <summary>
+            Calibration Coefficient c2
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParams.MassCalibrationCoefficientsType.d2">
+            <summary>
+            Calibration Coefficient d2
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParams.MassCalibrationCoefficientsType.e2">
+            <summary>
+            Calibration Coefficient e2
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.FrameParams.MassCalibrationCoefficientsType.f2">
+            <summary>
+            Calibration Coefficient f2
+            </summary>
+        </member>
         <member name="T:UIMFLibrary.FrameParamUtilities">
             <summary>
             Utility functions for working with frame parameters
@@ -595,6 +895,116 @@
             Known global parameters
             </summary>
         </member>
+        <member name="F:UIMFLibrary.GlobalParamKeyType.Unknown">
+            <summary>
+            Unknown Global Parameter key
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.GlobalParamKeyType.InstrumentName">
+            <summary>
+            Key: Instrument Name
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.GlobalParamKeyType.DateStarted">
+            <summary>
+            Key: Date Data collection started
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.GlobalParamKeyType.NumFrames">
+            <summary>
+            Key: Number of frames
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.GlobalParamKeyType.TimeOffset">
+            <summary>
+            Key: Time offset
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.GlobalParamKeyType.BinWidth">
+            <summary>
+            Key: Bin width
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.GlobalParamKeyType.Bins">
+            <summary>
+            Key: Bins
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.GlobalParamKeyType.TOFCorrectionTime">
+            <summary>
+            Key: TOF Correction Time
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.GlobalParamKeyType.TOFIntensityType">
+            <summary>
+            Key: TOF Intensity type
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.GlobalParamKeyType.DatasetType">
+            <summary>
+            Key: Dataset type
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.GlobalParamKeyType.PrescanTOFPulses">
+            <summary>
+            Key: Prescan TOF Pulses
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.GlobalParamKeyType.PrescanAccumulations">
+            <summary>
+            Key: Prescan Accumulations
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.GlobalParamKeyType.PrescanTICThreshold">
+            <summary>
+            Key: Prescan TIC Threshold
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.GlobalParamKeyType.PrescanContinuous">
+            <summary>
+            Key: Prescan Continuous
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.GlobalParamKeyType.PrescanProfile">
+            <summary>
+            Key: Prescan Profile
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.GlobalParamKeyType.InstrumentClass">
+            <summary>
+            Key: Instrument Class
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.GlobalParamKeyType.PpmBinBasedStartMz">
+            <summary>
+            Key: PPM Bin Based Start m/z
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.GlobalParamKeyType.PpmBinBasedEndMz">
+            <summary>
+            Key: PPM Bin Base End m/z
+            </summary>
+        </member>
+        <member name="T:UIMFLibrary.InstrumentClassType">
+            <summary>
+            Instrument Class types
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.InstrumentClassType.TOF">
+            <summary>
+            TOF-based instrument
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.InstrumentClassType.PpmBinBased">
+            <summary>
+            PPM bin based instrument
+            </summary>
+        </member>
+        <member name="T:UIMFLibrary.GlobalParam">
+            <summary>
+            Global parameters
+            </summary>
+        </member>
         <member name="M:UIMFLibrary.GlobalParam.#ctor(UIMFLibrary.GlobalParamKeyType,System.String)">
             <summary>
             Constructor
@@ -668,6 +1078,13 @@
             </summary>
             <param name="paramType">Parameter type</param>
             <param name="value">Value (int)</param>
+        </member>
+        <member name="M:UIMFLibrary.GlobalParams.AddUpdateValue(UIMFLibrary.GlobalParamKeyType,System.DateTime)">
+            <summary>
+            Add or update a parameter's value
+            </summary>
+            <param name="paramType"></param>
+            <param name="value"></param>
         </member>
         <member name="M:UIMFLibrary.GlobalParams.AddUpdateValue(UIMFLibrary.GlobalParamKeyType,System.String)">
             <summary>
@@ -1693,6 +2110,16 @@
             <param name="frameNumber">Frame number</param>
             <param name="scanNumber">Scan number</param>
         </member>
+        <member name="P:UIMFLibrary.ScanInfo.Frame">
+            <summary>
+            Frame number for scan
+            </summary>
+        </member>
+        <member name="P:UIMFLibrary.ScanInfo.Scan">
+            <summary>
+            Scan number
+            </summary>
+        </member>
         <member name="P:UIMFLibrary.ScanInfo.NonZeroCount">
             <summary>
             Number of non-zero (positive) intensity values in the scan
@@ -2692,6 +3119,17 @@
             </returns>
             <remarks>The function name is misleading; does not return an m/z</remarks>
         </member>
+        <member name="M:UIMFLibrary.DataReader.GetBinForPixel(System.Int32)">
+            <summary>
+            Get the minimum TOF bin arrival time value for the given pixel bin
+            </summary>
+            <param name="pixel">
+            Pixel bin
+            </param>
+            <returns>
+            TOF bin arrive time<see cref="T:System.Double"/>.
+            </returns>
+        </member>
         <member name="M:UIMFLibrary.DataReader.GetSaturationLevel">
             <summary>
             Returns the saturation level (maximum intensity value) for a single unit of measurement
@@ -3607,6 +4045,21 @@
             </summary>
             <remarks>Set this to a smaller value if you are encountering OutOfMemory exceptions</remarks>
         </member>
+        <member name="P:UIMFLibrary.DataReader.DBConnection">
+            <summary>
+            The connection to the SQLite database
+            </summary>
+        </member>
+        <member name="P:UIMFLibrary.DataReader.HasFrameParamsTable">
+            <summary>
+            Whether the database has a "FrameParams" table
+            </summary>
+        </member>
+        <member name="P:UIMFLibrary.DataReader.HasLegacyFrameParameters">
+            <summary>
+            Whether the database is using a legacy frame parameter table
+            </summary>
+        </member>
         <member name="P:UIMFLibrary.DataReader.PressureIsMilliTorr">
             <summary>
             Gets or sets a value indicating whether pressure is millitorr.
@@ -3667,6 +4120,41 @@
             The uimf data utilities.
             </summary>
         </member>
+        <member name="M:UIMFLibrary.UIMFDataUtilities.DoubleToString(System.Double)">
+            <summary>
+            Convert a double to a string, forcing invariant culture
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UIMFLibrary.UIMFDataUtilities.FloatToString(System.Double)">
+            <summary>
+            Convert a float to a string, forcing invariant culture
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UIMFLibrary.UIMFDataUtilities.FloatToString(System.Single)">
+            <summary>
+            Convert a double to a string, forcing invariant culture
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UIMFLibrary.UIMFDataUtilities.IntToString(System.Double)">
+            <summary>
+            Convert an int to a string, forcing invariant culture
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UIMFLibrary.UIMFDataUtilities.IntToString(System.Int32)">
+            <summary>
+            Convert a int to a string, forcing invariant culture
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
         <member name="M:UIMFLibrary.UIMFDataUtilities.ParseOutZeroValues(System.Double[]@,System.Int32[]@)">
             <summary>
             Filters xvals and yvals to only contain data with mass between 1 and 100000 m/z, and with intensity > 0
@@ -3695,6 +4183,20 @@
             The max mz.
             </param>
         </member>
+        <member name="M:UIMFLibrary.UIMFDataUtilities.StandardizeDate(System.String)">
+            <summary>
+            Force date string output to an invariant culture format
+            </summary>
+            <param name="dateString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UIMFLibrary.UIMFDataUtilities.StandardizeDate(System.DateTime)">
+            <summary>
+            Force date string output to an invariant culture format
+            </summary>
+            <param name="dateValue"></param>
+            <returns></returns>
+        </member>
         <member name="T:UIMFLibrary.DataWriter">
             <summary>
             UIMF Data Writer class
@@ -3703,6 +4205,16 @@
         <member name="F:UIMFLibrary.DataWriter.MINIMUM_FLUSH_INTERVAL_SECONDS">
             <summary>
             Minimum interval between flushing (commit transaction / create new transaction)
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.DataWriter.FRAME_PARAMETERS_TABLE">
+            <summary>
+            Name of table containing frame parameters - legacy format
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.DataWriter.FRAME_PARAMS_TABLE">
+            <summary>
+            Name of table containing fram parameters - new format
             </summary>
         </member>
         <member name="F:UIMFLibrary.DataWriter.m_frameParameterKeys">
@@ -3992,6 +4504,12 @@
             <param name="disposing">
             True when disposing
             </param>
+        </member>
+        <member name="M:UIMFLibrary.DataWriter.DisposeCommand(System.Data.SQLite.SQLiteCommand)">
+            <summary>
+            Dispose of the specified SQLite command
+            </summary>
+            <param name="dbCommand"></param>
         </member>
         <member name="M:UIMFLibrary.DataWriter.FlushUimf">
             <summary>
@@ -4459,6 +4977,12 @@
             Assures that the Frame_Params_Keys table contains each of the keys in paramKeys
             </summary>
         </member>
+        <member name="M:UIMFLibrary.DataWriter.ValidateFrameScansExists(System.String)">
+            <summary>
+            Check for existence of the Frame_Scans table
+            </summary>
+            <param name="callingMethod"></param>
+        </member>
         <member name="M:UIMFLibrary.DataWriter.ValidateLegacyDecodedColumnExists">
             <summary>
             Assures column Decoded exists in the legacy Frame_Parameters table
@@ -4491,6 +5015,36 @@
             <returns>
             m/z<see cref="T:System.Double"/>.
             </returns>
+        </member>
+        <member name="T:UIMFLibrary.PressureUnits">
+            <summary>
+            Units of Pressure
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.PressureUnits.Torr">
+            <summary>
+            Torr
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.PressureUnits.MilliTorr">
+            <summary>
+            MilliTorr
+            </summary>
+        </member>
+        <member name="T:UIMFLibrary.TemperatureUnits">
+            <summary>
+            Units of Temperature
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.TemperatureUnits.Celsius">
+            <summary>
+            Celsius
+            </summary>
+        </member>
+        <member name="F:UIMFLibrary.TemperatureUnits.Kelvin">
+            <summary>
+            Kelvin
+            </summary>
         </member>
     </members>
 </doc>
