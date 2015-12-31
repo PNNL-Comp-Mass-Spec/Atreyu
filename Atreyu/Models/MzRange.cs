@@ -35,34 +35,34 @@ namespace Atreyu.Models
     /// <summary>
     /// The bin range.
     /// </summary>
-    public class BinRange : Range, IEquatable<BinRange>
+    public class MzRange : Range, IEquatable<MzRange>
     {
         #region Fields
 
         /// <summary>
         /// The end bin.
         /// </summary>
-        private int endBin;
+        private double endMz;
 
         /// <summary>
         /// The start bin.
         /// </summary>
-        private int startBin;
+        private double startMz;
 
         #endregion
 
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BinRange"/> class.
+        /// Initializes a new instance of the <see cref="MzRange"/> class.
         /// </summary>
-        public BinRange()
-            : base(RangeType.BinRange)
+        public MzRange()
+            : base(RangeType.MzRange)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BinRange"/> class.
+        /// Initializes a new instance of the <see cref="MzRange"/> class.
         /// </summary>
         /// <param name="start">
         /// The start.
@@ -70,11 +70,11 @@ namespace Atreyu.Models
         /// <param name="end">
         /// The end.
         /// </param>
-        public BinRange(int start, int end)
-            : base(RangeType.BinRange)
+        public MzRange(double start, double end)
+            : base(RangeType.MzRange)
         {
-            this.StartBin = start;
-            this.EndBin = end;
+            this.StartMz = start;
+            this.EndMz = end;
         }
 
         #endregion
@@ -84,32 +84,32 @@ namespace Atreyu.Models
         /// <summary>
         /// Gets or sets the end bin.
         /// </summary>
-        public int EndBin
+        public double EndMz
         {
             get
             {
-                return this.endBin;
+                return this.endMz;
             }
 
             set
             {
-                this.RaiseAndSetIfChanged(ref this.endBin, value);
+                this.RaiseAndSetIfChanged(ref this.endMz, value);
             }
         }
 
         /// <summary>
         /// Gets or sets the start bin.
         /// </summary>
-        public int StartBin
+        public double StartMz
         {
             get
             {
-                return this.startBin;
+                return this.startMz;
             }
 
             set
             {
-                this.RaiseAndSetIfChanged(ref this.startBin, value);
+                this.RaiseAndSetIfChanged(ref this.startMz, value);
             }
         }
 
@@ -128,7 +128,7 @@ namespace Atreyu.Models
         /// </param>
         /// <returns>
         /// </returns>
-        public static bool operator ==(BinRange left, BinRange right)
+        public static bool operator ==(MzRange left, MzRange right)
         {
             return Equals(left, right);
         }
@@ -144,7 +144,7 @@ namespace Atreyu.Models
         /// </param>
         /// <returns>
         /// </returns>
-        public static bool operator !=(BinRange left, BinRange right)
+        public static bool operator !=(MzRange left, MzRange right)
         {
             return !Equals(left, right);
         }
@@ -175,7 +175,7 @@ namespace Atreyu.Models
                 return false;
             }
 
-            return this.Equals((BinRange)obj);
+            return this.Equals((MzRange)obj);
         }
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace Atreyu.Models
             unchecked
             {
                 // ReSharper disable NonReadonlyFieldInGetHashCode
-                return (this.endBin * 397) ^ this.startBin;
+                return ((int)this.endMz * 397) ^ (int)this.startMz;
 
                 // ReSharper restore NonReadonlyFieldInGetHashCode
             }
@@ -208,7 +208,7 @@ namespace Atreyu.Models
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool IEquatable<BinRange>.Equals(BinRange other)
+        bool IEquatable<MzRange>.Equals(MzRange other)
         {
             return this.Equals(other);
         }
@@ -226,9 +226,9 @@ namespace Atreyu.Models
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        private bool Equals(BinRange other)
+        private bool Equals(MzRange other)
         {
-            return this.StartBin == other.StartBin && this.EndBin == other.EndBin;
+            return this.StartMz == other.StartMz && this.EndMz == other.EndMz;
         }
 
         #endregion

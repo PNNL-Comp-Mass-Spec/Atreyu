@@ -55,7 +55,7 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// The current bin range.
         /// </summary>
-        private BinRange currentBinRange;
+        private MzRange currentMzRange;
 
         /// <summary>
         /// The current file.
@@ -65,7 +65,7 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// The current max bin.
         /// </summary>
-        private int currentMaxBin;
+        private double currentMaxMz;
 
         /// <summary>
         /// The current max scan.
@@ -75,7 +75,7 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// The current min bin.
         /// </summary>
-        private int currentMinBin;
+        private double currentMinMz;
 
         /// <summary>
         /// The current min scan.
@@ -151,16 +151,16 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Gets or sets the current bin range.
         /// </summary>
-        public BinRange CurrentBinRange
+        public MzRange CurrentMzRange
         {
             get
             {
-                return this.currentBinRange;
+                return this.currentMzRange;
             }
 
             set
             {
-                this.RaiseAndSetIfChanged(ref this.currentBinRange, value);
+                this.RaiseAndSetIfChanged(ref this.currentMzRange, value);
             }
         }
 
@@ -183,16 +183,16 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Gets or sets the current max bin.
         /// </summary>
-        public int CurrentMaxBin
+        public double CurrentMaxMz
         {
             get
             {
-                return this.currentMaxBin;
+                return this.currentMaxMz;
             }
 
             set
             {
-                this.RaiseAndSetIfChanged(ref this.currentMaxBin, value);
+                this.RaiseAndSetIfChanged(ref this.currentMaxMz, value);
             }
         }
 
@@ -215,16 +215,16 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Gets or sets the current min bin.
         /// </summary>
-        public int CurrentMinBin
+        public double CurrentMinMz
         {
             get
             {
-                return this.currentMinBin;
+                return this.currentMinMz;
             }
 
             set
             {
-                this.RaiseAndSetIfChanged(ref this.currentMinBin, value);
+                this.RaiseAndSetIfChanged(ref this.currentMinMz, value);
             }
         }
 
@@ -348,7 +348,7 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Gets or sets the mz window which will be enforced if <see cref="ForceMinMaxMz"/> is true.
         /// </summary>
-        public BinRange MzWindow { get; set; }
+        public MzRange MzWindow { get; set; }
 
         /// <summary>
         /// Gets or sets the width.
@@ -465,11 +465,14 @@ namespace Atreyu.ViewModels
 
             var verticalAxis = new LinearAxis
                                    {
-                                       AbsoluteMinimum = 0, 
-                                       AbsoluteMaximum = this.HeatMapData.MaxBins, 
+                                       //AbsoluteMinimum = 0,
+                                       //AbsoluteMaximum = this.HeatMapData.MaxBins,
+                                       AbsoluteMinimum = this.HeatMapData.MinMz,
+                                       AbsoluteMaximum = this.HeatMapData.MaxMz, 
                                        MinimumRange = 10, 
-                                       MaximumPadding = 0, 
-                                       Title = "TOF Bins", 
+                                       MaximumPadding = 0,
+                                       //Title = "TOF Bins",
+                                       Title = "m/z", 
                                        TickStyle = TickStyle.Inside, 
                                        AxisDistance = -2, 
                                        TextColor = OxyColors.Red, 
@@ -486,8 +489,10 @@ namespace Atreyu.ViewModels
                                      {
                                          X0 = 0, 
                                          X1 = this.HeatMapData.Scans, 
-                                         Y0 = 0, 
-                                         Y1 = this.HeatMapData.MaxBins, 
+                                         //Y0 = 0,
+                                         //Y1 = this.HeatMapData.MaxBins,
+                                         Y0 = this.HeatMapData.MinMz,
+                                         Y1 = this.HeatMapData.MaxMz, 
                                          Interpolate = false
                                      };
 
@@ -515,13 +520,17 @@ namespace Atreyu.ViewModels
 
             if (this.ForceMinMaxMz)
             {
-                this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.MzWindow.EndBin;
-                this.heatMapPlotModel.Axes[2].AbsoluteMinimum = this.MzWindow.StartBin;
+                //this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.MzWindow.EndBin;
+                //this.heatMapPlotModel.Axes[2].AbsoluteMinimum = this.MzWindow.StartBin;
+                this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.MzWindow.EndMz;
+                this.heatMapPlotModel.Axes[2].AbsoluteMinimum = this.MzWindow.StartMz;
             }
             else
             {
-                this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.HeatMapData.MaxBins;
-                this.heatMapPlotModel.Axes[2].AbsoluteMinimum = 0;
+                //this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.HeatMapData.MaxBins;
+                //this.heatMapPlotModel.Axes[2].AbsoluteMinimum = 0;
+                this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.HeatMapData.MaxMz;
+                this.heatMapPlotModel.Axes[2].AbsoluteMinimum = this.HeatMapData.MinMz;
             }
 
             this.dataArray = framedata;
@@ -533,11 +542,11 @@ namespace Atreyu.ViewModels
             series.X1 = this.CurrentMaxScan;
 
             // bins
-            series.Y0 = this.CurrentMinBin;
-            series.Y1 = this.CurrentMaxBin;
+            series.Y0 = this.CurrentMinMz;
+            series.Y1 = this.CurrentMaxMz;
 
-            if ((this.CurrentMinScan == 0 && this.CurrentMinBin == 0)
-                || (this.ForceMinMaxMz && this.CurrentMinBin == this.MzWindow.StartBin))
+            if ((this.CurrentMinScan == 0 && this.CurrentMinMz.Equals(0))
+                || (this.ForceMinMaxMz && this.CurrentMinMz.Equals(this.MzWindow.StartMz)))
             {
                 this.heatMapPlotModel.ResetAllAxes();
             }
@@ -559,8 +568,10 @@ namespace Atreyu.ViewModels
             }
 
             this.HeatMapData = uimfData;
-            this.CurrentMinBin = 1;
-            this.CurrentMaxBin = this.HeatMapData.MaxBins;
+            //this.CurrentMinMz = 1;
+            //this.CurrentMaxMz = this.HeatMapData.MaxBins;
+            this.CurrentMinMz = this.HeatMapData.MinMz;
+            this.CurrentMaxMz = this.HeatMapData.MaxMz;
             this.CurrentMinScan = 0;
             this.CurrentMaxScan = this.HeatMapData.Scans;
 
@@ -588,7 +599,14 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            this.CurrentScanRange = new ScanRange((int)axis.ActualMinimum, (int)axis.ActualMaximum);
+            if (e.ChangeType == AxisChangeTypes.Reset)
+            {
+                this.CurrentScanRange = new ScanRange((int)axis.AbsoluteMinimum, (int)axis.AbsoluteMaximum);
+            }
+            else
+            {
+                this.CurrentScanRange = new ScanRange((int)axis.ActualMinimum, (int)axis.ActualMaximum);
+            }
         }
 
         /// <summary>
@@ -608,7 +626,16 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            this.CurrentBinRange = new BinRange((int)axis.ActualMinimum, (int)axis.ActualMaximum);
+            if (e.ChangeType == AxisChangeTypes.Reset)
+            {
+                axis.Maximum = this.HeatMapData.MaxMz;
+                axis.Minimum = this.HeatMapData.MinMz;
+                this.CurrentMzRange = new MzRange(this.HeatMapData.MinMz, this.HeatMapData.MaxMz);
+            }
+            else
+            {
+                this.CurrentMzRange = new MzRange(axis.ActualMinimum, axis.ActualMaximum);
+            }
         }
 
         #endregion
