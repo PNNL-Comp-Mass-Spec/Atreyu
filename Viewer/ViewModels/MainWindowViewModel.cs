@@ -45,6 +45,7 @@ namespace Viewer.ViewModels
     /// </summary>
     public class MainWindowViewModel : ReactiveObject
     {
+        private string _currentFile;
         #region Constructors and Destructors
 
         /// <summary>
@@ -53,6 +54,7 @@ namespace Viewer.ViewModels
         public MainWindowViewModel()
         {
             this.CombinedHeatmapViewModel = new CombinedHeatmapViewModel();
+            this.CurrentFile = "Please load data";
 
             this.OpenFile = ReactiveCommand.Create();
             this.OpenFile.Select(async _ => await Task.Run(() => this.OpenHeatmapFile())).Subscribe();
@@ -73,6 +75,16 @@ namespace Viewer.ViewModels
         #endregion
 
         #region Public Properties
+
+        public string CurrentFile { get { return _currentFile; }
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref _currentFile, value);
+                this.RaisePropertyChanged("WindowTitle");
+            }
+        }
+
+        public string WindowTitle { get { return "Atreyu " + " - " + _currentFile; } }
 
         /// <summary>
         /// Gets or sets the combined heatmap view model.
@@ -208,6 +220,8 @@ namespace Viewer.ViewModels
             var filename = dialogue.FileName;
 
             this.CombinedHeatmapViewModel.InitializeUimfData(filename);
+
+            this.CurrentFile = Path.GetFileNameWithoutExtension(filename);
         }
 
         /// <summary>

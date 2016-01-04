@@ -121,6 +121,8 @@ namespace Atreyu.ViewModels
         /// </summary>
         public CombinedHeatmapViewModel()
         {
+            this.CurrentFile = "Please load data";
+
             // I wonder if I should break this up a little, as it is over 100 lines and breaking them up logically might make it more readable and maintainable
             this.FrameManipulationViewModel = new FrameManipulationViewModel();
             this.HeatMapViewModel = new HeatMapViewModel();
@@ -290,6 +292,7 @@ namespace Atreyu.ViewModels
             set
             {
                 this.RaiseAndSetIfChanged(ref this.currentFile, value);
+                this.RaisePropertyChanged("WindowTitle");
             }
         }
 
@@ -469,19 +472,21 @@ namespace Atreyu.ViewModels
         {
             this.currentStartFrame = frameNumber;
             this.currentEndFrame = frameNumber;
-
-            this.UimfData.ReadData(
+            if (this.UimfData != null)
+            {
+                this.UimfData.ReadData(
                     //1,
                     //this.UimfData.MaxBins,
                     this.UimfData.MinMz,
-                    this.UimfData.MaxMz, 
-                    frameNumber, 
-                    frameNumber, 
-                    this.Height, 
-                    this.Width, 
-                    0, 
-                    this.UimfData.Scans, 
+                    this.UimfData.MaxMz,
+                    frameNumber,
+                    frameNumber,
+                    this.Height,
+                    this.Width,
+                    0,
+                    this.UimfData.Scans,
                     ReturnGatedData);
+            }
         }
 
         /// <summary>
@@ -556,14 +561,14 @@ namespace Atreyu.ViewModels
             this.currentEndFrame = sumFrames.EndFrame < 1 ? 1 : sumFrames.EndFrame;
 
             this.UimfData.ReadData(
-                    this.UimfData.CurrentMinMz, 
-                    this.UimfData.CurrentMaxMz, 
-                    this.currentStartFrame, 
-                    this.currentEndFrame, 
-                    this.Height, 
-                    this.Width, 
-                    this.UimfData.StartScan, 
-                    this.UimfData.EndScan, 
+                    this.UimfData.CurrentMinMz,
+                    this.UimfData.CurrentMaxMz,
+                    this.currentStartFrame,
+                    this.currentEndFrame,
+                    this.Height,
+                    this.Width,
+                    this.UimfData.StartScan,
+                    this.UimfData.EndScan,
                     ReturnGatedData);
         }
 

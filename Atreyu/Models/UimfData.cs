@@ -847,16 +847,19 @@ namespace Atreyu.Models
                 //int currentMaxBin = (int) Math.Ceiling(this.Calibrator.MZtoBin(this.CurrentMaxMz));
 
                 var frametype = GetFrameType(this.frameType);
-                double[] mzs;
-                int[] intensities;
-                this.dataReader.GetSpectrum(
-                    this.StartFrameNumber,
-                    this.EndFrameNumber,
-                    frametype,
-                    this.StartScan,
-                    this.EndScan,
-                    out mzs,
-                    out intensities);
+                    double[] mzs;
+                    int[] intensities;
+                    this.dataReader.GetSpectrum(
+                        this.StartFrameNumber,
+                        this.EndFrameNumber,
+                        frametype,
+                        this.StartScan,
+                        this.EndScan,
+                        out mzs,
+                        out intensities);
+                    this.MzArray = mzs;
+
+                    this.MzIntensities = intensities;
 
                 var temp = this.dataReader.AccumulateFrameData(
                     this.startFrameNumber,
@@ -881,9 +884,6 @@ namespace Atreyu.Models
                     mz[i] = this.calibrator.TOFtoMZ(tof[i] * 10);
                 }
 
-                this.MzArray = mzs;
-
-                this.MzIntensities = intensities;
 
                 this.BinToMzMap = mz;
 
