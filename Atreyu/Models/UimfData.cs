@@ -62,12 +62,12 @@ namespace Atreyu.Models
         /// <summary>
         /// The current max bin.
         /// </summary>
-        private int currentMaxBin;
+        private double currentMaxMz;
 
         /// <summary>
         /// The current min bin.
         /// </summary>
-        private int currentMinBin;
+        private double currentMinMz;
 
         /// <summary>
         /// The data reader.
@@ -157,7 +157,7 @@ namespace Atreyu.Models
         /// <summary>
         /// The mz window that will be enforced if <see cref="WindowMz"/> it true.
         /// </summary>
-        private BinRange mzWindow;
+        private MzRange mzWindow;
 
         /// <summary>
         /// The range update list.
@@ -182,7 +182,7 @@ namespace Atreyu.Models
         /// <summary>
         /// The total bins.
         /// </summary>
-        private int totalBins;
+        private double totalMzRange;
 
         /// <summary>
         /// The values per pixel x.
@@ -211,7 +211,10 @@ namespace Atreyu.Models
             var global = this.dataReader.GetGlobalParams();
             this.Frames = this.dataReader.GetGlobalParams().NumFrames;
             this.MaxBins = global.Bins;
-            this.TotalBins = this.MaxBins;
+            this.Calibrator = this.dataReader.GetMzCalibrator(this.dataReader.GetFrameParams(1));
+            this.MaxMz = this.Calibrator.BinToMZ(global.Bins);
+            this.MinMz = this.Calibrator.BinToMZ(0);
+            this.TotalMzRange = this.MaxMz - this.MinMz;
             this.Scans = this.dataReader.GetFrameParams(1).Scans;
             this.checking = false;
         }
@@ -255,32 +258,32 @@ namespace Atreyu.Models
         /// <summary>
         /// Gets or sets the current max bin.
         /// </summary>
-        public int CurrentMaxBin
+        public double CurrentMaxMz
         {
             get
             {
-                return this.currentMaxBin;
+                return this.currentMaxMz;
             }
 
             set
             {
-                this.RaiseAndSetIfChanged(ref this.currentMaxBin, value);
+                this.RaiseAndSetIfChanged(ref this.currentMaxMz, value);
             }
         }
 
         /// <summary>
         /// Gets or sets the current min bin.
         /// </summary>
-        public int CurrentMinBin
+        public double CurrentMinMz
         {
             get
             {
-                return this.currentMinBin;
+                return this.currentMinMz;
             }
 
             set
             {
-                this.RaiseAndSetIfChanged(ref this.currentMinBin, value);
+                this.RaiseAndSetIfChanged(ref this.currentMinMz, value);
             }
         }
 
@@ -476,6 +479,27 @@ namespace Atreyu.Models
             }
         }
 
+        public double MaxMz
+        {
+            get { return this.maxMz; }
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.maxMz, value);
+            }
+        }
+
+        public double MinMz
+        {
+            get { return this.minMz; }
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.minMz, value);
+            }
+        }
+
+        private double maxMz;
+        private double minMz;
+
         /// <summary>
         /// Gets the mz array.
         /// </summary>
@@ -562,6 +586,12 @@ namespace Atreyu.Models
 
             private set
             {
+                if (this.startFrameNumber != value)
+                {
+                    var calib = this.dataReader.GetMzCalibrator(this.dataReader.GetFrameParams(value));
+                    this.MinMz = calib.BinToMZ(0);
+                    this.MaxMz = calib.BinToMZ(this.MaxBins);
+                }
                 this.RaiseAndSetIfChanged(ref this.startFrameNumber, value);
             }
         }
@@ -585,16 +615,16 @@ namespace Atreyu.Models
         /// <summary>
         /// Gets the total bins currently queried.
         /// </summary>
-        public int TotalBins
+        public double TotalMzRange
         {
             get
             {
-                return this.totalBins;
+                return this.totalMzRange;
             }
 
             private set
             {
-                this.RaiseAndSetIfChanged(ref this.totalBins, value);
+                this.RaiseAndSetIfChanged(ref this.totalMzRange, value);
             }
         }
 
@@ -645,7 +675,7 @@ namespace Atreyu.Models
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        public async Task CheckQueue()
+        public void CheckQueue()
         {
             if (this.checking)
             {
@@ -658,10 +688,10 @@ namespace Atreyu.Models
             while (this.RangeUpdateList.TryDequeue(out currentRange))
             {
                 this.ProcessData(currentRange);
-                await Task.Delay(1);
+                Task.Delay(1);
             }
 
-            await this.ReadData();
+            this.ReadData();
 
             this.checking = false;
         }
@@ -685,29 +715,27 @@ namespace Atreyu.Models
         /// The parts per million tolerance.
         /// </param>
         /// <returns>
-        /// The <see cref="BinRange"/>.
+        /// The <see cref="MzRange"/>.
         /// </returns>
-        public BinRange GetBinRangeForMzWindow(double centerMz, double partsPerMillionTolerance)
+        public MzRange GetMzRangeForMzWindow(double centerMz, double partsPerMillionTolerance)
         {
             this.MzCenter = centerMz;
             this.PartsPerMillion = partsPerMillionTolerance;
-            var range = new BinRange();
+            var range = new MzRange();
 
             if (this.dataReader == null || this.Calibrator == null)
             {
-                range.StartBin = 0;
-                range.EndBin = this.CurrentMaxBin;
+                range.StartMz = 0;
+                range.EndMz = this.CurrentMaxMz;
                 this.mzWindow = range;
                 return range;
             }
 
             var mzOffset = this.MzCenter * (this.PartsPerMillion / 1000000.0);
 
-            range.StartBin =
-                (int)(this.Calibrator.MZtoTOF(this.MzCenter - mzOffset) / this.dataReader.TenthsOfNanoSecondsPerBin);
+            range.StartMz = this.MzCenter - mzOffset;
 
-            range.EndBin =
-                (int)(this.Calibrator.MZtoTOF(this.MzCenter + mzOffset) / this.dataReader.TenthsOfNanoSecondsPerBin);
+            range.EndMz = this.MzCenter + mzOffset;
 
             this.mzWindow = range;
             return range;
@@ -722,10 +750,12 @@ namespace Atreyu.Models
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        public Task<List<ScanInfo>> GetFullScanInfo(int frameNumber)
+        public List<ScanInfo> GetFullScanInfo(int frameNumber)
         {
-            return Task.Run(() => this.dataReader.GetFrameScans(frameNumber));
+            return this.dataReader.GetFrameScans(frameNumber);
         }
+
+        private double prevYPixels;
 
         /// <summary>
         /// The read data.
@@ -736,14 +766,16 @@ namespace Atreyu.Models
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        public async Task<double[,]> ReadData(bool returnGatedData = false)
+        public double[,] ReadData(bool returnGatedData = false)
         {
-            if (this.CurrentMaxBin < 1)
+            //if (this.CurrentMaxMz < 1)
+            if (this.CurrentMaxMz < this.MinMz)
             {
                 return new double[0, 0];
             }
 
-            if (this.endScan < 1)
+            //if (this.endScan < 1)
+            if (this.endScan < this.MinMz)
             {
                 return new double[0, 0];
             }
@@ -759,12 +791,18 @@ namespace Atreyu.Models
             }
             else
             {
-                this.TotalBins = this.CurrentMaxBin - this.CurrentMinBin + 1;
+                this.TotalMzRange = this.CurrentMaxMz - this.CurrentMinMz + 1;
 
-                this.ValuesPerPixelY = (int)(this.TotalBins / (double)this.mostRecentHeight);
+                this.prevYPixels = this.ValuesPerPixelY;
+                this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
+                int currentMinBin = (int)Math.Floor(this.Calibrator.MZtoBin(this.CurrentMinMz));
+                int currentMaxBin = (int)Math.Ceiling(this.Calibrator.MZtoBin(this.CurrentMaxMz));
+                var totalBinRange = currentMaxBin - currentMinBin + 1;
+                //this.ValuesPerPixelY = (int)(this.TotalMzRange / (double)this.mostRecentHeight);
+                this.ValuesPerPixelY = (int)(totalBinRange / (double)this.mostRecentHeight);
 
                 var totalScans = this.EndScan - this.StartScan + 1;
-                this.ValuesPerPixelX = (int)(totalScans / (double)this.mostRecentWidth);
+                this.ValuesPerPixelX = (int) (totalScans / (double) this.mostRecentWidth);
 
                 if (this.ValuesPerPixelY < 1)
                 {
@@ -782,54 +820,74 @@ namespace Atreyu.Models
                 this.FrameType = frameParams.GetValue(FrameParamKeyType.FrameType);
                 this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
 
-                await Task.Run(
-                    () =>
-                        {
-                            this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
+                //this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
 
-                            var frametype = GetFrameType(this.frameType);
-                            double[] mzs;
-                            int[] intensities;
-                            this.dataReader.GetSpectrum(
-                                this.StartFrameNumber, 
-                                this.EndFrameNumber, 
-                                frametype, 
-                                this.StartScan, 
-                                this.EndScan, 
-                                out mzs, 
-                                out intensities);
+                //var gMaxBin = this.dataReader.GetGlobalParams().Bins;
+                //var gMinBin = 1;
+                //
+                //if (!(this.currentMaxMz == gMaxBin &&
+                //    this.currentMinMz == 1))
+                //{
+                //    var validRange = gMaxBin - gMinBin + 1;
+                //    if (this.prevYPixels > 1)
+                //    {
+                //        validRange = (int)Math.Round(validRange / this.prevYPixels);
+                //    }
+                //
+                //    var binRange = gMaxBin - gMinBin;
+                //    var lowerPct = (this.currentMinMz - gMinBin) / (double)binRange;
+                //    var upperPct = (this.currentMaxMz - gMinBin) / (double)binRange;
+                //    var newMinBin = this.dataReader.GetPixelMZ((int)Math.Floor(lowerPct * validRange));
+                //    var newMaxBin = this.dataReader.GetPixelMZ((int)Math.Ceiling(upperPct * validRange));
+                //    this.currentMinMz = (int)newMinBin;
+                //    this.currentMaxMz = (int)newMaxBin;
+                //}
 
-                            var temp = this.dataReader.AccumulateFrameData(
-                                this.startFrameNumber, 
-                                this.EndFrameNumber, 
-                                false, 
-                                this.StartScan, 
-                                this.EndScan, 
-                                this.CurrentMinBin, 
-                                this.CurrentMaxBin, 
-                                (int)this.ValuesPerPixelX, 
-                                (int)this.ValuesPerPixelY);
+                //int currentMinBin = (int) Math.Floor(this.Calibrator.MZtoBin(this.CurrentMinMz));
+                //int currentMaxBin = (int) Math.Ceiling(this.Calibrator.MZtoBin(this.CurrentMaxMz));
 
-                            var arrayLength =
-                                (int)Math.Round((this.CurrentMaxBin - this.currentMinBin + 1) / this.ValuesPerPixelY);
+                var frametype = GetFrameType(this.frameType);
+                double[] mzs;
+                int[] intensities;
+                this.dataReader.GetSpectrum(
+                    this.StartFrameNumber,
+                    this.EndFrameNumber,
+                    frametype,
+                    this.StartScan,
+                    this.EndScan,
+                    out mzs,
+                    out intensities);
 
-                            var tof = new double[arrayLength];
-                            var mz = new double[arrayLength];
+                var temp = this.dataReader.AccumulateFrameData(
+                    this.startFrameNumber,
+                    this.EndFrameNumber,
+                    false,
+                    this.StartScan,
+                    this.EndScan,
+                    currentMinBin,
+                    currentMaxBin,
+                    (int) this.ValuesPerPixelX,
+                    (int) this.ValuesPerPixelY);
 
-                            for (var i = 0; i < arrayLength; i++)
-                            {
-                                tof[i] = this.dataReader.GetPixelMZ(i);
-                                mz[i] = this.calibrator.TOFtoMZ(tof[i] * 10);
-                            }
+                var arrayLength =
+                    (int) Math.Round((currentMaxBin - currentMinBin + 1) / this.ValuesPerPixelY);
 
-                            this.MzArray = mzs;
+                var tof = new double[arrayLength];
+                var mz = new double[arrayLength];
 
-                            this.MzIntensities = intensities;
+                for (var i = 0; i < arrayLength; i++)
+                {
+                    tof[i] = this.dataReader.GetPixelMZ(i);
+                    mz[i] = this.calibrator.TOFtoMZ(tof[i] * 10);
+                }
 
-                            this.BinToMzMap = mz;
+                this.MzArray = mzs;
 
-                            this.FrameData = temp;
-                        });
+                this.MzIntensities = intensities;
+
+                this.BinToMzMap = mz;
+
+                this.FrameData = temp;
             }
 
             this.GateData();
@@ -841,10 +899,10 @@ namespace Atreyu.Models
         /// <summary>
         /// The read data.
         /// </summary>
-        /// <param name="startBin">
+        /// <param name="startMz">
         /// The start bin.
         /// </param>
-        /// <param name="endBin">
+        /// <param name="endMz">
         /// The end bin.
         /// </param>
         /// <param name="startFrame">
@@ -871,9 +929,9 @@ namespace Atreyu.Models
         /// <returns>
         /// The 2d array of doubles that represents the data, index 0 is bins, index 1 in scans.
         /// </returns>
-        public async Task<double[,]> ReadData(
-            int startBin, 
-            int endBin, 
+        public double[,] ReadData(
+            double startMz, 
+            double endMz, 
             int startFrame, 
             int endFrame, 
             int height, 
@@ -884,14 +942,16 @@ namespace Atreyu.Models
         {
             this.UpdateScanRange(startScanValue, endScanValue);
 
-            this.CurrentMinBin = startBin < 0 ? 0 : startBin;
-            this.CurrentMaxBin = endBin > this.MaxBins ? this.MaxBins : endBin;
+            //this.CurrentMinMz = startMz < 0 ? 0 : startMz;
+            //this.CurrentMaxMz = endMz > this.MaxBins ? this.MaxBins : endMz;
+            this.CurrentMinMz = startMz < this.MinMz ? this.MinMz : startMz;
+            this.CurrentMaxMz = endMz > this.MaxMz ? this.MaxMz : endMz;
 
             this.StartFrameNumber = startFrame;
             this.EndFrameNumber = endFrame;
             this.mostRecentHeight = height;
             this.mostRecentWidth = width;
-            return await this.ReadData(returnGatedData);
+            return this.ReadData(returnGatedData);
         }
 
         /// <summary>
@@ -1034,40 +1094,42 @@ namespace Atreyu.Models
         {
             switch (range.RangeType)
             {
-                case RangeType.BinRange:
-                    var binRange = range as BinRange;
-                    if (binRange == null)
+                case RangeType.MzRange:
+                    var mzRange = range as MzRange;
+                    if (mzRange == null)
                     {
                         throw new ArgumentException(
                             "Range has it's RangeType set to BinRange but cannot be cast to BinRange", 
                             "range");
                     }
 
-                    int min, max;
+                    double min, max;
 
                     if (this.WindowMz && this.mzWindow != null)
                     {
-                        min = this.mzWindow.StartBin;
-                        max = this.mzWindow.EndBin;
+                        min = this.mzWindow.StartMz;
+                        max = this.mzWindow.EndMz;
                     }
                     else
                     {
-                        min = 0;
-                        max = this.MaxBins;
+                        //min = 0;
+                        //max = this.MaxBins;
+                        min = this.MinMz;
+                        max = this.MaxMz;
                     }
 
-                    if (binRange.StartBin < min)
+                    if (mzRange.StartMz < min)
                     {
-                        binRange.StartBin = min;
+                        mzRange.StartMz = min;
                     }
 
-                    if (binRange.EndBin > max)
+                    if (mzRange.EndMz > max)
                     {
-                        binRange.EndBin = max;
+                        mzRange.EndMz = max;
                     }
 
-                    this.CurrentMinBin = binRange.StartBin;
-                    this.CurrentMaxBin = binRange.EndBin;
+                    this.CurrentMinMz = mzRange.StartMz;
+                    this.CurrentMaxMz = mzRange.EndMz;
 
                     break;
                 case RangeType.FrameRange:

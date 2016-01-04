@@ -60,7 +60,7 @@ namespace Atreyu.ViewModels
         /// The end mz bin.
         /// </summary>
         // ReSharper disable once NotAccessedField.Local
-        private int endMzBin;
+        private double endMz;
 
         /// <summary>
         /// The raw frame data that is compressed on the Y axis.
@@ -100,7 +100,7 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// The start mz bin.
         /// </summary>
-        private int startMzBin;
+        private double startMz;
 
         /// <summary>
         /// The uimf data reference.
@@ -220,23 +220,23 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Changes the end bin for proper graph display.
         /// </summary>
-        /// <param name="bin">
+        /// <param name="mz">
         /// The bin to change to.
         /// </param>
-        public void ChangeEndBin(int bin)
+        public void ChangeEndMz(double mz)
         {
-            this.endMzBin = bin;
+            this.endMz = mz;
         }
 
         /// <summary>
         /// Changes the start bin for proper graph display.
         /// </summary>
-        /// <param name="bin">
+        /// <param name="mz">
         /// The bin to change to.
         /// </param>
-        public void ChangeStartBin(int bin)
+        public void ChangeStartMz(double mz)
         {
-            this.startMzBin = bin;
+            this.startMz = mz;
         }
 
         /// <summary>
@@ -340,7 +340,7 @@ namespace Atreyu.ViewModels
 
             for (var j = 0; j < this.frameData.GetLength(1); j++)
             {
-                double index = j + this.startMzBin;
+                double index = j + this.startMz;
                 var mzIndex = this.BinToMzMap[j];
 
                 for (var i = 0; i < this.frameData.GetLength(0); i++)

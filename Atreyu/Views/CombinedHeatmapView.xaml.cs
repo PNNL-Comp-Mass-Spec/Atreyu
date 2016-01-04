@@ -179,7 +179,7 @@ namespace Atreyu.Views
         /// <param name="e">
         /// The event args.
         /// </param>
-        private async void CombinedHeatmapViewPreviewDrop(object sender, DragEventArgs e)
+        private void CombinedHeatmapViewPreviewDrop(object sender, DragEventArgs e)
         {
             if (!e.Data.GetDataPresent(DataFormats.FileDrop, true))
             {
@@ -198,7 +198,7 @@ namespace Atreyu.Views
                 return;
             }
 
-            await this.ViewModel.InitializeUimfData(file);
+            this.ViewModel.InitializeUimfData(file);
         }
 
         /// <summary>
@@ -210,9 +210,9 @@ namespace Atreyu.Views
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        private async Task LoadFile(string fileName)
+        private void LoadFile(string fileName)
         {
-            await this.ViewModel.InitializeUimfData(fileName);
+            this.ViewModel.InitializeUimfData(fileName);
             this.ViewModel.FrameManipulationViewModel.CurrentFrame = 1;
         }
 
@@ -225,7 +225,7 @@ namespace Atreyu.Views
         /// <param name="e">
         /// The event args.
         /// </param>
-        private async void MainTabControlPreviewDragEnter(object sender, DragEventArgs e)
+        private void MainTabControlPreviewDragEnter(object sender, DragEventArgs e)
         {
             var isCorrect = true;
             string[] filenames = { };
@@ -256,7 +256,7 @@ namespace Atreyu.Views
             {
                 try
                 {
-                    await this.LoadFile(filenames[0]);
+                    this.LoadFile(filenames[0]);
                 }
                 catch (Exception ex)
                 {

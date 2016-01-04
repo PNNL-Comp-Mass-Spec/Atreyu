@@ -218,7 +218,7 @@
     <Compile Include="Controls\MzRange.xaml.cs">
       <DependentUpon>MzRange.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\BinRange.cs" />
+    <Compile Include="Models\MzRange.cs" />
     <Compile Include="Models\FrameRange.cs" />
     <Compile Include="Models\Range.cs" />
     <Compile Include="Models\RangeType.cs" />

@@ -55,7 +55,7 @@ namespace Viewer.ViewModels
             this.CombinedHeatmapViewModel = new CombinedHeatmapViewModel();
 
             this.OpenFile = ReactiveCommand.Create();
-            this.OpenFile.Select(async _ => await this.OpenHeatmapFile()).Subscribe();
+            this.OpenFile.Select(async _ => await Task.Run(() => this.OpenHeatmapFile())).Subscribe();
 
             this.SaveHeatmap = ReactiveCommand.Create();
             this.SaveHeatmap.Subscribe(x => this.SaveHeatmapImage());
@@ -190,7 +190,7 @@ namespace Viewer.ViewModels
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        private async Task OpenHeatmapFile()
+        private void OpenHeatmapFile()
         {
             var dialogue = new OpenFileDialog
                                {
@@ -207,7 +207,7 @@ namespace Viewer.ViewModels
 
             var filename = dialogue.FileName;
 
-            await this.CombinedHeatmapViewModel.InitializeUimfData(filename);
+            this.CombinedHeatmapViewModel.InitializeUimfData(filename);
         }
 
         /// <summary>

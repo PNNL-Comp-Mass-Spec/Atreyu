@@ -88,9 +88,9 @@ namespace Atreyu.ViewModels
         private int height;
 
         /// <summary>
-        /// The m/z window represented as a <see cref="BinRange"/>.
+        /// The m/z window represented as a <see cref="MzRange"/>.
         /// </summary>
-        private BinRange mzWindow = new BinRange();
+        private MzRange mzWindow = new MzRange();
 
         /// <summary>
         /// The parts per million tolerance for the m/z window.
@@ -149,11 +149,11 @@ namespace Atreyu.ViewModels
 
             this.WhenAnyValue(vm => vm.MzRangeEnabled, vm => vm.MzCenter, vm => vm.PartsPerMillion)
                 .Where(tuple => tuple.Item1 && this.UimfData != null)
-                .Select(async _ => await this.UpdateMzWindow())
+                .Select(async _ => await Task.Run(() => this.UpdateMzWindow()))
                 .Subscribe();
 
             this.ZoomOutFull = this.FrameManipulationViewModel.ZoomOutCommand;
-            this.ZoomOutFull.Select(async _ => await this.ZoomOut()).Subscribe();
+            this.ZoomOutFull.Select(async _ => await Task.Run(() => this.ZoomOut())).Subscribe();
 
             // update the uimf data for the various components
             this.WhenAnyValue(vm => vm.UimfData).Subscribe(this.TotalIonChromatogramViewModel.UpdateReference);
@@ -175,7 +175,7 @@ namespace Atreyu.ViewModels
 
             // update the frame whenever it is changed via the frame manipulation view
             this.WhenAnyValue(vm => vm.FrameManipulationViewModel.CurrentFrame)
-                .Select(async x => await this.FetchSingleFrame(x))
+                .Select(async x => await Task.Run(() => this.FetchSingleFrame(x)))
                 .Subscribe();
 
             // hook up the frame summing feature
@@ -186,14 +186,14 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.UimfData.EndScan).Subscribe(this.TotalIonChromatogramViewModel.ChangeEndScan);
 
             // These make the axis on the mz plot update properly
-            this.WhenAnyValue(vm => vm.UimfData.CurrentMinBin).Subscribe(this.MzSpectraViewModel.ChangeStartBin);
-            this.WhenAnyValue(vm => vm.UimfData.CurrentMaxBin).Subscribe(this.MzSpectraViewModel.ChangeEndBin);
+            this.WhenAnyValue(vm => vm.UimfData.CurrentMinMz).Subscribe(this.MzSpectraViewModel.ChangeStartMz);
+            this.WhenAnyValue(vm => vm.UimfData.CurrentMaxMz).Subscribe(this.MzSpectraViewModel.ChangeEndMz);
 
             // Update the Heatmap axes
             this.WhenAnyValue(vm => vm.UimfData.StartScan).Subscribe(i => this.HeatMapViewModel.CurrentMinScan = i);
             this.WhenAnyValue(vm => vm.UimfData.EndScan).Subscribe(i => this.HeatMapViewModel.CurrentMaxScan = i);
-            this.WhenAnyValue(vm => vm.UimfData.CurrentMinBin).Subscribe(i => this.HeatMapViewModel.CurrentMinBin = i);
-            this.WhenAnyValue(vm => vm.UimfData.CurrentMaxBin).Subscribe(i => this.HeatMapViewModel.CurrentMaxBin = i);
+            this.WhenAnyValue(vm => vm.UimfData.CurrentMinMz).Subscribe(i => this.HeatMapViewModel.CurrentMinMz = i);
+            this.WhenAnyValue(vm => vm.UimfData.CurrentMaxMz).Subscribe(i => this.HeatMapViewModel.CurrentMaxMz = i);
 
             // This makes the axis of the mz plot be in mz mode properly
             this.WhenAnyValue(vm => vm.FrameManipulationViewModel.MzModeEnabled)
@@ -232,23 +232,29 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.HeatMapViewModel.Height).Subscribe(d => this.Height = d);
             this.WhenAnyValue(vm => vm.HeatMapViewModel.Width).Subscribe(d => this.Width = d);
 
-            this.HeatMapViewModel.WhenAnyValue(hm => hm.CurrentBinRange)
-                .Where(_ => this.UimfData != null && this.HeatMapViewModel.CurrentBinRange != null)
+            this.HeatMapViewModel.WhenAnyValue(hm => hm.CurrentMzRange)
+                .Where(_ => this.UimfData != null && this.HeatMapViewModel.CurrentMzRange != null)
                 .Select(
                     async x =>
+                    {
+                        await Task.Run(() =>
                         {
                             this.UimfData.RangeUpdateList.Enqueue(x);
-                            await this.uimfData.CheckQueue();
-                        }).Subscribe();
+                            this.uimfData.CheckQueue();
+                        });
+                    }).Subscribe();
 
             this.HeatMapViewModel.WhenAnyValue(hm => hm.CurrentScanRange)
                 .Where(_ => this.UimfData != null && this.HeatMapViewModel.CurrentScanRange != null)
                 .Select(
                     async x =>
+                    {
+                        await Task.Run(() =>
                         {
                             this.UimfData.RangeUpdateList.Enqueue(x);
-                            await this.uimfData.CheckQueue();
-                        }).Subscribe();
+                            this.uimfData.CheckQueue();
+                        });
+                    }).Subscribe();
         }
 
         #endregion
@@ -459,15 +465,16 @@ namespace Atreyu.ViewModels
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        public async Task FetchSingleFrame(int frameNumber)
+        public void FetchSingleFrame(int frameNumber)
         {
             this.currentStartFrame = frameNumber;
             this.currentEndFrame = frameNumber;
 
-            await
-                this.UimfData.ReadData(
-                    1, 
-                    this.UimfData.MaxBins, 
+            this.UimfData.ReadData(
+                    //1,
+                    //this.UimfData.MaxBins,
+                    this.UimfData.MinMz,
+                    this.UimfData.MaxMz, 
                     frameNumber, 
                     frameNumber, 
                     this.Height, 
@@ -510,16 +517,18 @@ namespace Atreyu.ViewModels
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        public async Task InitializeUimfData(string file)
+        public void InitializeUimfData(string file)
         {
             if (string.IsNullOrWhiteSpace(file))
             {
                 return;
             }
 
-            this.UimfData = new UimfData(file) { CurrentMinBin = 0 };
-            this.UimfData.CurrentMaxBin = this.UimfData.TotalBins;
-            await this.FetchSingleFrame(1);
+            this.UimfData = new UimfData(file);// { CurrentMinMz = 0 };
+            //this.UimfData.CurrentMaxMz = this.UimfData.TotalMzRange;
+            this.UimfData.CurrentMinMz = this.UimfData.MinMz;
+            this.UimfData.CurrentMaxMz = this.UimfData.MaxMz;
+            this.FetchSingleFrame(1);
             this.CurrentFile = Path.GetFileNameWithoutExtension(file);
             this.HeatMapViewModel.CurrentFile = Path.GetFileNameWithoutExtension(file);
         }
@@ -530,7 +539,7 @@ namespace Atreyu.ViewModels
         /// <param name="sumFrames">
         /// The frame range to sum.
         /// </param>
-        public async void SumFrames(FrameRange sumFrames)
+        public void SumFrames(FrameRange sumFrames)
         {
             if (sumFrames == null)
             {
@@ -546,10 +555,9 @@ namespace Atreyu.ViewModels
 
             this.currentEndFrame = sumFrames.EndFrame < 1 ? 1 : sumFrames.EndFrame;
 
-            await
-                this.UimfData.ReadData(
-                    this.UimfData.CurrentMinBin, 
-                    this.UimfData.CurrentMaxBin, 
+            this.UimfData.ReadData(
+                    this.UimfData.CurrentMinMz, 
+                    this.UimfData.CurrentMaxMz, 
                     this.currentStartFrame, 
                     this.currentEndFrame, 
                     this.Height, 
@@ -581,15 +589,17 @@ namespace Atreyu.ViewModels
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        public async Task ZoomOut()
+        public void ZoomOut()
         {
             var scanRange = new ScanRange(0, this.UimfData.Scans);
 
-            var binRange = this.windowMz ? this.mzWindow : new BinRange(0, this.UimfData.MaxBins);
+            //var binRange = this.windowMz ? this.mzWindow : new MzRange(0, this.UimfData.MaxBins);
+            var binRange = this.windowMz ? this.mzWindow : new MzRange(this.UimfData.MinMz, this.UimfData.MaxMz);
 
             this.UimfData.RangeUpdateList.Enqueue(scanRange);
             this.UimfData.RangeUpdateList.Enqueue(binRange);
-            await this.UimfData.CheckQueue();
+            this.UimfData.CheckQueue();
+            this.HeatMapViewModel.HeatMapPlotModel.ResetAllAxes();
         }
 
         #endregion
@@ -602,12 +612,12 @@ namespace Atreyu.ViewModels
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        private async Task UpdateMzWindow()
+        private void UpdateMzWindow()
         {
-            this.mzWindow = this.uimfData.GetBinRangeForMzWindow(this.MzCenter, this.PartsPerMillion);
+            this.mzWindow = this.uimfData.GetMzRangeForMzWindow(this.MzCenter, this.PartsPerMillion);
             this.HeatMapViewModel.MzWindow = this.mzWindow;
             this.UimfData.RangeUpdateList.Enqueue(this.mzWindow);
-            await this.UimfData.CheckQueue();
+            this.UimfData.CheckQueue();
         }
 
         #endregion

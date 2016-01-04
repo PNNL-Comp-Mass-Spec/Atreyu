@@ -36,7 +36,7 @@ namespace Atreyu.Models
         /// <summary>
         /// The bin range.
         /// </summary>
-        BinRange, 
+        MzRange, 
 
         /// <summary>
         /// The frame range.
