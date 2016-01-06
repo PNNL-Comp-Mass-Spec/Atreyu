@@ -887,7 +887,6 @@ namespace Atreyu.Models
                     catch (Exception)
                     {
                         numTries++;
-                        Task.Delay(5);
                     }
                 }
 
@@ -926,7 +925,6 @@ namespace Atreyu.Models
                     catch (Exception)
                     {
                         numTries++;
-                        Task.Delay(10);
                     }
                 }
 
