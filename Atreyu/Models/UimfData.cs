@@ -588,9 +588,22 @@ namespace Atreyu.Models
             {
                 if (this.startFrameNumber != value)
                 {
-                    var calib = this.dataReader.GetMzCalibrator(this.dataReader.GetFrameParams(value));
-                    this.MinMz = calib.BinToMZ(0);
-                    this.MaxMz = calib.BinToMZ(this.MaxBins);
+                    while (true)
+                    {
+                        try
+                        {
+                            var calib = this.dataReader.GetMzCalibrator(this.dataReader.GetFrameParams(value));
+                            this.MinMz = calib.BinToMZ(0);
+                            this.MaxMz = calib.BinToMZ(this.MaxBins);
+                            break;
+                        }
+                        catch (Exception)
+                        {
+                            //Let stuff cycle for a millisecond before trying again. Error occurs due to invalid operation where
+                            //data reader is already active
+                            Task.Delay(1);
+                        }
+                    }
                 }
                 this.RaiseAndSetIfChanged(ref this.startFrameNumber, value);
             }
@@ -850,39 +863,72 @@ namespace Atreyu.Models
                 var frametype = GetFrameType(this.frameType);
                     double[] mzs;
                     int[] intensities;
-                    this.dataReader.GetSpectrum(
-                        this.StartFrameNumber,
-                        this.EndFrameNumber,
-                        frametype,
-                        this.StartScan,
-                        this.EndScan,
-                        out mzs,
-                        out intensities);
-                    this.MzArray = mzs;
+                bool exceptionEncountered = true;
+                int numTries = 0;
 
-                    this.MzIntensities = intensities;
+                // For pulling the spectrum data from the UIMF file
+                while (exceptionEncountered == true && numTries < 3)
+                {
+                    try
+                    {
+                        this.dataReader.GetSpectrum(
+                            this.StartFrameNumber,
+                            this.EndFrameNumber,
+                            frametype,
+                            this.StartScan,
+                            this.EndScan,
+                            out mzs,
+                            out intensities);
+                        this.MzArray = mzs;
 
-                var temp = this.dataReader.AccumulateFrameData(
-                    this.startFrameNumber,
-                    this.EndFrameNumber,
-                    false,
-                    this.StartScan,
-                    this.EndScan,
-                    currentMinBin,
-                    currentMaxBin,
-                    (int) this.ValuesPerPixelX,
-                    (int) this.ValuesPerPixelY);
+                        this.MzIntensities = intensities;
+                        exceptionEncountered = false;
+                    }
+                    catch (Exception)
+                    {
+                        numTries++;
+                        Task.Delay(5);
+                    }
+                }
 
-                var uncompressed = this.dataReader.AccumulateFrameData(
-                    this.startFrameNumber,
-                    this.endFrameNumber,
-                    false,
-                    this.startScan,
-                    this.endScan,
-                    currentMinBin,
-                    currentMaxBin,
-                    1,
-                    1);
+                exceptionEncountered = true;
+                numTries = 0;
+                // For pulling frame data from the UIMF file
+                while (exceptionEncountered == true && numTries < 3)
+                {
+                    try
+                    {
+                        var temp = this.dataReader.AccumulateFrameData(
+                            this.startFrameNumber,
+                            this.EndFrameNumber,
+                            false,
+                            this.StartScan,
+                            this.EndScan,
+                            currentMinBin,
+                            currentMaxBin,
+                            (int) this.ValuesPerPixelX,
+                            (int)this.ValuesPerPixelY);
+                        this.FrameData = temp;
+
+                        var uncompressed = this.dataReader.AccumulateFrameData(
+                            this.startFrameNumber,
+                            this.endFrameNumber,
+                            false,
+                            this.startScan,
+                            this.endScan,
+                            currentMinBin,
+                            currentMaxBin,
+                            1,
+                            1);
+                        this.Uncompressed = uncompressed;
+                        exceptionEncountered = false;
+                    }
+                    catch (Exception)
+                    {
+                        numTries++;
+                        Task.Delay(10);
+                    }
+                }
 
                 var arrayLength =
                     (int) Math.Round((currentMaxBin - currentMinBin + 1) / this.ValuesPerPixelY);
@@ -893,14 +939,9 @@ namespace Atreyu.Models
                 for (var i = 0; i < arrayLength; i++)
                 {
                     tof[i] = this.dataReader.GetPixelMZ(i);
-                    mz[i] = this.calibrator.TOFtoMZ(tof[i] * 10);
+                    mz[i] = this.calibrator.BinToMZ(tof[i]);
                 }
-
-
                 this.BinToMzMap = mz;
-
-                this.FrameData = temp;
-                this.Uncompressed = uncompressed;
             }
 
             this.GateData();
