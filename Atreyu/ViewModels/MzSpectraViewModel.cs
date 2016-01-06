@@ -264,7 +264,6 @@ namespace Atreyu.ViewModels
                                       IsZoomEnabled = false, 
                                       Position = AxisPosition.Top, 
                                       Key = "YAxisKey", 
-                                      Title = "Intensity",
                                       IsPanEnabled = false, 
                                       MinimumPadding = 0, 
                                       StartPosition = 1, 

@@ -158,22 +158,22 @@ namespace Atreyu.ViewModels
             this.ZoomOutFull.Select(async _ => await Task.Run(() => this.ZoomOut())).Subscribe();
 
             // update the uimf data for the various components
-            this.WhenAnyValue(vm => vm.UimfData).Subscribe(this.TotalIonChromatogramViewModel.UpdateReference);
-
-            this.WhenAnyValue(vm => vm.UimfData).Subscribe(this.HeatMapViewModel.UpdateReference);
-
-            this.WhenAnyValue(vm => vm.UimfData).Subscribe(this.FrameManipulationViewModel.UpdateUimf);
-
-            this.WhenAnyValue(vm => vm.UimfData).Subscribe(this.MzSpectraViewModel.UpdateReference);
+            this.WhenAnyValue(vm => vm.UimfData).Subscribe(data =>
+            {
+                this.HeatMapViewModel.UpdateReference(data);
+                this.MzSpectraViewModel.UpdateReference(data);
+                this.TotalIonChromatogramViewModel.UpdateReference(data);
+                this.FrameManipulationViewModel.UpdateUimf(data);
+            });
 
             // update the frame data of the TIC plot when needed; apparently the Throttler should always specify the schedule.
             this.WhenAnyValue(vm => vm.UimfData.GatedFrameData)
-                .Subscribe(this.TotalIonChromatogramViewModel.UpdateFrameData);
-
-            // Update the Framedata of the M/Z plot when needed
-            this.WhenAnyValue(vm => vm.UimfData.GatedFrameData).Subscribe(this.MzSpectraViewModel.UpdateFrameData);
-
-            this.WhenAnyValue(vm => vm.UimfData.GatedFrameData).Subscribe(this.HeatMapViewModel.UpdateData);
+                .Subscribe(data =>
+                {
+                    this.TotalIonChromatogramViewModel.UpdateFrameData(data);
+                    this.MzSpectraViewModel.UpdateFrameData(data);
+                    this.HeatMapViewModel.UpdateData(data);
+                });
 
             // update the frame whenever it is changed via the frame manipulation view
             this.WhenAnyValue(vm => vm.FrameManipulationViewModel.CurrentFrame)
@@ -182,20 +182,28 @@ namespace Atreyu.ViewModels
 
             // hook up the frame summing feature
             this.WhenAnyValue(vm => vm.FrameManipulationViewModel.Range).Subscribe(this.SumFrames);
-
-            // These make the axis on the TIC update properly
-            this.WhenAnyValue(vm => vm.UimfData.StartScan).Subscribe(this.TotalIonChromatogramViewModel.ChangeStartScan);
-            this.WhenAnyValue(vm => vm.UimfData.EndScan).Subscribe(this.TotalIonChromatogramViewModel.ChangeEndScan);
-
-            // These make the axis on the mz plot update properly
-            this.WhenAnyValue(vm => vm.UimfData.CurrentMinMz).Subscribe(this.MzSpectraViewModel.ChangeStartMz);
-            this.WhenAnyValue(vm => vm.UimfData.CurrentMaxMz).Subscribe(this.MzSpectraViewModel.ChangeEndMz);
-
+            
             // Update the Heatmap axes
-            this.WhenAnyValue(vm => vm.UimfData.StartScan).Subscribe(i => this.HeatMapViewModel.CurrentMinScan = i);
-            this.WhenAnyValue(vm => vm.UimfData.EndScan).Subscribe(i => this.HeatMapViewModel.CurrentMaxScan = i);
-            this.WhenAnyValue(vm => vm.UimfData.CurrentMinMz).Subscribe(i => this.HeatMapViewModel.CurrentMinMz = i);
-            this.WhenAnyValue(vm => vm.UimfData.CurrentMaxMz).Subscribe(i => this.HeatMapViewModel.CurrentMaxMz = i);
+            this.WhenAnyValue(vm => vm.UimfData.StartScan).Subscribe(i =>
+            {
+                this.HeatMapViewModel.CurrentMinScan = i;
+                this.TotalIonChromatogramViewModel.ChangeStartScan(i);
+            });
+            this.WhenAnyValue(vm => vm.UimfData.EndScan).Subscribe(i =>
+            {
+                this.HeatMapViewModel.CurrentMaxScan = i;
+                this.TotalIonChromatogramViewModel.ChangeEndScan(i);
+            });
+            this.WhenAnyValue(vm => vm.UimfData.CurrentMinMz).Subscribe(i =>
+            {
+                this.HeatMapViewModel.CurrentMinMz = i;
+                this.MzSpectraViewModel.ChangeStartMz(i);
+            });
+            this.WhenAnyValue(vm => vm.UimfData.CurrentMaxMz).Subscribe(i =>
+            {
+                this.HeatMapViewModel.CurrentMaxMz = i;
+                this.MzSpectraViewModel.ChangeEndMz(i);
+            });
 
             // This makes the axis of the mz plot be in mz mode properly
             this.WhenAnyValue(vm => vm.FrameManipulationViewModel.MzModeEnabled)
@@ -223,11 +231,14 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.UimfData.ValuesPerPixelY)
                 .Subscribe(d => this.MzSpectraViewModel.ValuesPerPixelY = d);
 
-            this.WhenAnyValue(vm => vm.UimfData.BinToMzMap).Subscribe(d => this.MzSpectraViewModel.BinToMzMap = d);
+            this.WhenAnyValue(vm => vm.UimfData.BinToMzMap).Subscribe(d =>
+            {
+                this.HeatMapViewModel.BinToMzMap = d;
+                this.MzSpectraViewModel.BinToMzMap = d;
+            });
             this.WhenAnyValue(vm => vm.UimfData.MzArray).Subscribe(d => this.MzSpectraViewModel.MzArray = d);
             this.WhenAnyValue(vm => vm.UimfData.MzIntensities).Subscribe(i => this.MzSpectraViewModel.MzIntensities = i);
 
-            this.WhenAnyValue(vm => vm.UimfData.BinToMzMap).Subscribe(d => this.HeatMapViewModel.BinToMzMap = d);
             this.WhenAnyValue(vm => vm.UimfData.Uncompressed)
                 .Subscribe(uncomp => this.HeatMapViewModel.uncompressed = uncomp);
 
