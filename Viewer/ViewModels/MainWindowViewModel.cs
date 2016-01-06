@@ -26,6 +26,10 @@
 //   The main window view model.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
+using System.Linq;
+using System.Text;
+
 namespace Viewer.ViewModels
 {
     using System;
@@ -240,14 +244,42 @@ namespace Viewer.ViewModels
 
             using (var outfile = new StreamWriter(filename))
             {
+                var sb = new StringBuilder();
+                sb.Append("m/z,");
+                var currentFrame = this.CombinedHeatmapViewModel.FrameManipulationViewModel.CurrentFrame;
+                var thing = this.CombinedHeatmapViewModel.UimfData.GetFullScanInfo(currentFrame);
+                var maxTime = thing.Last().DriftTime;
+
                 for (var x = 0; x < temp.GetLength(0); x++)
                 {
-                    var content = string.Empty;
-                    for (var y = 0; y < temp.GetLength(1); y++)
-                    {
-                        content += temp[x, y].ToString("0.00") + ",";
-                    }
+                    sb.Append(((x * maxTime) / temp.GetLength(0)).ToString("0.0000"));
+                    sb.Append(',');
+                }
+                sb.Append(maxTime.ToString("0.0000"));
+                outfile.WriteLine(sb);
 
+                for (var y = 0; y < temp.GetLength(1); y++)
+                {
+                    sb = new StringBuilder();
+                    sb.Append(
+                        this.CombinedHeatmapViewModel.UimfData.Calibrator.TOFtoMZ(y).ToString("0.0000"));
+                    sb.Append(',');
+                    for (var x = 0; x < temp.GetLength(0); x++)
+                    {
+                        if (temp[x, y] < 0.0001)
+                        {
+                            sb.Append("0");
+                        }
+                        else
+                        {
+                            sb.Append(temp[x, y].ToString("0.0000"));
+                        }
+                        sb.Append(',');
+                        //content += temp[x, y].ToString("0.00") + ",";
+                    }
+                    //sb.Append('\n');
+                    
+                    var content = sb.ToString(0, sb.ToString().Length - 1);
                     outfile.WriteLine(content);
                 }
             }

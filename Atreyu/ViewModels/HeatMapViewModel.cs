@@ -151,6 +151,8 @@ namespace Atreyu.ViewModels
         /// </summary>
         public double[] BinToMzMap { get; set; }
 
+        public double[,] FrameData { get; set; }
+
         /// <summary>
         /// Gets or sets the current bin range.
         /// </summary>
@@ -626,5 +628,12 @@ namespace Atreyu.ViewModels
         }
 
         #endregion
+
+        internal double[,] ExportData()
+        {
+            return uncompressed;
+        }
+
+        public double[,] uncompressed { get; set; }
     }
 }

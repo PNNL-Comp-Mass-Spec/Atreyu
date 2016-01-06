@@ -756,6 +756,7 @@ namespace Atreyu.Models
         }
 
         private double prevYPixels;
+        private double[,] _uncompressed;
 
         /// <summary>
         /// The read data.
@@ -872,6 +873,17 @@ namespace Atreyu.Models
                     (int) this.ValuesPerPixelX,
                     (int) this.ValuesPerPixelY);
 
+                var uncompressed = this.dataReader.AccumulateFrameData(
+                    this.startFrameNumber,
+                    this.endFrameNumber,
+                    false,
+                    this.startScan,
+                    this.endScan,
+                    currentMinBin,
+                    currentMaxBin,
+                    1,
+                    1);
+
                 var arrayLength =
                     (int) Math.Round((currentMaxBin - currentMinBin + 1) / this.ValuesPerPixelY);
 
@@ -888,6 +900,7 @@ namespace Atreyu.Models
                 this.BinToMzMap = mz;
 
                 this.FrameData = temp;
+                this.Uncompressed = uncompressed;
             }
 
             this.GateData();
@@ -1164,5 +1177,10 @@ namespace Atreyu.Models
         }
 
         #endregion
+
+        public double[,] Uncompressed { get { return _uncompressed; } set
+        {
+            this.RaiseAndSetIfChanged(ref this._uncompressed, value);
+        } }
     }
 }

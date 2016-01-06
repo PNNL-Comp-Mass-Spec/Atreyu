@@ -228,6 +228,8 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.UimfData.MzIntensities).Subscribe(i => this.MzSpectraViewModel.MzIntensities = i);
 
             this.WhenAnyValue(vm => vm.UimfData.BinToMzMap).Subscribe(d => this.HeatMapViewModel.BinToMzMap = d);
+            this.WhenAnyValue(vm => vm.UimfData.Uncompressed)
+                .Subscribe(uncomp => this.HeatMapViewModel.uncompressed = uncomp);
 
             this.WhenAnyValue(vm => vm.UimfData.Calibrator).Subscribe(c => this.MzSpectraViewModel.Calibrator = c);
 
@@ -434,7 +436,8 @@ namespace Atreyu.ViewModels
         /// </returns>
         public double[,] ExportHeatmapDataCompressed()
         {
-            return this.HeatMapViewModel.GetCompressedDataInView();
+            //return this.HeatMapViewModel.GetCompressedDataInView();
+            return this.HeatMapViewModel.ExportData();
         }
 
         /// <summary>
