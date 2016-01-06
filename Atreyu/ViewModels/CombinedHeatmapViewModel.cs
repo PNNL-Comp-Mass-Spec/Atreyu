@@ -160,19 +160,19 @@ namespace Atreyu.ViewModels
             // update the uimf data for the various components
             this.WhenAnyValue(vm => vm.UimfData).Subscribe(data =>
             {
+                this.FrameManipulationViewModel.UpdateUimf(data);
                 this.HeatMapViewModel.UpdateReference(data);
                 this.MzSpectraViewModel.UpdateReference(data);
                 this.TotalIonChromatogramViewModel.UpdateReference(data);
-                this.FrameManipulationViewModel.UpdateUimf(data);
             });
 
             // update the frame data of the TIC plot when needed; apparently the Throttler should always specify the schedule.
             this.WhenAnyValue(vm => vm.UimfData.GatedFrameData)
                 .Subscribe(data =>
                 {
-                    this.TotalIonChromatogramViewModel.UpdateFrameData(data);
-                    this.MzSpectraViewModel.UpdateFrameData(data);
                     this.HeatMapViewModel.UpdateData(data);
+                    this.MzSpectraViewModel.UpdateFrameData(data);
+                    this.TotalIonChromatogramViewModel.UpdateFrameData(data);
                 });
 
             // update the frame whenever it is changed via the frame manipulation view

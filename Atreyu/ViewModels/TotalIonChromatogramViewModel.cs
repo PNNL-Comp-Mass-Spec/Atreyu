@@ -233,10 +233,10 @@ namespace Atreyu.ViewModels
             foreach (var d in this.frameDictionary)
             {
                 series.Points.Add(new DataPoint(d.Key, d.Value));
-                series.Points.Add(new DataPoint(double.NaN, double.NaN));
+                //series.Points.Add(new DataPoint(double.NaN, double.NaN));
             }
 
-            this.FindPeaks();
+            //this.FindPeaks();
 
             this.TicPlotModel.InvalidatePlot(true);
         }

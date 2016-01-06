@@ -391,7 +391,7 @@ namespace Atreyu.ViewModels
                 }
             }
 
-            this.FindPeaks();
+            //this.FindPeaks();
 
             this.MzPlotModel.InvalidatePlot(true);
         }
@@ -449,7 +449,7 @@ namespace Atreyu.ViewModels
                 var peakPoint = new OxyPlot.Annotations.PointAnnotation
                                     {
                                         Text = "R=" + resolutionString, 
-                                        X = resolutionDatapoint.Intensity / 1.03125, 
+                                        X = resolutionDatapoint.Intensity,// / 1.03125, 
                                         Y = resolutionDatapoint.PeakCenter, 
                                         ToolTip = resolutionDatapoint.ToString()
                                     };

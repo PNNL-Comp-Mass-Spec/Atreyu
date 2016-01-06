@@ -834,7 +834,7 @@ namespace Atreyu.Models
                 this.FrameType = frameParams.GetValue(FrameParamKeyType.FrameType);
                 this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
 
-                //this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
+                this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
 
                 //var gMaxBin = this.dataReader.GetGlobalParams().Bins;
                 //var gMinBin = 1;
@@ -933,10 +933,10 @@ namespace Atreyu.Models
 
                 var tof = new double[arrayLength];
                 var mz = new double[arrayLength];
-
+                var start = this.dataReader.GetBinForPixel(0);
                 for (var i = 0; i < arrayLength; i++)
                 {
-                    tof[i] = this.dataReader.GetPixelMZ(i);
+                    tof[i] = this.dataReader.GetBinForPixel((int) Math.Round(i*ValuesPerPixelY));
                     mz[i] = this.calibrator.BinToMZ(tof[i]);
                 }
                 this.BinToMzMap = mz;
