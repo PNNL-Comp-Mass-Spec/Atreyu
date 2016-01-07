@@ -8,7 +8,12 @@
 	x:Name="UserControl" d:DesignHeight="480" Width="198.71">
 
 	<Grid x:Name="LayoutRoot">
-        <Slider Name="GateSliderControl" Orientation="Vertical" Maximum="{Binding MaximumValue}" Value="{Binding Gate, Mode=OneWay}" TickPlacement="BottomRight" HorizontalAlignment="Left" VerticalAlignment="Stretch" />
+        <Slider Name="GateSliderControl" Orientation="Vertical" 
+                Width="50"
+                Maximum="{Binding MaximumValue}" Value="{Binding Gate}" 
+                TickPlacement="Both" Ticks="{Binding LogScaleList}"
+                TickFrequency="1"
+                HorizontalAlignment="Left" VerticalAlignment="Stretch" IsSnapToTickEnabled="True"/>
         <Label Name="CurrentValue" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="{Binding LogarithmicGate, Mode=OneWay}" Margin="27,0,0,10" />
         <Label Content="{Binding ControlLabel}" HorizontalAlignment="Left" Margin="27,10,0,0" VerticalAlignment="Top"/>
 	</Grid>

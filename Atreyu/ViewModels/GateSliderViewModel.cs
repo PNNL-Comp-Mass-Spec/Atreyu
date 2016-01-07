@@ -26,6 +26,10 @@
 //   The gate slider view model.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
+using System.Collections.Generic;
+using System.Windows.Media;
+
 namespace Atreyu.ViewModels
 {
     using System;
@@ -67,7 +71,9 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// The maximum value.
         /// </summary>
-        private double maximumValue = 100000.0;
+        private double maximumValue = 7;
+
+        private DoubleCollection _logScaleList; 
 
         #endregion
 
@@ -106,6 +112,12 @@ namespace Atreyu.ViewModels
             }
         }
 
+        public DoubleCollection LogScaleList
+        {
+            get { return _logScaleList; }
+            set { this.RaiseAndSetIfChanged(ref this._logScaleList, value); }
+        }
+
         /// <summary>
         /// Gets or sets a value indicating whether log mode.
         /// </summary>
@@ -129,7 +141,7 @@ namespace Atreyu.ViewModels
         {
             get
             {
-                return this.logarithmicGate;
+                return Math.Round(this.logarithmicGate*1000)/1000.0;
             }
 
             private set
@@ -171,6 +183,19 @@ namespace Atreyu.ViewModels
         }
 
         #endregion
+
+        public GateSliderViewModel()
+        {
+            LogScaleList = new DoubleCollection();
+            for (int i = 1; Math.Pow(10, i) <= maximumLogValue; i++)
+            {
+                LogScaleList.Add(i);
+                for (int j = 2; j < 10; j++)
+                {
+                    LogScaleList.Add(Math.Log10(j) + i);
+                }
+            }
+        }
 
         #region Public Methods and Operators
 
