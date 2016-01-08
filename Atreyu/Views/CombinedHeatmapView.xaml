@@ -19,7 +19,7 @@
             <ColumnDefinition Width="3*" MinWidth="100"/>
             <ColumnDefinition Width="10*" />
             <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="1*" MinWidth="60" />
+            <ColumnDefinition Width="1*" MinWidth="100" />
         </Grid.ColumnDefinitions>
         <controls:MzRange x:Name="RangeControl" 
                           Grid.Column="0" 

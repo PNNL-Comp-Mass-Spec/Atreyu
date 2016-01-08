@@ -26,6 +26,9 @@
 //   The frame manipulation view model.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
+using System;
+
 namespace Atreyu.ViewModels
 {
     using System.ComponentModel.Composition;
@@ -70,6 +73,8 @@ namespace Atreyu.ViewModels
         /// </summary>
         private int numFrames;
 
+        private int _tickSize;
+
         /// <summary>
         /// The range.
         /// </summary>
@@ -93,6 +98,11 @@ namespace Atreyu.ViewModels
         #endregion
 
         #region Public Properties
+
+        public int TickSize
+        {
+            get { return (int)Math.Ceiling(NumFrames/20.0); }
+        }
 
         /// <summary>
         /// Gets or sets the current frame.
@@ -181,6 +191,7 @@ namespace Atreyu.ViewModels
             set
             {
                 this.RaiseAndSetIfChanged(ref this.numFrames, value);
+                this.RaisePropertyChanged("TickSize");
             }
         }
 
