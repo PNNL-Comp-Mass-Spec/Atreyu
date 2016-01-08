@@ -14,9 +14,11 @@
 
         <Slider Grid.Row="0" Maximum="{Binding NumFrames}"
                 Minimum="{Binding MinNumFrame}" VerticalAlignment="Top" 
-                TickPlacement="Both" TickFrequency="{Binding TickSize}" 
+                TickPlacement="Both" TickFrequency="{Binding TickSize}"
+                IsSnapToTickEnabled="{Binding IsTickSizeOne}"
                 SmallChange="1" LargeChange="10" Interval="50" 
-                ValueChanged="SliderValueChanged" AutoToolTipPlacement="TopLeft"/>
+                ValueChanged="SliderValueChanged" AutoToolTipPlacement="TopLeft"
+                />
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />

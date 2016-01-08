@@ -104,6 +104,11 @@ namespace Atreyu.ViewModels
             get { return (int)Math.Ceiling(NumFrames/20.0); }
         }
 
+        public bool IsTickSizeOne
+        {
+            get { return (int) Math.Ceiling(NumFrames/20.0) == 1; }
+        }
+
         /// <summary>
         /// Gets or sets the current frame.
         /// </summary>
@@ -192,6 +197,7 @@ namespace Atreyu.ViewModels
             {
                 this.RaiseAndSetIfChanged(ref this.numFrames, value);
                 this.RaisePropertyChanged("TickSize");
+                this.RaisePropertyChanged("IsTickSizeOne");
             }
         }
 

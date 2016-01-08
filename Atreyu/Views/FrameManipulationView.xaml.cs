@@ -26,6 +26,9 @@
 //   Interaction logic for FrameManipulationView.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
+using System.Windows.Input;
+
 namespace Atreyu.Views
 {
     using System.ComponentModel.Composition;
@@ -48,6 +51,7 @@ namespace Atreyu.Views
         /// The view model.
         /// </summary>
         private readonly FrameManipulationViewModel viewModel;
+        private int interimFrame;
 
         #endregion
 
@@ -64,6 +68,7 @@ namespace Atreyu.Views
         {
             this.viewModel = viewModel;
             this.DataContext = viewModel;
+            this.PreviewMouseUp += new MouseButtonEventHandler(UIElement_OnMouseUp);
             this.InitializeComponent();
         }
 
@@ -108,7 +113,7 @@ namespace Atreyu.Views
         {
             if (e.NewValue > 0)
             {
-                this.viewModel.UpdateCurrentFrameNumber((int)e.NewValue);
+                this.interimFrame = ((int)e.NewValue);
             }
         }
 
@@ -137,5 +142,10 @@ namespace Atreyu.Views
         }
 
         #endregion
+
+        private void UIElement_OnMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            this.viewModel.UpdateCurrentFrameNumber(interimFrame);
+        }
     }
 }
