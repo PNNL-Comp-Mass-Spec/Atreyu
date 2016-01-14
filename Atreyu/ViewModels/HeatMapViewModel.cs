@@ -497,8 +497,9 @@ namespace Atreyu.ViewModels
                                          //Y0 = 0,
                                          //Y1 = this.HeatMapData.MaxBins,
                                          Y0 = this.HeatMapData.MinMz,
-                                         Y1 = this.HeatMapData.MaxMz, 
-                                         Interpolate = false
+                                         Y1 = this.HeatMapData.MaxMz,
+                                         Interpolate = false,
+                                         Background = OxyColors.Black,
                                      };
 
             this.HeatMapPlotModel.Series.Add(heatMapSeries1);
