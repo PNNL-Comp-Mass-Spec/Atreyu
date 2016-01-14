@@ -1,32 +1,3 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="HeatMapViewModel.cs" company="Pacific Northwest National Laboratory">
-//   The MIT License (MIT)
-//   
-//   Copyright (c) 2015 Pacific Northwest National Laboratory
-//   
-//   Permission is hereby granted, free of charge, to any person obtaining a copy
-//   of this software and associated documentation files (the "Software"), to deal
-//   in the Software without restriction, including without limitation the rights
-//   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//   copies of the Software, and to permit persons to whom the Software is
-//   furnished to do so, subject to the following conditions:
-//   
-//   The above copyright notice and this permission notice shall be included in
-//   all copies or substantial portions of the Software.
-//   
-//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-//   THE SOFTWARE.
-// </copyright>
-// <summary>
-//   The heat map view model.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 using System;
 
 namespace Atreyu.ViewModels
@@ -56,7 +27,7 @@ namespace Atreyu.ViewModels
         #region Fields
 
         /// <summary>
-        /// The current bin range.
+        /// The current m/z range.
         /// </summary>
         private MzRange currentMzRange;
 
@@ -66,7 +37,7 @@ namespace Atreyu.ViewModels
         private string currentFile = "Heatmap";
 
         /// <summary>
-        /// The current max bin.
+        /// The current max m/z.
         /// </summary>
         private double currentMaxMz;
 
@@ -76,7 +47,7 @@ namespace Atreyu.ViewModels
         private int currentMaxScan;
 
         /// <summary>
-        /// The current min bin.
+        /// The current min m/z.
         /// </summary>
         private double currentMinMz;
 
@@ -154,7 +125,7 @@ namespace Atreyu.ViewModels
         public double[,] FrameData { get; set; }
 
         /// <summary>
-        /// Gets or sets the current bin range.
+        /// Gets or sets the current m/z range.
         /// </summary>
         public MzRange CurrentMzRange
         {
