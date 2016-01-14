@@ -604,7 +604,14 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            this.CurrentScanRange = new ScanRange((int)axis.ActualMinimum, (int)axis.ActualMaximum);
+            if (e.ChangeType == AxisChangeTypes.Reset)
+            {
+                this.CurrentScanRange = new ScanRange((int)axis.AbsoluteMinimum, (int)axis.AbsoluteMaximum);
+            }
+            else
+            {
+                this.CurrentScanRange = new ScanRange((int)axis.ActualMinimum, (int)axis.ActualMaximum);
+            }
         }
 
         /// <summary>
@@ -624,7 +631,16 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            this.CurrentMzRange = new MzRange((int)axis.ActualMinimum, (int)axis.ActualMaximum);
+            if (e.ChangeType == AxisChangeTypes.Reset)
+            {
+                axis.Maximum = this.HeatMapData.MaxMz;
+                axis.Minimum = this.HeatMapData.MinMz;
+                this.CurrentMzRange = new MzRange(this.HeatMapData.MinMz, this.HeatMapData.MaxMz);
+            }
+            else
+            {
+                this.CurrentMzRange = new MzRange(axis.ActualMinimum, axis.ActualMaximum);
+            }
         }
 
         #endregion
