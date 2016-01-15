@@ -584,11 +584,10 @@ namespace Atreyu.ViewModels
         {
             var scanRange = new ScanRange(0, this.UimfData.Scans);
 
-            //var binRange = this.windowMz ? this.mzWindow : new MzRange(0, this.UimfData.MaxBins);
-            var binRange = this.windowMz ? this.mzWindow : new MzRange(this.UimfData.MinMz, this.UimfData.MaxMz);
+            var mzRange = this.windowMz ? this.mzWindow : new MzRange(this.UimfData.MinMz, this.UimfData.MaxMz);
 
             this.UimfData.RangeUpdateList.Enqueue(scanRange);
-            this.UimfData.RangeUpdateList.Enqueue(binRange);
+            this.UimfData.RangeUpdateList.Enqueue(mzRange);
             this.UimfData.CheckQueue();
             this.HeatMapViewModel.HeatMapPlotModel.ResetAllAxes();
         }
