@@ -1112,7 +1112,7 @@ namespace Atreyu.Models
         /// thrown if the range type is set to a type that it cannot be cast to.
         /// </exception>
         /// <exception cref="NotImplementedException">
-        /// thrown if an unknown range type is used.  The currently known types are Bin, Frame, and Scan.
+        /// thrown if an unknown range type is used.  The currently known types are Mz, Frame, and Scan.
         /// </exception>
         private void ProcessData(Range range)
         {
@@ -1123,7 +1123,7 @@ namespace Atreyu.Models
                     if (mzRange == null)
                     {
                         throw new ArgumentException(
-                            "Range has it's RangeType set to BinRange but cannot be cast to BinRange", 
+                            "Range has it's RangeType set to MzRange but cannot be cast to MzRange", 
                             "range");
                     }
 
@@ -1136,8 +1136,6 @@ namespace Atreyu.Models
                     }
                     else
                     {
-                        //min = 0;
-                        //max = this.MaxBins;
                         min = this.MinMz;
                         max = this.MaxMz;
                     }
@@ -1182,7 +1180,7 @@ namespace Atreyu.Models
                     break;
                 default:
                     throw new NotImplementedException(
-                        "Currently ProcessRangeData only supports types of BinRange, FrameRange, and ScanRange, "
+                        "Currently ProcessRangeData only supports types of MzRange, FrameRange, and ScanRange, "
                         + "but you passed something else and it scared us too much to continue.");
             }
         }
