@@ -450,7 +450,8 @@ namespace Atreyu.ViewModels
                                        //Title = "TOF Bins",
                                        Title = "m/z", 
                                        TickStyle = TickStyle.Inside, 
-                                       AxisDistance = -2, 
+                                       AxisDistance = -2,
+                                       IsZoomEnabled = true,
                                        TextColor = OxyColors.Red, 
                                        TicklineColor = OxyColors.Red, 
                                        Layer = AxisLayer.AboveSeries, 
@@ -605,8 +606,8 @@ namespace Atreyu.ViewModels
 
             if (e.ChangeType == AxisChangeTypes.Reset)
             {
-                axis.Maximum = this.HeatMapData.MaxMz;
-                axis.Minimum = this.HeatMapData.MinMz;
+                //axis.Maximum = this.HeatMapData.MaxMz;
+                //axis.Minimum = this.HeatMapData.MinMz;
                 this.CurrentMzRange = new MzRange(this.HeatMapData.MinMz, this.HeatMapData.MaxMz);
             }
             else
