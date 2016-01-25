@@ -109,9 +109,6 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.UimfData.LoadingData).Subscribe(x => this.CircularWaitIsVisible = x);
 
             // Keep the M/Z mode settings updated
-            this.WhenAnyValue(vm => vm.MzRangeEnabled)
-                .Where(b => this.UimfData != null)
-                .Subscribe(x => this.UimfData.WindowMz = x);
             this.WhenAnyValue(vm => vm.MzCenter)
                 .Where(b => this.UimfData != null)
                 .Subscribe(x => this.UimfData.MzCenter = x);
@@ -119,13 +116,16 @@ namespace Atreyu.ViewModels
                 .Where(b => this.UimfData != null)
                 .Subscribe(x => this.UimfData.PartsPerMillion = x);
 
-            this.WhenAnyValue(vm => vm.MzRangeEnabled).Subscribe(x => this.HeatMapViewModel.ForceMinMaxMz = x);
-
-            this.WhenAnyValue(vm => vm.MzRangeEnabled, vm => vm.MzCenter, vm => vm.PartsPerMillion)
-                .Where(tuple => tuple.Item1 && this.UimfData != null)
-                .Select(async _ => await Task.Run(() => this.UpdateMzWindow()))
-                .Subscribe();
-
+            this.WhenAnyValue(vm => vm.MzRangeEnabled).Subscribe(x =>
+            {
+                this.HeatMapViewModel.ForceMinMaxMz = x;
+                if (this.UimfData != null)
+                {
+                    this.UimfData.WindowMz = x;
+                    this.UpdateMzWindow();
+                }
+            });
+            
             this.ZoomOutFull = this.FrameManipulationViewModel.ZoomOutCommand;
             this.ZoomOutFull.Select(async _ => await Task.Run(() => this.ZoomOut())).Subscribe();
 

@@ -522,11 +522,11 @@ namespace Atreyu.ViewModels
             series.Y0 = this.CurrentMinMz;
             series.Y1 = this.CurrentMaxMz;
 
-            if ((this.CurrentMinScan == 0 && this.CurrentMinMz.Equals(0))
-                || (this.ForceMinMaxMz && this.CurrentMinMz.Equals(this.MzWindow.StartMz)))
-            {
+            //if ((this.CurrentMinScan == 0 && this.CurrentMinMz.Equals(0))
+            //    || (this.ForceMinMaxMz && this.CurrentMinMz.Equals(this.MzWindow.StartMz)))
+            //{
                 this.heatMapPlotModel.ResetAllAxes();
-            }
+            //}
 
             this.HeatMapPlotModel.InvalidatePlot(true);
         }
