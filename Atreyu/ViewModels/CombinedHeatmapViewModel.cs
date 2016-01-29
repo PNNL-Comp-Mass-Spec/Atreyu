@@ -522,6 +522,7 @@ namespace Atreyu.ViewModels
             this.FetchSingleFrame(1);
             this.CurrentFile = Path.GetFileNameWithoutExtension(file);
             this.HeatMapViewModel.CurrentFile = Path.GetFileNameWithoutExtension(file);
+            this.TotalIonChromatogramViewModel.MaxScan = this.UimfData.EndScan;
         }
 
         /// <summary>
