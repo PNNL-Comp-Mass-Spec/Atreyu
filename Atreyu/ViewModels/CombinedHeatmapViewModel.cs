@@ -249,6 +249,7 @@ namespace Atreyu.ViewModels
 
             this.TotalIonChromatogramViewModel.WhenAnyValue(ticStart => ticStart.StartScan, ticEnd => ticEnd.EndScan)
                 .Where(_ => this.UimfData != null)
+                .Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
                 .Subscribe(x => this.HeatMapViewModel.CurrentScanRange = new ScanRange(this.TotalIonChromatogramViewModel.StartScan, this.TotalIonChromatogramViewModel.EndScan));
         }
 
