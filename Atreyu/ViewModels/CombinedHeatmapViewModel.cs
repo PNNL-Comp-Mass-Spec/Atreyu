@@ -242,21 +242,15 @@ namespace Atreyu.ViewModels
                         {
                             this.UimfData.RangeUpdateList.Enqueue(x);
                             this.uimfData.CheckQueue();
+                            this.TotalIonChromatogramViewModel.StartScan = this.uimfData.StartScan;
+                            this.TotalIonChromatogramViewModel.EndScan = this.uimfData.EndScan;
                         });
                     }).Subscribe();
 
             this.TotalIonChromatogramViewModel.WhenAnyValue(ticStart => ticStart.StartScan, ticEnd => ticEnd.EndScan)
                 .Where(_ => this.UimfData != null)
-                .Subscribe(
-                    async x =>
-                    {
-                        await Task.Run(() =>
-                        {
-                            this.UimfData.RangeUpdateList.Enqueue(new ScanRange(this.TotalIonChromatogramViewModel.StartScan,
-                                this.TotalIonChromatogramViewModel.EndScan));
-                            this.UimfData.CheckQueue();
-                        });
-                    });
+                .Throttle(TimeSpan.FromMilliseconds(50), RxApp.MainThreadScheduler)
+                .Subscribe(x => this.HeatMapViewModel.CurrentScanRange = new ScanRange(this.TotalIonChromatogramViewModel.StartScan, this.TotalIonChromatogramViewModel.EndScan));
         }
 
         #endregion

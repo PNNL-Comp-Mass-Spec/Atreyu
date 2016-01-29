@@ -137,6 +137,8 @@ namespace Atreyu.ViewModels
         /// </param>
         public void ChangeEndScan(int value)
         {
+            if (value > this.MaxScan)
+                value = this.MaxScan;
             this.EndScan = value;
         }
 
@@ -154,6 +156,8 @@ namespace Atreyu.ViewModels
         /// </param>
         public void ChangeStartScan(int value)
         {
+            if (value < 0)
+                value = 0;
             this.StartScan = value;
         }
 
