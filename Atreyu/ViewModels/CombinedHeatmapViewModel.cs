@@ -1,3 +1,5 @@
+using Xceed.Wpf.DataGrid.Converters;
+
 namespace Atreyu.ViewModels
 {
     using System;
@@ -125,7 +127,7 @@ namespace Atreyu.ViewModels
                     this.UpdateMzWindow();
                 }
             });
-            
+
             this.ZoomOutFull = this.FrameManipulationViewModel.ZoomOutCommand;
             this.ZoomOutFull.Select(async _ => await Task.Run(() => this.ZoomOut())).Subscribe();
 
@@ -154,7 +156,7 @@ namespace Atreyu.ViewModels
 
             // hook up the frame summing feature
             this.WhenAnyValue(vm => vm.FrameManipulationViewModel.Range).Subscribe(this.SumFrames);
-            
+
             // Update the Heatmap axes
             this.WhenAnyValue(vm => vm.UimfData.StartScan).Subscribe(i =>
             {
@@ -242,6 +244,19 @@ namespace Atreyu.ViewModels
                             this.uimfData.CheckQueue();
                         });
                     }).Subscribe();
+
+            this.TotalIonChromatogramViewModel.WhenAnyValue(ticStart => ticStart.StartScan, ticEnd => ticEnd.EndScan)
+                .Where(_ => this.UimfData != null)
+                .Subscribe(
+                    async x =>
+                    {
+                        await Task.Run(() =>
+                        {
+                            this.UimfData.RangeUpdateList.Enqueue(new ScanRange(this.TotalIonChromatogramViewModel.StartScan,
+                                this.TotalIonChromatogramViewModel.EndScan));
+                            this.UimfData.CheckQueue();
+                        });
+                    });
         }
 
         #endregion
