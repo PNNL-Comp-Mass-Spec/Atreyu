@@ -40,6 +40,12 @@ namespace Atreyu.Views
                         });
         }
 
+
+        public HeatMapView()
+        {
+            this.InitializeComponent();
+        }
+
         #endregion
 
         #region Public Properties

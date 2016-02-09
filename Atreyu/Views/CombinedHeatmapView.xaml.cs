@@ -125,11 +125,12 @@ namespace Atreyu.Views
             Grid.SetRow(this.mzSpectraView, 1);
             this.MainGrid.Children.Add(this.mzSpectraView);
 
-            this.totalIonChromatogramView = new TotalIonChromatogramView(this.ViewModel.TotalIonChromatogramViewModel);
-            Grid.SetColumn(this.totalIonChromatogramView, 1);
-            Grid.SetRow(this.totalIonChromatogramView, 2);
-            Grid.SetColumnSpan(this.totalIonChromatogramView, 2);
-            this.MainGrid.Children.Add(this.totalIonChromatogramView);
+            //this.totalIonChromatogramView = new TotalIonChromatogramView(this.ViewModel.TotalIonChromatogramViewModel);
+            //Grid.SetColumn(this.totalIonChromatogramView, 1);
+            //Grid.SetRow(this.totalIonChromatogramView, 2);
+            //Grid.SetColumnSpan(this.totalIonChromatogramView, 2);
+            //this.totalIonChromatogramView.Visibility = XAxisVisibility;
+            //this.MainGrid.Children.Add(this.totalIonChromatogramView);
 
             this.lowSliderView = new GateSlider(this.ViewModel.LowValueGateSliderViewModel);
             Grid.SetRow(this.lowSliderView, 1);
@@ -140,6 +141,18 @@ namespace Atreyu.Views
 
             this.PreviewDrop += this.MainTabControlPreviewDragEnter;
             this.AllowDrop = true;
+        }
+
+        private Visibility XAxisVisibility
+        { get { return this.ViewModel.TicVisible; } }
+
+        private Visibility ToVis(bool isVisible)
+        {
+            if (isVisible)
+            {
+                return Visibility.Visible;
+            }
+            return Visibility.Hidden;
         }
 
         /// <summary>

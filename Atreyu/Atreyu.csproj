@@ -207,12 +207,16 @@
     <Compile Include="Models\ScanRange.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegionNames.cs" />
+    <Compile Include="ViewModels\BasePeakIntensityViewModel.cs" />
     <Compile Include="ViewModels\CombinedHeatmapViewModel.cs" />
     <Compile Include="ViewModels\FrameManipulationViewModel.cs" />
     <Compile Include="ViewModels\HeatMapViewModel.cs" />
     <Compile Include="ViewModels\MzSpectraViewModel.cs" />
     <Compile Include="ViewModels\GateSliderViewModel.cs" />
     <Compile Include="ViewModels\TotalIonChromatogramViewModel.cs" />
+    <Compile Include="Views\BasePeakIntensityView.xaml.cs">
+      <DependentUpon>BasePeakIntensityView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CombinedHeatmapView.xaml.cs">
       <DependentUpon>CombinedHeatmapView.xaml</DependentUpon>
     </Compile>
@@ -241,6 +245,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\MzRange.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BasePeakIntensityView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
