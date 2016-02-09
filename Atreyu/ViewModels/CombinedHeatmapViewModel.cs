@@ -1,3 +1,5 @@
+using Xceed.Wpf.DataGrid.Converters;
+
 namespace Atreyu.ViewModels
 {
     using System;
@@ -125,7 +127,7 @@ namespace Atreyu.ViewModels
                     this.UpdateMzWindow();
                 }
             });
-            
+
             this.ZoomOutFull = this.FrameManipulationViewModel.ZoomOutCommand;
             this.ZoomOutFull.Select(async _ => await Task.Run(() => this.ZoomOut())).Subscribe();
 
@@ -154,7 +156,7 @@ namespace Atreyu.ViewModels
 
             // hook up the frame summing feature
             this.WhenAnyValue(vm => vm.FrameManipulationViewModel.Range).Subscribe(this.SumFrames);
-            
+
             // Update the Heatmap axes
             this.WhenAnyValue(vm => vm.UimfData.StartScan).Subscribe(i =>
             {
@@ -240,8 +242,15 @@ namespace Atreyu.ViewModels
                         {
                             this.UimfData.RangeUpdateList.Enqueue(x);
                             this.uimfData.CheckQueue();
+                            this.TotalIonChromatogramViewModel.StartScan = this.uimfData.StartScan;
+                            this.TotalIonChromatogramViewModel.EndScan = this.uimfData.EndScan;
                         });
                     }).Subscribe();
+
+            this.TotalIonChromatogramViewModel.WhenAnyValue(ticStart => ticStart.StartScan, ticEnd => ticEnd.EndScan)
+                .Where(_ => this.UimfData != null)
+                .Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
+                .Subscribe(x => this.HeatMapViewModel.CurrentScanRange = new ScanRange(this.TotalIonChromatogramViewModel.StartScan, this.TotalIonChromatogramViewModel.EndScan));
         }
 
         #endregion
@@ -522,6 +531,7 @@ namespace Atreyu.ViewModels
             this.FetchSingleFrame(1);
             this.CurrentFile = Path.GetFileNameWithoutExtension(file);
             this.HeatMapViewModel.CurrentFile = Path.GetFileNameWithoutExtension(file);
+            this.TotalIonChromatogramViewModel.MaxScan = this.UimfData.EndScan;
         }
 
         /// <summary>

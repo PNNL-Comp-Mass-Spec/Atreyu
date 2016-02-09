@@ -58,6 +58,13 @@ namespace Atreyu.ViewModels
         /// </summary>
         private UimfData uimfData;
 
+        /// <summary>
+        /// To determine if a file was loaded yet
+        /// </summary>
+        private bool _uimfLoaded;
+
+        private int maxScan;
+
         #endregion
 
         #region Constructors and Destructors
@@ -90,6 +97,34 @@ namespace Atreyu.ViewModels
             }
         }
 
+        public bool UimfLoaded
+        {
+            get { return this._uimfLoaded; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this._uimfLoaded, value);
+                
+            }
+        }
+
+        public int StartScan
+        {
+            get { return startScan;}
+            set { this.RaiseAndSetIfChanged(ref this.startScan, value); }
+        }
+
+        public int EndScan
+        {
+            get { return endScan; }
+            set { this.RaiseAndSetIfChanged(ref this.endScan, value); }
+        }
+
+        public int MaxScan
+        {
+            get { return maxScan; }
+            set { this.RaiseAndSetIfChanged(ref this.maxScan, value); }
+        }
+
         #endregion
 
         #region Public Methods and Operators
@@ -102,7 +137,15 @@ namespace Atreyu.ViewModels
         /// </param>
         public void ChangeEndScan(int value)
         {
-            this.endScan = value;
+            if (value > this.MaxScan)
+                value = this.MaxScan;
+            this.EndScan = value;
+        }
+
+        public void ChangeMaxScan(int value)
+        {
+            this.MaxScan = value;
+            ChangeEndScan(value);
         }
 
         /// <summary>
@@ -113,7 +156,9 @@ namespace Atreyu.ViewModels
         /// </param>
         public void ChangeStartScan(int value)
         {
-            this.startScan = value;
+            if (value < 0)
+                value = 0;
+            this.StartScan = value;
         }
 
         /// <summary>
@@ -173,7 +218,7 @@ namespace Atreyu.ViewModels
             for (var i = 0; i < this.frameData.GetLength(0); i++)
             {
                 var index = i + this.startScan;
-                for (var j = 0; j < this.frameData.GetLength(1); j++)
+                for (var j = 0; j < endScan; j++)
                 {
                     if (this.frameDictionary.ContainsKey(index))
                     {
@@ -222,6 +267,7 @@ namespace Atreyu.ViewModels
         public void UpdateReference(UimfData uimfDataNew)
         {
             this.uimfData = uimfDataNew;
+            this.UimfLoaded = uimfDataNew != null;
             if (this.TicPlotModel != null)
             {
                 return;
