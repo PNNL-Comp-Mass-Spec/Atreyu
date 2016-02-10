@@ -201,7 +201,11 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            this.frameData = data;
+            if (frameData == null)
+            {
+                this.frameData = data;
+            }
+
 
             if (this.endScan == 0)
             {
@@ -211,10 +215,10 @@ namespace Atreyu.ViewModels
 
             this.frameDictionary = new Dictionary<int, double>();
 
-            for (var i = 0; i < this.frameData.GetLength(0); i++)
+            for (var i = 0; i < this.endScan - this.startScan; i++)
             {
                 var index = i + this.startScan;
-                for (var j = 0; j < endScan; j++)
+                for (var j = 0; j < this.frameData.GetLength(1); j++)
                 {
                     if (this.frameDictionary.ContainsKey(index))
                     {

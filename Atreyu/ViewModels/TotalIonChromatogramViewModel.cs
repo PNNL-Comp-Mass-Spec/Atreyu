@@ -78,6 +78,7 @@ namespace Atreyu.ViewModels
         [ImportingConstructor]
         public TotalIonChromatogramViewModel()
         {
+            this.frameDictionary = new Dictionary<int, double>();
         }
 
         #endregion
@@ -208,20 +209,23 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            this.frameData = data;
+            if (frameData == null)
+            {
+                this.frameData = data;
+            }
 
             if (this.endScan == 0)
             {
                 this.startScan = 0;
-                this.endScan = 359;
+                this.endScan = 0;
             }
 
-            this.frameDictionary = new Dictionary<int, double>();
+            this.frameDictionary.Clear();
 
-            for (var i = 0; i < this.frameData.GetLength(0); i++)
+            for (var i = 0; i < this.endScan - this.startScan; i++)
             {
                 var index = i + this.startScan;
-                for (var j = 0; j < endScan; j++)
+                for (var j = 0; j < this.frameData.GetLength(1); j++)
                 {
                     if (this.frameDictionary.ContainsKey(index))
                     {
