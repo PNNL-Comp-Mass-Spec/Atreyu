@@ -45,6 +45,9 @@ namespace Viewer.ViewModels
 
             this.ExportCompressedTicData = ReactiveCommand.Create();
             this.ExportCompressedTicData.Subscribe(x => this.SaveExportedTicCompressedData());
+
+            this.ExportCompressedBpiData = ReactiveCommand.Create();
+            this.ExportCompressedBpiData.Subscribe(x => this.SaveExportedBpiCompressedData());
         }
 
         #endregion
@@ -80,6 +83,9 @@ namespace Viewer.ViewModels
         /// Gets the export compressed tic data.
         /// </summary>
         public ReactiveCommand<object> ExportCompressedTicData { get; private set; }
+
+
+        public ReactiveCommand<object> ExportCompressedBpiData { get; private set; }
 
         /// <summary>
         /// Gets the open file.
@@ -295,6 +301,32 @@ namespace Viewer.ViewModels
             }
 
             var temp = this.CombinedHeatmapViewModel.ExportTicDataCompressed();
+
+            using (var outfile = new StreamWriter(filename))
+            {
+                var content = "scan, intensity" + Environment.NewLine;
+                foreach (var kvp in temp)
+                {
+                    content += kvp.Key + "," + kvp.Value + Environment.NewLine;
+                }
+
+                outfile.WriteLine(content);
+            }
+        }
+
+        /// <summary>
+        /// The save exported tic compressed data.
+        /// </summary>
+        private void SaveExportedBpiCompressedData()
+        {
+            var filename = GetDataFilename();
+
+            if (string.IsNullOrWhiteSpace(filename))
+            {
+                return;
+            }
+
+            var temp = this.CombinedHeatmapViewModel.ExportBpiDataCompressed();
 
             using (var outfile = new StreamWriter(filename))
             {

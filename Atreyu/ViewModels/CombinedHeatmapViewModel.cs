@@ -477,6 +477,11 @@ namespace Atreyu.ViewModels
             return this.TotalIonChromatogramViewModel.GetTicData();
         }
 
+        public IDictionary<int, double> ExportBpiDataCompressed()
+        {
+            return this.BasePeakIntensityViewModel.GetBpiData();
+        }
+
         /// <summary>
         /// The set up plot method.
         /// </summary>
