@@ -209,10 +209,8 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            if (frameData == null)
-            {
+            
                 this.frameData = data;
-            }
 
             if (this.endScan == 0)
             {

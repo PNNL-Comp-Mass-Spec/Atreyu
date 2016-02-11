@@ -122,10 +122,18 @@ namespace Atreyu.ViewModels
             // Keep the M/Z mode settings updated
             this.WhenAnyValue(vm => vm.MzCenter)
                 .Where(b => this.UimfData != null)
-                .Subscribe(x => this.UimfData.MzCenter = x);
+                .Subscribe(x =>
+                {
+                    this.UimfData.MzCenter = x;
+                    this.UpdateMzWindow();
+                });
             this.WhenAnyValue(vm => vm.PartsPerMillion)
                 .Where(b => this.UimfData != null)
-                .Subscribe(x => this.UimfData.PartsPerMillion = x);
+                .Subscribe(x =>
+                {
+                    this.UimfData.PartsPerMillion = x;
+                    this.UpdateMzWindow();
+                });
 
             this.WhenAnyValue(vm => vm.MzRangeEnabled).Subscribe(x =>
             {
