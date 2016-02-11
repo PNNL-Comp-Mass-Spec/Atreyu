@@ -498,15 +498,11 @@ namespace Atreyu.ViewModels
 
             if (this.ForceMinMaxMz)
             {
-                //this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.MzWindow.EndBin;
-                //this.heatMapPlotModel.Axes[2].AbsoluteMinimum = this.MzWindow.StartBin;
                 this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.MzWindow.EndMz;
                 this.heatMapPlotModel.Axes[2].AbsoluteMinimum = this.MzWindow.StartMz;
             }
             else
             {
-                //this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.HeatMapData.MaxBins;
-                //this.heatMapPlotModel.Axes[2].AbsoluteMinimum = 0;
                 this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.HeatMapData.MaxMz;
                 this.heatMapPlotModel.Axes[2].AbsoluteMinimum = this.HeatMapData.MinMz;
             }
