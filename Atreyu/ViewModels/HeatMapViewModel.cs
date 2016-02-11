@@ -445,7 +445,7 @@ namespace Atreyu.ViewModels
                                        //AbsoluteMaximum = this.HeatMapData.MaxBins,
                                        AbsoluteMinimum = this.HeatMapData.MinMz,
                                        AbsoluteMaximum = this.HeatMapData.MaxMz, 
-                                       MinimumRange = 10, 
+                                       //MinimumRange = 10, 
                                        MaximumPadding = 0,
                                        //Title = "TOF Bins",
                                        Title = "m/z", 
