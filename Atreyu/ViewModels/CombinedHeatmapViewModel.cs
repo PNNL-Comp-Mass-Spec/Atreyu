@@ -362,6 +362,10 @@ namespace Atreyu.ViewModels
 
             set
             {
+                if (value < 1)
+                {
+                    value = 1;
+                }
                 this.RaiseAndSetIfChanged(ref this.centerMz, value);
             }
         }
@@ -399,6 +403,10 @@ namespace Atreyu.ViewModels
 
             set
             {
+                if (value < 1)
+                {
+                    value = 1;
+                }
                 this.RaiseAndSetIfChanged(ref this.partsPerMillion, value);
             }
         }
