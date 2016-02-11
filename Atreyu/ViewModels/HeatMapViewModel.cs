@@ -575,11 +575,13 @@ namespace Atreyu.ViewModels
 
             if (e.ChangeType == AxisChangeTypes.Reset)
             {
-                this.CurrentScanRange = new ScanRange((int)axis.AbsoluteMinimum, (int)axis.AbsoluteMaximum);
+                this.CurrentScanRange = new ScanRange(this.currentMinScan, this.currentMaxScan);
             }
             else
             {
                 this.CurrentScanRange = new ScanRange((int)axis.ActualMinimum, (int)axis.ActualMaximum);
+                this.currentMaxScan = (int)axis.ActualMaximum;
+                this.currentMinScan = (int)axis.ActualMinimum;
             }
         }
 
@@ -604,11 +606,14 @@ namespace Atreyu.ViewModels
             {
                 //axis.Maximum = this.HeatMapData.MaxMz;
                 //axis.Minimum = this.HeatMapData.MinMz;
-                this.CurrentMzRange = new MzRange(this.HeatMapData.MinMz, this.HeatMapData.MaxMz);
+                //this.CurrentMzRange = new MzRange(this.HeatMapData.MinMz, this.HeatMapData.MaxMz);
+                this.CurrentMzRange = new MzRange(this.currentMinMz, this.currentMaxMz);
             }
             else
             {
                 this.CurrentMzRange = new MzRange(axis.ActualMinimum, axis.ActualMaximum);
+                this.currentMinMz = axis.ActualMinimum;
+                this.currentMaxMz = axis.ActualMaximum;
             }
         }
 
