@@ -25,6 +25,11 @@ namespace Atreyu.Views
             this.InitializeComponent();
         }
 
+        public TotalIonChromatogramView()
+        {
+            this.InitializeComponent();
+        }
+
         #endregion
     }
 }

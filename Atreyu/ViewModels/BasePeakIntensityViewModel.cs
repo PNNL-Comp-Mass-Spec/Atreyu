@@ -1,32 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using Atreyu.Models;
+using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Wpf;
+using ReactiveUI;
+using LinearAxis = OxyPlot.Axes.LinearAxis;
+using LineSeries = OxyPlot.Series.LineSeries;
 
 namespace Atreyu.ViewModels
 {
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-    using System.Drawing;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-
-    using Atreyu.Models;
-
-    using OxyPlot;
-    using OxyPlot.Axes;
-    using OxyPlot.Wpf;
-
-    using ReactiveUI;
-
-    using LinearAxis = OxyPlot.Axes.LinearAxis;
-    using LineSeries = OxyPlot.Series.LineSeries;
-
-    // using Falkor.Events.Atreyu;
-
-    /// <summary>
-    /// The total ion chromatogram view model.
-    /// </summary>
     [Export]
-    public class TotalIonChromatogramViewModel : ReactiveObject
+    public class BasePeakIntensityViewModel : ReactiveObject
     {
         #region Fields
 
@@ -51,9 +44,9 @@ namespace Atreyu.ViewModels
         private int startScan;
 
         /// <summary>
-        /// The tic plot model.
+        /// The bpi plot model.
         /// </summary>
-        private PlotModel ticPlotModel;
+        private PlotModel bpiPlotModel;
 
         /// <summary>
         /// The uimf data.
@@ -66,7 +59,7 @@ namespace Atreyu.ViewModels
         private bool _uimfLoaded;
 
         private int maxScan;
-        private Visibility _ticVisible;
+        private Visibility _bpiVisible;
 
         #endregion
 
@@ -76,9 +69,8 @@ namespace Atreyu.ViewModels
         /// Initializes a new instance of the <see cref="TotalIonChromatogramViewModel"/> class.
         /// </summary>
         [ImportingConstructor]
-        public TotalIonChromatogramViewModel()
+        public BasePeakIntensityViewModel()
         {
-            this.frameDictionary = new Dictionary<int, double>();
         }
 
         #endregion
@@ -86,18 +78,18 @@ namespace Atreyu.ViewModels
         #region Public Properties
 
         /// <summary>
-        /// Gets or sets the tic plot model.
+        /// Gets or sets the bpi plot model.
         /// </summary>
-        public PlotModel TicPlotModel
+        public PlotModel BpiPlotModel
         {
             get
             {
-                return this.ticPlotModel;
+                return this.bpiPlotModel;
             }
 
             set
             {
-                this.RaiseAndSetIfChanged(ref this.ticPlotModel, value);
+                this.RaiseAndSetIfChanged(ref this.bpiPlotModel, value);
             }
         }
 
@@ -166,30 +158,30 @@ namespace Atreyu.ViewModels
         }
 
         /// <summary>
-        /// The get tic data.
+        /// The get bpi data.
         /// </summary>
         /// <returns>
-        /// The dictionary of tic data, keyed by scan.
+        /// The dictionary of bpi data, keyed by scan.
         /// </returns>
-        public IDictionary<int, double> GetTicData()
+        public IDictionary<int, double> GetBpiData()
         {
             return this.frameDictionary;
         }
 
         /// <summary>
-        /// Gets the image of the tic plot.
+        /// Gets the image of the bpi plot.
         /// </summary>
         /// <returns>
         /// The <see cref="Image"/>.
         /// </returns>
-        public Image GetTicImage()
+        public Image GetBpiImage()
         {
             var stream = new MemoryStream();
             PngExporter.Export(
-                this.TicPlotModel, 
+                this.BpiPlotModel, 
                 stream, 
-                (int)this.TicPlotModel.Width, 
-                (int)this.TicPlotModel.Height, 
+                (int)this.BpiPlotModel.Width, 
+                (int)this.BpiPlotModel.Height, 
                 OxyColors.White);
 
             Image image = new Bitmap(stream);
@@ -209,16 +201,19 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            
+            //if (frameData == null)
+            //{
                 this.frameData = data;
+            //}
+
 
             if (this.endScan == 0)
             {
                 this.startScan = 0;
-                this.endScan = 0;
+                this.endScan = 359;
             }
 
-            this.frameDictionary.Clear();
+            this.frameDictionary = new Dictionary<int, double>();
 
             for (var i = 0; i < this.endScan - this.startScan; i++)
             {
@@ -227,7 +222,11 @@ namespace Atreyu.ViewModels
                 {
                     if (this.frameDictionary.ContainsKey(index))
                     {
-                        this.frameDictionary[index] += this.frameData[i, j];
+                        if (this.frameDictionary[index] < this.frameData[i, j])
+                        {
+                            this.frameDictionary[index] = this.frameData[i, j];
+                        }
+                        //this.frameDictionary[index] += this.frameData[i, j];
                     }
                     else
                     {
@@ -236,7 +235,7 @@ namespace Atreyu.ViewModels
                 }
             }
 
-            var series = this.TicPlotModel.Series[0] as LineSeries;
+            var series = this.BpiPlotModel.Series[0] as OxyPlot.Series.LineSeries;
 
             if (series == null)
             {
@@ -260,7 +259,7 @@ namespace Atreyu.ViewModels
 
             //this.FindPeaks();
 
-            this.TicPlotModel.InvalidatePlot(true);
+            this.BpiPlotModel.InvalidatePlot(true);
         }
 
         /// <summary>
@@ -273,13 +272,13 @@ namespace Atreyu.ViewModels
         {
             this.uimfData = uimfDataNew;
             this.UimfLoaded = uimfDataNew != null;
-            if (this.TicPlotModel != null)
+            if (this.BpiPlotModel != null)
             {
                 return;
             }
 
-            this.TicPlotModel = new PlotModel();
-            var linearAxis = new LinearAxis
+            this.BpiPlotModel = new PlotModel();
+            var linearAxis = new OxyPlot.Axes.LinearAxis
                                  {
                                      Position = AxisPosition.Bottom, 
                                      AbsoluteMinimum = 0, 
@@ -288,7 +287,7 @@ namespace Atreyu.ViewModels
                                      Title = "Scan", 
                                      MinorTickSize = 0
                                  };
-            this.TicPlotModel.Axes.Add(linearAxis);
+            this.BpiPlotModel.Axes.Add(linearAxis);
 
             var linearYAxis = new LinearAxis
                                   {
@@ -301,10 +300,10 @@ namespace Atreyu.ViewModels
                                       Title = "Intensity"
                                   };
 
-            this.TicPlotModel.Axes.Add(linearYAxis);
+            this.BpiPlotModel.Axes.Add(linearYAxis);
             var series = new LineSeries { Color = OxyColors.Black, };
 
-            this.TicPlotModel.Series.Add(series);
+            this.BpiPlotModel.Series.Add(series);
         }
 
         #endregion
@@ -316,7 +315,7 @@ namespace Atreyu.ViewModels
         /// </summary>
         private void FindPeaks()
         {
-            this.ticPlotModel.Annotations.Clear();
+            this.bpiPlotModel.Annotations.Clear();
 
             // Create a new dictionary so we don't modify the original one
             var tempFrameDict = new Dictionary<double, double>(this.uimfData.Scans);
@@ -341,16 +340,16 @@ namespace Atreyu.ViewModels
                                         Y = peakInformation.Intensity / 2.5, 
                                         ToolTip = peakInformation.ToString()
                                     };
-                this.ticPlotModel.Annotations.Add(peakPoint);
+                this.bpiPlotModel.Annotations.Add(peakPoint);
             }
         }
 
         #endregion
 
-        public Visibility TicVisible
+        public Visibility BpiVisible
         {
-            get { return _ticVisible; }
-            set { this.RaiseAndSetIfChanged(ref this._ticVisible, value); }
+            get { return _bpiVisible; }
+            set { this.RaiseAndSetIfChanged(ref this._bpiVisible, value); }
         }
 
     }

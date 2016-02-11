@@ -1,3 +1,4 @@
+using System.Windows;
 using Xceed.Wpf.DataGrid.Converters;
 
 namespace Atreyu.ViewModels
@@ -85,6 +86,10 @@ namespace Atreyu.ViewModels
         /// Whether or not to window the M/Z.
         /// </summary>
         private bool windowMz;
+        private bool _bpiEnabled;
+        private bool _ticEnabled;
+        private Visibility _ticVisible;
+        private Visibility _bpiVisible;
 
         #endregion
 
@@ -103,9 +108,13 @@ namespace Atreyu.ViewModels
             this.MzSpectraViewModel = new MzSpectraViewModel();
             this.LowValueGateSliderViewModel = new GateSliderViewModel();
             this.TotalIonChromatogramViewModel = new TotalIonChromatogramViewModel();
+            this.BasePeakIntensityViewModel = new BasePeakIntensityViewModel();
 
             this.LowValueGateSliderViewModel.ControlLabel = "Low Gate";
             this.LowValueGateSliderViewModel.UpdateGate(0);
+
+            this.TicEnabled = true;
+            this.BpiEnabled = false;
 
             // Shows loading image
             this.WhenAnyValue(vm => vm.UimfData.LoadingData).Subscribe(x => this.CircularWaitIsVisible = x);
@@ -113,10 +122,18 @@ namespace Atreyu.ViewModels
             // Keep the M/Z mode settings updated
             this.WhenAnyValue(vm => vm.MzCenter)
                 .Where(b => this.UimfData != null)
-                .Subscribe(x => this.UimfData.MzCenter = x);
+                .Subscribe(x =>
+                {
+                    this.UimfData.MzCenter = x;
+                    this.UpdateMzWindow();
+                });
             this.WhenAnyValue(vm => vm.PartsPerMillion)
                 .Where(b => this.UimfData != null)
-                .Subscribe(x => this.UimfData.PartsPerMillion = x);
+                .Subscribe(x =>
+                {
+                    this.UimfData.PartsPerMillion = x;
+                    this.UpdateMzWindow();
+                });
 
             this.WhenAnyValue(vm => vm.MzRangeEnabled).Subscribe(x =>
             {
@@ -138,6 +155,7 @@ namespace Atreyu.ViewModels
                 this.HeatMapViewModel.UpdateReference(data);
                 this.MzSpectraViewModel.UpdateReference(data);
                 this.TotalIonChromatogramViewModel.UpdateReference(data);
+                this.BasePeakIntensityViewModel.UpdateReference(data);
             });
 
             // update the frame data of the TIC plot when needed; apparently the Throttler should always specify the schedule.
@@ -147,6 +165,7 @@ namespace Atreyu.ViewModels
                     this.HeatMapViewModel.UpdateData(data);
                     this.MzSpectraViewModel.UpdateFrameData(data);
                     this.TotalIonChromatogramViewModel.UpdateFrameData(data);
+                    this.BasePeakIntensityViewModel.UpdateFrameData(data);
                 });
 
             // update the frame whenever it is changed via the frame manipulation view
@@ -162,11 +181,13 @@ namespace Atreyu.ViewModels
             {
                 this.HeatMapViewModel.CurrentMinScan = i;
                 this.TotalIonChromatogramViewModel.ChangeStartScan(i);
+                this.BasePeakIntensityViewModel.ChangeStartScan(i);
             });
             this.WhenAnyValue(vm => vm.UimfData.EndScan).Subscribe(i =>
             {
                 this.HeatMapViewModel.CurrentMaxScan = i;
                 this.TotalIonChromatogramViewModel.ChangeEndScan(i);
+                this.BasePeakIntensityViewModel.ChangeEndScan(i);
             });
             this.WhenAnyValue(vm => vm.UimfData.CurrentMinMz).Subscribe(i =>
             {
@@ -244,8 +265,16 @@ namespace Atreyu.ViewModels
                             this.uimfData.CheckQueue();
                             this.TotalIonChromatogramViewModel.StartScan = this.uimfData.StartScan;
                             this.TotalIonChromatogramViewModel.EndScan = this.uimfData.EndScan;
+                            this.BasePeakIntensityViewModel.StartScan = this.uimfData.StartScan;
+                            this.BasePeakIntensityViewModel.EndScan = this.uimfData.EndScan;
                         });
                     }).Subscribe();
+
+            this.BasePeakIntensityViewModel.WhenAnyValue(ticStart => ticStart.StartScan, ticEnd => ticEnd.EndScan)
+                .Where(_ => this.UimfData != null)
+                .Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
+                .Subscribe(x => this.HeatMapViewModel.CurrentScanRange = new ScanRange(this.BasePeakIntensityViewModel.StartScan, this.BasePeakIntensityViewModel.EndScan));
+        
 
             this.TotalIonChromatogramViewModel.WhenAnyValue(ticStart => ticStart.StartScan, ticEnd => ticEnd.EndScan)
                 .Where(_ => this.UimfData != null)
@@ -379,6 +408,8 @@ namespace Atreyu.ViewModels
         /// </summary>
         public TotalIonChromatogramViewModel TotalIonChromatogramViewModel { get; private set; }
 
+        public BasePeakIntensityViewModel BasePeakIntensityViewModel { get; private set; }
+
         /// <summary>
         ///  Gets or sets the data relevant to the UIMF that is loaded.
         /// </summary>
@@ -452,6 +483,11 @@ namespace Atreyu.ViewModels
         public IDictionary<int, double> ExportTicDataCompressed()
         {
             return this.TotalIonChromatogramViewModel.GetTicData();
+        }
+
+        public IDictionary<int, double> ExportBpiDataCompressed()
+        {
+            return this.BasePeakIntensityViewModel.GetBpiData();
         }
 
         /// <summary>
@@ -532,6 +568,7 @@ namespace Atreyu.ViewModels
             this.CurrentFile = Path.GetFileNameWithoutExtension(file);
             this.HeatMapViewModel.CurrentFile = Path.GetFileNameWithoutExtension(file);
             this.TotalIonChromatogramViewModel.MaxScan = this.UimfData.EndScan;
+            this.BasePeakIntensityViewModel.MaxScan = this.UimfData.EndScan;
         }
 
         /// <summary>
@@ -621,5 +658,37 @@ namespace Atreyu.ViewModels
         }
 
         #endregion
+
+        public Visibility BpiVisible
+        {
+            get { return this.BasePeakIntensityViewModel.BpiVisible; }
+            set { this.BasePeakIntensityViewModel.BpiVisible = value; }
+        }
+
+        public bool BpiEnabled
+        {
+            get { return this._bpiEnabled; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this._bpiEnabled, value);
+                BpiVisible = value ? Visibility.Visible : Visibility.Hidden;
+            }
+        }
+
+        public Visibility TicVisible
+        {
+            get { return this.TotalIonChromatogramViewModel.TicVisible; }
+            set { this.TotalIonChromatogramViewModel.TicVisible =  value; }
+        }
+
+        public bool TicEnabled
+        {
+            get { return this._ticEnabled; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this._ticEnabled, value);
+                TicVisible = value ? Visibility.Visible : Visibility.Hidden;
+            }
+        }
     }
 }
