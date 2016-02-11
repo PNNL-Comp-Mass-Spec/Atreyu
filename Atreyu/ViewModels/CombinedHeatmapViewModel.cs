@@ -662,6 +662,7 @@ namespace Atreyu.ViewModels
             this.mzWindow = this.uimfData.GetMzRangeForMzWindow(this.MzCenter, this.PartsPerMillion);
             this.HeatMapViewModel.MzWindow = this.mzWindow;
             this.UimfData.RangeUpdateList.Enqueue(this.mzWindow);
+            this.UimfData.RangeUpdateList.Enqueue(new ScanRange(this.TotalIonChromatogramViewModel.StartScan, this.TotalIonChromatogramViewModel.EndScan));
             this.UimfData.CheckQueue();
         }
 
