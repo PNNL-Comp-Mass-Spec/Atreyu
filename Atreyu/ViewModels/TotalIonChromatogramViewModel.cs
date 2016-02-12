@@ -243,8 +243,8 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            series.MarkerType = MarkerType.Circle;
-            series.MarkerSize = 2.5;
+            //series.MarkerType = MarkerType.Circle;
+            //series.MarkerSize = 2.5;
 
             // series.MarkerStrokeThickness = 2;
             series.MarkerFill = OxyColors.Black;
