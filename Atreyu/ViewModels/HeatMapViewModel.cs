@@ -441,13 +441,9 @@ namespace Atreyu.ViewModels
 
             var verticalAxis = new LinearAxis
                                    {
-                                       //AbsoluteMinimum = 0,
-                                       //AbsoluteMaximum = this.HeatMapData.MaxBins,
                                        AbsoluteMinimum = this.HeatMapData.MinMz,
                                        AbsoluteMaximum = this.HeatMapData.MaxMz, 
-                                       //MinimumRange = 10, 
                                        MaximumPadding = 0,
-                                       //Title = "TOF Bins",
                                        Title = "m/z", 
                                        TickStyle = TickStyle.Inside, 
                                        AxisDistance = -2,
@@ -466,8 +462,6 @@ namespace Atreyu.ViewModels
                                      {
                                          X0 = 0, 
                                          X1 = this.HeatMapData.Scans, 
-                                         //Y0 = 0,
-                                         //Y1 = this.HeatMapData.MaxBins,
                                          Y0 = this.HeatMapData.MinMz,
                                          Y1 = this.HeatMapData.MaxMz,
                                          Interpolate = false,
@@ -542,8 +536,6 @@ namespace Atreyu.ViewModels
             }
 
             this.HeatMapData = uimfData;
-            //this.CurrentMinMz = 1;
-            //this.CurrentMaxMz = this.HeatMapData.MaxBins;
             this.CurrentMinMz = this.HeatMapData.MinMz;
             this.CurrentMaxMz = this.HeatMapData.MaxMz;
             this.CurrentMinScan = 0;
