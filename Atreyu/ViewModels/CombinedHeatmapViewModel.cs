@@ -362,6 +362,10 @@ namespace Atreyu.ViewModels
 
             set
             {
+                if (value < 1)
+                {
+                    value = 1;
+                }
                 this.RaiseAndSetIfChanged(ref this.centerMz, value);
             }
         }
@@ -399,6 +403,10 @@ namespace Atreyu.ViewModels
 
             set
             {
+                if (value < 1)
+                {
+                    value = 1;
+                }
                 this.RaiseAndSetIfChanged(ref this.partsPerMillion, value);
             }
         }
@@ -654,6 +662,7 @@ namespace Atreyu.ViewModels
             this.mzWindow = this.uimfData.GetMzRangeForMzWindow(this.MzCenter, this.PartsPerMillion);
             this.HeatMapViewModel.MzWindow = this.mzWindow;
             this.UimfData.RangeUpdateList.Enqueue(this.mzWindow);
+            this.UimfData.RangeUpdateList.Enqueue(new ScanRange(this.TotalIonChromatogramViewModel.StartScan, this.TotalIonChromatogramViewModel.EndScan));
             this.UimfData.CheckQueue();
         }
 
