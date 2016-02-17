@@ -269,6 +269,11 @@ namespace Atreyu.ViewModels
                             this.BasePeakIntensityViewModel.EndScan = this.uimfData.EndScan;
                         });
                     }).Subscribe();
+            
+            this.MzSpectraViewModel.WhenAnyValue(mzStart => mzStart.StartMZ, mzEnd => mzEnd.EndMZ)
+                .Where(_ => this.UimfData != null)
+                .Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
+                .Subscribe(x => this.HeatMapViewModel.CurrentMzRange = new MzRange(this.MzSpectraViewModel.StartMZ, this.MzSpectraViewModel.EndMZ));
 
             this.BasePeakIntensityViewModel.WhenAnyValue(ticStart => ticStart.StartScan, ticEnd => ticEnd.EndScan)
                 .Where(_ => this.UimfData != null)

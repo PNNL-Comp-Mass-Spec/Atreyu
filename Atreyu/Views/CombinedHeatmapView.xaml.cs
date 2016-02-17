@@ -110,13 +110,13 @@ namespace Atreyu.Views
             }
 
             this.heatMapView = new HeatMapView(this.ViewModel.HeatMapViewModel);
-            Grid.SetColumn(this.heatMapView, 1);
+            Grid.SetColumn(this.heatMapView, 2);
             Grid.SetRow(this.heatMapView, 1);
             Grid.SetColumnSpan(this.heatMapView, 2);
             this.MainGrid.Children.Add(this.heatMapView);
 
             this.frameManipulationView = new FrameManipulationView(this.ViewModel.FrameManipulationViewModel);
-            Grid.SetColumn(this.frameManipulationView, 1);
+            Grid.SetColumn(this.frameManipulationView, 2);
             Grid.SetRow(this.frameManipulationView, 0);
             this.MainGrid.Children.Add(this.frameManipulationView);
 
@@ -134,7 +134,7 @@ namespace Atreyu.Views
 
             this.lowSliderView = new GateSlider(this.ViewModel.LowValueGateSliderViewModel);
             Grid.SetRow(this.lowSliderView, 1);
-            Grid.SetColumn(this.lowSliderView, 3);
+            Grid.SetColumn(this.lowSliderView, 4);
             this.MainGrid.Children.Add(this.lowSliderView);
 
             this.RangeControl.DataContext = this.ViewModel;

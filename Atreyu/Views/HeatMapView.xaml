@@ -20,7 +20,7 @@
             <RowDefinition Height="20" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <!--<Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -31,7 +31,7 @@
             <Label Grid.Column="1" HorizontalAlignment="Left">Background color</Label>
             <Label Grid.Column="2" HorizontalAlignment="Right">Max Intensity color</Label>
             <ComboBox Grid.Column="3" ItemsSource="{Binding Path=AvailableColors}" SelectedItem="{Binding Path=HeatmapPeakColor}" ItemTemplate="{StaticResource SolidColorTemplate}"></ComboBox>
-        </Grid>
+        </Grid>-->
         <wpf:PlotView Grid.Row="1" x:Name="HeatMapPlot" Model="{Binding HeatMapPlotModel}" Margin="0,5,0,0" />
 	</Grid>
 </UserControl>
