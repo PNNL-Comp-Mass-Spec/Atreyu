@@ -100,7 +100,7 @@ namespace Atreyu.ViewModels
         /// </summary>
         public CombinedHeatmapViewModel()
         {
-            this.CurrentFile = "Please load data";
+            this.WindowTitle = "Please load data";
 
             // I wonder if I should break this up a little, as it is over 100 lines and breaking them up logically might make it more readable and maintainable
             this.FrameManipulationViewModel = new FrameManipulationViewModel();
@@ -310,11 +310,11 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Gets or sets the current file.
         /// </summary>
-        public string CurrentFile
+        public string WindowTitle
         {
             get
             {
-                return this.currentFile;
+                return "Atreyu " + " - " + this.currentFile;
             }
 
             set
@@ -578,7 +578,7 @@ namespace Atreyu.ViewModels
             this.UimfData.CurrentMinMz = this.UimfData.MinMz;
             this.UimfData.CurrentMaxMz = this.UimfData.MaxMz;
             this.FetchSingleFrame(1);
-            this.CurrentFile = Path.GetFileNameWithoutExtension(file);
+            this.WindowTitle = Path.GetFileNameWithoutExtension(file);
             this.HeatMapViewModel.CurrentFile = Path.GetFileNameWithoutExtension(file);
             this.TotalIonChromatogramViewModel.MaxScan = this.UimfData.EndScan;
             this.BasePeakIntensityViewModel.MaxScan = this.UimfData.EndScan;
