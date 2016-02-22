@@ -29,7 +29,7 @@ namespace Viewer.ViewModels
         public MainWindowViewModel()
         {
             this.CombinedHeatmapViewModel = new CombinedHeatmapViewModel();
-            this.CurrentFile = "Please load data";
+            this.CombinedHeatmapViewModel.WindowTitle = "Please load data";
 
             this.OpenFile = ReactiveCommand.Create();
             this.OpenFile.Select(async _ => await Task.Run(() => this.OpenHeatmapFile())).Subscribe();
@@ -54,15 +54,9 @@ namespace Viewer.ViewModels
 
         #region Public Properties
 
-        public string CurrentFile { get { return _currentFile; }
-            private set
-            {
-                this.RaiseAndSetIfChanged(ref _currentFile, value);
-                this.RaisePropertyChanged("WindowTitle");
-            }
-        }
+        
 
-        public string WindowTitle { get { return "Atreyu " + " - " + _currentFile; } }
+        public string WindowTitle { get { return "Atreyu " + " - " + CombinedHeatmapViewModel.WindowTitle; } }
 
         /// <summary>
         /// Gets or sets the combined heatmap view model.
@@ -202,7 +196,7 @@ namespace Viewer.ViewModels
 
             this.CombinedHeatmapViewModel.InitializeUimfData(filename);
 
-            this.CurrentFile = Path.GetFileNameWithoutExtension(filename);
+            this.CombinedHeatmapViewModel.WindowTitle = Path.GetFileNameWithoutExtension(filename);
         }
 
         /// <summary>

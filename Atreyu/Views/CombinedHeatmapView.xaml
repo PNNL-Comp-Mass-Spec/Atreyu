@@ -14,26 +14,32 @@
         <Grid.RowDefinitions>
             <RowDefinition MinHeight="110" MaxHeight="120" Height="1*" />
             <RowDefinition Height="6*" />
-            <RowDefinition Height="2*" />
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="2*" MinHeight="110"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*" MinWidth="100"/>
+            <ColumnDefinition Width="3*" MinWidth="210"/>
+            <ColumnDefinition Width="3"></ColumnDefinition>
             <ColumnDefinition Width="10*" />
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="1*" MinWidth="100" />
         </Grid.ColumnDefinitions>
+
+        <GridSplitter Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="4" Height="3" Background="Black" HorizontalAlignment="Stretch"></GridSplitter>
+        <GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Width="3" Background="Black" HorizontalAlignment="Stretch"></GridSplitter>
+
         <controls:MzRange x:Name="RangeControl" 
                           Grid.Column="0" 
-                          Grid.Row="2" 
+                          Grid.Row="3" 
                           MzRangeEnabled="{Binding Path=MzRangeEnabled, Mode=TwoWay}" 
                           PartsPerMillion="{Binding Path=PartsPerMillion, Mode=TwoWay}" 
                           MzCenter="{Binding Path=MzCenter, Mode=TwoWay}"/>
         
-        <controls:CircularProgressBar  Grid.Column="2" 
+        <controls:CircularProgressBar  Grid.Column="3" 
                                        Grid.ColumnSpan="2" 
                                        Grid.Row="0" 
                                        Visibility="{Binding CircularWaitIsVisible, Converter={StaticResource BoolToVis}}"  /> 
-        <StackPanel Grid.Row="2" Grid.Column="3" Background="White">
+        <StackPanel Grid.Row="3" Grid.Column="4" Background="White">
             <RadioButton GroupName="XaxisView" IsChecked="{Binding Path=TicEnabled}" Margin="0,5" HorizontalAlignment="Center">TIC View</RadioButton>
             <RadioButton GroupName="XaxisView" IsChecked="{Binding Path=BpiEnabled}" Margin="0,5" HorizontalAlignment="Center">BPI View</RadioButton>
         </StackPanel>
@@ -43,12 +49,12 @@
         <views:MzSpectraView Grid.Row="1" Grid.Column="0" DataContext="{Binding Path=MzSpectraViewModel}">
         </views:MzSpectraView>-->
 
-        <views:TotalIonChromatogramView Grid.Row="2" Grid.Column="1" 
+        <views:TotalIonChromatogramView Grid.Row="3" Grid.Column="2" 
                                         Grid.ColumnSpan="2" DataContext="{Binding Path=TotalIonChromatogramViewModel}" 
                                         Visibility="{Binding TicVisible}" Background="White">
         </views:TotalIonChromatogramView>
 
-        <views:BasePeakIntensityView Grid.Row="2" Grid.Column="1" 
+        <views:BasePeakIntensityView Grid.Row="3" Grid.Column="2" 
                                         Grid.ColumnSpan="2" DataContext="{Binding Path=BasePeakIntensityViewModel}" 
                                         Visibility="{Binding BpiVisible}" Background="White"></views:BasePeakIntensityView>
 

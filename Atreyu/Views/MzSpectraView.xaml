@@ -4,9 +4,29 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:wpf="http://oxyplot.org/wpf"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 	<Grid>
-		<wpf:PlotView x:Name="TicPlot" Model="{Binding MzPlotModel}"/>
-	</Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+		<wpf:PlotView Grid.Column="0" x:Name="TicPlot" Model="{Binding MzPlotModel}"/>
+        
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Grid.Column="0" Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Right">Start Mz</Label>
+            <xctk:DoubleUpDown Grid.Column="0" Grid.Row="2" Width="80" FormatString="F" VerticalAlignment="Bottom" HorizontalAlignment="Right" IsEnabled="{Binding UimfLoaded}" Minimum="0" Maximum="{Binding MaxMZ}" Increment="5" Value="{Binding StartMZ}"></xctk:DoubleUpDown>
+
+            <Label Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right">End Mz</Label>
+            <xctk:DoubleUpDown Grid.Column="0" Grid.Row="1" Width="80" FormatString="F" HorizontalAlignment="Right" IsEnabled="{Binding UimfLoaded}" Minimum="0" Maximum="{Binding MaxMZ}" Increment="5" Value="{Binding EndMZ}"></xctk:DoubleUpDown>
+        </Grid>
+    </Grid>
 </UserControl>

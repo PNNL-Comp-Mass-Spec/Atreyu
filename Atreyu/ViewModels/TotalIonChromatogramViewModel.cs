@@ -215,7 +215,7 @@ namespace Atreyu.ViewModels
             if (this.endScan == 0)
             {
                 this.startScan = 0;
-                this.endScan = 0;
+                this.endScan = frameData.GetLength(0);
             }
 
             this.frameDictionary.Clear();
@@ -243,8 +243,8 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            series.MarkerType = MarkerType.Circle;
-            series.MarkerSize = 2.5;
+            //series.MarkerType = MarkerType.Circle;
+            //series.MarkerSize = 2.5;
 
             // series.MarkerStrokeThickness = 2;
             series.MarkerFill = OxyColors.Black;

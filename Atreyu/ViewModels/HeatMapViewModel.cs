@@ -1,4 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Windows.Media;
+using Microsoft.WindowsAPICodePack.Shell;
 
 namespace Atreyu.ViewModels
 {
@@ -96,6 +100,10 @@ namespace Atreyu.ViewModels
         /// </summary>
         private int width;
 
+        private SolidColorBrush _heatmapBackgroundColor;
+        private SolidColorBrush _heatmapPeakColor;
+        private List<SolidColorBrush> _heatmapColors;
+
         #endregion
 
         #region Constructors and Destructors
@@ -106,6 +114,20 @@ namespace Atreyu.ViewModels
         [ImportingConstructor]
         public HeatMapViewModel()
         {
+            HeatmapBackgroundColor = new SolidColorBrush(Colors.Black);;
+            HeatmapPeakColor = new SolidColorBrush(Colors.Purple);
+            //var ddlColor = new List<OxyColor>();
+            var ddlColor = new List<SolidColorBrush>();
+            Type colors = typeof (Color);
+            PropertyInfo[] colorInfo = colors.GetProperties(BindingFlags.Public | BindingFlags.Static);
+            foreach (var info in colorInfo)
+            {
+                var temp = Color.FromName(info.Name);
+                var color = System.Windows.Media.Color.FromArgb(temp.A, temp.R, temp.G, temp.B);
+                //ddlColor.Add(OxyColor.FromRgb(color.R, color.G, color.B));
+                ddlColor.Add(new SolidColorBrush(color));
+            }
+            AvailableColors = ddlColor;
         }
 
         #endregion
@@ -129,15 +151,9 @@ namespace Atreyu.ViewModels
         /// </summary>
         public MzRange CurrentMzRange
         {
-            get
-            {
-                return this.currentMzRange;
-            }
+            get { return this.currentMzRange; }
 
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.currentMzRange, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref this.currentMzRange, value); }
         }
 
         /// <summary>
@@ -145,15 +161,9 @@ namespace Atreyu.ViewModels
         /// </summary>
         public string CurrentFile
         {
-            get
-            {
-                return this.currentFile;
-            }
+            get { return this.currentFile; }
 
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.currentFile, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref this.currentFile, value); }
         }
 
         /// <summary>
@@ -161,15 +171,9 @@ namespace Atreyu.ViewModels
         /// </summary>
         public double CurrentMaxMz
         {
-            get
-            {
-                return this.currentMaxMz;
-            }
+            get { return this.currentMaxMz; }
 
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.currentMaxMz, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref this.currentMaxMz, value); }
         }
 
         /// <summary>
@@ -177,15 +181,9 @@ namespace Atreyu.ViewModels
         /// </summary>
         public int CurrentMaxScan
         {
-            get
-            {
-                return this.currentMaxScan;
-            }
+            get { return this.currentMaxScan; }
 
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.currentMaxScan, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref this.currentMaxScan, value); }
         }
 
         /// <summary>
@@ -193,15 +191,9 @@ namespace Atreyu.ViewModels
         /// </summary>
         public double CurrentMinMz
         {
-            get
-            {
-                return this.currentMinMz;
-            }
+            get { return this.currentMinMz; }
 
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.currentMinMz, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref this.currentMinMz, value); }
         }
 
         /// <summary>
@@ -209,15 +201,9 @@ namespace Atreyu.ViewModels
         /// </summary>
         public int CurrentMinScan
         {
-            get
-            {
-                return this.currentMinScan;
-            }
+            get { return this.currentMinScan; }
 
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.currentMinScan, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref this.currentMinScan, value); }
         }
 
         /// <summary>
@@ -225,15 +211,9 @@ namespace Atreyu.ViewModels
         /// </summary>
         public ScanRange CurrentScanRange
         {
-            get
-            {
-                return this.currentScanRange;
-            }
+            get { return this.currentScanRange; }
 
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.currentScanRange, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref this.currentScanRange, value); }
         }
 
         /// <summary>
@@ -246,15 +226,9 @@ namespace Atreyu.ViewModels
         /// </summary>
         public UimfData HeatMapData
         {
-            get
-            {
-                return this.heatMapData;
-            }
+            get { return this.heatMapData; }
 
-            private set
-            {
-                this.RaiseAndSetIfChanged(ref this.heatMapData, value);
-            }
+            private set { this.RaiseAndSetIfChanged(ref this.heatMapData, value); }
         }
 
         /// <summary>
@@ -262,15 +236,9 @@ namespace Atreyu.ViewModels
         /// </summary>
         public PlotModel HeatMapPlotModel
         {
-            get
-            {
-                return this.heatMapPlotModel;
-            }
+            get { return this.heatMapPlotModel; }
 
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.heatMapPlotModel, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref this.heatMapPlotModel, value); }
         }
 
         /// <summary>
@@ -278,15 +246,9 @@ namespace Atreyu.ViewModels
         /// </summary>
         public int Height
         {
-            get
-            {
-                return this.height;
-            }
+            get { return this.height; }
 
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.height, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref this.height, value); }
         }
 
         /// <summary>
@@ -294,15 +256,9 @@ namespace Atreyu.ViewModels
         /// </summary>
         public double HighThreshold
         {
-            get
-            {
-                return this.highThreshold;
-            }
+            get { return this.highThreshold; }
 
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.highThreshold, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref this.highThreshold, value); }
         }
 
         /// <summary>
@@ -310,15 +266,9 @@ namespace Atreyu.ViewModels
         /// </summary>
         public double LowThreshold
         {
-            get
-            {
-                return this.lowThreshold;
-            }
+            get { return this.lowThreshold; }
 
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.lowThreshold, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref this.lowThreshold, value); }
         }
 
         /// <summary>
@@ -331,15 +281,9 @@ namespace Atreyu.ViewModels
         /// </summary>
         public int Width
         {
-            get
-            {
-                return this.width;
-            }
+            get { return this.width; }
 
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.width, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref this.width, value); }
         }
 
         #endregion
@@ -395,10 +339,10 @@ namespace Atreyu.ViewModels
         {
             var stream = new MemoryStream();
             PngExporter.Export(
-                this.HeatMapPlotModel, 
-                stream, 
-                (int)this.HeatMapPlotModel.Width, 
-                (int)this.HeatMapPlotModel.Height, 
+                this.HeatMapPlotModel,
+                stream,
+                (int) this.HeatMapPlotModel.Width,
+                (int) this.HeatMapPlotModel.Height,
                 OxyColors.White);
 
             Image image = new Bitmap(stream);
@@ -412,63 +356,80 @@ namespace Atreyu.ViewModels
         {
             this.HeatMapPlotModel = new PlotModel();
 
-            var linearColorAxis1 = new LinearColorAxis
-                                       {
-                                           HighColor = OxyColors.Purple, 
-                                           LowColor = OxyColors.Black, 
-                                           Position = AxisPosition.Right, 
-                                           Minimum = 1, 
-                                           Title = "Intensity", 
-                                           IsAxisVisible = this.AxisVisible
-                                       };
+            var dis = System.Windows.Application.Current.Dispatcher;
 
-            this.HeatMapPlotModel.Axes.Add(linearColorAxis1);
+            dis.Invoke(() =>
+            {
+                var subDis = System.Windows.Application.Current.Dispatcher;
+                subDis.Invoke(() =>
+                {
+                    this.HeatMapPlotModel.Axes.Clear();
+                    var linearColorAxis1 = new LinearColorAxis
+                    {
+                        HighColor =
+                            OxyColor.FromRgb(HeatmapPeakColor.Color.R, HeatmapPeakColor.Color.G,
+                                HeatmapPeakColor.Color.B),
+                        LowColor =
+                            OxyColor.FromRgb(HeatmapBackgroundColor.Color.R, HeatmapBackgroundColor.Color.G,
+                                HeatmapBackgroundColor.Color.B),
+                        Position = AxisPosition.Right,
+                        Minimum = 1,
+                        Title = "Intensity",
+                        IsAxisVisible = this.AxisVisible
+                    };
 
-            var horizontalAxis = new LinearAxis
-                                     {
-                                         Position = AxisPosition.Bottom, 
-                                         AbsoluteMinimum = 0, 
-                                         AbsoluteMaximum = this.HeatMapData.Scans, 
-                                         MinimumRange = 10, 
-                                         MaximumPadding = 0, 
-                                         Title = "Mobility Scans", 
-                                         IsAxisVisible = this.AxisVisible
-                                     };
+                    this.HeatMapPlotModel.Axes.Add(linearColorAxis1);
 
-            horizontalAxis.AxisChanged += this.PublishXAxisChange;
+                    var horizontalAxis = new LinearAxis
+                    {
+                        Position = AxisPosition.Bottom,
+                        AbsoluteMinimum = 0,
+                        AbsoluteMaximum = this.HeatMapData.Scans,
+                        MinimumRange = 10,
+                        MaximumPadding = 0,
+                        Title = "Mobility Scans",
+                        IsAxisVisible = this.AxisVisible
+                    };
 
-            this.HeatMapPlotModel.Axes.Add(horizontalAxis);
+                    horizontalAxis.AxisChanged += this.PublishXAxisChange;
 
-            var verticalAxis = new LinearAxis
-                                   {
-                                       AbsoluteMinimum = this.HeatMapData.MinMz,
-                                       AbsoluteMaximum = this.HeatMapData.MaxMz, 
-                                       MaximumPadding = 0,
-                                       Title = "m/z", 
-                                       TickStyle = TickStyle.Inside, 
-                                       AxisDistance = -2,
-                                       IsZoomEnabled = true,
-                                       TextColor = OxyColors.Red, 
-                                       TicklineColor = OxyColors.Red, 
-                                       Layer = AxisLayer.AboveSeries, 
-                                       IsAxisVisible = this.AxisVisible
-                                   };
+                    this.HeatMapPlotModel.Axes.Add(horizontalAxis);
 
-            verticalAxis.AxisChanged += this.PublishYAxisChange;
+                    var verticalAxis = new LinearAxis
+                    {
+                        AbsoluteMinimum = this.HeatMapData.MinMz,
+                        AbsoluteMaximum = this.HeatMapData.MaxMz,
+                        MaximumPadding = 0,
+                        Title = "m/z",
+                        TickStyle = TickStyle.Inside,
+                        AxisDistance = -2,
+                        IsZoomEnabled = true,
+                        TextColor = OxyColors.Red,
+                        TicklineColor = OxyColors.Red,
+                        Layer = AxisLayer.AboveSeries,
+                        IsAxisVisible = this.AxisVisible
+                    };
 
-            this.HeatMapPlotModel.Axes.Add(verticalAxis);
+                    verticalAxis.AxisChanged += this.PublishYAxisChange;
 
-            var heatMapSeries1 = new HeatMapSeries
-                                     {
-                                         X0 = 0, 
-                                         X1 = this.HeatMapData.Scans, 
-                                         Y0 = this.HeatMapData.MinMz,
-                                         Y1 = this.HeatMapData.MaxMz,
-                                         Interpolate = false,
-                                         Background = OxyColors.Black,
-                                     };
+                    this.HeatMapPlotModel.Axes.Add(verticalAxis);
 
-            this.HeatMapPlotModel.Series.Add(heatMapSeries1);
+                    var heatMapSeries1 = new HeatMapSeries
+                    {
+                        X0 = 0,
+                        X1 = this.HeatMapData.Scans,
+                        Y0 = this.HeatMapData.MinMz,
+                        Y1 = this.HeatMapData.MaxMz,
+                        Interpolate = false,
+                        Background =
+                            OxyColor.FromRgb(HeatmapBackgroundColor.Color.R, HeatmapBackgroundColor.Color.G,
+                                HeatmapBackgroundColor.Color.B),
+                    };
+
+                    this.HeatMapPlotModel.Series.Add(heatMapSeries1);
+                    //this.HeatMapPlotModel.InvalidatePlot(true);
+                });
+            });
         }
 
         /// <summary>
@@ -516,7 +477,7 @@ namespace Atreyu.ViewModels
             //if ((this.CurrentMinScan == 0 && this.CurrentMinMz.Equals(0))
             //    || (this.ForceMinMaxMz && this.CurrentMinMz.Equals(this.MzWindow.StartMz)))
             //{
-                this.heatMapPlotModel.ResetAllAxes();
+            this.heatMapPlotModel.ResetAllAxes();
             //}
 
             this.HeatMapPlotModel.InvalidatePlot(true);
@@ -571,9 +532,9 @@ namespace Atreyu.ViewModels
             }
             else
             {
-                this.CurrentScanRange = new ScanRange((int)axis.ActualMinimum, (int)axis.ActualMaximum);
-                this.currentMaxScan = (int)axis.ActualMaximum;
-                this.currentMinScan = (int)axis.ActualMinimum;
+                this.CurrentScanRange = new ScanRange((int) axis.ActualMinimum, (int) axis.ActualMaximum);
+                this.currentMaxScan = (int) axis.ActualMaximum;
+                this.currentMinScan = (int) axis.ActualMinimum;
             }
         }
 
@@ -617,5 +578,47 @@ namespace Atreyu.ViewModels
         }
 
         public double[,] uncompressed { get; set; }
+
+        public SolidColorBrush HeatmapBackgroundColor
+        {
+            get { return this._heatmapBackgroundColor; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this._heatmapBackgroundColor, value);
+                var dis = System.Windows.Application.Current.Dispatcher;
+                if (HeatmapPeakColor != null && HeatMapData != null)
+                {
+                    dis.Invoke(() =>
+                    {
+                        SetUpPlot();
+                        UpdateData(this.FrameData);
+                    });
+                }
+            }
+        }
+
+        public SolidColorBrush HeatmapPeakColor
+        {
+            get { return this._heatmapPeakColor; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this._heatmapPeakColor, value);
+                var dis = System.Windows.Application.Current.Dispatcher;
+                if (HeatmapBackgroundColor != null && HeatMapData != null)
+                {
+                    dis.Invoke(() =>
+                    {
+                        SetUpPlot();
+                        UpdateData(this.FrameData);
+                    });
+                }
+            }
+        }
+
+        public List<SolidColorBrush> AvailableColors
+        {
+            get { return this._heatmapColors; }
+            set { this.RaiseAndSetIfChanged(ref this._heatmapColors, value); }
+        }
     }
 }

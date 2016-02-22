@@ -7,11 +7,31 @@
 			 mc:Ignorable="d" 
 			 d:DesignHeight="300" d:DesignWidth="300"
 			 AllowDrop="True">
+    <UserControl.Resources>
+        <DataTemplate x:Key="SolidColorTemplate" DataType="{x:Type Color}">
+            <DockPanel Margin="1">
+                <Border Background="{Binding}" Width="20"></Border>
+                <TextBlock Text="{Binding Name}" Margin="5,0,0,0"></TextBlock>
+            </DockPanel>
+        </DataTemplate>
+    </UserControl.Resources>
 	<Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <!--<Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="100"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <ComboBox Grid.Column="0" ItemsSource="{Binding Path=AvailableColors}" SelectedItem="{Binding Path=HeatmapBackgroundColor}" ItemTemplate="{StaticResource SolidColorTemplate}"></ComboBox>
+            <Label Grid.Column="1" HorizontalAlignment="Left">Background color</Label>
+            <Label Grid.Column="2" HorizontalAlignment="Right">Max Intensity color</Label>
+            <ComboBox Grid.Column="3" ItemsSource="{Binding Path=AvailableColors}" SelectedItem="{Binding Path=HeatmapPeakColor}" ItemTemplate="{StaticResource SolidColorTemplate}"></ComboBox>
+        </Grid>-->
         <wpf:PlotView Grid.Row="1" x:Name="HeatMapPlot" Model="{Binding HeatMapPlotModel}" Margin="0,5,0,0" />
 	</Grid>
 </UserControl>

@@ -78,6 +78,8 @@ namespace Atreyu.ViewModels
         /// The uimf data reference.
         /// </summary>
         private UimfData uimfData;
+        private double maxMZ;
+        private double minMZ;
 
         #endregion
 
@@ -197,7 +199,7 @@ namespace Atreyu.ViewModels
         /// </param>
         public void ChangeEndMz(double mz)
         {
-            this.endMz = mz;
+            this.EndMZ = mz;
         }
 
         /// <summary>
@@ -208,7 +210,7 @@ namespace Atreyu.ViewModels
         /// </param>
         public void ChangeStartMz(double mz)
         {
-            this.startMz = mz;
+            this.StartMZ = mz;
         }
 
         /// <summary>
@@ -305,6 +307,8 @@ namespace Atreyu.ViewModels
             {
                 return;
             }
+            
+            this.MaxMZ = this.uimfData.MaxMz;
 
             this.frameData = framedata;
             this.frameDictionary = new Dictionary<double, double>();
@@ -430,5 +434,23 @@ namespace Atreyu.ViewModels
         }
 
         #endregion
+
+        public double MaxMZ
+        {
+            get { return this.maxMZ; } 
+            set { this.RaiseAndSetIfChanged(ref this.maxMZ, value); }
+        }
+
+        public double StartMZ
+        {
+            get { return this.startMz; }
+            set { this.RaiseAndSetIfChanged(ref this.startMz, value); }
+        }
+
+        public double EndMZ
+        {
+            get { return this.endMz; }
+            set { this.RaiseAndSetIfChanged(ref this.endMz, value); }
+        }
     }
 }
