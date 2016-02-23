@@ -90,6 +90,9 @@ namespace Atreyu.ViewModels
         private bool _ticEnabled;
         private Visibility _ticVisible;
         private Visibility _bpiVisible;
+        private bool _rangeEnabled;
+        private bool _calibEnabled;
+        private Visibility _rangeVisible;
 
         #endregion
 
@@ -109,12 +112,15 @@ namespace Atreyu.ViewModels
             this.LowValueGateSliderViewModel = new GateSliderViewModel();
             this.TotalIonChromatogramViewModel = new TotalIonChromatogramViewModel();
             this.BasePeakIntensityViewModel = new BasePeakIntensityViewModel();
+            this.TofCalibratorViewModel = new ToFCalibratorViewModel();
 
             this.LowValueGateSliderViewModel.ControlLabel = "Low Gate";
             this.LowValueGateSliderViewModel.UpdateGate(0);
 
             this.TicEnabled = true;
             this.BpiEnabled = false;
+            this.RangeEnabled = true;
+            this.CalibEnabled = false;
 
             // Shows loading image
             this.WhenAnyValue(vm => vm.UimfData.LoadingData).Subscribe(x => this.CircularWaitIsVisible = x);
@@ -156,6 +162,7 @@ namespace Atreyu.ViewModels
                 this.MzSpectraViewModel.UpdateReference(data);
                 this.TotalIonChromatogramViewModel.UpdateReference(data);
                 this.BasePeakIntensityViewModel.UpdateReference(data);
+                this.TofCalibratorViewModel.UpdateExistingCalib(data, this.currentFile);
             });
 
             // update the frame data of the TIC plot when needed; apparently the Throttler should always specify the schedule.
@@ -579,6 +586,7 @@ namespace Atreyu.ViewModels
             this.UimfData.CurrentMaxMz = this.UimfData.MaxMz;
             this.FetchSingleFrame(1);
             this.WindowTitle = Path.GetFileNameWithoutExtension(file);
+            this.TofCalibratorViewModel.FileName = Path.GetFullPath(file);
             this.HeatMapViewModel.CurrentFile = Path.GetFileNameWithoutExtension(file);
             this.TotalIonChromatogramViewModel.MaxScan = this.UimfData.EndScan;
             this.BasePeakIntensityViewModel.MaxScan = this.UimfData.EndScan;
@@ -702,6 +710,40 @@ namespace Atreyu.ViewModels
             {
                 this.RaiseAndSetIfChanged(ref this._ticEnabled, value);
                 TicVisible = value ? Visibility.Visible : Visibility.Hidden;
+            }
+        }
+
+        public ToFCalibratorViewModel TofCalibratorViewModel { get; set; }
+
+        public Visibility RangeVisible
+        {
+            get { return this._rangeVisible; }
+            set { this.RaiseAndSetIfChanged(ref this._rangeVisible, value); }
+        }
+
+        public bool RangeEnabled
+        {
+            get { return this._rangeEnabled; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this._rangeEnabled, value);
+                RangeVisible = value ? Visibility.Visible : Visibility.Hidden;
+            }
+        }
+
+        public Visibility CalibVisible
+        {
+            get { return this.TofCalibratorViewModel.CalibVisible; }
+            set { this.TofCalibratorViewModel.CalibVisible = value; }
+        }
+
+        public bool CalibEnabled
+        {
+            get { return this._calibEnabled; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this._calibEnabled, value);
+                CalibVisible = value ? Visibility.Visible : Visibility.Hidden;
             }
         }
     }
