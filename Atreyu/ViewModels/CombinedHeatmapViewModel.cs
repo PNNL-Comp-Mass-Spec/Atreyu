@@ -286,7 +286,14 @@ namespace Atreyu.ViewModels
                 .Where(_ => this.UimfData != null)
                 .Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
                 .Subscribe(x => this.HeatMapViewModel.CurrentScanRange = new ScanRange(this.BasePeakIntensityViewModel.StartScan, this.BasePeakIntensityViewModel.EndScan));
-        
+
+            this.TofCalibratorViewModel.WhenAnyValue(x => x.ReloadUIMF)
+                .Where(_ => this.TofCalibratorViewModel.ReloadUIMF)
+                .Subscribe(y =>
+                {
+                    this.InitializeUimfData(this.TofCalibratorViewModel.NewFileName);
+                    this.TofCalibratorViewModel.ReloadUIMF = false;
+                });
 
             this.TotalIonChromatogramViewModel.WhenAnyValue(ticStart => ticStart.StartScan, ticEnd => ticEnd.EndScan)
                 .Where(_ => this.UimfData != null)

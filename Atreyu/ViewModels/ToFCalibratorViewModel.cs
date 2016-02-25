@@ -30,6 +30,7 @@ namespace Atreyu.ViewModels
         private bool _buttonEnable;
         private Visibility _calibVisible;
         private UimfData data;
+        private bool _reload;
 
         public Visibility CalibVisible
         {
@@ -72,6 +73,8 @@ namespace Atreyu.ViewModels
                 dataWriter.UpdateCalibrationCoefficients(1, (float) CalibSlope, (float) CalibInt);
             }
             dataWriter.FlushUimf();
+            this.NewFileName = fileName;
+            this.ReloadUIMF = true;
         }
 
         public int ToF1
@@ -170,5 +173,12 @@ namespace Atreyu.ViewModels
 
         public ReactiveCommand<object> CalculateCalibrationCommand { get; set; }
         public ReactiveCommand<object> PerformCalibrationCommand { get; set; }
+
+        public bool ReloadUIMF { get { return this._reload; } set
+        {
+            this.RaiseAndSetIfChanged(ref this._reload, value);
+        } }
+
+        public string NewFileName { get; set; }
     }
 }
