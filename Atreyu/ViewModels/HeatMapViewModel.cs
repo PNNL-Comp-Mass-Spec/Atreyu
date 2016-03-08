@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows.Media;
-using Microsoft.WindowsAPICodePack.Shell;
 
 namespace Atreyu.ViewModels
 {
@@ -381,12 +380,12 @@ namespace Atreyu.ViewModels
                     
                     var linearColorAxis1 = new LinearColorAxis
                     {
-                        Palette = SelectedPalette.Palette,
                         Position = AxisPosition.Right,
                         Minimum = 1,
                         Title = "Intensity",
                         LowColor = OxyColors.Black,
-                        IsAxisVisible = this.AxisVisible
+                        IsAxisVisible = this.AxisVisible,
+                        Palette = SelectedPalette.Palette
                     };
 
                     this.HeatMapPlotModel.Axes.Add(linearColorAxis1);
@@ -494,7 +493,7 @@ namespace Atreyu.ViewModels
                 this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.HeatMapData.MaxMz;
                 this.heatMapPlotModel.Axes[2].AbsoluteMinimum = this.HeatMapData.MinMz;
             }
-
+            
             this.dataArray = framedata;
 
             series.Data = this.dataArray;
@@ -629,8 +628,10 @@ namespace Atreyu.ViewModels
                     var dis = System.Windows.Application.Current.Dispatcher;
                     dis.Invoke(() =>
                     {
-                        SetUpPlot();
+                        var axis = HeatMapPlotModel.Axes[0] as LinearColorAxis;
+                        axis.Palette = SelectedPalette.Palette;
                         UpdateData(this.FrameData);
+                        HeatMapPlotModel.ResetAllAxes();
                     });
                 }
             }

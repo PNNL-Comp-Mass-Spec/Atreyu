@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Windows;
 using Xceed.Wpf.DataGrid.Converters;
 
@@ -303,6 +304,13 @@ namespace Atreyu.ViewModels
                 .Where(_ => this.UimfData != null)
                 .Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
                 .Subscribe(x => this.HeatMapViewModel.CurrentScanRange = new ScanRange(this.TotalIonChromatogramViewModel.StartScan, this.TotalIonChromatogramViewModel.EndScan));
+
+            this.HeatMapViewModel.WhenAnyValue(palette => palette.SelectedPalette).Where(_ => this.UimfData != null)
+                .Subscribe(x =>
+                {
+                    this.ZoomOut();
+                    this.HeatMapViewModel.HeatMapPlotModel.ResetAllAxes();
+                });
         }
 
         #endregion
