@@ -80,6 +80,7 @@ namespace Atreyu.ViewModels
         private UimfData uimfData;
         private double maxMZ;
         private double minMZ;
+        private Dictionary<double, double> tofFrameData;
 
         #endregion
 
@@ -102,6 +103,7 @@ namespace Atreyu.ViewModels
         /// Gets or sets the bin to mz map.
         /// </summary>
         public double[] BinToMzMap { get; set; }
+        public double[] BinToTofMap { get; set; }
 
         /// <summary>
         /// Gets or sets the mz calibrator.
@@ -313,21 +315,23 @@ namespace Atreyu.ViewModels
             this.frameData = framedata;
             this.frameDictionary = new Dictionary<double, double>();
             this.mzFrameData = new Dictionary<double, double>();
+            this.tofFrameData = new Dictionary<double, double>();
 
             for (var j = 0; j < this.frameData.GetLength(1); j++)
             {
                 double index = j + this.startMz;
                 var mzIndex = this.BinToMzMap[j];
+                var tofIndex = this.BinToTofMap[j];
 
                 for (var i = 0; i < this.frameData.GetLength(0); i++)
                 {
-                    if (this.frameDictionary.ContainsKey(index))
+                    if (this.tofFrameData.ContainsKey(tofIndex))
                     {
-                        this.frameDictionary[index] += this.frameData[i, j];
+                        this.tofFrameData[tofIndex] += this.frameData[i, j];
                     }
                     else
                     {
-                        this.frameDictionary.Add(index, this.frameData[i, j]);
+                        this.tofFrameData.Add(tofIndex, this.frameData[i, j]);
                     }
 
                     if (this.mzFrameData.ContainsKey(mzIndex))
@@ -342,12 +346,11 @@ namespace Atreyu.ViewModels
             }
 
             var series = this.MzPlotModel.Series[0] as LineSeries;
-
             if (series != null)
             {
                 if (series.YAxis != null)
                 {
-                    series.YAxis.Title = this.ShowMz ? "m/z" : "Bin";
+                    series.YAxis.Title = this.ShowMz ? "m/z" : "Tof";
                 }
 
                 series.Points.Clear();
@@ -360,9 +363,11 @@ namespace Atreyu.ViewModels
                 }
                 else
                 {
-                    foreach (var d in this.frameDictionary)
+                    foreach (var d in tofFrameData)
                     {
-                        series.Points.Add(new DataPoint(d.Value, d.Key));
+                        var x = d.Value;
+                        var y = d.Key;
+                        series.Points.Add(new DataPoint(x, y));
                     }
                 }
             }

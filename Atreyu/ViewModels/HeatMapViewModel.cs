@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows.Media;
 using Microsoft.WindowsAPICodePack.Shell;
@@ -102,7 +104,11 @@ namespace Atreyu.ViewModels
 
         private SolidColorBrush _heatmapBackgroundColor;
         private SolidColorBrush _heatmapPeakColor;
-        private List<SolidColorBrush> _heatmapColors;
+        private string _tofDisplay;
+        private string _mzDisplay;
+        private List<OxyPaletteMap> _heatmapPalettes;
+        private OxyPaletteMap _selectedPalette;
+        private bool _needsEventHandle;
 
         #endregion
 
@@ -114,20 +120,28 @@ namespace Atreyu.ViewModels
         [ImportingConstructor]
         public HeatMapViewModel()
         {
-            HeatmapBackgroundColor = new SolidColorBrush(Colors.Black);;
-            HeatmapPeakColor = new SolidColorBrush(Colors.Purple);
-            //var ddlColor = new List<OxyColor>();
-            var ddlColor = new List<SolidColorBrush>();
-            Type colors = typeof (Color);
-            PropertyInfo[] colorInfo = colors.GetProperties(BindingFlags.Public | BindingFlags.Static);
+            var ddlColor = new List<OxyPaletteMap>();
+            Type colors = typeof (OxyPalettes);
+            MethodInfo[] colorInfo = colors.GetMethods(BindingFlags.Public | BindingFlags.Static);
             foreach (var info in colorInfo)
             {
-                var temp = Color.FromName(info.Name);
-                var color = System.Windows.Media.Color.FromArgb(temp.A, temp.R, temp.G, temp.B);
-                //ddlColor.Add(OxyColor.FromRgb(color.R, color.G, color.B));
-                ddlColor.Add(new SolidColorBrush(color));
+                if (!info.Name.StartsWith("get_"))
+                {
+                    var name = info.Name;
+                    var mappedPallet = OxyPaletteMap.CreateFromName(name);
+                    if (mappedPallet != null)
+                    {
+                        ddlColor.Add(mappedPallet);
+                        if (name == "Jet")
+                        {
+                            SelectedPalette = mappedPallet;
+                        }
+                    }
+
+                }
             }
             AvailableColors = ddlColor;
+            _needsEventHandle = true;
         }
 
         #endregion
@@ -364,22 +378,19 @@ namespace Atreyu.ViewModels
                 subDis.Invoke(() =>
                 {
                     this.HeatMapPlotModel.Axes.Clear();
+                    
                     var linearColorAxis1 = new LinearColorAxis
                     {
-                        HighColor =
-                            OxyColor.FromRgb(HeatmapPeakColor.Color.R, HeatmapPeakColor.Color.G,
-                                HeatmapPeakColor.Color.B),
-                        LowColor =
-                            OxyColor.FromRgb(HeatmapBackgroundColor.Color.R, HeatmapBackgroundColor.Color.G,
-                                HeatmapBackgroundColor.Color.B),
+                        Palette = SelectedPalette.Palette,
                         Position = AxisPosition.Right,
                         Minimum = 1,
                         Title = "Intensity",
+                        LowColor = OxyColors.Black,
                         IsAxisVisible = this.AxisVisible
                     };
 
                     this.HeatMapPlotModel.Axes.Add(linearColorAxis1);
-
+                    
                     var horizontalAxis = new LinearAxis
                     {
                         Position = AxisPosition.Bottom,
@@ -400,7 +411,7 @@ namespace Atreyu.ViewModels
                         AbsoluteMinimum = this.HeatMapData.MinMz,
                         AbsoluteMaximum = this.HeatMapData.MaxMz,
                         MaximumPadding = 0,
-                        Title = "m/z",
+                        Title = "M/Z",
                         TickStyle = TickStyle.Inside,
                         AxisDistance = -2,
                         IsZoomEnabled = true,
@@ -409,7 +420,7 @@ namespace Atreyu.ViewModels
                         Layer = AxisLayer.AboveSeries,
                         IsAxisVisible = this.AxisVisible
                     };
-
+                    
                     verticalAxis.AxisChanged += this.PublishYAxisChange;
 
                     this.HeatMapPlotModel.Axes.Add(verticalAxis);
@@ -420,16 +431,38 @@ namespace Atreyu.ViewModels
                         X1 = this.HeatMapData.Scans,
                         Y0 = this.HeatMapData.MinMz,
                         Y1 = this.HeatMapData.MaxMz,
-                        Interpolate = false,
-                        Background =
-                            OxyColor.FromRgb(HeatmapBackgroundColor.Color.R, HeatmapBackgroundColor.Color.G,
-                                HeatmapBackgroundColor.Color.B),
+                        Interpolate = false
                     };
 
                     this.HeatMapPlotModel.Series.Add(heatMapSeries1);
-                    //this.HeatMapPlotModel.InvalidatePlot(true);
+                    if (_needsEventHandle)
+                    {
+                        this.HeatMapPlotModel.MouseMove += (sender, args) =>
+                        {
+                            if (this.HeatMapPlotModel != null && this.HeatMapPlotModel.Series != null)
+                            {
+                                var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
+                                var mz = series.InverseTransform(args.Position).Y;
+                                var tof = this.HeatMapData.Calibrator.MZtoTOF(mz)/10000.0;
+                                MzDisplay = "mz: " + mz;
+                                TofDisplay = "tof: " + tof;
+                            }
+                        };
+                        _needsEventHandle = false;
+                    }
                 });
             });
+        }
+
+        public string TofDisplay
+        {
+            get { return _tofDisplay; }
+            set { this.RaiseAndSetIfChanged(ref this._tofDisplay, value); }
+        }
+        public string MzDisplay
+        {
+            get { return _mzDisplay; }
+            set { this.RaiseAndSetIfChanged(ref this._mzDisplay, value); }
         }
 
         /// <summary>
@@ -469,7 +502,7 @@ namespace Atreyu.ViewModels
             // scans
             series.X0 = this.CurrentMinScan;
             series.X1 = this.CurrentMaxScan;
-
+            
             // bins
             series.Y0 = this.CurrentMinMz;
             series.Y1 = this.CurrentMaxMz;
@@ -579,15 +612,21 @@ namespace Atreyu.ViewModels
 
         public double[,] uncompressed { get; set; }
 
-        public SolidColorBrush HeatmapBackgroundColor
+        public List<OxyPaletteMap> AvailableColors
         {
-            get { return this._heatmapBackgroundColor; }
+            get { return this._heatmapPalettes; }
+            set { this.RaiseAndSetIfChanged(ref this._heatmapPalettes, value); }
+        }
+
+        public OxyPaletteMap SelectedPalette
+        {
+            get { return _selectedPalette; }
             set
             {
-                this.RaiseAndSetIfChanged(ref this._heatmapBackgroundColor, value);
-                var dis = System.Windows.Application.Current.Dispatcher;
-                if (HeatmapPeakColor != null && HeatMapData != null)
+                this.RaiseAndSetIfChanged(ref _selectedPalette, value);
+                if (this.HeatMapData != null)
                 {
+                    var dis = System.Windows.Application.Current.Dispatcher;
                     dis.Invoke(() =>
                     {
                         SetUpPlot();
@@ -595,30 +634,6 @@ namespace Atreyu.ViewModels
                     });
                 }
             }
-        }
-
-        public SolidColorBrush HeatmapPeakColor
-        {
-            get { return this._heatmapPeakColor; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this._heatmapPeakColor, value);
-                var dis = System.Windows.Application.Current.Dispatcher;
-                if (HeatmapBackgroundColor != null && HeatMapData != null)
-                {
-                    dis.Invoke(() =>
-                    {
-                        SetUpPlot();
-                        UpdateData(this.FrameData);
-                    });
-                }
-            }
-        }
-
-        public List<SolidColorBrush> AvailableColors
-        {
-            get { return this._heatmapColors; }
-            set { this.RaiseAndSetIfChanged(ref this._heatmapColors, value); }
         }
     }
 }

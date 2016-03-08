@@ -297,7 +297,7 @@ namespace Atreyu.ViewModels
                                       MinimumPadding = 0.1, 
                                       MaximumPadding = 0.1, 
                                       IsPanEnabled = false, 
-                                      IsAxisVisible = false, 
+                                      IsAxisVisible = true, 
                                       Title = "Intensity"
                                   };
 

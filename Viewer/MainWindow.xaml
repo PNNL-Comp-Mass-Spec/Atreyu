@@ -5,7 +5,7 @@
         Title="{Binding CombinedHeatmapViewModel.WindowTitle}"
         Icon="AtreyuIconCropped.jpg"
         Width="1280"
-        Height="800">
+        Height="960">
     <DockPanel Name="MainDockPanel">
          <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_Export">

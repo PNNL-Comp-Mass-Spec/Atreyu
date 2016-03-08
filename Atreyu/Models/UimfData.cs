@@ -742,6 +742,7 @@ namespace Atreyu.Models
 
         private double prevYPixels;
         private double[,] _uncompressed;
+        private double[] binToTofMap;
 
         /// <summary>
         /// The read data.
@@ -910,8 +911,10 @@ namespace Atreyu.Models
                 {
                     tof[i] = this.dataReader.GetBinForPixel((int) Math.Round(i*ValuesPerPixelY));
                     mz[i] = this.calibrator.BinToMZ(tof[i]);
+                    tof[i] = this.calibrator.MZtoTOF(mz[i])/10000.0;
                 }
                 this.BinToMzMap = mz;
+                this.BinToTofMap = tof;
             }
 
             this.GateData();
@@ -1191,5 +1194,18 @@ namespace Atreyu.Models
         {
             this.RaiseAndSetIfChanged(ref this._uncompressed, value);
         } }
+
+        public double[] BinToTofMap
+        {
+            get
+            {
+                return this.binToTofMap;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.binToTofMap, value);
+            }
+        }
     }
 }

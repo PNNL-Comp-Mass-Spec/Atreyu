@@ -18,10 +18,10 @@ namespace Atreyu.ViewModels
     {
         private const double TOLERANCE = 0.00001;
 
-        private int _tof1;
+        private double _tof1;
         private double _mz1 = 0;
 
-        private int _tof2;
+        private double _tof2;
         private double _mz2 = 0;
 
         private double _calibSlope;
@@ -49,8 +49,8 @@ namespace Atreyu.ViewModels
 
         private void CalculateCalibration()
         {
-            this.CalibSlope = (Math.Sqrt(Mz2) - Math.Sqrt(Mz1))/(ToF2 - ToF1);
-            this.CalibInt = ToF2 - this.CalibSlope*Math.Sqrt(Mz2);
+            this.CalibSlope = (Math.Sqrt(Mz2) - Math.Sqrt(Mz1))/(ToF2 - ToF1)/10000.0;
+            this.CalibInt = ToF2 - Math.Sqrt(Mz2)/(this.CalibSlope * 10000.0);
         }
 
         private void PerformCalibration()
@@ -70,14 +70,14 @@ namespace Atreyu.ViewModels
                 //    dataWriter.InsertFrame(i, dataReader.GetFrameParams(i));
                 //    dataWriter.InsertScan(i, dataReader.GetFrameParams(i), dataReader.)
 
-                dataWriter.UpdateCalibrationCoefficients(1, (float) CalibSlope, (float) CalibInt);
+                dataWriter.UpdateCalibrationCoefficients(1, (float) (CalibSlope*10000.0), (float) (CalibInt/10000.0));
             }
             dataWriter.FlushUimf();
             this.NewFileName = fileName;
             this.ReloadUIMF = true;
         }
 
-        public int ToF1
+        public double ToF1
         {
             get { return _tof1;}
             set
@@ -97,7 +97,7 @@ namespace Atreyu.ViewModels
             }
         }
 
-        public int ToF2
+        public double ToF2
         {
             get { return _tof2; }
             set
@@ -166,8 +166,8 @@ namespace Atreyu.ViewModels
             this.data = data;
             if (data != null && data.Calibrator != null)
             {
-                CalibSlope = data.Calibrator.k * 10000;
-                CalibInt = data.Calibrator.t0 / 10000;
+                CalibSlope = data.Calibrator.k;
+                CalibInt = data.Calibrator.t0;
             }
         }
 

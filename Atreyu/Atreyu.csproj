@@ -202,6 +202,7 @@
     </Compile>
     <Compile Include="Models\MzRange.cs" />
     <Compile Include="Models\FrameRange.cs" />
+    <Compile Include="Models\OxyPaletteMap.cs" />
     <Compile Include="Models\Range.cs" />
     <Compile Include="Models\RangeType.cs" />
     <Compile Include="Models\ScanRange.cs" />

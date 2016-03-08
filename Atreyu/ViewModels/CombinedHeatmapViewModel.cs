@@ -238,6 +238,10 @@ namespace Atreyu.ViewModels
                 this.HeatMapViewModel.BinToMzMap = d;
                 this.MzSpectraViewModel.BinToMzMap = d;
             });
+            this.WhenAnyValue(vm => vm.UimfData.BinToTofMap).Subscribe(d =>
+            {
+                this.MzSpectraViewModel.BinToTofMap = d;
+            });
             this.WhenAnyValue(vm => vm.UimfData.MzArray).Subscribe(d => this.MzSpectraViewModel.MzArray = d);
             this.WhenAnyValue(vm => vm.UimfData.MzIntensities).Subscribe(i => this.MzSpectraViewModel.MzIntensities = i);
 
