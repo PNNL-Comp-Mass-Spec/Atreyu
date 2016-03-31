@@ -297,8 +297,8 @@ namespace Atreyu.ViewModels
                                       MinimumPadding = 0.1, 
                                       MaximumPadding = 0.1, 
                                       IsPanEnabled = false, 
-                                      IsAxisVisible = true, 
-                                      Title = "Intensity"
+                                      IsAxisVisible = true
+                                      //Title = "Intensity"
                                   };
 
             this.TicPlotModel.Axes.Add(linearYAxis);

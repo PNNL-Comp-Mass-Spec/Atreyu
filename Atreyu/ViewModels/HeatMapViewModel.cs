@@ -108,6 +108,8 @@ namespace Atreyu.ViewModels
         private List<OxyPaletteMap> _heatmapPalettes;
         private OxyPaletteMap _selectedPalette;
         private bool _needsEventHandle;
+        private double[,] logArray;
+        private bool _showLogData;
 
         #endregion
 
@@ -440,11 +442,17 @@ namespace Atreyu.ViewModels
                         {
                             if (this.HeatMapPlotModel != null && this.HeatMapPlotModel.Series != null)
                             {
-                                var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
-                                var mz = series.InverseTransform(args.Position).Y;
-                                var tof = this.HeatMapData.Calibrator.MZtoTOF(mz)/10000.0;
-                                MzDisplay = "mz: " + mz;
-                                TofDisplay = "tof: " + tof;
+                                try
+                                {
+                                    var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
+                                    var mz = series.InverseTransform(args.Position).Y;
+                                    var tof = this.HeatMapData.Calibrator.MZtoTOF(mz)/10000.0;
+                                    MzDisplay = "mz: " + mz;
+                                    TofDisplay = "tof: " + tof;
+                                }
+                                catch (Exception)
+                                {
+                                }
                             }
                         };
                         _needsEventHandle = false;
@@ -493,8 +501,17 @@ namespace Atreyu.ViewModels
                 this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.HeatMapData.MaxMz;
                 this.heatMapPlotModel.Axes[2].AbsoluteMinimum = this.HeatMapData.MinMz;
             }
-            
-            this.dataArray = framedata;
+
+            this.dataArray = new double[framedata.GetLength(0), framedata.GetLength(1)];
+            this.logArray = new double[framedata.GetLength(0), framedata.GetLength(1)];
+            for (int i = 0; i < framedata.GetLength(0); i++)
+            {
+                for (int j = 0; j < framedata.GetLength(1); j++)
+                {
+                    logArray[i, j] = Math.Log10(framedata[i, j]);
+                    dataArray[i, j] = framedata[i, j];
+                }
+            }
 
             series.Data = this.dataArray;
 
@@ -602,6 +619,20 @@ namespace Atreyu.ViewModels
             }
         }
 
+        private void UpdateHeatmapData()
+        {
+            var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
+            if (ShowLogData)
+            {
+                series.Data = this.logArray;
+            }
+            else
+            {
+                series.Data = this.dataArray;
+            }
+            this.HeatMapPlotModel.InvalidatePlot(true);
+        }
+
         #endregion
 
         internal double[,] ExportData()
@@ -634,6 +665,16 @@ namespace Atreyu.ViewModels
                         HeatMapPlotModel.ResetAllAxes();
                     });
                 }
+            }
+        }
+
+        public bool ShowLogData
+        {
+            get { return _showLogData; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this._showLogData, value);
+                UpdateHeatmapData();
             }
         }
     }
