@@ -1,3 +1,5 @@
+using Xceed.Wpf.DataGrid;
+
 namespace Atreyu.ViewModels
 {
     using System;
@@ -241,10 +243,11 @@ namespace Atreyu.ViewModels
                                       Position = AxisPosition.Top, 
                                       Key = "YAxisKey", 
                                       IsPanEnabled = false, 
-                                      MinimumPadding = 0, 
-                                      StartPosition = 1, 
-                                      EndPosition = 0, 
+                                      MinimumPadding = 0,
+                                      StartPosition = 1,
+                                      EndPosition = 0
                                   };
+            linearYAxis.ToolTip = "Intensity";
             this.MzPlotModel.Axes.Add(linearYAxis);
             var series = new LineSeries
                              {
@@ -264,7 +267,22 @@ namespace Atreyu.ViewModels
         /// </returns>
         public IDictionary<double, double> GetMzDataCompressed()
         {
-            return this.mzFrameData;
+            //return this.mzFrameData;
+            var returnDict = new Dictionary<double, double>();
+            var delta = this.uimfData.UncompressedDeltaMz;
+            var mzKey = StartMZ;
+            for (int mz = 0; mz < this.uimfData.Uncompressed.GetLength(1); mz++)
+            {
+                var summedMz = 0.0;
+                for (int scan = 0; scan < this.uimfData.Uncompressed.GetLength(0); scan++)
+                {
+                    summedMz += this.uimfData.Uncompressed[scan, mz];
+                }
+                returnDict.Add(mzKey, summedMz);
+
+                mzKey += delta;
+            }
+            return returnDict;
         }
 
         /// <summary>
@@ -315,24 +333,24 @@ namespace Atreyu.ViewModels
             this.frameData = framedata;
             this.frameDictionary = new Dictionary<double, double>();
             this.mzFrameData = new Dictionary<double, double>();
-            this.tofFrameData = new Dictionary<double, double>();
+            //this.tofFrameData = new Dictionary<double, double>();
 
             for (var j = 0; j < this.frameData.GetLength(1); j++)
             {
-                double index = j + this.startMz;
+                //double index = j + this.startMz;
                 var mzIndex = this.BinToMzMap[j];
-                var tofIndex = this.BinToTofMap[j];
+                //var tofIndex = this.BinToTofMap[j];
 
                 for (var i = 0; i < this.frameData.GetLength(0); i++)
                 {
-                    if (this.tofFrameData.ContainsKey(tofIndex))
-                    {
-                        this.tofFrameData[tofIndex] += this.frameData[i, j];
-                    }
-                    else
-                    {
-                        this.tofFrameData.Add(tofIndex, this.frameData[i, j]);
-                    }
+                    //if (this.tofFrameData.ContainsKey(tofIndex))
+                    //{
+                    //    this.tofFrameData[tofIndex] += this.frameData[i, j];
+                    //}
+                    //else
+                    //{
+                    //    this.tofFrameData.Add(tofIndex, this.frameData[i, j]);
+                    //}
 
                     if (this.mzFrameData.ContainsKey(mzIndex))
                     {
@@ -361,15 +379,15 @@ namespace Atreyu.ViewModels
                         series.Points.Add(new DataPoint(d.Value, d.Key));
                     }
                 }
-                else
-                {
-                    foreach (var d in tofFrameData)
-                    {
-                        var x = d.Value;
-                        var y = d.Key;
-                        series.Points.Add(new DataPoint(x, y));
-                    }
-                }
+                //else
+                //{
+                //    foreach (var d in tofFrameData)
+                //    {
+                //        var x = d.Value;
+                //        var y = d.Key;
+                //        series.Points.Add(new DataPoint(x, y));
+                //    }
+                //}
             }
 
             //this.FindPeaks();

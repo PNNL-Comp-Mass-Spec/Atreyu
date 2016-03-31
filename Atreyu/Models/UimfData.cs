@@ -770,6 +770,7 @@ namespace Atreyu.Models
             this.LoadingData = true;
 
             var frameParams = this.dataReader.GetFrameParams(this.startFrameNumber);
+            UncompressedDeltaMz = this.dataReader.GetDeltaMz(1);
 
             if (frameParams == null)
             {
@@ -1207,5 +1208,9 @@ namespace Atreyu.Models
                 this.RaiseAndSetIfChanged(ref this.binToTofMap, value);
             }
         }
+
+        public double UncompressedDeltaMz { get; set; }
+
+        public double[,] FrameCollapsed { get; set; }
     }
 }

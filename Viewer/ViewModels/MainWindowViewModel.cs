@@ -270,15 +270,18 @@ namespace Viewer.ViewModels
 
             var temp = this.CombinedHeatmapViewModel.ExportMzDataCompressed();
 
+            var sb = new StringBuilder();
             using (var outfile = new StreamWriter(filename))
             {
-                var content = "mz, intensity" + Environment.NewLine;
+                sb.AppendLine("mz, intensity");
+                //var content = "mz, intensity" + Environment.NewLine;
                 foreach (var kvp in temp)
                 {
-                    content += kvp.Key + "," + kvp.Value + Environment.NewLine;
+                    sb.AppendLine(kvp.Key + "," + kvp.Value);
+                    //content += kvp.Key + "," + kvp.Value + Environment.NewLine;
                 }
-
-                outfile.WriteLine(content);
+                outfile.WriteLine(sb.ToString());
+                //outfile.WriteLine(content);
             }
         }
 
