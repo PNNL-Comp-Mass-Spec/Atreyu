@@ -311,6 +311,16 @@ namespace Atreyu.ViewModels
                     this.ZoomOut();
                     this.HeatMapViewModel.HeatMapPlotModel.ResetAllAxes();
                 });
+
+            this.HeatMapViewModel.WhenAnyValue(x => x.ShowLogData)
+                .Where(_ => this.UimfData != null)
+                .Subscribe(y =>
+            {
+                var value = this.HeatMapViewModel.ShowLogData;
+                this.MzSpectraViewModel.ShowLogData = value;
+                this.BasePeakIntensityViewModel.ShowLogData = value;
+                this.TotalIonChromatogramViewModel.ShowLogData = value;
+            });
         }
 
         #endregion

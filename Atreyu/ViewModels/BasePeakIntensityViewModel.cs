@@ -121,6 +121,11 @@ namespace Atreyu.ViewModels
             set { this.RaiseAndSetIfChanged(ref this.maxScan, value); }
         }
 
+
+        private List<DataPoint> dataArray = new List<DataPoint>();
+        private List<DataPoint> logArray = new List<DataPoint>();
+        private bool _showLogData;
+
         #endregion
 
         #region Public Methods and Operators
@@ -235,29 +240,13 @@ namespace Atreyu.ViewModels
                 }
             }
 
-            var series = this.BpiPlotModel.Series[0] as OxyPlot.Series.LineSeries;
-
-            if (series == null)
-            {
-                return;
-            }
-
-            //series.MarkerType = MarkerType.Circle;
-            //series.MarkerSize = 2.5;
-
-            // series.MarkerStrokeThickness = 2;
-            series.MarkerFill = OxyColors.Black;
-            series.BrokenLineColor = OxyColors.Automatic;
-            series.BrokenLineStyle = LineStyle.Dot;
-            series.BrokenLineThickness = 1;
-            series.Points.Clear();
+            this.dataArray.Clear();
+            this.logArray.Clear();
             foreach (var d in this.frameDictionary)
             {
-                series.Points.Add(new DataPoint(d.Key, d.Value));
-                //series.Points.Add(new DataPoint(double.NaN, double.NaN));
+                this.dataArray.Add(new DataPoint(d.Key, d.Value));
+                this.logArray.Add(new DataPoint(d.Key, Math.Log10(d.Value)));
             }
-
-            //this.FindPeaks();
 
             this.BpiPlotModel.InvalidatePlot(true);
         }
@@ -353,5 +342,34 @@ namespace Atreyu.ViewModels
             set { this.RaiseAndSetIfChanged(ref this._bpiVisible, value); }
         }
 
+        public bool ShowLogData
+        {
+            get { return _showLogData; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this._showLogData, value);
+                UpdatePlotData();
+            }
+        }
+
+        private void UpdatePlotData()
+        {
+            var series = this.BpiPlotModel.Series[0] as LineSeries;
+            series.Points.RemoveRange(0, series.Points.Count);
+            var data = new List<DataPoint>();
+            if (ShowLogData)
+            {
+                data = logArray;
+            }
+            else
+            {
+                data = dataArray;
+            }
+            foreach (var point in data)
+            {
+                series.Points.Add(point);
+            }
+            this.BpiPlotModel.InvalidatePlot(true);
+        }
     }
 }

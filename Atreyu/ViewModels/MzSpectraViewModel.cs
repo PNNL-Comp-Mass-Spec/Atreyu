@@ -83,6 +83,7 @@ namespace Atreyu.ViewModels
         private double maxMZ;
         private double minMZ;
         private Dictionary<double, double> tofFrameData;
+        private bool _showLogData;
 
         #endregion
 
@@ -106,6 +107,9 @@ namespace Atreyu.ViewModels
         /// </summary>
         public double[] BinToMzMap { get; set; }
         public double[] BinToTofMap { get; set; }
+        private List<DataPoint> dataArray = new List<DataPoint>();
+        private List<DataPoint> logArray = new List<DataPoint>();
+  
 
         /// <summary>
         /// Gets or sets the mz calibrator.
@@ -333,25 +337,13 @@ namespace Atreyu.ViewModels
             this.frameData = framedata;
             this.frameDictionary = new Dictionary<double, double>();
             this.mzFrameData = new Dictionary<double, double>();
-            //this.tofFrameData = new Dictionary<double, double>();
 
             for (var j = 0; j < this.frameData.GetLength(1); j++)
             {
-                //double index = j + this.startMz;
                 var mzIndex = this.BinToMzMap[j];
-                //var tofIndex = this.BinToTofMap[j];
 
                 for (var i = 0; i < this.frameData.GetLength(0); i++)
                 {
-                    //if (this.tofFrameData.ContainsKey(tofIndex))
-                    //{
-                    //    this.tofFrameData[tofIndex] += this.frameData[i, j];
-                    //}
-                    //else
-                    //{
-                    //    this.tofFrameData.Add(tofIndex, this.frameData[i, j]);
-                    //}
-
                     if (this.mzFrameData.ContainsKey(mzIndex))
                     {
                         this.mzFrameData[mzIndex] += this.frameData[i, j];
@@ -372,26 +364,20 @@ namespace Atreyu.ViewModels
                 }
 
                 series.Points.Clear();
+                this.dataArray.Clear();
+                this.logArray.Clear();
                 if (this.ShowMz)
                 {
                     foreach (var d in this.mzFrameData)
                     {
-                        series.Points.Add(new DataPoint(d.Value, d.Key));
+                        this.dataArray.Add(new DataPoint(d.Value, d.Key));
+                        this.logArray.Add(new DataPoint(Math.Log10(d.Value), d.Key));
                     }
                 }
-                //else
-                //{
-                //    foreach (var d in tofFrameData)
-                //    {
-                //        var x = d.Value;
-                //        var y = d.Key;
-                //        series.Points.Add(new DataPoint(x, y));
-                //    }
-                //}
+
+                UpdatePlotData();
             }
-
-            //this.FindPeaks();
-
+            
             this.MzPlotModel.InvalidatePlot(true);
         }
 
@@ -474,6 +460,36 @@ namespace Atreyu.ViewModels
         {
             get { return this.endMz; }
             set { this.RaiseAndSetIfChanged(ref this.endMz, value); }
+        }
+
+        public bool ShowLogData
+        {
+            get { return _showLogData; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this._showLogData, value);
+                UpdatePlotData();
+            }
+        }
+
+        private void UpdatePlotData()
+        {
+            var series = this.MzPlotModel.Series[0] as LineSeries;
+            series.Points.RemoveRange(0, series.Points.Count);
+            var data = new List<DataPoint>();
+            if (ShowLogData)
+            {
+                data = logArray;
+            }
+            else
+            {
+                data = dataArray;
+            }
+            foreach (var point in data)
+            {
+                series.Points.Add(point);
+            }
+            this.MzPlotModel.InvalidatePlot(true);
         }
     }
 }

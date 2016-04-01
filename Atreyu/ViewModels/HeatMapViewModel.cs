@@ -513,7 +513,7 @@ namespace Atreyu.ViewModels
                 }
             }
 
-            series.Data = this.dataArray;
+            UpdateHeatmapData();
 
             // scans
             series.X0 = this.CurrentMinScan;
@@ -621,16 +621,19 @@ namespace Atreyu.ViewModels
 
         private void UpdateHeatmapData()
         {
-            var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
-            if (ShowLogData)
+            if (this.HeatMapPlotModel != null)
             {
-                series.Data = this.logArray;
+                var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
+                if (ShowLogData)
+                {
+                    series.Data = this.logArray;
+                }
+                else
+                {
+                    series.Data = this.dataArray;
+                }
+                this.HeatMapPlotModel.InvalidatePlot(true);
             }
-            else
-            {
-                series.Data = this.dataArray;
-            }
-            this.HeatMapPlotModel.InvalidatePlot(true);
         }
 
         #endregion

@@ -753,18 +753,18 @@ namespace Atreyu.Models
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        public double[,] ReadData(bool returnGatedData = false)
+        public void ReadData(bool returnGatedData = false)
         {
             //if (this.CurrentMaxMz < 1)
             if (this.CurrentMaxMz < this.MinMz)
             {
-                return new double[0, 0];
+                return;
             }
 
             //if (this.endScan < 1)
             if (this.endScan < this.MinMz)
             {
-                return new double[0, 0];
+                return;
             }
 
             this.LoadingData = true;
@@ -921,7 +921,6 @@ namespace Atreyu.Models
             this.GateData();
 
             this.LoadingData = false;
-            return returnGatedData ? this.GatedFrameData : this.FrameData;
         }
 
         /// <summary>
@@ -957,7 +956,7 @@ namespace Atreyu.Models
         /// <returns>
         /// The 2d array of doubles that represents the data, index 0 is bins, index 1 in scans.
         /// </returns>
-        public double[,] ReadData(
+        public void ReadData(
             double startMz, 
             double endMz, 
             int startFrame, 
@@ -979,7 +978,6 @@ namespace Atreyu.Models
             this.EndFrameNumber = endFrame;
             this.mostRecentHeight = height;
             this.mostRecentWidth = width;
-            return this.ReadData(returnGatedData);
         }
 
         /// <summary>
