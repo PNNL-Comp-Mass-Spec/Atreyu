@@ -249,6 +249,7 @@ namespace Atreyu.ViewModels
             }
 
             this.BpiPlotModel.InvalidatePlot(true);
+            this.ShowLogData = false;
         }
 
         /// <summary>
