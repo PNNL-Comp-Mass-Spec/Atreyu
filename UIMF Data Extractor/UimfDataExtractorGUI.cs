@@ -1,6 +1,7 @@
 namespace UimfDataExtractor
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Windows.Forms;
 
@@ -28,6 +29,10 @@ namespace UimfDataExtractor
         /// </summary>
         private bool xicEnabled;
 
+        private List<UimfExtraction> extractionProcedures;
+
+        private double selectedMz;
+
         #endregion
 
         #region Constructors and Destructors
@@ -38,6 +43,7 @@ namespace UimfDataExtractor
         public UimfDataExtractorGui()
         {
             this.InitializeComponent();
+            this.extractionProcedures = new List<UimfExtraction>();
         }
 
         #endregion
@@ -74,16 +80,15 @@ namespace UimfDataExtractor
                                             AllFrames = this.AllFrames.Checked, 
                                             BulkPeakComparison = this.BulkPeakComparison.Checked, 
                                             Frame = (int)this.FrameNumber.Value,
-                                            GetHeatmap = this.GetHeatMap.Checked, 
-                                            GetMz = this.GetMz.Checked, 
-                                            GetTiC = this.GetTic.Checked, 
-                                            GetXiC = (double)this.XicCenter.Value, 
                                             XicTolerance = (double)this.XicTolerance.Value, 
                                             Getmsms = this.Getmsms.Checked, 
                                             PeakFind = this.PeakFind.Checked, 
                                             Recursive = this.Recursive.Checked, 
-                                            Verbose = true
+                                            Verbose = true,
+                                            ExtractionTypes = this.extractionProcedures.ToArray(),
+                                            XicMz = this.selectedMz
                                         };
+
 
             UimfProcessor.ExtractData();
 
@@ -102,8 +107,15 @@ namespace UimfDataExtractor
         private void GetXicCheckedChanged(object sender, EventArgs e)
         {
             this.xicEnabled = this.GetXic.Checked;
-
             this.XicSettingsGoupBox.Enabled = this.xicEnabled;
+            if (this.xicEnabled)
+            {
+                this.extractionProcedures.Add(UimfExtraction.Heatmap);
+            }
+            else
+            {
+                this.extractionProcedures.Remove(UimfExtraction.Heatmap);
+            }
         }
 
         /// <summary>
@@ -168,6 +180,47 @@ namespace UimfDataExtractor
         {
             this.FrameNumber.Enabled = !this.AllFrames.Checked;
             this.FrameNumberLabel.Enabled = !this.AllFrames.Checked;
+        }
+
+        private void GetHeatMap_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.GetHeatMap.Checked)
+            {
+                this.extractionProcedures.Add(UimfExtraction.Heatmap);
+            }
+            else
+            {
+                this.extractionProcedures.Remove(UimfExtraction.Heatmap);
+            }
+        }
+
+        private void GetMz_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.GetMz.Checked)
+            {
+                this.extractionProcedures.Add(UimfExtraction.Heatmap);
+            }
+            else
+            {
+                this.extractionProcedures.Remove(UimfExtraction.Heatmap);
+            }
+        }
+
+        private void GetTic_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.GetTic.Checked)
+            {
+                this.extractionProcedures.Add(UimfExtraction.Heatmap);
+            }
+            else
+            {
+                this.extractionProcedures.Remove(UimfExtraction.Heatmap);
+            }
+        }
+
+        private void XicCenter_ValueChanged(object sender, EventArgs e)
+        {
+            this.selectedMz = (double)this.XicCenter.Value;
         }
     }
 }

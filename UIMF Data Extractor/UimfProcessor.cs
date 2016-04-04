@@ -389,13 +389,12 @@ namespace UimfDataExtractor
         /// <returns>
         /// The List of Key Value pairs where the Key is the scan, value is Intensity.
         /// </returns>
-        // ReSharper disable once UnusedMethodReturnValue.Local
         private static List<KeyValuePair<double, double>> GetXic(DataReader uimf, FileInfo originFile, int frameNumber)
         {
-            var xicData = GetXicInfo(uimf, frameNumber, options.GetXiC, options.XicTolerance, options.Getmsms);
+            var xicData = GetXicInfo(uimf, frameNumber, options.XicMz, options.XicTolerance, options.Getmsms);
             var xicOutputFile = DataExporter.GetOutputLocation(
-                originFile, 
-                "XiC_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance + "_Frame", 
+                originFile,
+                "XiC_mz_" + options.XicMz + "_tolerance_" + options.XicTolerance + "_Frame", 
                 frameNumber);
 
             if (xicData == null)
@@ -414,8 +413,8 @@ namespace UimfDataExtractor
             if (options.PeakFind)
             {
                 var xicPeakOutputLocation = DataExporter.GetOutputLocation(
-                    originFile, 
-                    "XiC_Peaks_mz_" + options.GetXiC + "_tolerance_" + options.XicTolerance + "_Frame", 
+                    originFile,
+                    "XiC_Peaks_mz_" + options.XicMz + "_tolerance_" + options.XicTolerance + "_Frame", 
                     frameNumber, 
                     "xml");
                 DataExporter.OutputPeaks(xicPeaks, xicPeakOutputLocation);
@@ -479,49 +478,40 @@ namespace UimfDataExtractor
                 Console.WriteLine(uimf.UimfFilePath + " Does not have bin centric data which is required to get XiC");
                 Console.WriteLine("starting to create it, this may take some time");
                 var fileName = uimf.UimfFilePath;
-                uimf.Dispose();
+                uimf.Dispose(); // why is this being disposed -- this is INSIDE a using statement! SAP 4/4/2016
 
-                var dataWriter = new DataWriter(fileName);
-                dataWriter.CreateBinCentricTables();
-                dataWriter.Dispose();
+                using (var dataWriter = new DataWriter(fileName))
+                {
+                    dataWriter.CreateBinCentricTables();
+                }
 
-                uimf = new DataReader(fileName);
+                uimf = new DataReader(fileName); // WHY IS THIS BEING SET?! This is inside a using statement! 
                 Console.WriteLine("Finished Creating bin centric tables for " + uimf.UimfFilePath);
             }
 
             List<IntensityPoint> xic;
+            var data = new List<KeyValuePair<double, double>>();
             try
             {
                 xic = uimf.GetXic(xicMz, tolerance, frametype, Tolerance);
+                var frameData = xic.Where(point => point.ScanLc == frameNumber - 1);
+
+
+
+                // I think this is more readable with a regular loop than a very long linq query
+                // ReSharper disable once LoopCanBeConvertedToQuery
+                foreach (var intensityPoint in frameData)
+                {
+                    var driftTime = uimf.GetDriftTime(intensityPoint.ScanLc + 1, intensityPoint.ScanIms, true);
+                    data.Add(new KeyValuePair<double, double>(driftTime, intensityPoint.Intensity));
+                }
             }
             catch (Exception)
             {
                 Console.Error.WriteLine("Unable to get XiC on first attempt for " + uimf.UimfFilePath);
-                var tempreader = new DataReader(uimf.UimfFilePath);
-
-                try
-                {
-                    xic = tempreader.GetXic(xicMz, tolerance, frametype, Tolerance);
-                }
-                catch (Exception)
-                {
-                    Console.Error.WriteLine(
-                        "Unable to get XiC on second attempt for " + uimf.UimfFilePath + ", we are not trying again.");
-                    return null;
-                }
             }
 
-            var frameData = xic.Where(point => point.ScanLc == frameNumber - 1);
-
-            var data = new List<KeyValuePair<double, double>>();
-
-            // I think this is more readable with a regular loop than a very long linq query
-            // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (var intensityPoint in frameData)
-            {
-                var driftTime = uimf.GetDriftTime(intensityPoint.ScanLc + 1, intensityPoint.ScanIms, true);
-                data.Add(new KeyValuePair<double, double>(driftTime, intensityPoint.Intensity));
-            }
+          
 
             return data;
         }
@@ -534,24 +524,25 @@ namespace UimfDataExtractor
             var dateString = DateTime.Now.ToString("yyyyMMdd-HHmmss");
             var inputFolder = DataExporter.InputDirectory.Name;
 
-            if (options.GetMz)
+            foreach (var extractionType in options.ExtractionTypes)
             {
-                DataExporter.OutputBulkMzPeakData(dateString, inputFolder, BulkMzPeaks);
-            }
-
-            if (options.GetTiC)
-            {
-                DataExporter.OutputBulkTicPeakData(dateString, inputFolder, BulkTicPeaks);
-            }
-
-            if (options.GetXiC > 0)
-            {
-                DataExporter.OutputBulkXicPeakData(
-                    dateString, 
-                    inputFolder, 
-                    BulkXicPeaks, 
-                    options.GetXiC, 
-                    options.XicTolerance);
+                switch (extractionType)
+                {
+                      case UimfExtraction.Mz:
+                        DataExporter.OutputBulkMzPeakData(dateString, inputFolder, BulkMzPeaks);
+                        break;
+                        case UimfExtraction.Tic:
+                        DataExporter.OutputBulkTicPeakData(dateString, inputFolder, BulkTicPeaks);
+                        break;
+                        case UimfExtraction.Xic:
+                        DataExporter.OutputBulkXicPeakData(
+                   dateString,
+                   inputFolder,
+                   BulkXicPeaks,
+                   options.XicMz,
+                   options.XicTolerance);
+                        break;
+                }
             }
         }
 
@@ -599,7 +590,10 @@ namespace UimfDataExtractor
 
                 var uimfs = directory.EnumerateFiles("*.uimf");
 
-                Parallel.ForEach(uimfs, ProcessUimf);
+                foreach (var fileInfo in uimfs)
+                {
+                    ProcessUimf(fileInfo);
+                }
             }
             else
             {
@@ -646,10 +640,12 @@ namespace UimfDataExtractor
         /// </param>
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", 
             Justification = "Reviewed. Suppression is OK here.")]
-        private static void ProcessFrame(DataReader uimf, FileInfo originFile, int frameNumber = 1)
+        private static void ProcessFrame(DataReader uimf, FileInfo originFile, IEnumerable<UimfExtraction> extractions , int frameNumber = 1)
         {
-            // eventually I will also have methods for mz and heatmap,
-            //// which is why we are sperating this into seperate funtions now
+            if (frameNumber < 0)
+            {
+                throw new ArgumentOutOfRangeException("frameNumber", frameNumber, "Frame number must be greater than 0!");
+            }
             var frameParams = uimf.GetFrameParams(frameNumber);
 
             if (frameParams == null)
@@ -664,32 +660,29 @@ namespace UimfDataExtractor
                 return;
             }
 
-            if (options.GetHeatmap)
+            foreach (var uimfExtraction in extractions)
             {
-                var heatmapData = GetFullHeatmapData(uimf, frameNumber);
-                var heatmapOutputFile = DataExporter.GetOutputLocation(originFile, "HeatMap", frameNumber);
-                DataExporter.OutputHeatMap(heatmapData, heatmapOutputFile, options.Verbose);
+                switch (uimfExtraction)
+                {
+                    case UimfExtraction.Mz:
+                        GetMz(uimf, originFile, frameNumber);
+                        break;
+                    case UimfExtraction.Tic:
+                        GetTiC(uimf, originFile, frameNumber);
+                        break;
+                    case UimfExtraction.Xic:
+                        GetXic(uimf, originFile, frameNumber);
+                        break;
+                    case UimfExtraction.Heatmap:
+                        var heatmapData = GetFullHeatmapData(uimf, frameNumber);
+                        var heatmapOutputFile = DataExporter.GetOutputLocation(originFile, "HeatMap", frameNumber);
+                        DataExporter.OutputHeatMap(heatmapData, heatmapOutputFile, options.Verbose);
+                        break;
+                }
             }
+           
 
-            if (options.GetMz)
-            {
-                GetMz(uimf, originFile, frameNumber);
-            }
-
-            if (options.GetTiC)
-            {
-                GetTiC(uimf, originFile, frameNumber);
-            }
-
-            if (options.GetXiC > 0)
-            {
-                GetXic(uimf, originFile, frameNumber);
-            }
-
-            if (options.Verbose)
-            {
-                Console.WriteLine("Finished processing Frame " + frameNumber + " of " + originFile.FullName);
-            }
+            
         }
 
         /// <summary>
@@ -716,15 +709,18 @@ namespace UimfDataExtractor
                 var framecount = uimfReader.GetGlobalParams().NumFrames;
                 if (options.AllFrames)
                 {
-                    // ReSharper disable once AccessToDisposedClosure
                     for (var i = 0; i <= framecount; i++)
                     {
-                        ProcessFrame(uimfReader, file, i);
+                        ProcessFrame(uimfReader, file, options.ExtractionTypes, i);
+                        if (options.Verbose)
+                        {
+                            Console.WriteLine("Finished processing Frame " + i + " of " + file.FullName);
+                        }
                     }
                 }
                 else
                 {
-                    ProcessFrame(uimfReader, file, options.Frame);
+                    ProcessFrame(uimfReader, file, options.ExtractionTypes, options.Frame);
                 }
             }
 

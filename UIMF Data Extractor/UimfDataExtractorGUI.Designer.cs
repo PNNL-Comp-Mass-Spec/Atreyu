@@ -99,6 +99,7 @@
             this.GetHeatMap.TabIndex = 3;
             this.GetHeatMap.Text = "Get Heat Map";
             this.GetHeatMap.UseVisualStyleBackColor = true;
+            this.GetHeatMap.CheckedChanged += new System.EventHandler(this.GetHeatMap_CheckedChanged);
             // 
             // GetMz
             // 
@@ -109,6 +110,7 @@
             this.GetMz.TabIndex = 4;
             this.GetMz.Text = "Get m/z";
             this.GetMz.UseVisualStyleBackColor = true;
+            this.GetMz.CheckedChanged += new System.EventHandler(this.GetMz_CheckedChanged);
             // 
             // GetTic
             // 
@@ -119,11 +121,12 @@
             this.GetTic.TabIndex = 5;
             this.GetTic.Text = "Get TiC";
             this.GetTic.UseVisualStyleBackColor = true;
+            this.GetTic.CheckedChanged += new System.EventHandler(this.GetTic_CheckedChanged);
             // 
             // PeakFind
             // 
             this.PeakFind.AutoSize = true;
-            this.PeakFind.Location = new System.Drawing.Point(11, 156);
+            this.PeakFind.Location = new System.Drawing.Point(11, 178);
             this.PeakFind.Name = "PeakFind";
             this.PeakFind.Size = new System.Drawing.Size(158, 17);
             this.PeakFind.TabIndex = 6;
@@ -133,7 +136,7 @@
             // Recursive
             // 
             this.Recursive.AutoSize = true;
-            this.Recursive.Location = new System.Drawing.Point(11, 180);
+            this.Recursive.Location = new System.Drawing.Point(11, 201);
             this.Recursive.Name = "Recursive";
             this.Recursive.Size = new System.Drawing.Size(175, 17);
             this.Recursive.TabIndex = 7;
@@ -143,7 +146,7 @@
             // GetXic
             // 
             this.GetXic.AutoSize = true;
-            this.GetXic.Location = new System.Drawing.Point(11, 204);
+            this.GetXic.Location = new System.Drawing.Point(11, 155);
             this.GetXic.Name = "GetXic";
             this.GetXic.Size = new System.Drawing.Size(62, 17);
             this.GetXic.TabIndex = 8;
@@ -234,6 +237,7 @@
             this.XicCenter.Name = "XicCenter";
             this.XicCenter.Size = new System.Drawing.Size(120, 20);
             this.XicCenter.TabIndex = 0;
+            this.XicCenter.ValueChanged += new System.EventHandler(this.XicCenter_ValueChanged);
             // 
             // ExtractDataDisabledLabel
             // 
@@ -305,7 +309,7 @@
             // 
             this.FrameNumber.Location = new System.Drawing.Point(94, 14);
             this.FrameNumber.Maximum = new decimal(new int[] {
-            int.MaxValue,
+            2147483647,
             0,
             0,
             0});
