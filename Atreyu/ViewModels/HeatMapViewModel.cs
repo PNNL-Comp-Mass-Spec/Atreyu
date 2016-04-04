@@ -110,6 +110,7 @@ namespace Atreyu.ViewModels
         private bool _needsEventHandle;
         private double[,] logArray;
         private bool _showLogData;
+private  bool _heatmapWhite;
 
         #endregion
 
@@ -385,10 +386,15 @@ namespace Atreyu.ViewModels
                         Position = AxisPosition.Right,
                         Minimum = 1,
                         Title = "Intensity",
-                        LowColor = OxyColors.Black,
                         IsAxisVisible = this.AxisVisible,
                         Palette = SelectedPalette.Palette
                     };
+                    if (MakeHeatmapWhite)
+                        linearColorAxis1.LowColor = OxyColors.White;
+                    else
+                    {
+                        linearColorAxis1.LowColor = OxyColors.Black;
+                    }
 
                     this.HeatMapPlotModel.Axes.Add(linearColorAxis1);
                     
@@ -678,6 +684,18 @@ namespace Atreyu.ViewModels
             {
                 this.RaiseAndSetIfChanged(ref this._showLogData, value);
                 UpdateHeatmapData();
+            }
+        }
+
+        public bool MakeHeatmapWhite
+        {
+            get { return _heatmapWhite; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this._heatmapWhite, value);
+                var colorAxis = this.heatMapPlotModel.Axes[0] as LinearColorAxis;
+                colorAxis.LowColor = MakeHeatmapWhite ? OxyColors.White : OxyColors.Black;
+                this.heatMapPlotModel.InvalidatePlot(true);
             }
         }
     }

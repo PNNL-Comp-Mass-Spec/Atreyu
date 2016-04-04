@@ -39,13 +39,14 @@
         </Grid>-->
         <TextBlock Grid.Row="0" Text="{Binding MzDisplay}" Background="White" HorizontalAlignment="Left" Margin="10,0"></TextBlock>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
-            <ComboBox ItemsSource="{Binding Path=AvailableColors}" SelectedItem="{Binding Path=SelectedPalette}" ItemTemplate="{StaticResource SolidColorTemplate}" Height="20"></ComboBox>
-            <TextBlock HorizontalAlignment="Left" Background="White" FontSize="12">Heatmap Palette</TextBlock>
+            <ComboBox ItemsSource="{Binding Path=AvailableColors}" SelectedItem="{Binding Path=SelectedPalette}" ItemTemplate="{StaticResource SolidColorTemplate}" Height="20" Margin="5,0,5,0"></ComboBox>
+            <TextBlock HorizontalAlignment="Left" Background="White" FontSize="12" Margin="5,0,5,0">Heatmap Palette</TextBlock>
         </StackPanel>
         <TextBlock Grid.Row="0" Text="{Binding TofDisplay}" Background="White" HorizontalAlignment="Right" Margin="10,0"></TextBlock>
         
-        <StackPanel Grid.Row="0" Grid.Column="1">
-            <CheckBox IsChecked="{Binding ShowLogData}">Show Log Heatmap</CheckBox>
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+            <CheckBox IsChecked="{Binding ShowLogData}" Margin="5,0,5,0">Show Log Heatmap</CheckBox>
+            <CheckBox IsChecked="{Binding MakeHeatmapWhite}" Margin="5,0,5,0">White Heatmap Background</CheckBox>
         </StackPanel>
         
         <wpf:PlotView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="HeatMapPlot" Model="{Binding HeatMapPlotModel}" Margin="0,5,0,0" />

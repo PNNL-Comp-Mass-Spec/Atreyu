@@ -125,6 +125,7 @@ namespace Atreyu.ViewModels
         private List<DataPoint> dataArray = new List<DataPoint>();
         private List<DataPoint> logArray = new List<DataPoint>();
         private bool _showLogData;
+        private double _maxValue;
 
         #endregion
 
@@ -286,9 +287,7 @@ namespace Atreyu.ViewModels
                                       MinimumPadding = 0.1, 
                                       MaximumPadding = 0.1, 
                                       IsPanEnabled = false, 
-                                      IsAxisVisible = true, 
-                                      TitlePosition = 0,
-                                      Title = "Intensity"
+                                      IsAxisVisible = false
                                   };
 
             this.BpiPlotModel.Axes.Add(linearYAxis);
@@ -357,6 +356,7 @@ namespace Atreyu.ViewModels
         {
             var series = this.BpiPlotModel.Series[0] as LineSeries;
             series.Points.RemoveRange(0, series.Points.Count);
+            MaxValue = 0;
             var data = new List<DataPoint>();
             if (ShowLogData)
             {
@@ -369,8 +369,12 @@ namespace Atreyu.ViewModels
             foreach (var point in data)
             {
                 series.Points.Add(point);
+                if (MaxValue < point.Y)
+                    MaxValue = point.Y;
             }
             this.BpiPlotModel.InvalidatePlot(true);
         }
+
+        public double MaxValue { get { return _maxValue; } set { this.RaiseAndSetIfChanged(ref _maxValue, value); } }
     }
 }
