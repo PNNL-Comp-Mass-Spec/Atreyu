@@ -39,6 +39,11 @@
         {
         }
 
+        public override void OutputBulkPeaks(IEnumerable<BulkPeakData> peakData)
+        {
+            return;
+        }
+
         protected override void Extract(DataReader uimf, FileInfo originFile, int frameNumber)
         {
             var heatmapData = GetFullHeatmapData(uimf, frameNumber);

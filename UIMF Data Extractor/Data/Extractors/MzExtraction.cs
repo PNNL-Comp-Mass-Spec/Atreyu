@@ -60,6 +60,11 @@
         {
         }
 
+        public override void OutputBulkPeaks(IEnumerable<BulkPeakData> peakData)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void Extract(DataReader uimf, FileInfo originFile, int frameNumber)
         {
             var mzData = GetFullMzInfo(uimf, frameNumber);

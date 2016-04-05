@@ -49,24 +49,6 @@ namespace UimfDataExtractor
 
         #endregion
 
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the bulk mz peaks.
-        /// </summary>
-        private static ConcurrentBag<BulkPeakData> BulkMzPeaks { get; set; }
-
-        /// <summary>
-        /// Gets or sets the bulk tic peaks.
-        /// </summary>
-        private static ConcurrentBag<BulkPeakData> BulkTicPeaks { get; set; }
-
-        /// <summary>
-        /// Gets or sets the bulk xic peaks.
-        /// </summary>
-        private static ConcurrentBag<BulkPeakData> BulkXicPeaks { get; set; }
-
-        #endregion
 
         #region Public Methods and Operators
 
@@ -81,9 +63,6 @@ namespace UimfDataExtractor
                                                ? DataExporter.InputDirectory
                                                : new DirectoryInfo(Options.OutputPath);
 
-            BulkMzPeaks = new ConcurrentBag<BulkPeakData>();
-            BulkTicPeaks = new ConcurrentBag<BulkPeakData>();
-            BulkXicPeaks = new ConcurrentBag<BulkPeakData>();
 
             if (Options.Verbose)
             {
@@ -103,11 +82,6 @@ namespace UimfDataExtractor
                 ProcessAllUimfInDirectory(DataExporter.InputDirectory);
             }
 
-            if (Options.BulkPeakComparison)
-            {
-                OutputBulkPeaks();
-            }
-
             Console.WriteLine();
             Console.WriteLine("All done.");
         }
@@ -120,36 +94,6 @@ namespace UimfDataExtractor
 
 
 
-
-        /// <summary>
-        /// Outputs the bulk peaks collected during the run.
-        /// </summary>
-        private static void OutputBulkPeaks()
-        {
-            var dateString = DateTime.Now.ToString("yyyyMMdd-HHmmss");
-            var inputFolder = DataExporter.InputDirectory.Name;
-
-            foreach (var extractionType in options.ExtractionTypes)
-            {
-                switch (extractionType)
-                {
-                      case Extraction.Mz:
-                        DataExporter.OutputBulkMzPeakData(dateString, inputFolder, BulkMzPeaks);
-                        break;
-                        case Extraction.Tic:
-                        DataExporter.OutputBulkTicPeakData(dateString, inputFolder, BulkTicPeaks);
-                        break;
-                        case Extraction.Xic:
-                        DataExporter.OutputBulkXicPeakData(
-                   dateString,
-                   inputFolder,
-                   BulkXicPeaks,
-                   options.XicMz,
-                   options.XicTolerance);
-                        break;
-                }
-            }
-        }
 
         /// <summary>
         /// Print a not found error.
@@ -269,7 +213,7 @@ namespace UimfDataExtractor
             {
                 if (Options.BulkPeakComparison || Options.PeakFind)
                 {
-                    uimfExtraction.ComparePeaks(uimf, originFile, frameNumber);
+                   var peaks = uimfExtraction.ComparePeaks(uimf, originFile, frameNumber);
                 }
                 else
                 {

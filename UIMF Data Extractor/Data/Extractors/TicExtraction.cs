@@ -37,6 +37,11 @@
         {
         }
 
+        public override void OutputBulkPeaks(IEnumerable<BulkPeakData> peakData)
+        {
+            throw new System.NotImplementedException();
+        }
+
         protected override void Extract(DataReader uimf, FileInfo originFile, int frameNumber)
         {
             var ticData = GetFullScanInfo(uimf, frameNumber);

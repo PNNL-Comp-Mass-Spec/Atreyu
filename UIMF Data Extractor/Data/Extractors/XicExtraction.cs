@@ -51,11 +51,10 @@
                 Console.WriteLine("Finished Creating bin centric tables for " + uimf.UimfFilePath);
             }
 
-            List<IntensityPoint> xic;
             var data = new List<KeyValuePair<double, double>>();
             try
             {
-                xic = uimf.GetXic(xicMz, tolerance, frametype, Tolerance);
+                var xic = uimf.GetXic(xicMz, tolerance, frametype, Tolerance);
                 var frameData = xic.Where(point => point.ScanLc == frameNumber - 1);
 
 
@@ -80,6 +79,11 @@
         public XicExtraction(CommandLineOptions options)
             : base(options)
         {
+        }
+
+        public override void OutputBulkPeaks(IEnumerable<BulkPeakData> peakData)
+        {
+            
         }
 
         protected override void Extract(DataReader uimf, FileInfo originFile, int frameNumber)

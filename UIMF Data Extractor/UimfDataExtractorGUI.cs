@@ -156,14 +156,14 @@ namespace UimfDataExtractor
         /// </param>
         private void SetOutputDirectoryClick(object sender, EventArgs e)
         {
-            var dialog = new FolderBrowserDialog();
+            var dialog = new CommonOpenFileDialog { IsFolderPicker = true };
 
-            if (dialog.ShowDialog() != DialogResult.OK)
+            if (dialog.ShowDialog() != CommonFileDialogResult.Ok)
             {
                 return;
             }
 
-            this.outputDirectory = dialog.SelectedPath;
+            this.outputDirectory = dialog.FileName;
             this.OutputDirectoryLabel.Text = this.outputDirectory;
         }
 
