@@ -2,6 +2,8 @@ namespace UimfDataExtractor
 {
     using System;
 
+    using CommandLine;
+
     using UimfDataExtractor.Models;
 
     /// <summary>
@@ -30,7 +32,8 @@ namespace UimfDataExtractor
             {
                 UimfProcessor.Options = new CommandLineOptions();
 
-                if (!CommandLine.Parser.Default.ParseArgumentsStrict(args, UimfProcessor.Options))
+                var result = CommandLine.Parser.Default.ParseArguments<CommandLineOptions>(args);
+                if (result.Tag == ParserResultType.NotParsed)
                 {
                     return;
                 }

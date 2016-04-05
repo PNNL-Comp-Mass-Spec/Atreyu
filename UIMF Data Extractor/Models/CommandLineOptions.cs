@@ -30,13 +30,13 @@ namespace UimfDataExtractor.Models
         /// <summary>
         /// Gets or sets the frame to output.
         /// </summary>
-        [Option('f', "frame", HelpText = "Outputs a specific frame", DefaultValue = 1)]
+        [Option('f', "frame", HelpText = "Outputs a specific frame", Default = 1)]
         public int Frame { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to get the heat map.
         /// </summary>
-        [OptionArray('e', "extraction types", 
+        [CommandLine.Option('e', "extraction types", 
             HelpText = "Specifies that you want the two-dimensional heatmap data")]
         public UimfExtraction[] ExtractionTypes { get; set; }
         /// <summary>
@@ -62,12 +62,6 @@ namespace UimfDataExtractor.Models
         public string OutputPath { get; set; }
 
         /// <summary>
-        /// Gets or sets the last parser state, allowing for the automatic delivering of parsing errors.
-        /// </summary>
-        [ParserState]
-        public IParserState LastParserState { get; set; }
-
-        /// <summary>
         /// Gets or sets a value indicating whether to peak find and print out information.
         /// </summary>
         [Option('p', "peakfind", 
@@ -89,7 +83,7 @@ namespace UimfDataExtractor.Models
         /// <summary>
         /// Gets or sets the tolerance in Thompsons for the extracted ion chromatogram.
         /// </summary>
-        [Option('t', "tolerance", DefaultValue = 0.5, 
+        [Option('t', "tolerance", Default = 0.5, 
             HelpText = "Specifies the tolerance from the m/z that you want for the XiC")]
         public double XicTolerance { get; set; }
 
@@ -106,7 +100,6 @@ namespace UimfDataExtractor.Models
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        [HelpOption]
         public string GetUsage()
         {
             var help = new HelpText
@@ -131,18 +124,18 @@ namespace UimfDataExtractor.Models
             help.AddPreOptionsLine("      If no output directory is specified, then it will default to the same");
             help.AddPreOptionsLine("      folder as the UIMF");
 
-            if (this.LastParserState.Errors.Any())
-            {
-                var errors = help.RenderParsingErrorsText(this, 2); // indent with two spaces
+            //if (this.LastParserState.Errors.Any())
+            //{
+            //    var errors = help.RenderParsingErrorsText(this, 2); // indent with two spaces
 
-                if (!string.IsNullOrEmpty(errors))
-                {
-                    help.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR(S):"));
-                    help.AddPreOptionsLine(errors);
-                }
-            }
+            //    if (!string.IsNullOrEmpty(errors))
+            //    {
+            //        help.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR(S):"));
+            //        help.AddPreOptionsLine(errors);
+            //    }
+            //}
 
-            help.AddOptions(this);
+            help.AddEnumValuesToHelpText = true;
 
             return help;
         }

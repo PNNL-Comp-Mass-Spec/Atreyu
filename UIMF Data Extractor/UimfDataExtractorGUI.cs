@@ -5,6 +5,8 @@ namespace UimfDataExtractor
     using System.Threading.Tasks;
     using System.Windows.Forms;
 
+    using Microsoft.WindowsAPICodePack.Dialogs;
+
     using UimfDataExtractor.Models;
 
     /// <summary>
@@ -110,11 +112,11 @@ namespace UimfDataExtractor
             this.XicSettingsGoupBox.Enabled = this.xicEnabled;
             if (this.xicEnabled)
             {
-                this.extractionProcedures.Add(UimfExtraction.Heatmap);
+                this.extractionProcedures.Add(UimfExtraction.Xic);
             }
             else
             {
-                this.extractionProcedures.Remove(UimfExtraction.Heatmap);
+                this.extractionProcedures.Remove(UimfExtraction.Xic);
             }
         }
 
@@ -129,14 +131,14 @@ namespace UimfDataExtractor
         /// </param>
         private void SetInputDirectoryClick(object sender, EventArgs e)
         {
-            var dialog = new FolderBrowserDialog();
+            var dialog = new CommonOpenFileDialog { IsFolderPicker = true };
 
-            if (dialog.ShowDialog() != DialogResult.OK)
+            if (dialog.ShowDialog() != CommonFileDialogResult.Ok)
             {
                 return;
             }
 
-            this.inputDirectory = dialog.SelectedPath;
+            this.inputDirectory = dialog.FileName;
             this.ExtractDataDisabledLabel.Visible = false;
             this.Extract.Enabled = true;
 
@@ -198,11 +200,11 @@ namespace UimfDataExtractor
         {
             if (this.GetMz.Checked)
             {
-                this.extractionProcedures.Add(UimfExtraction.Heatmap);
+                this.extractionProcedures.Add(UimfExtraction.Mz);
             }
             else
             {
-                this.extractionProcedures.Remove(UimfExtraction.Heatmap);
+                this.extractionProcedures.Remove(UimfExtraction.Mz);
             }
         }
 
@@ -210,11 +212,11 @@ namespace UimfDataExtractor
         {
             if (this.GetTic.Checked)
             {
-                this.extractionProcedures.Add(UimfExtraction.Heatmap);
+                this.extractionProcedures.Add(UimfExtraction.Tic);
             }
             else
             {
-                this.extractionProcedures.Remove(UimfExtraction.Heatmap);
+                this.extractionProcedures.Remove(UimfExtraction.Tic);
             }
         }
 
