@@ -31,7 +31,7 @@ namespace UimfDataExtractor
         /// </summary>
         private bool xicEnabled;
 
-        private List<UimfExtraction> extractionProcedures;
+        private List<Extraction> extractionProcedures;
 
         private double selectedMz;
 
@@ -45,7 +45,7 @@ namespace UimfDataExtractor
         public UimfDataExtractorGui()
         {
             this.InitializeComponent();
-            this.extractionProcedures = new List<UimfExtraction>();
+            this.extractionProcedures = new List<Extraction>();
         }
 
         #endregion
@@ -112,11 +112,11 @@ namespace UimfDataExtractor
             this.XicSettingsGoupBox.Enabled = this.xicEnabled;
             if (this.xicEnabled)
             {
-                this.extractionProcedures.Add(UimfExtraction.Xic);
+                this.extractionProcedures.Add(Extraction.Xic);
             }
             else
             {
-                this.extractionProcedures.Remove(UimfExtraction.Xic);
+                this.extractionProcedures.Remove(Extraction.Xic);
             }
         }
 
@@ -188,11 +188,11 @@ namespace UimfDataExtractor
         {
             if (this.GetHeatMap.Checked)
             {
-                this.extractionProcedures.Add(UimfExtraction.Heatmap);
+                this.extractionProcedures.Add(Extraction.Heatmap);
             }
             else
             {
-                this.extractionProcedures.Remove(UimfExtraction.Heatmap);
+                this.extractionProcedures.Remove(Extraction.Heatmap);
             }
         }
 
@@ -200,11 +200,11 @@ namespace UimfDataExtractor
         {
             if (this.GetMz.Checked)
             {
-                this.extractionProcedures.Add(UimfExtraction.Mz);
+                this.extractionProcedures.Add(Extraction.Mz);
             }
             else
             {
-                this.extractionProcedures.Remove(UimfExtraction.Mz);
+                this.extractionProcedures.Remove(Extraction.Mz);
             }
         }
 
@@ -212,11 +212,11 @@ namespace UimfDataExtractor
         {
             if (this.GetTic.Checked)
             {
-                this.extractionProcedures.Add(UimfExtraction.Tic);
+                this.extractionProcedures.Add(Extraction.Tic);
             }
             else
             {
-                this.extractionProcedures.Remove(UimfExtraction.Tic);
+                this.extractionProcedures.Remove(Extraction.Tic);
             }
         }
 

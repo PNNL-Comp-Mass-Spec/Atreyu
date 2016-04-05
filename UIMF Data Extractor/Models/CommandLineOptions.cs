@@ -38,7 +38,7 @@ namespace UimfDataExtractor.Models
         /// </summary>
         [CommandLine.Option('e', "extraction types", 
             HelpText = "Specifies that you want the two-dimensional heatmap data")]
-        public UimfExtraction[] ExtractionTypes { get; set; }
+        public Extraction[] ExtractionTypes { get; set; }
         /// <summary>
         /// Gets or sets a value indicating whether to get ms ms data.
         /// </summary>

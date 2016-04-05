@@ -27,8 +27,9 @@ namespace Utilities
         /// <returns>
         /// The <see cref="System.Collections.Generic.List{T}"/> of peaks.
         /// </returns>
-        public static PeakSet FindPeaks(IReadOnlyList<KeyValuePair<double, double>> dataList, int numberOfTopPeaks = 0)
+        public static PeakSet FindPeaks(IEnumerable<KeyValuePair<double, double>> data, int numberOfTopPeaks = 0)
         {
+            var dataList = data.ToList();
             const int Precision = 100000;
 
             var peakDetector = new PeakDetector();

@@ -1,6 +1,6 @@
 ﻿namespace UimfDataExtractor
 {
-    public enum UimfExtraction
+    public enum Extraction
     {
         Mz,
         Xic,

@@ -89,6 +89,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataExporter.cs" />
+    <Compile Include="Data\Extractors\HeatmapExtraction.cs" />
+    <Compile Include="Data\Extractors\MzExtraction.cs" />
+    <Compile Include="Data\Extractors\TicExtraction.cs" />
+    <Compile Include="Data\Extractors\UimfExtraction.cs" />
+    <Compile Include="Data\Extractors\XicExtraction.cs" />
     <Compile Include="Models\BulkPeakData.cs" />
     <Compile Include="Models\CommandLineOptions.cs" />
     <Compile Include="Program.cs" />
@@ -99,7 +104,7 @@
     <Compile Include="UimfDataExtractorGUI.Designer.cs">
       <DependentUpon>UimfDataExtractorGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="UimfExtraction.cs" />
+    <Compile Include="Extraction.cs" />
     <Compile Include="UimfProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
