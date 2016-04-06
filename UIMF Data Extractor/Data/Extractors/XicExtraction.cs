@@ -31,7 +31,7 @@
             double tolerance,
             bool getMsms)
         {
-            const DataReader.ToleranceType Tolerance = DataReader.ToleranceType.Thomson;
+            const DataReader.ToleranceType Tolerance = DataReader.ToleranceType.PPM;
 
             var frametype = getMsms ? DataReader.FrameType.MS2 : DataReader.FrameType.MS1;
 
@@ -88,50 +88,65 @@
 
         protected override void Extract(DataReader uimf, FileInfo originFile, int frameNumber)
         {
-            var xicData = GetXicInfo(uimf, frameNumber, this.Options.XicMz, this.Options.XicTolerance, this.Options.Getmsms);
-            var xicOutputFile = DataExporter.GetOutputLocation(
-                originFile,
-                "XiC_mz_" + this.Options.XicMz + "_tolerance_" + this.Options.XicTolerance + "_Frame",
-                frameNumber);
-
-            if (xicData == null)
+            foreach (var xicTarget in Options.XicTargetList)
             {
-                return;
+                var xicData = GetXicInfo(uimf, frameNumber, xicTarget.TargetMz, xicTarget.Tolerance, this.Options.Getmsms);
+                var xicOutputFile = DataExporter.GetOutputLocation(
+                    originFile,
+                    "XiC_mz_" + xicTarget.TargetMz + "_tolerance_" + xicTarget.Tolerance + "_Frame",
+                    frameNumber);
+
+                if (xicData == null)
+                {
+                    return;
+                }
+
+                DataExporter.OutputXiCbyTime(xicData, xicOutputFile, this.Options.Verbose);
+            }
+          
+
+        }
+
+        protected override IEnumerable<PeakSet> BulkPeakFind(DataReader uimf, FileInfo originFile, int frameNumber)
+        {
+            var peakSets = new List<PeakSet>();
+            foreach (var xicTarget in Options.XicTargetList)
+            {
+                var xicData = GetXicInfo(uimf, frameNumber, xicTarget.TargetMz, xicTarget.Tolerance, this.Options.Getmsms);
+                var xicPeaks = PeakFinder.FindPeaks(xicData);
+                var xicPeakOutputLocation = DataExporter.GetOutputLocation(
+                       originFile,
+                       "XiC_Peaks_mz_" + xicTarget.TargetMz + "_tolerance_" + xicTarget.Tolerance + "_Frame",
+                       frameNumber,
+                       "xml");
+                DataExporter.OutputPeaks(xicPeaks, xicPeakOutputLocation);
+
+               peakSets.Add(xicPeaks);
             }
 
-            DataExporter.OutputXiCbyTime(xicData, xicOutputFile, this.Options.Verbose);
-
+            return peakSets;
         }
 
-        protected override PeakSet BulkPeakFind(DataReader uimf, FileInfo originFile, int frameNumber)
-        {
-            var xicData = GetXicInfo(uimf, frameNumber, this.Options.XicMz, this.Options.XicTolerance, this.Options.Getmsms);
-            var xicPeaks = PeakFinder.FindPeaks(xicData);
-            var xicPeakOutputLocation = DataExporter.GetOutputLocation(
-                   originFile,
-                   "XiC_Peaks_mz_" + this.Options.XicMz + "_tolerance_" + this.Options.XicTolerance + "_Frame",
-                   frameNumber,
-                   "xml");
-            DataExporter.OutputPeaks(xicPeaks, xicPeakOutputLocation);
-
-            return xicPeaks;
-        }
-
-        protected override IEnumerable<BulkPeakData> PeakCompare(PeakSet peakSet, FileInfo originFile, int frameNumber)
+        protected override IEnumerable<BulkPeakData> PeakCompare(IEnumerable<PeakSet> peakSet, FileInfo originFile, int frameNumber)
         {
             var bulkPeakList = new List<BulkPeakData>();
-            foreach (var peak in peakSet.Peaks)
+
+            foreach (var set in peakSet)
             {
-                var temp = new BulkPeakData
+                foreach (var peak in set.Peaks)
                 {
-                    FileName = originFile.Name,
-                    FrameNumber = frameNumber,
-                    Location = peak.PeakCenter,
-                    FullWidthHalfMax = peak.FullWidthHalfMax,
-                    ResolvingPower = peak.ResolvingPower
-                };
-                bulkPeakList.Add(temp);
+                    var temp = new BulkPeakData
+                    {
+                        FileName = originFile.Name,
+                        FrameNumber = frameNumber,
+                        Location = peak.PeakCenter,
+                        FullWidthHalfMax = peak.FullWidthHalfMax,
+                        ResolvingPower = peak.ResolvingPower
+                    };
+                    bulkPeakList.Add(temp);
+                }
             }
+          
 
             return bulkPeakList;
         }

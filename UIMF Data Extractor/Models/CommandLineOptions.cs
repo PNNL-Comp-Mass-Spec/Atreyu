@@ -1,6 +1,7 @@
 namespace UimfDataExtractor.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
@@ -80,17 +81,14 @@ namespace UimfDataExtractor.Models
         [Option('v', "verbose", HelpText = "Print details during execution. *NotImplementedWellYet*")]
         public bool Verbose { get; set; }
 
-        /// <summary>
-        /// Gets or sets the tolerance in Thompsons for the extracted ion chromatogram.
-        /// </summary>
-        [Option('t', "tolerance", Default = 0.5, 
-            HelpText = "Specifies the tolerance from the m/z that you want for the XiC")]
-        public double XicTolerance { get; set; }
-
-        [Option('m', "xic mz", HelpText = "The selected m/z for XIC")]
-        public double XicMz { get; set; }
+        public List<XicTarget> XicTargetList { get; private set; }
 
         #endregion
+
+        public CommandLineOptions()
+        {
+            this.XicTargetList = new List<XicTarget>();
+        }
 
         #region Public Methods and Operators
 

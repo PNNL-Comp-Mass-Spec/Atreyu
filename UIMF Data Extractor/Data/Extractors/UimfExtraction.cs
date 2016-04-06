@@ -57,8 +57,8 @@
 
         protected abstract void Extract(DataReader uimf, FileInfo originFile, int frameNumber);
 
-        protected abstract PeakSet BulkPeakFind(DataReader uimf, FileInfo originFile, int frameNumber);
+        protected abstract IEnumerable<PeakSet> BulkPeakFind(DataReader uimf, FileInfo originFile, int frameNumber);
 
-        protected abstract IEnumerable<BulkPeakData> PeakCompare(PeakSet peakSet, FileInfo originFile, int frameNumber);
+        protected abstract IEnumerable<BulkPeakData> PeakCompare(IEnumerable<PeakSet> peakSets, FileInfo originFile, int frameNumber);
     }
 }

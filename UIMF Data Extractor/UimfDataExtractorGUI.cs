@@ -61,20 +61,15 @@ namespace UimfDataExtractor
         /// <param name="e">
         /// The e.
         /// </param>
-        private void ExtractClick(object sender, EventArgs e)
+        private async void ExtractClick(object sender, EventArgs e)
         {
-            this.Enabled = false;
+           // this.Enabled = false;
+            var targets = new List<XicTarget>();
 
-            Task.Run(
-                () =>
-                    {
-                        MessageBox.Show(
-                            "Work started, controls will be re-enabled when complete.  See console for more details.", 
-                            "Extraction Started", 
-                            MessageBoxButtons.OK, 
-                            MessageBoxIcon.Information);
-                    });
-
+            foreach (var item in this.xicTargetBindingSource.List)
+            {
+                targets.Add(item as XicTarget);
+            }
             UimfProcessor.Options = new CommandLineOptions
                                         {
                                             InputPath = this.inputDirectory, 
@@ -82,19 +77,19 @@ namespace UimfDataExtractor
                                             AllFrames = this.AllFrames.Checked, 
                                             BulkPeakComparison = this.BulkPeakComparison.Checked, 
                                             Frame = (int)this.FrameNumber.Value,
-                                            XicTolerance = (double)this.XicTolerance.Value, 
                                             Getmsms = this.Getmsms.Checked, 
                                             PeakFind = this.PeakFind.Checked, 
                                             Recursive = this.Recursive.Checked, 
                                             Verbose = true,
-                                            ExtractionTypes = this.extractionProcedures.ToArray(),
-                                            XicMz = this.selectedMz
-                                        };
+                                            ExtractionTypes = this.extractionProcedures.ToArray()
+            };
+
+            UimfProcessor.Options.XicTargetList.AddRange(targets);
 
 
-            UimfProcessor.ExtractData();
+            await UimfProcessor.ExtractData();
 
-            this.Enabled = true;
+         //   this.Enabled = true;
         }
 
         /// <summary>
@@ -218,11 +213,6 @@ namespace UimfDataExtractor
             {
                 this.extractionProcedures.Remove(Extraction.Tic);
             }
-        }
-
-        private void XicCenter_ValueChanged(object sender, EventArgs e)
-        {
-            this.selectedMz = (double)this.XicCenter.Value;
         }
     }
 }

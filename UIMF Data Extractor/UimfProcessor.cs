@@ -55,35 +55,40 @@ namespace UimfDataExtractor
         /// <summary>
         /// The extract data method is the entry function to this process, it assumes you have set all the options already.
         /// </summary>
-        public static void ExtractData()
+        public static async Task ExtractData()
         {
-            DataExporter.InputDirectory = new DirectoryInfo(Options.InputPath);
+            await Task.Run(
+                () =>
+                    {
+                        DataExporter.InputDirectory = new DirectoryInfo(Options.InputPath);
 
-            DataExporter.OutputDirectory = string.IsNullOrWhiteSpace(Options.OutputPath)
-                                               ? DataExporter.InputDirectory
-                                               : new DirectoryInfo(Options.OutputPath);
+                        DataExporter.OutputDirectory = string.IsNullOrWhiteSpace(Options.OutputPath)
+                                                           ? DataExporter.InputDirectory
+                                                           : new DirectoryInfo(Options.OutputPath);
 
 
-            if (Options.Verbose)
-            {
-                Console.WriteLine("Verbose Active");
-                Console.WriteLine("Input Directory: " + DataExporter.InputDirectory.FullName);
-                Console.WriteLine("Output Directory: " + DataExporter.OutputDirectory.FullName);
-                Console.WriteLine("Run Recursively?: " + Options.Recursive);
-                Console.WriteLine("Process All Frames in File?: " + Options.AllFrames);
-            }
+                        if (Options.Verbose)
+                        {
+                            Console.WriteLine("Verbose Active");
+                            Console.WriteLine("Input Directory: " + DataExporter.InputDirectory.FullName);
+                            Console.WriteLine("Output Directory: " + DataExporter.OutputDirectory.FullName);
+                            Console.WriteLine("Run Recursively?: " + Options.Recursive);
+                            Console.WriteLine("Process All Frames in File?: " + Options.AllFrames);
+                        }
 
-            if (Options.Recursive)
-            {
-                ProcessAllUimfInDirectoryRecursive(DataExporter.InputDirectory);
-            }
-            else
-            {
-                ProcessAllUimfInDirectory(DataExporter.InputDirectory);
-            }
+                        if (Options.Recursive)
+                        {
+                            ProcessAllUimfInDirectoryRecursive(DataExporter.InputDirectory);
+                        }
+                        else
+                        {
+                            ProcessAllUimfInDirectory(DataExporter.InputDirectory);
+                        }
 
-            Console.WriteLine();
-            Console.WriteLine("All done.");
+                        Console.WriteLine();
+                        Console.WriteLine("All done.");
+                    });
+
         }
 
         #endregion

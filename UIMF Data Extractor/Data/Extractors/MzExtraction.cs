@@ -79,7 +79,7 @@
             DataExporter.OutputMz(mzData, mzOutputFile, this.Options.Verbose);
         }
 
-        protected override PeakSet BulkPeakFind(DataReader uimf, FileInfo originFile, int frameNumber)
+        protected override IEnumerable<PeakSet> BulkPeakFind(DataReader uimf, FileInfo originFile, int frameNumber)
         {
             var mzData = GetFullMzInfo(uimf, frameNumber);
             var doubleMzData =
@@ -94,24 +94,30 @@
                     frameNumber,
                     "xml");
             DataExporter.OutputPeaks(mzpeaks, mzPeakOutputLocation);
-            return mzpeaks;
+            var peakSet = new List<PeakSet>();
+            peakSet.Add(mzpeaks);
+            return peakSet;
         }
 
-        protected override IEnumerable<BulkPeakData> PeakCompare(PeakSet peakSet, FileInfo originFile, int frameNumber)
+        protected override IEnumerable<BulkPeakData> PeakCompare(IEnumerable<PeakSet> peakSet, FileInfo originFile, int frameNumber)
         {
             var bulkPeakList = new List<BulkPeakData>();
-            foreach (var peak in peakSet.Peaks)
+            foreach (var set in peakSet)
             {
-                var temp = new BulkPeakData
+                foreach (var peak in set.Peaks)
                 {
-                    FileName = originFile.Name,
-                    FrameNumber = frameNumber,
-                    Location = peak.PeakCenter,
-                    FullWidthHalfMax = peak.FullWidthHalfMax,
-                    ResolvingPower = peak.ResolvingPower
-                };
-                bulkPeakList.Add(temp);
+                    var temp = new BulkPeakData
+                    {
+                        FileName = originFile.Name,
+                        FrameNumber = frameNumber,
+                        Location = peak.PeakCenter,
+                        FullWidthHalfMax = peak.FullWidthHalfMax,
+                        ResolvingPower = peak.ResolvingPower
+                    };
+                    bulkPeakList.Add(temp);
+                }
             }
+          
 
             return bulkPeakList;
         }

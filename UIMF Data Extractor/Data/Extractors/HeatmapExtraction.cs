@@ -51,12 +51,12 @@
             DataExporter.OutputHeatMap(heatmapData, heatmapOutputFile, this.Options.Verbose);
         }
 
-        protected override PeakSet BulkPeakFind(DataReader uimf, FileInfo originFile, int frameNumber)
+        protected override IEnumerable<PeakSet> BulkPeakFind(DataReader uimf, FileInfo originFile, int frameNumber)
         {
-            return new PeakSet();
+            return new List<PeakSet>();
         }
 
-        protected override IEnumerable<BulkPeakData> PeakCompare(PeakSet peakSet, FileInfo originFile, int frameNumber)
+        protected override IEnumerable<BulkPeakData> PeakCompare(IEnumerable<PeakSet> peakSet, FileInfo originFile, int frameNumber)
         {
             return null;
         }

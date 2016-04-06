@@ -50,7 +50,7 @@
             DataExporter.OutputTiCbyTime(ticData, ticOutputFile, this.Options.Verbose);
         }
 
-        protected override PeakSet BulkPeakFind(DataReader uimf, FileInfo originFile, int frameNumber)
+        protected override IEnumerable<PeakSet> BulkPeakFind(DataReader uimf, FileInfo originFile, int frameNumber)
         {
             var ticData = GetFullScanInfo(uimf, frameNumber);
             var doubleTicData =
@@ -64,25 +64,30 @@
                    frameNumber,
                    "xml");
             DataExporter.OutputPeaks(ticPeaks, mzPeakOutputLocation);
-            return ticPeaks;
+            var peakSets = new List<PeakSet>();
+            peakSets.Add(ticPeaks);
+            return peakSets;
         }
 
-        protected override IEnumerable<BulkPeakData> PeakCompare(PeakSet peakSet, FileInfo originFile, int frameNumber)
+        protected override IEnumerable<BulkPeakData> PeakCompare(IEnumerable<PeakSet> peakSet, FileInfo originFile, int frameNumber)
         {
             var bulkPeakList = new List<BulkPeakData>();
-            foreach (var peak in peakSet.Peaks)
-            {
-                var temp = new BulkPeakData
-                {
-                    FileName = originFile.Name,
-                    FrameNumber = frameNumber,
-                    Location = peak.PeakCenter,
-                    FullWidthHalfMax = peak.FullWidthHalfMax,
-                    ResolvingPower = peak.ResolvingPower
-                };
-               bulkPeakList.Add(temp);
-            }
 
+            foreach (var set in peakSet)
+            {
+                foreach (var peak in set.Peaks)
+                {
+                    var temp = new BulkPeakData
+                    {
+                        FileName = originFile.Name,
+                        FrameNumber = frameNumber,
+                        Location = peak.PeakCenter,
+                        FullWidthHalfMax = peak.FullWidthHalfMax,
+                        ResolvingPower = peak.ResolvingPower
+                    };
+                    bulkPeakList.Add(temp);
+                }
+            }
             return bulkPeakList;
         }
     }
