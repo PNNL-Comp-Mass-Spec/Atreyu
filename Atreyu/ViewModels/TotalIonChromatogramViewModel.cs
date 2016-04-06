@@ -216,7 +216,7 @@ namespace Atreyu.ViewModels
             }
 
 
-            timeFactor = uimfData.TenthsOfNanoSecondsPerBin/10.0;
+            timeFactor = uimfData.TenthsOfNanoSecondsPerBin / 1000000000.0;
             this.frameData = data;
 
             if (this.endScan == 0)
@@ -276,7 +276,7 @@ namespace Atreyu.ViewModels
                                      AbsoluteMinimum = 0, 
                                      IsPanEnabled = false, 
                                      IsZoomEnabled = false, 
-                                     Title = "nS", 
+                                     Title = "Seconds", 
                                      MinorTickSize = 0
                                  };
             this.TicPlotModel.Axes.Add(linearAxis);

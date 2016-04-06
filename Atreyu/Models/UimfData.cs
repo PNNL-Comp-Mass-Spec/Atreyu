@@ -180,11 +180,12 @@ namespace Atreyu.Models
         {
             this.RangeUpdateList = new ConcurrentQueue<Range>();
             this.dataReader = new DataReader(uimfFile);
-            this.TenthsOfNanoSecondsPerBin = dataReader.TenthsOfNanoSecondsPerBin;
+            this.TenthsOfNanoSecondsPerBin = 0.0;
             var global = this.dataReader.GetGlobalParams();
             this.Frames = this.dataReader.GetGlobalParams().NumFrames;
             this.MaxBins = global.Bins;
             this.Calibrator = this.dataReader.GetMzCalibrator(this.dataReader.GetFrameParams(1));
+            this.TenthsOfNanoSecondsPerBin = Convert.ToDouble(this.dataReader.GetFrameParams(1).Values[FrameParamKeyType.AverageTOFLength].Value);
             this.MaxMz = this.Calibrator.BinToMZ(global.Bins);
             this.MinMz = this.Calibrator.BinToMZ(0);
             this.TotalMzRange = this.MaxMz - this.MinMz;
@@ -1213,5 +1214,12 @@ namespace Atreyu.Models
         public double[,] FrameCollapsed { get; set; }
 
         public double TenthsOfNanoSecondsPerBin { get; set; }
+
+        internal void UpdateTofTime(int frameNumber)
+        {
+            TenthsOfNanoSecondsPerBin =
+                Convert.ToDouble(
+                    this.dataReader.GetFrameParams(frameNumber).Values[FrameParamKeyType.AverageTOFLength].Value);
+        }
     }
 }

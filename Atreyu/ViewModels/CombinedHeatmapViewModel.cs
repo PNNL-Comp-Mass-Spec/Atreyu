@@ -562,6 +562,9 @@ namespace Atreyu.ViewModels
         {
             this.currentStartFrame = frameNumber;
             this.currentEndFrame = frameNumber;
+            if(frameNumber != 0)
+                this.UimfData.UpdateTofTime(frameNumber);
+    
             if (this.UimfData != null)
             {
                 this.UimfData.ReadData(

@@ -208,7 +208,7 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            timeFactor = uimfData.TenthsOfNanoSecondsPerBin/10.0;
+            timeFactor = uimfData.TenthsOfNanoSecondsPerBin/1000000000.0;
             //if (frameData == null)
             //{
                 this.frameData = data;
@@ -277,7 +277,7 @@ namespace Atreyu.ViewModels
                                      AbsoluteMinimum = 0, 
                                      IsPanEnabled = false, 
                                      IsZoomEnabled = false, 
-                                     Title = "nS", 
+                                     Title = "Seconds", 
                                      MinorTickSize = 0
                                  };
             this.BpiPlotModel.Axes.Add(linearAxis);
