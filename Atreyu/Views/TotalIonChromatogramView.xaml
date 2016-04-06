@@ -20,15 +20,20 @@
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             
             <Label Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left">Start Scan</Label>
             <xctk:IntegerUpDown Grid.Column="0" Grid.Row="1" Width="80" HorizontalAlignment="Left" IsEnabled="{Binding UimfLoaded}" Minimum="0" Maximum="{Binding MaxScan}" Value="{Binding StartScan}"></xctk:IntegerUpDown>
             
-            <Label Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right">End Scan</Label>
-            <xctk:IntegerUpDown Grid.Column="1" Grid.Row="1" Width="80" HorizontalAlignment="Right" IsEnabled="{Binding UimfLoaded}" Minimum="0" Maximum="{Binding MaxScan}" Value="{Binding EndScan}"></xctk:IntegerUpDown>
+            <Label Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center">Max Intensity</Label>
+            <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Text="{Binding MaxValue}"></TextBlock>
+
+
+            <Label Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right">End Scan</Label>
+            <xctk:IntegerUpDown Grid.Column="2" Grid.Row="1" Width="80" HorizontalAlignment="Right" IsEnabled="{Binding UimfLoaded}" Minimum="0" Maximum="{Binding MaxScan}" Value="{Binding EndScan}"></xctk:IntegerUpDown>
         </Grid>
 	</Grid>
 </UserControl>

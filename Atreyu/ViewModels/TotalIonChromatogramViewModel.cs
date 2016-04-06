@@ -72,6 +72,7 @@ namespace Atreyu.ViewModels
         private List<DataPoint> logArray = new List<DataPoint>();
         private bool _showLogData;
         private double _maxValue;
+        private double timeFactor;
 
         #endregion
 
@@ -214,8 +215,9 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            
-                this.frameData = data;
+
+            timeFactor = uimfData.TenthsOfNanoSecondsPerBin/10.0;
+            this.frameData = data;
 
             if (this.endScan == 0)
             {
@@ -244,8 +246,8 @@ namespace Atreyu.ViewModels
             this.logArray.Clear();
             foreach (var d in this.frameDictionary)
             {
-                this.dataArray.Add(new DataPoint(d.Key, d.Value));
-                this.logArray.Add(new DataPoint(d.Key, Math.Log10(d.Value)));
+                this.dataArray.Add(new DataPoint(d.Key * timeFactor, d.Value));
+                this.logArray.Add(new DataPoint(d.Key * timeFactor, Math.Log10(d.Value)));
             }
             UpdatePlotData();
             
@@ -274,7 +276,7 @@ namespace Atreyu.ViewModels
                                      AbsoluteMinimum = 0, 
                                      IsPanEnabled = false, 
                                      IsZoomEnabled = false, 
-                                     Title = "Scan", 
+                                     Title = "nS", 
                                      MinorTickSize = 0
                                  };
             this.TicPlotModel.Axes.Add(linearAxis);
@@ -375,7 +377,7 @@ namespace Atreyu.ViewModels
             }
             this.TicPlotModel.InvalidatePlot(true);
         }
-        public double MaxValue { get { return _maxValue; } set { this.RaiseAndSetIfChanged(ref _maxValue, value); } }
 
+        public double MaxValue { get { return _maxValue; } set { this.RaiseAndSetIfChanged(ref _maxValue, value); } }
     }
 }

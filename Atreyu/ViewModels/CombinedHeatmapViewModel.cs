@@ -161,10 +161,19 @@ namespace Atreyu.ViewModels
                 this.FrameManipulationViewModel.UpdateUimf(data);
                 this.HeatMapViewModel.UpdateReference(data);
                 this.MzSpectraViewModel.UpdateReference(data);
-                this.TotalIonChromatogramViewModel.UpdateReference(data);
                 this.BasePeakIntensityViewModel.UpdateReference(data);
+                this.TotalIonChromatogramViewModel.UpdateReference(data);
                 this.TofCalibratorViewModel.UpdateExistingCalib(data, this.currentFile);
             });
+
+            this.WhenAnyValue(vm => vm.UimfData.FrameData)
+                .Subscribe(data =>
+                {
+                    this.HeatMapViewModel.UpdateData(data);
+                    this.MzSpectraViewModel.UpdateFrameData(data);
+                    this.TotalIonChromatogramViewModel.UpdateFrameData(data);
+                    this.BasePeakIntensityViewModel.UpdateFrameData(data);
+                });
 
             // update the frame data of the TIC plot when needed; apparently the Throttler should always specify the schedule.
             this.WhenAnyValue(vm => vm.UimfData.GatedFrameData)
@@ -173,6 +182,7 @@ namespace Atreyu.ViewModels
                     this.HeatMapViewModel.UpdateData(data);
                     this.MzSpectraViewModel.UpdateFrameData(data);
                     this.TotalIonChromatogramViewModel.UpdateFrameData(data);
+                    Thread.Sleep(50);
                     this.BasePeakIntensityViewModel.UpdateFrameData(data);
                 });
 

@@ -69,7 +69,8 @@
 
         <views:BasePeakIntensityView Grid.Row="3" Grid.Column="2" 
                                         Grid.ColumnSpan="2" DataContext="{Binding Path=BasePeakIntensityViewModel}" 
-                                        Visibility="{Binding BpiVisible}" Background="White"></views:BasePeakIntensityView>
+                                        Visibility="{Binding BpiVisible}" Background="White">
+        </views:BasePeakIntensityView>
 
 
     </Grid>

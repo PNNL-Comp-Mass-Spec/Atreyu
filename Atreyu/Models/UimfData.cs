@@ -180,6 +180,7 @@ namespace Atreyu.Models
         {
             this.RangeUpdateList = new ConcurrentQueue<Range>();
             this.dataReader = new DataReader(uimfFile);
+            this.TenthsOfNanoSecondsPerBin = dataReader.TenthsOfNanoSecondsPerBin;
             var global = this.dataReader.GetGlobalParams();
             this.Frames = this.dataReader.GetGlobalParams().NumFrames;
             this.MaxBins = global.Bins;
@@ -1210,5 +1211,7 @@ namespace Atreyu.Models
         public double UncompressedDeltaMz { get; set; }
 
         public double[,] FrameCollapsed { get; set; }
+
+        public double TenthsOfNanoSecondsPerBin { get; set; }
     }
 }

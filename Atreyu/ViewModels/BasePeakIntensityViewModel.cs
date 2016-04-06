@@ -126,6 +126,7 @@ namespace Atreyu.ViewModels
         private List<DataPoint> logArray = new List<DataPoint>();
         private bool _showLogData;
         private double _maxValue;
+        private double timeFactor;
 
         #endregion
 
@@ -207,6 +208,7 @@ namespace Atreyu.ViewModels
                 return;
             }
 
+            timeFactor = uimfData.TenthsOfNanoSecondsPerBin/10.0;
             //if (frameData == null)
             //{
                 this.frameData = data;
@@ -245,8 +247,8 @@ namespace Atreyu.ViewModels
             this.logArray.Clear();
             foreach (var d in this.frameDictionary)
             {
-                this.dataArray.Add(new DataPoint(d.Key, d.Value));
-                this.logArray.Add(new DataPoint(d.Key, Math.Log10(d.Value)));
+                this.dataArray.Add(new DataPoint(d.Key * timeFactor, d.Value));
+                this.logArray.Add(new DataPoint(d.Key * timeFactor, Math.Log10(d.Value)));
             }
 
             this.BpiPlotModel.InvalidatePlot(true);
@@ -269,13 +271,13 @@ namespace Atreyu.ViewModels
             }
 
             this.BpiPlotModel = new PlotModel();
-            var linearAxis = new OxyPlot.Axes.LinearAxis
+            var linearAxis = new LinearAxis
                                  {
                                      Position = AxisPosition.Bottom, 
                                      AbsoluteMinimum = 0, 
                                      IsPanEnabled = false, 
                                      IsZoomEnabled = false, 
-                                     Title = "Scan", 
+                                     Title = "nS", 
                                      MinorTickSize = 0
                                  };
             this.BpiPlotModel.Axes.Add(linearAxis);
@@ -286,7 +288,7 @@ namespace Atreyu.ViewModels
                                       AbsoluteMinimum = 0, 
                                       MinimumPadding = 0.1, 
                                       MaximumPadding = 0.1, 
-                                      IsPanEnabled = false, 
+                                      IsPanEnabled = false,
                                       IsAxisVisible = false
                                   };
 
@@ -297,45 +299,7 @@ namespace Atreyu.ViewModels
         }
 
         #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Find the peaks in the current data set and adds an annotation point with the resolution to the TIC.
-        /// </summary>
-        private void FindPeaks()
-        {
-            this.bpiPlotModel.Annotations.Clear();
-
-            // Create a new dictionary so we don't modify the original one
-            var tempFrameDict = new Dictionary<double, double>(this.uimfData.Scans);
-
-            for (var i = 0; i < this.uimfData.Scans; i++)
-            {
-                // this is a hack to make the library work and return the proper location index
-                double junk;
-                tempFrameDict.Add(i, this.frameDictionary.TryGetValue(i, out junk) ? junk : 0);
-            }
-
-            var results = Utilities.PeakFinder.FindPeaks(tempFrameDict.ToList());
-
-            foreach (var peakInformation in results.Peaks)
-            {
-                var resolutionString = peakInformation.ResolvingPower.ToString("F1", CultureInfo.InvariantCulture);
-
-                var peakPoint = new OxyPlot.Annotations.PointAnnotation
-                                    {
-                                        Text = "R=" + resolutionString, 
-                                        X = peakInformation.PeakCenter, 
-                                        Y = peakInformation.Intensity / 2.5, 
-                                        ToolTip = peakInformation.ToString()
-                                    };
-                this.bpiPlotModel.Annotations.Add(peakPoint);
-            }
-        }
-
-        #endregion
-
+        
         public Visibility BpiVisible
         {
             get { return _bpiVisible; }
