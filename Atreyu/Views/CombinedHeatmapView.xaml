@@ -55,6 +55,7 @@
         <StackPanel Grid.Row="3" Grid.Column="4" Background="White">
             <RadioButton GroupName="XaxisView" IsChecked="{Binding Path=TicEnabled}" Margin="0,5" HorizontalAlignment="Center">TIC View</RadioButton>
             <RadioButton GroupName="XaxisView" IsChecked="{Binding Path=BpiEnabled}" Margin="0,5" HorizontalAlignment="Center">BPI View</RadioButton>
+            <CheckBox IsChecked="{Binding Path=ShowScanTime}" Margin="0,5" HorizontalAlignment="Center">Show Scan Time</CheckBox>
         </StackPanel>
 
         <!--<views:HeatMapView Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" DataContext="{Binding Path=HeatMapViewModel}">

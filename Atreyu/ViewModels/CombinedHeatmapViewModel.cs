@@ -94,6 +94,7 @@ namespace Atreyu.ViewModels
         private bool _rangeEnabled;
         private bool _calibEnabled;
         private Visibility _rangeVisible;
+        private bool _showScanTime;
 
         #endregion
 
@@ -328,8 +329,6 @@ namespace Atreyu.ViewModels
             {
                 var value = this.HeatMapViewModel.ShowLogData;
                 this.MzSpectraViewModel.ShowLogData = value;
-                this.BasePeakIntensityViewModel.ShowLogData = value;
-                this.TotalIonChromatogramViewModel.ShowLogData = value;
             });
         }
 
@@ -722,6 +721,17 @@ namespace Atreyu.ViewModels
         }
 
         #endregion
+
+        public bool ShowScanTime
+        {
+            get { return this._showScanTime; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _showScanTime, value);
+                this.BasePeakIntensityViewModel.ShowScanTime = value;
+                this.TotalIonChromatogramViewModel.ShowScanTime = value;
+            }
+        }
 
         public Visibility BpiVisible
         {

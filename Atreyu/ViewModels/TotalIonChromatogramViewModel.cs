@@ -216,7 +216,7 @@ namespace Atreyu.ViewModels
             }
 
 
-            timeFactor = uimfData.TenthsOfNanoSecondsPerBin / 1000000000.0;
+            timeFactor = uimfData.TenthsOfNanoSecondsPerBin / 1000000.0;
             this.frameData = data;
 
             if (this.endScan == 0)
@@ -247,7 +247,7 @@ namespace Atreyu.ViewModels
             foreach (var d in this.frameDictionary)
             {
                 this.dataArray.Add(new DataPoint(d.Key * timeFactor, d.Value));
-                this.logArray.Add(new DataPoint(d.Key * timeFactor, Math.Log10(d.Value)));
+                this.logArray.Add(new DataPoint(d.Key, d.Value));
             }
             UpdatePlotData();
             
@@ -274,9 +274,10 @@ namespace Atreyu.ViewModels
                                  {
                                      Position = AxisPosition.Bottom, 
                                      AbsoluteMinimum = 0, 
-                                     IsPanEnabled = false, 
-                                     IsZoomEnabled = false, 
-                                     Title = "Seconds", 
+                                     IsPanEnabled = false,
+                                     IsZoomEnabled = false,
+                                     Title = "Mobility Scan",
+                                     Unit = "Scan Number",
                                      MinorTickSize = 0
                                  };
             this.TicPlotModel.Axes.Add(linearAxis);
@@ -345,7 +346,7 @@ namespace Atreyu.ViewModels
         }
 
 
-        public bool ShowLogData
+        public bool ShowScanTime
         {
             get { return _showLogData; }
             set
@@ -358,16 +359,21 @@ namespace Atreyu.ViewModels
         private void UpdatePlotData()
         {
             var series = this.TicPlotModel.Series[0] as LineSeries;
+            var axis = this.TicPlotModel.Axes[0] as LinearAxis;
             series.Points.RemoveRange(0, series.Points.Count);
             var data = new List<DataPoint>();
             MaxValue = 0;
-            if (ShowLogData)
+            if (this.ShowScanTime)
             {
-                data = logArray;
+                data = dataArray;
+                axis.Title = "Arrival Time";
+                axis.Unit = "ms";
             }
             else
             {
-                data = dataArray;
+                data = logArray;
+                axis.Title = "Mobility Scan";
+                axis.Unit = "Scan Number";
             }
             foreach (var point in data)
             {

@@ -338,7 +338,7 @@ namespace Atreyu.ViewModels
             this.frameDictionary = new Dictionary<double, double>();
             this.mzFrameData = new Dictionary<double, double>();
 
-            for (var j = 0; j < this.frameData.GetLength(1); j++)
+            for (var j = 0; j < Math.Min(this.BinToMzMap.Length, this.frameData.GetLength(1)); j++)
             {
                 var mzIndex = this.BinToMzMap[j];
 
@@ -371,7 +371,6 @@ namespace Atreyu.ViewModels
                     foreach (var d in this.mzFrameData)
                     {
                         this.dataArray.Add(new DataPoint(d.Value, d.Key));
-                        this.logArray.Add(new DataPoint(Math.Log10(d.Value), d.Key));
                     }
                 }
 
@@ -477,14 +476,7 @@ namespace Atreyu.ViewModels
             var series = this.MzPlotModel.Series[0] as LineSeries;
             series.Points.RemoveRange(0, series.Points.Count);
             var data = new List<DataPoint>();
-            if (ShowLogData)
-            {
-                data = logArray;
-            }
-            else
-            {
-                data = dataArray;
-            }
+            data = dataArray;
             foreach (var point in data)
             {
                 series.Points.Add(point);

@@ -208,7 +208,7 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            timeFactor = uimfData.TenthsOfNanoSecondsPerBin/1000000000.0;
+            timeFactor = uimfData.TenthsOfNanoSecondsPerBin/1000000.0;
             //if (frameData == null)
             //{
                 this.frameData = data;
@@ -248,11 +248,11 @@ namespace Atreyu.ViewModels
             foreach (var d in this.frameDictionary)
             {
                 this.dataArray.Add(new DataPoint(d.Key * timeFactor, d.Value));
-                this.logArray.Add(new DataPoint(d.Key * timeFactor, Math.Log10(d.Value)));
+                this.logArray.Add(new DataPoint(d.Key, d.Value));
             }
 
             this.BpiPlotModel.InvalidatePlot(true);
-            this.ShowLogData = false;
+            this.ShowScanTime = false;
         }
 
         /// <summary>
@@ -277,7 +277,8 @@ namespace Atreyu.ViewModels
                                      AbsoluteMinimum = 0, 
                                      IsPanEnabled = false, 
                                      IsZoomEnabled = false, 
-                                     Title = "Seconds", 
+                                     Title = "Mobility Scan",
+                                     Unit = "Scan Number",
                                      MinorTickSize = 0
                                  };
             this.BpiPlotModel.Axes.Add(linearAxis);
@@ -306,7 +307,7 @@ namespace Atreyu.ViewModels
             set { this.RaiseAndSetIfChanged(ref this._bpiVisible, value); }
         }
 
-        public bool ShowLogData
+        public bool ShowScanTime
         {
             get { return _showLogData; }
             set
@@ -319,16 +320,21 @@ namespace Atreyu.ViewModels
         private void UpdatePlotData()
         {
             var series = this.BpiPlotModel.Series[0] as LineSeries;
+            var axis = this.BpiPlotModel.Axes[0] as LinearAxis;
             series.Points.RemoveRange(0, series.Points.Count);
             MaxValue = 0;
             var data = new List<DataPoint>();
-            if (ShowLogData)
+            if (this.ShowScanTime)
             {
-                data = logArray;
+                data = dataArray;
+                axis.Title = "Arrival Time";
+                axis.Unit = "ms";
             }
             else
             {
-                data = dataArray;
+                data = logArray;
+                axis.Title = "Mobility Scan";
+                axis.Unit = "Scan Number";
             }
             foreach (var point in data)
             {
