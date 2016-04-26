@@ -95,6 +95,7 @@ namespace Atreyu.ViewModels
         private bool _calibEnabled;
         private Visibility _rangeVisible;
         private bool _showScanTime;
+        private bool _showFrameCollapsed;
 
         #endregion
 
@@ -170,7 +171,14 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.UimfData.FrameData)
                 .Subscribe(data =>
                 {
-                    this.HeatMapViewModel.UpdateData(data);
+                    if (!ShowFrameCollapsed)
+                    {
+                        this.HeatMapViewModel.UpdateData(data);
+                    }
+                    else if (this.uimfData.FrameCollapsed != null)
+                    {
+                        this.HeatMapViewModel.UpdateData(this.uimfData.FrameCollapsed);
+                    }
                     this.MzSpectraViewModel.UpdateFrameData(data);
                     this.TotalIonChromatogramViewModel.UpdateFrameData(data);
                     this.BasePeakIntensityViewModel.UpdateFrameData(data);
@@ -762,6 +770,26 @@ namespace Atreyu.ViewModels
             {
                 this.RaiseAndSetIfChanged(ref this._ticEnabled, value);
                 TicVisible = value ? Visibility.Visible : Visibility.Hidden;
+            }
+        }
+
+        public bool ShowFrameCollapsed
+        {
+            get { return this._showFrameCollapsed; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this._showFrameCollapsed, value);
+                //if (this.uimfData != null && this.uimfData.FrameData != null)
+                //{
+                //    if (!value)
+                //    {
+                //        this.HeatMapViewModel.UpdateData(this.uimfData.FrameData);
+                //    }
+                //    else
+                //    {
+                //        this.HeatMapViewModel.UpdateData(this.uimfData.FrameCollapsed);
+                //    }
+                //}
             }
         }
 
