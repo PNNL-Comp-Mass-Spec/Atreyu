@@ -885,7 +885,7 @@ namespace Atreyu.Models
                             (int)this.ValuesPerPixelY);
                         this.FrameData = temp;
 
-                        double[,] collapsedFrame = new double[this.EndScan - this.StartScan + 1, Frames - StartFrameNumber + 1];
+                        double[,] collapsedFrame = new double[Frames - StartFrameNumber + 1, this.EndScan - this.StartScan + 1];
                         for (var i = 1; i < this.Frames + 1; i++)
                         {
                             var frame = this.dataReader.AccumulateFrameData(i, i, false,
@@ -895,7 +895,7 @@ namespace Atreyu.Models
                             {
                                 for (int mzindex = 0; mzindex < frame.GetLength(1); mzindex++)
                                 {
-                                    collapsedFrame[scan, i-1] += frame[scan, mzindex];
+                                    collapsedFrame[i-1, scan] += frame[scan, mzindex];
                                 }
                             }
                         }

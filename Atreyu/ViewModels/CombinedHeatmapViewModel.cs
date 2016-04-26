@@ -779,17 +779,17 @@ namespace Atreyu.ViewModels
             set
             {
                 this.RaiseAndSetIfChanged(ref this._showFrameCollapsed, value);
-                //if (this.uimfData != null && this.uimfData.FrameData != null)
-                //{
-                //    if (!value)
-                //    {
-                //        this.HeatMapViewModel.UpdateData(this.uimfData.FrameData);
-                //    }
-                //    else
-                //    {
-                //        this.HeatMapViewModel.UpdateData(this.uimfData.FrameCollapsed);
-                //    }
-                //}
+                if (this.uimfData != null && this.uimfData.FrameData != null)
+                {
+                    if (!value)
+                    {
+                        this.HeatMapViewModel.UpdateData(this.uimfData.FrameData);
+                    }
+                    else
+                    {
+                        this.HeatMapViewModel.UpdateData(this.uimfData.FrameCollapsed);
+                    }
+                }
             }
         }
 
