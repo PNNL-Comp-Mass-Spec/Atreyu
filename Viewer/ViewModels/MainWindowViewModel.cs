@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Text;
+using Viewer.Views;
 
 namespace Viewer.ViewModels
 {
@@ -48,6 +49,15 @@ namespace Viewer.ViewModels
 
             this.ExportCompressedBpiData = ReactiveCommand.Create();
             this.ExportCompressedBpiData.Subscribe(x => this.SaveExportedBpiCompressedData());
+
+            this.DisplayAboutWindow = ReactiveCommand.Create();
+            this.DisplayAboutWindow.Subscribe(x => this.SpawnAboutWindow());
+        }
+
+        private void SpawnAboutWindow()
+        {
+            var window = new AboutWindowView();
+            window.ShowDialog();
         }
 
         #endregion
@@ -363,5 +373,7 @@ namespace Viewer.ViewModels
         }
 
         #endregion
+
+        public ReactiveCommand<object> DisplayAboutWindow { get; set; }
     }
 }

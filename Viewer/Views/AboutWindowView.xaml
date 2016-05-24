@@ -1,0 +1,25 @@
+﻿<Window x:Class="Viewer.Views.AboutWindowView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        Height="Auto" Width="Auto"
+        MaxHeight="300" MaxWidth="300"
+        MinHeight="150" MinWidth="150"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <TextBlock HorizontalAlignment="Center" Margin="15" TextWrapping="Wrap">Developed at Pacific Northwest National Laboratory by Michael Degan and Spencer Prost</TextBlock>
+            
+            <TextBlock HorizontalAlignment="Center" Margin="10" TextWrapping="Wrap">Copyright 2015</TextBlock>
+        </StackPanel>
+
+        <Button Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" Height="30" Width="60" Click="ButtonBase_OnClick">Ok</Button>    
+    </Grid>
+</Window>

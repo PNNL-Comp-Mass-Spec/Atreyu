@@ -341,7 +341,7 @@ namespace Atreyu.ViewModels
         }
 
         #endregion
-
+        
         #region Public Properties
 
         /// <summary>

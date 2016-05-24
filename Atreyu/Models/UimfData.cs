@@ -1235,7 +1235,7 @@ namespace Atreyu.Models
         {
             TenthsOfNanoSecondsPerBin =
                 Convert.ToDouble(
-                    this.dataReader.GetFrameParams(frameNumber).Values[FrameParamKeyType.AverageTOFLength].Value);
+                    this.dataReader.GetFrameParams(1).Values[FrameParamKeyType.AverageTOFLength].Value);
         }
     }
 }

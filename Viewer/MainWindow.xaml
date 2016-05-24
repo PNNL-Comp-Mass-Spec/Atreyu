@@ -7,13 +7,14 @@
         Width="1280"
         Height="960">
     <DockPanel Name="MainDockPanel">
-         <Menu DockPanel.Dock="Top">
-                <MenuItem Header="_Export">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_Export">
                 <MenuItem Header="_Heatmap" Command="{Binding Path=ExportCompressedHeatmapData}" />
                 <MenuItem Header="_m/z" Command="{Binding Path=ExportCompressedMzData}"/>
                 <MenuItem Header="_TiC" Command="{Binding Path=ExportCompressedTicData}"/>
                 <MenuItem Header="_Bpi" Command="{Binding Path=ExportCompressedBpiData}"/>
             </MenuItem>
+            <MenuItem Header="About" Command="{Binding Path=DisplayAboutWindow}"></MenuItem>
         </Menu>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
