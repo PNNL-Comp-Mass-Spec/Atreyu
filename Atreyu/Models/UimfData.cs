@@ -180,10 +180,12 @@ namespace Atreyu.Models
         {
             this.RangeUpdateList = new ConcurrentQueue<Range>();
             this.dataReader = new DataReader(uimfFile);
+            this.TenthsOfNanoSecondsPerBin = 0.0;
             var global = this.dataReader.GetGlobalParams();
             this.Frames = this.dataReader.GetGlobalParams().NumFrames;
             this.MaxBins = global.Bins;
             this.Calibrator = this.dataReader.GetMzCalibrator(this.dataReader.GetFrameParams(1));
+            this.TenthsOfNanoSecondsPerBin = Convert.ToDouble(this.dataReader.GetFrameParams(1).Values[FrameParamKeyType.AverageTOFLength].Value);
             this.MaxMz = this.Calibrator.BinToMZ(global.Bins);
             this.MinMz = this.Calibrator.BinToMZ(0);
             this.TotalMzRange = this.MaxMz - this.MinMz;
@@ -742,6 +744,7 @@ namespace Atreyu.Models
 
         private double prevYPixels;
         private double[,] _uncompressed;
+        private double[] binToTofMap;
 
         /// <summary>
         /// The read data.
@@ -752,23 +755,24 @@ namespace Atreyu.Models
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        public double[,] ReadData(bool returnGatedData = false)
+        public void ReadData(bool returnGatedData = false)
         {
             //if (this.CurrentMaxMz < 1)
             if (this.CurrentMaxMz < this.MinMz)
             {
-                return new double[0, 0];
+                return;
             }
 
             //if (this.endScan < 1)
             if (this.endScan < this.MinMz)
             {
-                return new double[0, 0];
+                return;
             }
 
             this.LoadingData = true;
 
             var frameParams = this.dataReader.GetFrameParams(this.startFrameNumber);
+            UncompressedDeltaMz = this.dataReader.GetDeltaMz(1);
 
             if (frameParams == null)
             {
@@ -881,6 +885,22 @@ namespace Atreyu.Models
                             (int)this.ValuesPerPixelY);
                         this.FrameData = temp;
 
+                        double[,] collapsedFrame = new double[Frames - StartFrameNumber + 1, this.EndScan - this.StartScan + 1];
+                        for (var i = 1; i < this.Frames + 1; i++)
+                        {
+                            var frame = this.dataReader.AccumulateFrameData(i, i, false,
+                            this.StartScan, this.EndScan, currentMinBin, currentMaxBin,
+                            this.ValuesPerPixelX, this.ValuesPerPixelY);
+                            for (int scan = 0; scan < frame.GetLength(0); scan++)
+                            {
+                                for (int mzindex = 0; mzindex < frame.GetLength(1); mzindex++)
+                                {
+                                    collapsedFrame[i-1, scan] += frame[scan, mzindex];
+                                }
+                            }
+                        }
+                        FrameCollapsed = collapsedFrame;
+
                         var uncompressed = this.dataReader.AccumulateFrameData(
                             this.startFrameNumber,
                             this.endFrameNumber,
@@ -910,14 +930,15 @@ namespace Atreyu.Models
                 {
                     tof[i] = this.dataReader.GetBinForPixel((int) Math.Round(i*ValuesPerPixelY));
                     mz[i] = this.calibrator.BinToMZ(tof[i]);
+                    tof[i] = this.calibrator.MZtoTOF(mz[i])/10000.0;
                 }
                 this.BinToMzMap = mz;
+                this.BinToTofMap = tof;
             }
 
             this.GateData();
 
             this.LoadingData = false;
-            return returnGatedData ? this.GatedFrameData : this.FrameData;
         }
 
         /// <summary>
@@ -953,7 +974,7 @@ namespace Atreyu.Models
         /// <returns>
         /// The 2d array of doubles that represents the data, index 0 is bins, index 1 in scans.
         /// </returns>
-        public double[,] ReadData(
+        public void ReadData(
             double startMz, 
             double endMz, 
             int startFrame, 
@@ -975,7 +996,6 @@ namespace Atreyu.Models
             this.EndFrameNumber = endFrame;
             this.mostRecentHeight = height;
             this.mostRecentWidth = width;
-            return this.ReadData(returnGatedData);
         }
 
         /// <summary>
@@ -1191,5 +1211,31 @@ namespace Atreyu.Models
         {
             this.RaiseAndSetIfChanged(ref this._uncompressed, value);
         } }
+
+        public double[] BinToTofMap
+        {
+            get
+            {
+                return this.binToTofMap;
+            }
+
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref this.binToTofMap, value);
+            }
+        }
+
+        public double UncompressedDeltaMz { get; set; }
+
+        public double[,] FrameCollapsed { get; set; }
+
+        public double TenthsOfNanoSecondsPerBin { get; set; }
+
+        internal void UpdateTofTime(int frameNumber)
+        {
+            TenthsOfNanoSecondsPerBin =
+                Convert.ToDouble(
+                    this.dataReader.GetFrameParams(1).Values[FrameParamKeyType.AverageTOFLength].Value);
+        }
     }
 }

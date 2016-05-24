@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Windows;
 using Xceed.Wpf.DataGrid.Converters;
 
@@ -90,6 +91,11 @@ namespace Atreyu.ViewModels
         private bool _ticEnabled;
         private Visibility _ticVisible;
         private Visibility _bpiVisible;
+        private bool _rangeEnabled;
+        private bool _calibEnabled;
+        private Visibility _rangeVisible;
+        private bool _showScanTime;
+        private bool _showFrameCollapsed;
 
         #endregion
 
@@ -109,12 +115,15 @@ namespace Atreyu.ViewModels
             this.LowValueGateSliderViewModel = new GateSliderViewModel();
             this.TotalIonChromatogramViewModel = new TotalIonChromatogramViewModel();
             this.BasePeakIntensityViewModel = new BasePeakIntensityViewModel();
+            this.TofCalibratorViewModel = new ToFCalibratorViewModel();
 
             this.LowValueGateSliderViewModel.ControlLabel = "Low Gate";
             this.LowValueGateSliderViewModel.UpdateGate(0);
 
             this.TicEnabled = true;
             this.BpiEnabled = false;
+            this.RangeEnabled = true;
+            this.CalibEnabled = false;
 
             // Shows loading image
             this.WhenAnyValue(vm => vm.UimfData.LoadingData).Subscribe(x => this.CircularWaitIsVisible = x);
@@ -154,9 +163,26 @@ namespace Atreyu.ViewModels
                 this.FrameManipulationViewModel.UpdateUimf(data);
                 this.HeatMapViewModel.UpdateReference(data);
                 this.MzSpectraViewModel.UpdateReference(data);
-                this.TotalIonChromatogramViewModel.UpdateReference(data);
                 this.BasePeakIntensityViewModel.UpdateReference(data);
+                this.TotalIonChromatogramViewModel.UpdateReference(data);
+                this.TofCalibratorViewModel.UpdateExistingCalib(data, this.currentFile);
             });
+
+            this.WhenAnyValue(vm => vm.UimfData.FrameData)
+                .Subscribe(data =>
+                {
+                    if (!ShowFrameCollapsed)
+                    {
+                        this.HeatMapViewModel.UpdateData(data);
+                    }
+                    else if (this.uimfData.FrameCollapsed != null)
+                    {
+                        this.HeatMapViewModel.UpdateData(this.uimfData.FrameCollapsed);
+                    }
+                    this.MzSpectraViewModel.UpdateFrameData(data);
+                    this.TotalIonChromatogramViewModel.UpdateFrameData(data);
+                    this.BasePeakIntensityViewModel.UpdateFrameData(data);
+                });
 
             // update the frame data of the TIC plot when needed; apparently the Throttler should always specify the schedule.
             this.WhenAnyValue(vm => vm.UimfData.GatedFrameData)
@@ -165,6 +191,7 @@ namespace Atreyu.ViewModels
                     this.HeatMapViewModel.UpdateData(data);
                     this.MzSpectraViewModel.UpdateFrameData(data);
                     this.TotalIonChromatogramViewModel.UpdateFrameData(data);
+                    Thread.Sleep(50);
                     this.BasePeakIntensityViewModel.UpdateFrameData(data);
                 });
 
@@ -231,6 +258,10 @@ namespace Atreyu.ViewModels
                 this.HeatMapViewModel.BinToMzMap = d;
                 this.MzSpectraViewModel.BinToMzMap = d;
             });
+            this.WhenAnyValue(vm => vm.UimfData.BinToTofMap).Subscribe(d =>
+            {
+                this.MzSpectraViewModel.BinToTofMap = d;
+            });
             this.WhenAnyValue(vm => vm.UimfData.MzArray).Subscribe(d => this.MzSpectraViewModel.MzArray = d);
             this.WhenAnyValue(vm => vm.UimfData.MzIntensities).Subscribe(i => this.MzSpectraViewModel.MzIntensities = i);
 
@@ -279,16 +310,38 @@ namespace Atreyu.ViewModels
                 .Where(_ => this.UimfData != null)
                 .Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
                 .Subscribe(x => this.HeatMapViewModel.CurrentScanRange = new ScanRange(this.BasePeakIntensityViewModel.StartScan, this.BasePeakIntensityViewModel.EndScan));
-        
+
+            this.TofCalibratorViewModel.WhenAnyValue(x => x.ReloadUIMF)
+                .Where(_ => this.TofCalibratorViewModel.ReloadUIMF)
+                .Subscribe(y =>
+                {
+                    this.InitializeUimfData(this.TofCalibratorViewModel.NewFileName);
+                    this.TofCalibratorViewModel.ReloadUIMF = false;
+                });
 
             this.TotalIonChromatogramViewModel.WhenAnyValue(ticStart => ticStart.StartScan, ticEnd => ticEnd.EndScan)
                 .Where(_ => this.UimfData != null)
                 .Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
                 .Subscribe(x => this.HeatMapViewModel.CurrentScanRange = new ScanRange(this.TotalIonChromatogramViewModel.StartScan, this.TotalIonChromatogramViewModel.EndScan));
+
+            this.HeatMapViewModel.WhenAnyValue(palette => palette.SelectedPalette).Where(_ => this.UimfData != null)
+                .Subscribe(x =>
+                {
+                    this.ZoomOut();
+                    this.HeatMapViewModel.HeatMapPlotModel.ResetAllAxes();
+                });
+
+            this.HeatMapViewModel.WhenAnyValue(x => x.ShowLogData)
+                .Where(_ => this.UimfData != null)
+                .Subscribe(y =>
+            {
+                var value = this.HeatMapViewModel.ShowLogData;
+                this.MzSpectraViewModel.ShowLogData = value;
+            });
         }
 
         #endregion
-
+        
         #region Public Properties
 
         /// <summary>
@@ -516,6 +569,9 @@ namespace Atreyu.ViewModels
         {
             this.currentStartFrame = frameNumber;
             this.currentEndFrame = frameNumber;
+            if(frameNumber != 0)
+                this.UimfData.UpdateTofTime(frameNumber);
+    
             if (this.UimfData != null)
             {
                 this.UimfData.ReadData(
@@ -579,6 +635,7 @@ namespace Atreyu.ViewModels
             this.UimfData.CurrentMaxMz = this.UimfData.MaxMz;
             this.FetchSingleFrame(1);
             this.WindowTitle = Path.GetFileNameWithoutExtension(file);
+            this.TofCalibratorViewModel.FileName = Path.GetFullPath(file);
             this.HeatMapViewModel.CurrentFile = Path.GetFileNameWithoutExtension(file);
             this.TotalIonChromatogramViewModel.MaxScan = this.UimfData.EndScan;
             this.BasePeakIntensityViewModel.MaxScan = this.UimfData.EndScan;
@@ -673,6 +730,17 @@ namespace Atreyu.ViewModels
 
         #endregion
 
+        public bool ShowScanTime
+        {
+            get { return this._showScanTime; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _showScanTime, value);
+                this.BasePeakIntensityViewModel.ShowScanTime = value;
+                this.TotalIonChromatogramViewModel.ShowScanTime = value;
+            }
+        }
+
         public Visibility BpiVisible
         {
             get { return this.BasePeakIntensityViewModel.BpiVisible; }
@@ -702,6 +770,60 @@ namespace Atreyu.ViewModels
             {
                 this.RaiseAndSetIfChanged(ref this._ticEnabled, value);
                 TicVisible = value ? Visibility.Visible : Visibility.Hidden;
+            }
+        }
+
+        public bool ShowFrameCollapsed
+        {
+            get { return this._showFrameCollapsed; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this._showFrameCollapsed, value);
+                if (this.uimfData != null && this.uimfData.FrameData != null)
+                {
+                    if (!value)
+                    {
+                        this.HeatMapViewModel.UpdateData(this.uimfData.FrameData);
+                    }
+                    else
+                    {
+                        this.HeatMapViewModel.UpdateData(this.uimfData.FrameCollapsed);
+                    }
+                }
+            }
+        }
+
+        public ToFCalibratorViewModel TofCalibratorViewModel { get; set; }
+
+        public Visibility RangeVisible
+        {
+            get { return this._rangeVisible; }
+            set { this.RaiseAndSetIfChanged(ref this._rangeVisible, value); }
+        }
+
+        public bool RangeEnabled
+        {
+            get { return this._rangeEnabled; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this._rangeEnabled, value);
+                RangeVisible = value ? Visibility.Visible : Visibility.Hidden;
+            }
+        }
+
+        public Visibility CalibVisible
+        {
+            get { return this.TofCalibratorViewModel.CalibVisible; }
+            set { this.TofCalibratorViewModel.CalibVisible = value; }
+        }
+
+        public bool CalibEnabled
+        {
+            get { return this._calibEnabled; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this._calibEnabled, value);
+                CalibVisible = value ? Visibility.Visible : Visibility.Hidden;
             }
         }
     }

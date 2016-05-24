@@ -121,6 +121,13 @@ namespace Atreyu.ViewModels
             set { this.RaiseAndSetIfChanged(ref this.maxScan, value); }
         }
 
+
+        private List<DataPoint> dataArray = new List<DataPoint>();
+        private List<DataPoint> logArray = new List<DataPoint>();
+        private bool _showLogData;
+        private double _maxValue;
+        private double timeFactor;
+
         #endregion
 
         #region Public Methods and Operators
@@ -201,6 +208,7 @@ namespace Atreyu.ViewModels
                 return;
             }
 
+            timeFactor = uimfData.TenthsOfNanoSecondsPerBin/1000000.0;
             //if (frameData == null)
             //{
                 this.frameData = data;
@@ -235,31 +243,16 @@ namespace Atreyu.ViewModels
                 }
             }
 
-            var series = this.BpiPlotModel.Series[0] as OxyPlot.Series.LineSeries;
-
-            if (series == null)
-            {
-                return;
-            }
-
-            //series.MarkerType = MarkerType.Circle;
-            //series.MarkerSize = 2.5;
-
-            // series.MarkerStrokeThickness = 2;
-            series.MarkerFill = OxyColors.Black;
-            series.BrokenLineColor = OxyColors.Automatic;
-            series.BrokenLineStyle = LineStyle.Dot;
-            series.BrokenLineThickness = 1;
-            series.Points.Clear();
+            this.dataArray.Clear();
+            this.logArray.Clear();
             foreach (var d in this.frameDictionary)
             {
-                series.Points.Add(new DataPoint(d.Key, d.Value));
-                //series.Points.Add(new DataPoint(double.NaN, double.NaN));
+                this.dataArray.Add(new DataPoint(d.Key * timeFactor, d.Value));
+                this.logArray.Add(new DataPoint(d.Key, d.Value));
             }
 
-            //this.FindPeaks();
-
             this.BpiPlotModel.InvalidatePlot(true);
+            this.ShowScanTime = false;
         }
 
         /// <summary>
@@ -278,13 +271,14 @@ namespace Atreyu.ViewModels
             }
 
             this.BpiPlotModel = new PlotModel();
-            var linearAxis = new OxyPlot.Axes.LinearAxis
+            var linearAxis = new LinearAxis
                                  {
                                      Position = AxisPosition.Bottom, 
                                      AbsoluteMinimum = 0, 
                                      IsPanEnabled = false, 
                                      IsZoomEnabled = false, 
-                                     Title = "Scan", 
+                                     Title = "Mobility Scan",
+                                     Unit = "Scan Number",
                                      MinorTickSize = 0
                                  };
             this.BpiPlotModel.Axes.Add(linearAxis);
@@ -295,9 +289,8 @@ namespace Atreyu.ViewModels
                                       AbsoluteMinimum = 0, 
                                       MinimumPadding = 0.1, 
                                       MaximumPadding = 0.1, 
-                                      IsPanEnabled = false, 
-                                      IsAxisVisible = false, 
-                                      Title = "Intensity"
+                                      IsPanEnabled = false,
+                                      IsAxisVisible = false
                                   };
 
             this.BpiPlotModel.Axes.Add(linearYAxis);
@@ -307,50 +300,51 @@ namespace Atreyu.ViewModels
         }
 
         #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Find the peaks in the current data set and adds an annotation point with the resolution to the TIC.
-        /// </summary>
-        private void FindPeaks()
-        {
-            this.bpiPlotModel.Annotations.Clear();
-
-            // Create a new dictionary so we don't modify the original one
-            var tempFrameDict = new Dictionary<double, double>(this.uimfData.Scans);
-
-            for (var i = 0; i < this.uimfData.Scans; i++)
-            {
-                // this is a hack to make the library work and return the proper location index
-                double junk;
-                tempFrameDict.Add(i, this.frameDictionary.TryGetValue(i, out junk) ? junk : 0);
-            }
-
-            var results = Utilities.PeakFinder.FindPeaks(tempFrameDict.ToList());
-
-            foreach (var peakInformation in results.Peaks)
-            {
-                var resolutionString = peakInformation.ResolvingPower.ToString("F1", CultureInfo.InvariantCulture);
-
-                var peakPoint = new OxyPlot.Annotations.PointAnnotation
-                                    {
-                                        Text = "R=" + resolutionString, 
-                                        X = peakInformation.PeakCenter, 
-                                        Y = peakInformation.Intensity / 2.5, 
-                                        ToolTip = peakInformation.ToString()
-                                    };
-                this.bpiPlotModel.Annotations.Add(peakPoint);
-            }
-        }
-
-        #endregion
-
+        
         public Visibility BpiVisible
         {
             get { return _bpiVisible; }
             set { this.RaiseAndSetIfChanged(ref this._bpiVisible, value); }
         }
 
+        public bool ShowScanTime
+        {
+            get { return _showLogData; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this._showLogData, value);
+                UpdatePlotData();
+            }
+        }
+
+        private void UpdatePlotData()
+        {
+            var series = this.BpiPlotModel.Series[0] as LineSeries;
+            var axis = this.BpiPlotModel.Axes[0] as LinearAxis;
+            series.Points.RemoveRange(0, series.Points.Count);
+            MaxValue = 0;
+            var data = new List<DataPoint>();
+            if (this.ShowScanTime)
+            {
+                data = dataArray;
+                axis.Title = "Arrival Time";
+                axis.Unit = "ms";
+            }
+            else
+            {
+                data = logArray;
+                axis.Title = "Mobility Scan";
+                axis.Unit = "Scan Number";
+            }
+            foreach (var point in data)
+            {
+                series.Points.Add(point);
+                if (MaxValue < point.Y)
+                    MaxValue = point.Y;
+            }
+            this.BpiPlotModel.InvalidatePlot(true);
+        }
+
+        public double MaxValue { get { return _maxValue; } set { this.RaiseAndSetIfChanged(ref _maxValue, value); } }
     }
 }

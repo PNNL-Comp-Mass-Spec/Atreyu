@@ -1,3 +1,4 @@
+using System;
 using System.Windows;
 
 namespace Atreyu.ViewModels
@@ -67,6 +68,11 @@ namespace Atreyu.ViewModels
 
         private int maxScan;
         private Visibility _ticVisible;
+        private List<DataPoint> dataArray = new List<DataPoint>();
+        private List<DataPoint> logArray = new List<DataPoint>();
+        private bool _showLogData;
+        private double _maxValue;
+        private double timeFactor;
 
         #endregion
 
@@ -209,8 +215,9 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            
-                this.frameData = data;
+
+            timeFactor = uimfData.TenthsOfNanoSecondsPerBin / 1000000.0;
+            this.frameData = data;
 
             if (this.endScan == 0)
             {
@@ -235,31 +242,15 @@ namespace Atreyu.ViewModels
                     }
                 }
             }
-
-            var series = this.TicPlotModel.Series[0] as LineSeries;
-
-            if (series == null)
-            {
-                return;
-            }
-
-            //series.MarkerType = MarkerType.Circle;
-            //series.MarkerSize = 2.5;
-
-            // series.MarkerStrokeThickness = 2;
-            series.MarkerFill = OxyColors.Black;
-            series.BrokenLineColor = OxyColors.Automatic;
-            series.BrokenLineStyle = LineStyle.Dot;
-            series.BrokenLineThickness = 1;
-            series.Points.Clear();
+            this.dataArray.Clear();
+            this.logArray.Clear();
             foreach (var d in this.frameDictionary)
             {
-                series.Points.Add(new DataPoint(d.Key, d.Value));
-                //series.Points.Add(new DataPoint(double.NaN, double.NaN));
+                this.dataArray.Add(new DataPoint(d.Key * timeFactor, d.Value));
+                this.logArray.Add(new DataPoint(d.Key, d.Value));
             }
-
-            //this.FindPeaks();
-
+            UpdatePlotData();
+            
             this.TicPlotModel.InvalidatePlot(true);
         }
 
@@ -283,9 +274,10 @@ namespace Atreyu.ViewModels
                                  {
                                      Position = AxisPosition.Bottom, 
                                      AbsoluteMinimum = 0, 
-                                     IsPanEnabled = false, 
-                                     IsZoomEnabled = false, 
-                                     Title = "Scan", 
+                                     IsPanEnabled = false,
+                                     IsZoomEnabled = false,
+                                     Title = "Mobility Scan",
+                                     Unit = "Scan Number",
                                      MinorTickSize = 0
                                  };
             this.TicPlotModel.Axes.Add(linearAxis);
@@ -297,8 +289,8 @@ namespace Atreyu.ViewModels
                                       MinimumPadding = 0.1, 
                                       MaximumPadding = 0.1, 
                                       IsPanEnabled = false, 
-                                      IsAxisVisible = false, 
-                                      Title = "Intensity"
+                                      IsAxisVisible = false
+                                      //Title = "Intensity"
                                   };
 
             this.TicPlotModel.Axes.Add(linearYAxis);
@@ -353,5 +345,45 @@ namespace Atreyu.ViewModels
             set { this.RaiseAndSetIfChanged(ref this._ticVisible, value); }
         }
 
+
+        public bool ShowScanTime
+        {
+            get { return _showLogData; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this._showLogData, value);
+                UpdatePlotData();
+            }
+        }
+
+        private void UpdatePlotData()
+        {
+            var series = this.TicPlotModel.Series[0] as LineSeries;
+            var axis = this.TicPlotModel.Axes[0] as LinearAxis;
+            series.Points.RemoveRange(0, series.Points.Count);
+            var data = new List<DataPoint>();
+            MaxValue = 0;
+            if (this.ShowScanTime)
+            {
+                data = dataArray;
+                axis.Title = "Arrival Time";
+                axis.Unit = "ms";
+            }
+            else
+            {
+                data = logArray;
+                axis.Title = "Mobility Scan";
+                axis.Unit = "Scan Number";
+            }
+            foreach (var point in data)
+            {
+                series.Points.Add(point);
+                if (MaxValue < point.Y)
+                    MaxValue = point.Y;
+            }
+            this.TicPlotModel.InvalidatePlot(true);
+        }
+
+        public double MaxValue { get { return _maxValue; } set { this.RaiseAndSetIfChanged(ref _maxValue, value); } }
     }
 }

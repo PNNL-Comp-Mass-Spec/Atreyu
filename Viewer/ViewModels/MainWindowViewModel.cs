@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Text;
+using Viewer.Views;
 
 namespace Viewer.ViewModels
 {
@@ -48,6 +49,15 @@ namespace Viewer.ViewModels
 
             this.ExportCompressedBpiData = ReactiveCommand.Create();
             this.ExportCompressedBpiData.Subscribe(x => this.SaveExportedBpiCompressedData());
+
+            this.DisplayAboutWindow = ReactiveCommand.Create();
+            this.DisplayAboutWindow.Subscribe(x => this.SpawnAboutWindow());
+        }
+
+        private void SpawnAboutWindow()
+        {
+            var window = new AboutWindowView();
+            window.ShowDialog();
         }
 
         #endregion
@@ -270,15 +280,18 @@ namespace Viewer.ViewModels
 
             var temp = this.CombinedHeatmapViewModel.ExportMzDataCompressed();
 
+            var sb = new StringBuilder();
             using (var outfile = new StreamWriter(filename))
             {
-                var content = "mz, intensity" + Environment.NewLine;
+                sb.AppendLine("mz, intensity");
+                //var content = "mz, intensity" + Environment.NewLine;
                 foreach (var kvp in temp)
                 {
-                    content += kvp.Key + "," + kvp.Value + Environment.NewLine;
+                    sb.AppendLine(kvp.Key + "," + kvp.Value);
+                    //content += kvp.Key + "," + kvp.Value + Environment.NewLine;
                 }
-
-                outfile.WriteLine(content);
+                outfile.WriteLine(sb.ToString());
+                //outfile.WriteLine(content);
             }
         }
 
@@ -360,5 +373,7 @@ namespace Viewer.ViewModels
         }
 
         #endregion
+
+        public ReactiveCommand<object> DisplayAboutWindow { get; set; }
     }
 }

@@ -202,6 +202,7 @@
     </Compile>
     <Compile Include="Models\MzRange.cs" />
     <Compile Include="Models\FrameRange.cs" />
+    <Compile Include="Models\OxyPaletteMap.cs" />
     <Compile Include="Models\Range.cs" />
     <Compile Include="Models\RangeType.cs" />
     <Compile Include="Models\ScanRange.cs" />
@@ -213,6 +214,7 @@
     <Compile Include="ViewModels\HeatMapViewModel.cs" />
     <Compile Include="ViewModels\MzSpectraViewModel.cs" />
     <Compile Include="ViewModels\GateSliderViewModel.cs" />
+    <Compile Include="ViewModels\ToFCalibratorViewModel.cs" />
     <Compile Include="ViewModels\TotalIonChromatogramViewModel.cs" />
     <Compile Include="Views\BasePeakIntensityView.xaml.cs">
       <DependentUpon>BasePeakIntensityView.xaml</DependentUpon>
@@ -231,6 +233,9 @@
     </Compile>
     <Compile Include="Views\MzSpectraView.xaml.cs">
       <DependentUpon>MzSpectraView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ToFCalibratorView.xaml.cs">
+      <DependentUpon>ToFCalibratorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TotalIonChromatogramView.xaml.cs">
       <DependentUpon>TotalIonChromatogramView.xaml</DependentUpon>
@@ -271,6 +276,10 @@
     <Page Include="Views\MzSpectraView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ToFCalibratorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TotalIonChromatogramView.xaml">
       <Generator>MSBuild:Compile</Generator>
