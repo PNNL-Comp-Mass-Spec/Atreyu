@@ -113,109 +113,26 @@ namespace UimfDataExtractor
             return oldDir == null ? null : new FileInfo(Path.Combine(oldDir, newName));
         }
 
+      
         /// <summary>
-        /// The output bulk mz peak data method.
+        /// Outputs bulk peak data
         /// </summary>
-        /// <param name="dateString">
-        /// The date string.
-        /// </param>
-        /// <param name="inputFolder">
-        /// The input folder.
-        /// </param>
-        /// <param name="mzPeaks">
-        /// The mz peaks.
-        /// </param>
-        public static void OutputBulkMzPeakData(
+        /// <param name="dateString"></param>
+        /// <param name="inputFolder"></param>
+        /// <param name="fileName"></param>
+        /// <param name="mzPeaks"></param>
+        public static void OutputBulkPeakData(
             string dateString, 
-            string inputFolder, 
-            IEnumerable<BulkPeakData> mzPeaks)
+            string inputFolder, string fileName, 
+            IEnumerable<BulkPeakData> peakData)
         {
-            var filename = dateString + "_" + inputFolder + "_" + "mz" + "_" + "BulkPeakComparison.csv";
+            var filename = dateString + "_" + inputFolder + "_" + fileName;
             var fullLocation = Path.Combine(outputDirectory.FullName, filename);
             var file = new FileInfo(fullLocation);
             using (var writer = GetFileStream(file))
             {
                 writer.WriteLine("File,Frame,Location,Full Width Half Max,Resolving Power");
-                foreach (var bulkPeakData in mzPeaks)
-                {
-                    var temp = bulkPeakData.FileName + ",";
-                    temp += bulkPeakData.FrameNumber + ",";
-                    temp += bulkPeakData.Location + ",";
-                    temp += bulkPeakData.FullWidthHalfMax + ",";
-                    temp += bulkPeakData.ResolvingPower;
-                    writer.WriteLine(temp);
-                }
-            }
-        }
-
-        /// <summary>
-        /// The output bulk tic peak data.
-        /// </summary>
-        /// <param name="dateString">
-        /// The date string.
-        /// </param>
-        /// <param name="inputFolder">
-        /// The input folder.
-        /// </param>
-        /// <param name="ticPeaks">
-        /// The tic peaks.
-        /// </param>
-        public static void OutputBulkTicPeakData(
-            string dateString, 
-            string inputFolder, 
-            IEnumerable<BulkPeakData> ticPeaks)
-        {
-            var filename = dateString + "_" + inputFolder + "_" + "tic" + "_" + "BulkPeakComparison.csv";
-            var fullLocation = Path.Combine(outputDirectory.FullName, filename);
-            var file = new FileInfo(fullLocation);
-            using (var writer = GetFileStream(file))
-            {
-                writer.WriteLine("File,Frame,Location,Full Width Half Max,Resolving Power");
-                foreach (var bulkPeakData in ticPeaks)
-                {
-                    var temp = bulkPeakData.FileName + ",";
-                    temp += bulkPeakData.FrameNumber + ",";
-                    temp += bulkPeakData.Location + ",";
-                    temp += bulkPeakData.FullWidthHalfMax + ",";
-                    temp += bulkPeakData.ResolvingPower;
-                    writer.WriteLine(temp);
-                }
-            }
-        }
-
-        /// <summary>
-        /// The output bulk xic peak data.
-        /// </summary>
-        /// <param name="dateString">
-        /// The date string.
-        /// </param>
-        /// <param name="inputFolder">
-        /// The input folder.
-        /// </param>
-        /// <param name="xicPeaks">
-        /// The xic peaks.
-        /// </param>
-        /// <param name="mz">
-        /// The mz.
-        /// </param>
-        /// <param name="tolerance">
-        /// The tolerance.
-        /// </param>
-        public static void OutputBulkXicPeakData(
-            string dateString, 
-            string inputFolder, 
-            IEnumerable<BulkPeakData> xicPeaks, 
-            double mz, 
-            double tolerance)
-        {
-            var filename = dateString + "_" + inputFolder + "_" + "XiC_mz_" + mz + "_tolerance_" + tolerance
-                           + "BulkPeakComparison.csv";
-            var fullLocation = Path.Combine(outputDirectory.FullName, filename);
-            var file = new FileInfo(fullLocation);
-            using (var writer = GetFileStream(file))
-            {
-                writer.WriteLine("File,Frame,Drift Time,Full Width Half Max,Resolving Power");
-                foreach (var bulkPeakData in xicPeaks)
+                foreach (var bulkPeakData in peakData)
                 {
                     var temp = bulkPeakData.FileName + ",";
                     temp += bulkPeakData.FrameNumber + ",";

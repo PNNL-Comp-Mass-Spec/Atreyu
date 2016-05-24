@@ -1,8 +1,11 @@
 namespace UimfDataExtractor
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Windows.Forms;
+
+    using Microsoft.WindowsAPICodePack.Dialogs;
 
     using UimfDataExtractor.Models;
 
@@ -28,6 +31,10 @@ namespace UimfDataExtractor
         /// </summary>
         private bool xicEnabled;
 
+        private List<Extraction> extractionProcedures;
+
+        private double selectedMz;
+
         #endregion
 
         #region Constructors and Destructors
@@ -38,6 +45,7 @@ namespace UimfDataExtractor
         public UimfDataExtractorGui()
         {
             this.InitializeComponent();
+            this.extractionProcedures = new List<Extraction>();
         }
 
         #endregion
@@ -53,20 +61,15 @@ namespace UimfDataExtractor
         /// <param name="e">
         /// The e.
         /// </param>
-        private void ExtractClick(object sender, EventArgs e)
+        private async void ExtractClick(object sender, EventArgs e)
         {
-            this.Enabled = false;
+           // this.Enabled = false;
+            var targets = new List<XicTarget>();
 
-            Task.Run(
-                () =>
-                    {
-                        MessageBox.Show(
-                            "Work started, controls will be re-enabled when complete.  See console for more details.", 
-                            "Extraction Started", 
-                            MessageBoxButtons.OK, 
-                            MessageBoxIcon.Information);
-                    });
-
+            foreach (var item in this.xicTargetBindingSource.List)
+            {
+                targets.Add(item as XicTarget);
+            }
             UimfProcessor.Options = new CommandLineOptions
                                         {
                                             InputPath = this.inputDirectory, 
@@ -74,20 +77,19 @@ namespace UimfDataExtractor
                                             AllFrames = this.AllFrames.Checked, 
                                             BulkPeakComparison = this.BulkPeakComparison.Checked, 
                                             Frame = (int)this.FrameNumber.Value,
-                                            GetHeatmap = this.GetHeatMap.Checked, 
-                                            GetMz = this.GetMz.Checked, 
-                                            GetTiC = this.GetTic.Checked, 
-                                            GetXiC = (double)this.XicCenter.Value, 
-                                            XicTolerance = (double)this.XicTolerance.Value, 
                                             Getmsms = this.Getmsms.Checked, 
                                             PeakFind = this.PeakFind.Checked, 
                                             Recursive = this.Recursive.Checked, 
-                                            Verbose = true
-                                        };
+                                            Verbose = true,
+                                            ExtractionTypes = this.extractionProcedures.ToArray()
+            };
 
-            UimfProcessor.ExtractData();
+            UimfProcessor.Options.XicTargetList.AddRange(targets);
 
-            this.Enabled = true;
+
+            await UimfProcessor.ExtractData();
+
+         //   this.Enabled = true;
         }
 
         /// <summary>
@@ -102,8 +104,15 @@ namespace UimfDataExtractor
         private void GetXicCheckedChanged(object sender, EventArgs e)
         {
             this.xicEnabled = this.GetXic.Checked;
-
             this.XicSettingsGoupBox.Enabled = this.xicEnabled;
+            if (this.xicEnabled)
+            {
+                this.extractionProcedures.Add(Extraction.Xic);
+            }
+            else
+            {
+                this.extractionProcedures.Remove(Extraction.Xic);
+            }
         }
 
         /// <summary>
@@ -117,14 +126,14 @@ namespace UimfDataExtractor
         /// </param>
         private void SetInputDirectoryClick(object sender, EventArgs e)
         {
-            var dialog = new FolderBrowserDialog();
+            var dialog = new CommonOpenFileDialog { IsFolderPicker = true };
 
-            if (dialog.ShowDialog() != DialogResult.OK)
+            if (dialog.ShowDialog() != CommonFileDialogResult.Ok)
             {
                 return;
             }
 
-            this.inputDirectory = dialog.SelectedPath;
+            this.inputDirectory = dialog.FileName;
             this.ExtractDataDisabledLabel.Visible = false;
             this.Extract.Enabled = true;
 
@@ -142,14 +151,14 @@ namespace UimfDataExtractor
         /// </param>
         private void SetOutputDirectoryClick(object sender, EventArgs e)
         {
-            var dialog = new FolderBrowserDialog();
+            var dialog = new CommonOpenFileDialog { IsFolderPicker = true };
 
-            if (dialog.ShowDialog() != DialogResult.OK)
+            if (dialog.ShowDialog() != CommonFileDialogResult.Ok)
             {
                 return;
             }
 
-            this.outputDirectory = dialog.SelectedPath;
+            this.outputDirectory = dialog.FileName;
             this.OutputDirectoryLabel.Text = this.outputDirectory;
         }
 
@@ -168,6 +177,42 @@ namespace UimfDataExtractor
         {
             this.FrameNumber.Enabled = !this.AllFrames.Checked;
             this.FrameNumberLabel.Enabled = !this.AllFrames.Checked;
+        }
+
+        private void GetHeatMap_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.GetHeatMap.Checked)
+            {
+                this.extractionProcedures.Add(Extraction.Heatmap);
+            }
+            else
+            {
+                this.extractionProcedures.Remove(Extraction.Heatmap);
+            }
+        }
+
+        private void GetMz_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.GetMz.Checked)
+            {
+                this.extractionProcedures.Add(Extraction.Mz);
+            }
+            else
+            {
+                this.extractionProcedures.Remove(Extraction.Mz);
+            }
+        }
+
+        private void GetTic_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.GetTic.Checked)
+            {
+                this.extractionProcedures.Add(Extraction.Tic);
+            }
+            else
+            {
+                this.extractionProcedures.Remove(Extraction.Tic);
+            }
         }
     }
 }

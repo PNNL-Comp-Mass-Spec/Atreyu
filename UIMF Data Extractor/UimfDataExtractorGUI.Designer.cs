@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.Extract = new System.Windows.Forms.Button();
             this.AllFrames = new System.Windows.Forms.CheckBox();
             this.BulkPeakComparison = new System.Windows.Forms.CheckBox();
@@ -39,10 +40,6 @@
             this.GetXic = new System.Windows.Forms.CheckBox();
             this.XicSettingsGoupBox = new System.Windows.Forms.GroupBox();
             this.Getmsms = new System.Windows.Forms.CheckBox();
-            this.XicToleranceLabel = new System.Windows.Forms.Label();
-            this.XicTolerance = new System.Windows.Forms.NumericUpDown();
-            this.XicCenterLabel = new System.Windows.Forms.Label();
-            this.XicCenter = new System.Windows.Forms.NumericUpDown();
             this.ExtractDataDisabledLabel = new System.Windows.Forms.Label();
             this.SetInputDirectory = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -52,16 +49,20 @@
             this.SetOutputDirectory = new System.Windows.Forms.Button();
             this.FrameNumber = new System.Windows.Forms.NumericUpDown();
             this.FrameNumberLabel = new System.Windows.Forms.Label();
+            this.xicTargetData = new System.Windows.Forms.DataGridView();
+            this.xicTargetBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.targetMzDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toleranceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.XicSettingsGoupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.XicTolerance)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.XicCenter)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FrameNumber)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.xicTargetData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.xicTargetBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // Extract
             // 
             this.Extract.Enabled = false;
-            this.Extract.Location = new System.Drawing.Point(358, 313);
+            this.Extract.Location = new System.Drawing.Point(360, 244);
             this.Extract.Name = "Extract";
             this.Extract.Size = new System.Drawing.Size(75, 23);
             this.Extract.TabIndex = 0;
@@ -99,6 +100,7 @@
             this.GetHeatMap.TabIndex = 3;
             this.GetHeatMap.Text = "Get Heat Map";
             this.GetHeatMap.UseVisualStyleBackColor = true;
+            this.GetHeatMap.CheckedChanged += new System.EventHandler(this.GetHeatMap_CheckedChanged);
             // 
             // GetMz
             // 
@@ -109,6 +111,7 @@
             this.GetMz.TabIndex = 4;
             this.GetMz.Text = "Get m/z";
             this.GetMz.UseVisualStyleBackColor = true;
+            this.GetMz.CheckedChanged += new System.EventHandler(this.GetMz_CheckedChanged);
             // 
             // GetTic
             // 
@@ -119,11 +122,12 @@
             this.GetTic.TabIndex = 5;
             this.GetTic.Text = "Get TiC";
             this.GetTic.UseVisualStyleBackColor = true;
+            this.GetTic.CheckedChanged += new System.EventHandler(this.GetTic_CheckedChanged);
             // 
             // PeakFind
             // 
             this.PeakFind.AutoSize = true;
-            this.PeakFind.Location = new System.Drawing.Point(11, 156);
+            this.PeakFind.Location = new System.Drawing.Point(11, 178);
             this.PeakFind.Name = "PeakFind";
             this.PeakFind.Size = new System.Drawing.Size(158, 17);
             this.PeakFind.TabIndex = 6;
@@ -133,7 +137,7 @@
             // Recursive
             // 
             this.Recursive.AutoSize = true;
-            this.Recursive.Location = new System.Drawing.Point(11, 180);
+            this.Recursive.Location = new System.Drawing.Point(11, 201);
             this.Recursive.Name = "Recursive";
             this.Recursive.Size = new System.Drawing.Size(175, 17);
             this.Recursive.TabIndex = 7;
@@ -143,7 +147,7 @@
             // GetXic
             // 
             this.GetXic.AutoSize = true;
-            this.GetXic.Location = new System.Drawing.Point(11, 204);
+            this.GetXic.Location = new System.Drawing.Point(11, 155);
             this.GetXic.Name = "GetXic";
             this.GetXic.Size = new System.Drawing.Size(62, 17);
             this.GetXic.TabIndex = 8;
@@ -153,15 +157,12 @@
             // 
             // XicSettingsGoupBox
             // 
+            this.XicSettingsGoupBox.Controls.Add(this.xicTargetData);
             this.XicSettingsGoupBox.Controls.Add(this.Getmsms);
-            this.XicSettingsGoupBox.Controls.Add(this.XicToleranceLabel);
-            this.XicSettingsGoupBox.Controls.Add(this.XicTolerance);
-            this.XicSettingsGoupBox.Controls.Add(this.XicCenterLabel);
-            this.XicSettingsGoupBox.Controls.Add(this.XicCenter);
             this.XicSettingsGoupBox.Enabled = false;
             this.XicSettingsGoupBox.Location = new System.Drawing.Point(12, 228);
             this.XicSettingsGoupBox.Name = "XicSettingsGoupBox";
-            this.XicSettingsGoupBox.Size = new System.Drawing.Size(214, 106);
+            this.XicSettingsGoupBox.Size = new System.Drawing.Size(339, 318);
             this.XicSettingsGoupBox.TabIndex = 9;
             this.XicSettingsGoupBox.TabStop = false;
             this.XicSettingsGoupBox.Text = "XiC Settings";
@@ -169,77 +170,18 @@
             // Getmsms
             // 
             this.Getmsms.AutoSize = true;
-            this.Getmsms.Location = new System.Drawing.Point(6, 85);
+            this.Getmsms.Location = new System.Drawing.Point(6, 295);
             this.Getmsms.Name = "Getmsms";
             this.Getmsms.Size = new System.Drawing.Size(204, 17);
             this.Getmsms.TabIndex = 4;
             this.Getmsms.Text = "Look at msms data instead of ms data";
             this.Getmsms.UseVisualStyleBackColor = true;
             // 
-            // XicToleranceLabel
-            // 
-            this.XicToleranceLabel.AutoSize = true;
-            this.XicToleranceLabel.Location = new System.Drawing.Point(6, 61);
-            this.XicToleranceLabel.Name = "XicToleranceLabel";
-            this.XicToleranceLabel.Size = new System.Drawing.Size(55, 13);
-            this.XicToleranceLabel.TabIndex = 3;
-            this.XicToleranceLabel.Text = "Tolerance";
-            // 
-            // XicTolerance
-            // 
-            this.XicTolerance.DecimalPlaces = 5;
-            this.XicTolerance.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.XicTolerance.Location = new System.Drawing.Point(69, 59);
-            this.XicTolerance.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.XicTolerance.Name = "XicTolerance";
-            this.XicTolerance.Size = new System.Drawing.Size(120, 20);
-            this.XicTolerance.TabIndex = 2;
-            this.XicTolerance.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            65536});
-            // 
-            // XicCenterLabel
-            // 
-            this.XicCenterLabel.AutoSize = true;
-            this.XicCenterLabel.Location = new System.Drawing.Point(6, 21);
-            this.XicCenterLabel.Name = "XicCenterLabel";
-            this.XicCenterLabel.Size = new System.Drawing.Size(57, 13);
-            this.XicCenterLabel.TabIndex = 1;
-            this.XicCenterLabel.Text = "XiC Center";
-            // 
-            // XicCenter
-            // 
-            this.XicCenter.DecimalPlaces = 5;
-            this.XicCenter.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.XicCenter.Location = new System.Drawing.Point(69, 19);
-            this.XicCenter.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.XicCenter.Name = "XicCenter";
-            this.XicCenter.Size = new System.Drawing.Size(120, 20);
-            this.XicCenter.TabIndex = 0;
-            // 
             // ExtractDataDisabledLabel
             // 
             this.ExtractDataDisabledLabel.AutoSize = true;
             this.ExtractDataDisabledLabel.ForeColor = System.Drawing.Color.Red;
-            this.ExtractDataDisabledLabel.Location = new System.Drawing.Point(338, 293);
+            this.ExtractDataDisabledLabel.Location = new System.Drawing.Point(357, 228);
             this.ExtractDataDisabledLabel.Name = "ExtractDataDisabledLabel";
             this.ExtractDataDisabledLabel.Size = new System.Drawing.Size(95, 13);
             this.ExtractDataDisabledLabel.TabIndex = 10;
@@ -305,7 +247,7 @@
             // 
             this.FrameNumber.Location = new System.Drawing.Point(94, 14);
             this.FrameNumber.Maximum = new decimal(new int[] {
-            int.MaxValue,
+            2147483647,
             0,
             0,
             0});
@@ -328,11 +270,40 @@
             this.FrameNumberLabel.TabIndex = 18;
             this.FrameNumberLabel.Text = "Frame Number";
             // 
+            // xicTargetData
+            // 
+            this.xicTargetData.AutoGenerateColumns = false;
+            this.xicTargetData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.xicTargetData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.targetMzDataGridViewTextBoxColumn,
+            this.toleranceDataGridViewTextBoxColumn});
+            this.xicTargetData.DataSource = this.xicTargetBindingSource;
+            this.xicTargetData.Location = new System.Drawing.Point(6, 19);
+            this.xicTargetData.Name = "xicTargetData";
+            this.xicTargetData.Size = new System.Drawing.Size(327, 270);
+            this.xicTargetData.TabIndex = 19;
+            // 
+            // xicTargetBindingSource
+            // 
+            this.xicTargetBindingSource.DataSource = typeof(UimfDataExtractor.Models.XicTarget);
+            // 
+            // targetMzDataGridViewTextBoxColumn
+            // 
+            this.targetMzDataGridViewTextBoxColumn.DataPropertyName = "TargetMz";
+            this.targetMzDataGridViewTextBoxColumn.HeaderText = "TargetMz";
+            this.targetMzDataGridViewTextBoxColumn.Name = "targetMzDataGridViewTextBoxColumn";
+            // 
+            // toleranceDataGridViewTextBoxColumn
+            // 
+            this.toleranceDataGridViewTextBoxColumn.DataPropertyName = "Tolerance";
+            this.toleranceDataGridViewTextBoxColumn.HeaderText = "Tolerance";
+            this.toleranceDataGridViewTextBoxColumn.Name = "toleranceDataGridViewTextBoxColumn";
+            // 
             // UimfDataExtractorGui
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(445, 344);
+            this.ClientSize = new System.Drawing.Size(472, 560);
             this.Controls.Add(this.FrameNumberLabel);
             this.Controls.Add(this.FrameNumber);
             this.Controls.Add(this.OutputDirectoryLabel);
@@ -357,9 +328,9 @@
             this.Text = "Uimf Data Extractor";
             this.XicSettingsGoupBox.ResumeLayout(false);
             this.XicSettingsGoupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.XicTolerance)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.XicCenter)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.FrameNumber)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.xicTargetData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.xicTargetBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -377,10 +348,6 @@
         private System.Windows.Forms.CheckBox Recursive;
         private System.Windows.Forms.CheckBox GetXic;
         private System.Windows.Forms.GroupBox XicSettingsGoupBox;
-        private System.Windows.Forms.Label XicToleranceLabel;
-        private System.Windows.Forms.NumericUpDown XicTolerance;
-        private System.Windows.Forms.Label XicCenterLabel;
-        private System.Windows.Forms.NumericUpDown XicCenter;
         private System.Windows.Forms.CheckBox Getmsms;
         private System.Windows.Forms.Label ExtractDataDisabledLabel;
         private System.Windows.Forms.Button SetInputDirectory;
@@ -391,5 +358,9 @@
         private System.Windows.Forms.Button SetOutputDirectory;
         private System.Windows.Forms.NumericUpDown FrameNumber;
         private System.Windows.Forms.Label FrameNumberLabel;
+        private System.Windows.Forms.DataGridView xicTargetData;
+        private System.Windows.Forms.DataGridViewTextBoxColumn targetMzDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn toleranceDataGridViewTextBoxColumn;
+        private System.Windows.Forms.BindingSource xicTargetBindingSource;
     }
 }

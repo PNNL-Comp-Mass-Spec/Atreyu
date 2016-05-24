@@ -1,6 +1,7 @@
 namespace UimfDataExtractor.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
@@ -30,34 +31,15 @@ namespace UimfDataExtractor.Models
         /// <summary>
         /// Gets or sets the frame to output.
         /// </summary>
-        [Option('f', "frame", HelpText = "Outputs a specific frame", DefaultValue = 1)]
+        [Option('f', "frame", HelpText = "Outputs a specific frame", Default = 1)]
         public int Frame { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to get the heat map.
         /// </summary>
-        [Option('h', "heatmap", 
+        [CommandLine.Option('e', "extraction types", 
             HelpText = "Specifies that you want the two-dimensional heatmap data")]
-        public bool GetHeatmap { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to output mass over charge data.
-        /// </summary>
-        [Option('m', "mz", HelpText = "Specifies that you want the m/z data")]
-        public bool GetMz { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to output total ion chromatogram data.
-        /// </summary>
-        [Option('t', "tic", HelpText = "specifies that you want the TiC data")]
-        public bool GetTiC { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating what, if any Extracted ion chromatogram data to target and output.
-        /// </summary>
-        [Option('x', "xic", DefaultValue = 0, HelpText = "Specifies that you want XiC data for a specific m/z")]
-        public double GetXiC { get; set; }
-
+        public Extraction[] ExtractionTypes { get; set; }
         /// <summary>
         /// Gets or sets a value indicating whether to get ms ms data.
         /// </summary>
@@ -81,12 +63,6 @@ namespace UimfDataExtractor.Models
         public string OutputPath { get; set; }
 
         /// <summary>
-        /// Gets or sets the last parser state, allowing for the automatic delivering of parsing errors.
-        /// </summary>
-        [ParserState]
-        public IParserState LastParserState { get; set; }
-
-        /// <summary>
         /// Gets or sets a value indicating whether to peak find and print out information.
         /// </summary>
         [Option('p', "peakfind", 
@@ -105,14 +81,14 @@ namespace UimfDataExtractor.Models
         [Option('v', "verbose", HelpText = "Print details during execution. *NotImplementedWellYet*")]
         public bool Verbose { get; set; }
 
-        /// <summary>
-        /// Gets or sets the tolerance in Thompsons for the extracted ion chromatogram.
-        /// </summary>
-        [Option('e', "tolerance", DefaultValue = 0.5, 
-            HelpText = "Specifies the tolerance from the m/z that you want for the XiC")]
-        public double XicTolerance { get; set; }
+        public List<XicTarget> XicTargetList { get; private set; }
 
         #endregion
+
+        public CommandLineOptions()
+        {
+            this.XicTargetList = new List<XicTarget>();
+        }
 
         #region Public Methods and Operators
 
@@ -122,7 +98,6 @@ namespace UimfDataExtractor.Models
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        [HelpOption]
         public string GetUsage()
         {
             var help = new HelpText
@@ -131,7 +106,7 @@ namespace UimfDataExtractor.Models
                                    new HeadingInfo(
                                    "UIMF Data Extractor", 
                                    typeof(Program).Assembly.GetName().Version.ToString()), 
-                               Copyright = new CopyrightInfo("PNNL", 2015), 
+                               Copyright = new CopyrightInfo("Battelle Memorial Institute", 2016), 
                                AdditionalNewLineAfterOption = true, 
                                AddDashesToOption = true
                            };
@@ -147,18 +122,18 @@ namespace UimfDataExtractor.Models
             help.AddPreOptionsLine("      If no output directory is specified, then it will default to the same");
             help.AddPreOptionsLine("      folder as the UIMF");
 
-            if (this.LastParserState.Errors.Any())
-            {
-                var errors = help.RenderParsingErrorsText(this, 2); // indent with two spaces
+            //if (this.LastParserState.Errors.Any())
+            //{
+            //    var errors = help.RenderParsingErrorsText(this, 2); // indent with two spaces
 
-                if (!string.IsNullOrEmpty(errors))
-                {
-                    help.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR(S):"));
-                    help.AddPreOptionsLine(errors);
-                }
-            }
+            //    if (!string.IsNullOrEmpty(errors))
+            //    {
+            //        help.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR(S):"));
+            //        help.AddPreOptionsLine(errors);
+            //    }
+            //}
 
-            help.AddOptions(this);
+            help.AddEnumValuesToHelpText = true;
 
             return help;
         }
