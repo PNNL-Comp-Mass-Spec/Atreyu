@@ -757,6 +757,8 @@ namespace Atreyu.Models
         /// </returns>
         public void ReadData(bool returnGatedData = false)
         {
+            const int MAX_ATTEMPTS = 3;
+
             //if (this.CurrentMaxMz < 1)
             if (this.CurrentMaxMz < this.MinMz)
             {
@@ -837,13 +839,16 @@ namespace Atreyu.Models
                 //int currentMaxBin = (int) Math.Ceiling(this.Calibrator.MZtoBin(this.CurrentMaxMz));
 
                 var frametype = GetFrameType(this.frameType);
-                    double[] mzs;
-                    int[] intensities;
+                double[] mzs;
+                int[] intensities;
+
                 bool exceptionEncountered = true;
+                var exceptionMessage = string.Empty;
+
                 int numTries = 0;
 
                 // For pulling the spectrum data from the UIMF file
-                while (exceptionEncountered == true && numTries < 3)
+                while (exceptionEncountered && numTries < MAX_ATTEMPTS)
                 {
                     try
                     {
@@ -860,19 +865,26 @@ namespace Atreyu.Models
                         this.MzIntensities = intensities;
                         exceptionEncountered = false;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        if (string.IsNullOrEmpty(exceptionMessage) && !string.IsNullOrEmpty(ex.Message))
+                            exceptionMessage = ex.Message;
+
                         numTries++;
                     }
                 }
 
                 exceptionEncountered = true;
                 numTries = 0;
+                var currentStep = "starting";
+
                 // For pulling frame data from the UIMF file
-                while (exceptionEncountered == true && numTries < 3)
+                while (exceptionEncountered && numTries < MAX_ATTEMPTS)
                 {
                     try
                     {
+                        currentStep = "Populate temp by calling AccumulateFrameData for frames " + startFrameNumber + " through " + EndFrameNumber;
+
                         var temp = this.dataReader.AccumulateFrameData(
                             this.startFrameNumber,
                             this.EndFrameNumber,
@@ -881,25 +893,34 @@ namespace Atreyu.Models
                             this.EndScan,
                             currentMinBin,
                             currentMaxBin,
-                            (int) this.ValuesPerPixelX,
+                            (int)this.ValuesPerPixelX,
                             (int)this.ValuesPerPixelY);
                         this.FrameData = temp;
 
-                        double[,] collapsedFrame = new double[Frames - StartFrameNumber + 1, this.EndScan - this.StartScan + 1];
+                        currentStep = "Initialize 2D array collapsedFrame with size " + (Frames - StartFrameNumber + 1) +"," + (this.EndScan - this.StartScan + 1);
+
+                        var collapsedFrame =
+                            new double[Frames - StartFrameNumber + 1, this.EndScan - this.StartScan + 1];
+
                         for (var i = 1; i < this.Frames + 1; i++)
                         {
+                            currentStep = "Call to AccumulateFrameData for frame " + i;
+
                             var frame = this.dataReader.AccumulateFrameData(i, i, false,
-                            this.StartScan, this.EndScan, currentMinBin, currentMaxBin,
-                            this.ValuesPerPixelX, this.ValuesPerPixelY);
+                                                                            this.StartScan, this.EndScan, currentMinBin,
+                                                                            currentMaxBin,
+                                                                            this.ValuesPerPixelX, this.ValuesPerPixelY);
                             for (int scan = 0; scan < frame.GetLength(0); scan++)
                             {
                                 for (int mzindex = 0; mzindex < frame.GetLength(1); mzindex++)
                                 {
-                                    collapsedFrame[i-1, scan] += frame[scan, mzindex];
+                                    collapsedFrame[i - 1, scan] += frame[scan, mzindex];
                                 }
                             }
                         }
                         FrameCollapsed = collapsedFrame;
+
+                        currentStep = "Populate uncompressed by calling AccumulateFrameData for frames " + startFrameNumber + " through " + EndFrameNumber;
 
                         var uncompressed = this.dataReader.AccumulateFrameData(
                             this.startFrameNumber,
@@ -914,8 +935,16 @@ namespace Atreyu.Models
                         this.Uncompressed = uncompressed;
                         exceptionEncountered = false;
                     }
-                    catch (Exception)
+                    catch (System.OutOfMemoryException ex)
                     {
+                        exceptionMessage = "Out of memory: " + ex.Message + "; " + currentStep;
+                        numTries = MAX_ATTEMPTS;
+                    }
+                    catch (Exception ex)
+                    {
+                        if (string.IsNullOrEmpty(exceptionMessage) && !string.IsNullOrEmpty(ex.Message))
+                            exceptionMessage = ex.Message;
+
                         numTries++;
                     }
                 }
