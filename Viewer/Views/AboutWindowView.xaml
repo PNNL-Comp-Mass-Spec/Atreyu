@@ -15,7 +15,12 @@
         </Grid.RowDefinitions>
 
         <StackPanel>
-            <TextBlock HorizontalAlignment="Center" Margin="15" TextWrapping="Wrap">Developed at Pacific Northwest National Laboratory by Michael Degan and Spencer Prost</TextBlock>
+            <TextBlock HorizontalAlignment="Center" Margin="15" TextWrapping="Wrap">Developed at Pacific Northwest National Laboratory by 
+                <Hyperlink RequestNavigate="Hyperlink_MailTo" NavigateUri="Spencer.Prost@pnnl.gov">Spencer Prost</Hyperlink>
+                and 
+                <Hyperlink RequestNavigate="Hyperlink_MailTo" NavigateUri="michael.degan@pnnl.gov">Michael Degan</Hyperlink>, 
+                overseen by 
+                <Hyperlink RequestNavigate="Hyperlink_MailTo" NavigateUri="Yehia.Ibrahim@pnnl.gov">Yehia Ibrahim</Hyperlink></TextBlock>
             
             <TextBlock HorizontalAlignment="Center" Margin="10" TextWrapping="Wrap">Copyright 2015</TextBlock>
         </StackPanel>

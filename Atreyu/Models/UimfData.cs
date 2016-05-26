@@ -1,3 +1,6 @@
+using System.Diagnostics;
+using System.Threading;
+
 namespace Atreyu.Models
 {
     using System;
@@ -743,7 +746,7 @@ namespace Atreyu.Models
         }
 
         private double prevYPixels;
-        private double[,] _uncompressed;
+        //private double[,] _uncompressed;
         private double[] binToTofMap;
 
         /// <summary>
@@ -848,105 +851,92 @@ namespace Atreyu.Models
                 int numTries = 0;
 
                 // For pulling the spectrum data from the UIMF file
-                while (exceptionEncountered && numTries < MAX_ATTEMPTS)
+                
+                try
                 {
-                    try
-                    {
-                        this.dataReader.GetSpectrum(
-                            this.StartFrameNumber,
-                            this.EndFrameNumber,
-                            frametype,
-                            this.StartScan,
-                            this.EndScan,
-                            out mzs,
-                            out intensities);
-                        this.MzArray = mzs;
+                    this.dataReader.GetSpectrum(
+                        this.StartFrameNumber,
+                        this.EndFrameNumber,
+                        frametype,
+                        this.StartScan,
+                        this.EndScan,
+                        out mzs,
+                        out intensities);
+                    this.MzArray = mzs;
 
-                        this.MzIntensities = intensities;
-                        exceptionEncountered = false;
-                    }
-                    catch (Exception ex)
-                    {
-                        if (string.IsNullOrEmpty(exceptionMessage) && !string.IsNullOrEmpty(ex.Message))
-                            exceptionMessage = ex.Message;
-
-                        numTries++;
-                    }
+                    this.MzIntensities = intensities;
                 }
-
-                exceptionEncountered = true;
-                numTries = 0;
+                catch (Exception ex)
+                {
+                    if (string.IsNullOrEmpty(exceptionMessage) && !string.IsNullOrEmpty(ex.Message))
+                        exceptionMessage = ex.Message;
+                }
+                
                 var currentStep = "starting";
 
                 // For pulling frame data from the UIMF file
-                while (exceptionEncountered && numTries < MAX_ATTEMPTS)
+                try
                 {
-                    try
+                    currentStep = "Populate temp by calling AccumulateFrameData for frames " + startFrameNumber + " through " + EndFrameNumber;
+
+                    var temp = this.dataReader.AccumulateFrameData(
+                        this.startFrameNumber,
+                        this.EndFrameNumber,
+                        false,
+                        this.StartScan,
+                        this.EndScan,
+                        currentMinBin,
+                        currentMaxBin,
+                        (int)this.ValuesPerPixelX,
+                        (int)this.ValuesPerPixelY);
+                    this.FrameData = temp;
+                    currentStep = "Initialize 2D array collapsedFrame with size " + (Frames - StartFrameNumber + 1) +"," + (this.EndScan - this.StartScan + 1);
+
+                    var collapsedFrame =
+                        new double[Frames - StartFrameNumber + 1, this.EndScan - this.StartScan + 1];
+
+                    for (var i = 1; i < this.Frames + 1; i++)
                     {
-                        currentStep = "Populate temp by calling AccumulateFrameData for frames " + startFrameNumber + " through " + EndFrameNumber;
+                        currentStep = "Call to AccumulateFrameData for frame " + i;
 
-                        var temp = this.dataReader.AccumulateFrameData(
-                            this.startFrameNumber,
-                            this.EndFrameNumber,
-                            false,
-                            this.StartScan,
-                            this.EndScan,
-                            currentMinBin,
-                            currentMaxBin,
-                            (int)this.ValuesPerPixelX,
-                            (int)this.ValuesPerPixelY);
-                        this.FrameData = temp;
-
-                        currentStep = "Initialize 2D array collapsedFrame with size " + (Frames - StartFrameNumber + 1) +"," + (this.EndScan - this.StartScan + 1);
-
-                        var collapsedFrame =
-                            new double[Frames - StartFrameNumber + 1, this.EndScan - this.StartScan + 1];
-
-                        for (var i = 1; i < this.Frames + 1; i++)
+                        var frame = this.dataReader.AccumulateFrameData(i, i, false,
+                                                                        this.StartScan, this.EndScan, currentMinBin,
+                                                                        currentMaxBin,
+                                                                        this.ValuesPerPixelX, this.ValuesPerPixelY);
+                        for (int scan = 0; scan < frame.GetLength(0); scan++)
                         {
-                            currentStep = "Call to AccumulateFrameData for frame " + i;
-
-                            var frame = this.dataReader.AccumulateFrameData(i, i, false,
-                                                                            this.StartScan, this.EndScan, currentMinBin,
-                                                                            currentMaxBin,
-                                                                            this.ValuesPerPixelX, this.ValuesPerPixelY);
-                            for (int scan = 0; scan < frame.GetLength(0); scan++)
+                            for (int mzindex = 0; mzindex < frame.GetLength(1); mzindex++)
                             {
-                                for (int mzindex = 0; mzindex < frame.GetLength(1); mzindex++)
-                                {
-                                    collapsedFrame[i - 1, scan] += frame[scan, mzindex];
-                                }
+                                collapsedFrame[i - 1, scan] += frame[scan, mzindex];
                             }
                         }
-                        FrameCollapsed = collapsedFrame;
-
-                        currentStep = "Populate uncompressed by calling AccumulateFrameData for frames " + startFrameNumber + " through " + EndFrameNumber;
-
-                        var uncompressed = this.dataReader.AccumulateFrameData(
-                            this.startFrameNumber,
-                            this.endFrameNumber,
-                            false,
-                            this.startScan,
-                            this.endScan,
-                            currentMinBin,
-                            currentMaxBin,
-                            1,
-                            1);
-                        this.Uncompressed = uncompressed;
-                        exceptionEncountered = false;
                     }
-                    catch (System.OutOfMemoryException ex)
-                    {
-                        exceptionMessage = "Out of memory: " + ex.Message + "; " + currentStep;
-                        numTries = MAX_ATTEMPTS;
-                    }
-                    catch (Exception ex)
-                    {
-                        if (string.IsNullOrEmpty(exceptionMessage) && !string.IsNullOrEmpty(ex.Message))
-                            exceptionMessage = ex.Message;
+                    FrameCollapsed = collapsedFrame;
 
-                        numTries++;
-                    }
+                    currentStep = "Populate uncompressed by calling AccumulateFrameData for frames " + startFrameNumber + " through " + EndFrameNumber;
+
+                    //var uncompressed = this.dataReader.AccumulateFrameData(
+                    //    this.startFrameNumber,
+                    //    this.endFrameNumber,
+                    //    false,
+                    //    this.startScan,
+                    //    this.endScan,
+                    //    currentMinBin,
+                    //    currentMaxBin,
+                    //    1,
+                    //    1);
+                    //this.Uncompressed = uncompressed;
+                    //exceptionEncountered = false;
+                }
+                catch (System.OutOfMemoryException ex)
+                {
+                    exceptionMessage = "Out of memory: " + ex.Message + "; " + currentStep;
+                    numTries = MAX_ATTEMPTS;
+                }
+                catch (Exception ex)
+                {
+                    if (string.IsNullOrEmpty(exceptionMessage) && !string.IsNullOrEmpty(ex.Message))
+                        exceptionMessage = ex.Message;
                 }
 
                 var arrayLength =
@@ -1236,10 +1226,10 @@ namespace Atreyu.Models
 
         #endregion
 
-        public double[,] Uncompressed { get { return _uncompressed; } set
-        {
-            this.RaiseAndSetIfChanged(ref this._uncompressed, value);
-        } }
+        //public double[,] Uncompressed { get { return _uncompressed; } set
+        //{
+        //    this.RaiseAndSetIfChanged(ref this._uncompressed, value);
+        //} }
 
         public double[] BinToTofMap
         {

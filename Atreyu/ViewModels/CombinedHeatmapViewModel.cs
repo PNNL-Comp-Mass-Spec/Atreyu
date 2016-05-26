@@ -265,8 +265,8 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.UimfData.MzArray).Subscribe(d => this.MzSpectraViewModel.MzArray = d);
             this.WhenAnyValue(vm => vm.UimfData.MzIntensities).Subscribe(i => this.MzSpectraViewModel.MzIntensities = i);
 
-            this.WhenAnyValue(vm => vm.UimfData.Uncompressed)
-                .Subscribe(uncomp => this.HeatMapViewModel.uncompressed = uncomp);
+            //this.WhenAnyValue(vm => vm.UimfData.Uncompressed)
+            //    .Subscribe(uncomp => this.HeatMapViewModel.uncompressed = uncomp);
 
             this.WhenAnyValue(vm => vm.UimfData.Calibrator).Subscribe(c => this.MzSpectraViewModel.Calibrator = c);
 

@@ -274,18 +274,18 @@ namespace Atreyu.ViewModels
             //return this.mzFrameData;
             var returnDict = new Dictionary<double, double>();
             var delta = this.uimfData.UncompressedDeltaMz;
-            var mzKey = StartMZ;
-            for (int mz = 0; mz < this.uimfData.Uncompressed.GetLength(1); mz++)
-            {
-                var summedMz = 0.0;
-                for (int scan = 0; scan < this.uimfData.Uncompressed.GetLength(0); scan++)
-                {
-                    summedMz += this.uimfData.Uncompressed[scan, mz];
-                }
-                returnDict.Add(mzKey, summedMz);
+            //var mzKey = StartMZ;
+            //for (int mz = 0; mz < this.uimfData.Uncompressed.GetLength(1); mz++)
+            //{
+            //    var summedMz = 0.0;
+            //    for (int scan = 0; scan < this.uimfData.Uncompressed.GetLength(0); scan++)
+            //    {
+            //        summedMz += this.uimfData.Uncompressed[scan, mz];
+            //    }
+            //    returnDict.Add(mzKey, summedMz);
 
-                mzKey += delta;
-            }
+            //    mzKey += delta;
+            //}
             return returnDict;
         }
 
