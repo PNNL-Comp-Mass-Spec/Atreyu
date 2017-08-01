@@ -42,8 +42,6 @@ namespace Viewer.ViewModels
 
             this.ExportCompressedTicData = ReactiveCommand.Create(() => this.SaveExportedTicCompressedData());
 
-            this.ExportCompressedBpiData = ReactiveCommand.Create(() => this.SaveExportedBpiCompressedData());
-
             this.DisplayAboutWindow = ReactiveCommand.Create(() => this.SpawnAboutWindow());
 
             this.WindowTitle = "Atreyu V2";
@@ -301,46 +299,8 @@ namespace Viewer.ViewModels
                 return;
             }
 
-            var temp = this.CombinedHeatmapViewModel.ExportTicDataCompressed();
-
-            using (var outfile = new StreamWriter(filename))
-            {
-                var content = "scan, intensity" + Environment.NewLine;
-                foreach (var kvp in temp)
-                {
-                    content += kvp.Key + "," + kvp.Value + Environment.NewLine;
-                }
-
-                outfile.WriteLine(content);
-            }
+          
         }
-
-        /// <summary>
-        /// The save exported tic compressed data.
-        /// </summary>
-        private void SaveExportedBpiCompressedData()
-        {
-            var filename = GetDataFilename();
-
-            if (string.IsNullOrWhiteSpace(filename))
-            {
-                return;
-            }
-
-            var temp = this.CombinedHeatmapViewModel.ExportBpiDataCompressed();
-
-            using (var outfile = new StreamWriter(filename))
-            {
-                var content = "scan, intensity" + Environment.NewLine;
-                foreach (var kvp in temp)
-                {
-                    content += kvp.Key + "," + kvp.Value + Environment.NewLine;
-                }
-
-                outfile.WriteLine(content);
-            }
-        }
-
         /// <summary>
         /// The save heatmap image.
         /// </summary>
@@ -358,12 +318,7 @@ namespace Viewer.ViewModels
                 return;
             }
 
-            var image = this.CombinedHeatmapViewModel.GetImage();
-
-            var filename = dialogue.FileName;
-
-            var format = GetImageFormat(filename);
-            image.Save(filename, format);
+         
         }
 
         #endregion

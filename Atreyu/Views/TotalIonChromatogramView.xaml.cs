@@ -19,6 +19,7 @@ namespace Atreyu.Views
         {
             this.InitializeComponent();
             this.WhenAnyValue(x => x.ViewModel).BindTo(this, view => view.DataContext);
+            this.Bind(this.ViewModel, model => model.TicPlotModel, view => view.TicPlot.Model);
         }
 
         #endregion

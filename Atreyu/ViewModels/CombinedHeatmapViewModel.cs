@@ -111,14 +111,12 @@ namespace Atreyu.ViewModels
             this.MzSpectraViewModel = new MzSpectraViewModel();
             this.LowValueGateSliderViewModel = new GateSliderViewModel();
             this.TotalIonChromatogramViewModel = new TotalIonChromatogramViewModel();
-            this.BasePeakIntensityViewModel = new BasePeakIntensityViewModel();
             this.TofCalibratorViewModel = new ToFCalibratorViewModel();
 
             this.LowValueGateSliderViewModel.ControlLabel = "Low Gate";
             this.LowValueGateSliderViewModel.UpdateGate(0);
 
             this.TicEnabled = true;
-            this.BpiEnabled = false;
             this.RangeEnabled = true;
             this.CalibEnabled = false;
 
@@ -142,7 +140,6 @@ namespace Atreyu.ViewModels
                 this.FrameManipulationViewModel.UpdateUimf(data);
                 this.HeatMapViewModel.UpdateReference(data);
                 this.MzSpectraViewModel.UpdateReference(data);
-                this.BasePeakIntensityViewModel.UpdateReference(data);
                 this.TotalIonChromatogramViewModel.UpdateReference(data);
                 this.TofCalibratorViewModel.UpdateExistingCalib(data, this.currentFile);
 
@@ -157,7 +154,6 @@ namespace Atreyu.ViewModels
                     this.HeatMapViewModel.UpdateData(data);
                     this.MzSpectraViewModel.UpdateFrameData(data);
                     this.TotalIonChromatogramViewModel.UpdateFrameData(data);
-                    this.BasePeakIntensityViewModel.UpdateFrameData(data);
                 });
 
             // update the frame whenever it is changed via the frame manipulation view
@@ -175,11 +171,9 @@ namespace Atreyu.ViewModels
                 {
                     this.HeatMapViewModel.CurrentMinScan = ranges.StartScan;
                     this.TotalIonChromatogramViewModel.ChangeStartScan(ranges.StartScan);
-                    this.BasePeakIntensityViewModel.ChangeStartScan(ranges.StartScan);
 
                     this.HeatMapViewModel.CurrentMaxScan = ranges.EndScan;
                     this.TotalIonChromatogramViewModel.ChangeEndScan(ranges.EndScan);
-                    this.BasePeakIntensityViewModel.ChangeEndScan(ranges.EndScan);
 
                     this.HeatMapViewModel.CurrentMinMz = ranges.CurrentMinMz;
                     this.MzSpectraViewModel.ChangeStartMz(ranges.CurrentMinMz);
@@ -199,12 +193,9 @@ namespace Atreyu.ViewModels
                     }
                     this.MzSpectraViewModel.UpdateFrameData(data);
                     this.TotalIonChromatogramViewModel.UpdateFrameData(data);
-                    this.BasePeakIntensityViewModel.UpdateFrameData(data);
 
                     this.TotalIonChromatogramViewModel.StartScan = this.UimfData.Ranges.StartScan;
                     this.TotalIonChromatogramViewModel.EndScan = this.UimfData.Ranges.EndScan;
-                    this.BasePeakIntensityViewModel.StartScan = this.UimfData.Ranges.StartScan;
-                    this.BasePeakIntensityViewModel.EndScan = this.UimfData.Ranges.EndScan;
                 }
                 
             });
@@ -260,11 +251,6 @@ namespace Atreyu.ViewModels
                 .Where(_ => this.UimfData != null)
                 .Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
                 .Subscribe(x => this.HeatMapViewModel.CurrentMzRange = new Range<double>(this.MzSpectraViewModel.StartMZ, this.MzSpectraViewModel.EndMZ));
-
-            this.BasePeakIntensityViewModel.WhenAnyValue(ticStart => ticStart.StartScan, ticEnd => ticEnd.EndScan)
-                .Where(_ => this.UimfData != null)
-                .Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
-                .Subscribe(x => this.HeatMapViewModel.CurrentScanRange = new Range<int>(this.BasePeakIntensityViewModel.StartScan, this.BasePeakIntensityViewModel.EndScan));
 
             this.TofCalibratorViewModel.WhenAnyValue(x => x.ReloadUIMF)
                 .Where(_ => this.TofCalibratorViewModel.ReloadUIMF)
@@ -390,8 +376,6 @@ namespace Atreyu.ViewModels
         /// </summary>
         public TotalIonChromatogramViewModel TotalIonChromatogramViewModel { get; private set; }
 
-        public BasePeakIntensityViewModel BasePeakIntensityViewModel { get; }
-
         /// <summary>
         ///  Gets or sets the data relevant to the UIMF that is loaded.
         /// </summary>
@@ -455,21 +439,6 @@ namespace Atreyu.ViewModels
             return this.MzSpectraViewModel.GetMzDataCompressed();
         }
 
-        /// <summary>
-        /// The export tic data compressed method.
-        /// </summary>
-        /// <returns>
-        /// The dictionary of data, keyed by scan.
-        /// </returns>
-        public IDictionary<int, double> ExportTicDataCompressed()
-        {
-            return this.TotalIonChromatogramViewModel.GetTicData();
-        }
-
-        public IDictionary<int, double> ExportBpiDataCompressed()
-        {
-            return this.BasePeakIntensityViewModel.GetBpiData();
-        }
 
         /// <summary>
         /// The set up plot method.
@@ -486,30 +455,6 @@ namespace Atreyu.ViewModels
             this.currentEndFrame = frameNumber;
             if(frameNumber != 0)
                 this.UimfData.UpdateTofTime(frameNumber);
-        }
-
-        /// <summary>
-        /// The get image method.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="Image"/> of the current three plots in view.
-        /// </returns>
-        public Image GetImage()
-        {
-            var tic = this.TotalIonChromatogramViewModel.GetTicImage();
-            var mz = this.MzSpectraViewModel.GetMzImage();
-            var heatmap = this.HeatMapViewModel.GetHeatmapImage();
-            const int Alignment = 25;
-
-            var bitmap = new Bitmap(mz.Width + heatmap.Width, heatmap.Height + tic.Height + Alignment);
-            using (var g = Graphics.FromImage(bitmap))
-            {
-                g.DrawImage(mz, 0, 0);
-                g.DrawImage(heatmap, mz.Width, Alignment);
-                g.DrawImage(tic, mz.Width, heatmap.Height + Alignment);
-            }
-
-            return bitmap;
         }
 
         /// <summary>
@@ -532,7 +477,6 @@ namespace Atreyu.ViewModels
             this.FetchSingleFrame(1);
             this.TofCalibratorViewModel.FileName = Path.GetFullPath(file);
             this.HeatMapViewModel.CurrentFile = Path.GetFileNameWithoutExtension(file);
-            this.TotalIonChromatogramViewModel = new TotalIonChromatogramViewModel(this.UimfData);
         }
 
         /// <summary>
@@ -624,31 +568,8 @@ namespace Atreyu.ViewModels
             set
             {
                 this.RaiseAndSetIfChanged(ref _showScanTime, value);
-                this.BasePeakIntensityViewModel.ShowScanTime = value;
                 this.TotalIonChromatogramViewModel.ShowScanTime = value;
             }
-        }
-
-        public Visibility BpiVisible
-        {
-            get { return this.BasePeakIntensityViewModel.BpiVisible; }
-            set { this.BasePeakIntensityViewModel.BpiVisible = value; }
-        }
-
-        public bool BpiEnabled
-        {
-            get { return this._bpiEnabled; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this._bpiEnabled, value);
-                BpiVisible = value ? Visibility.Visible : Visibility.Hidden;
-            }
-        }
-
-        public Visibility TicVisible
-        {
-            get { return this.TotalIonChromatogramViewModel.TicVisible; }
-            set { this.TotalIonChromatogramViewModel.TicVisible =  value; }
         }
 
         public bool TicEnabled

@@ -40,6 +40,6 @@
             <CheckBox IsChecked="{Binding MakeHeatmapWhite}" Margin="5,0,5,0">White Heatmap Background</CheckBox>
         </StackPanel>
 
-        <wpf:PlotView Grid.Row="2" Grid.Column="0" x:Name="HeatMapPlot" Model="{Binding HeatMapPlotModel}" MinHeight="500" Margin="3" />
+        <wpf:PlotView Grid.Row="2" Grid.Column="0" x:Name="HeatMapPlot" Model="{Binding HeatMapPlotModel}" MinHeight="500" />
     </Grid>
 </UserControl>

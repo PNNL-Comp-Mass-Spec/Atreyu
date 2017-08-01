@@ -211,9 +211,6 @@
     <Compile Include="ViewModels\GateSliderViewModel.cs" />
     <Compile Include="ViewModels\ToFCalibratorViewModel.cs" />
     <Compile Include="ViewModels\TotalIonChromatogramViewModel.cs" />
-    <Compile Include="Views\BasePeakIntensityView.xaml.cs">
-      <DependentUpon>BasePeakIntensityView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\CombinedHeatmapView.xaml.cs">
       <DependentUpon>CombinedHeatmapView.xaml</DependentUpon>
     </Compile>
@@ -241,10 +238,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\MzRange.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\BasePeakIntensityView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
