@@ -107,8 +107,6 @@ namespace Atreyu.ViewModels
         /// </summary>
         public CombinedHeatmapViewModel()
         {
-            this.WindowTitle = "Please load data";
-
             // I wonder if I should break this up a little, as it is over 100 lines and breaking them up logically might make it more readable and maintainable
             this.FrameManipulationViewModel = new FrameManipulationViewModel();
             this.HeatMapViewModel = new HeatMapViewModel();
@@ -125,9 +123,6 @@ namespace Atreyu.ViewModels
             this.BpiEnabled = false;
             this.RangeEnabled = true;
             this.CalibEnabled = false;
-
-            // Shows loading image
-            this.WhenAnyValue(vm => vm.UimfData.LoadingData).Subscribe(x => this.CircularWaitIsVisible = x);
 
             // Keep the M/Z mode settings updated
             this.WhenAnyValue(vm => vm.MzCenter)
@@ -186,13 +181,12 @@ namespace Atreyu.ViewModels
                 });
 
             // update the frame data of the TIC plot when needed; apparently the Throttler should always specify the schedule.
-            this.WhenAnyValue(vm => vm.UimfData.GatedFrameData)
+            this.WhenAnyValue(vm => vm.UimfData.GatedFrameData).Throttle(TimeSpan.FromMilliseconds(50))
                 .Subscribe(data =>
                 {
                     this.HeatMapViewModel.UpdateData(data);
                     this.MzSpectraViewModel.UpdateFrameData(data);
                     this.TotalIonChromatogramViewModel.UpdateFrameData(data);
-                    Thread.Sleep(50);
                     this.BasePeakIntensityViewModel.UpdateFrameData(data);
                 });
 
@@ -345,38 +339,7 @@ namespace Atreyu.ViewModels
         
         #region Public Properties
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the circular wait is visible.
-        /// </summary>
-        public bool CircularWaitIsVisible
-        {
-            get
-            {
-                return this.circularWaitIsVisible;
-            }
 
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.circularWaitIsVisible, value);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the current file.
-        /// </summary>
-        public string WindowTitle
-        {
-            get
-            {
-                return "Atreyu " + " - " + this.currentFile;
-            }
-
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.currentFile, value);
-                this.RaisePropertyChanged("WindowTitle");
-            }
-        }
 
         /// <summary>
         /// Gets the frame manipulation view model.
@@ -632,7 +595,6 @@ namespace Atreyu.ViewModels
             this.UimfData.CurrentMinMz = this.UimfData.MinMz;
             this.UimfData.CurrentMaxMz = this.UimfData.MaxMz;
             this.FetchSingleFrame(1);
-            this.WindowTitle = Path.GetFileNameWithoutExtension(file);
             this.TofCalibratorViewModel.FileName = Path.GetFullPath(file);
             this.HeatMapViewModel.CurrentFile = Path.GetFileNameWithoutExtension(file);
             this.TotalIonChromatogramViewModel.MaxScan = this.UimfData.EndScan;

@@ -184,7 +184,6 @@ namespace Atreyu.Models
         public UimfData(string uimfFile)
         {
             this.readerWriterLock = new ReaderWriterLockSlim();
-            this.RangeUpdateList = new ConcurrentQueue<Range>();
             this.dataReader = new DataReader(uimfFile);
             this.TenthsOfNanoSecondsPerBin = 0.0;
             var global = this.dataReader.GetGlobalParams();
@@ -530,22 +529,6 @@ namespace Atreyu.Models
         /// Gets or sets the parts per million.
         /// </summary>
         public double PartsPerMillion { get; set; }
-
-        /// <summary>
-        /// Gets the range update list.
-        /// </summary>
-        public ConcurrentQueue<Range> RangeUpdateList
-        {
-            get
-            {
-                return this.rangeUpdateList;
-            }
-
-            private set
-            {
-                this.RaiseAndSetIfChanged(ref this.rangeUpdateList, value);
-            }
-        }
 
         /// <summary>
         /// Gets the scans.

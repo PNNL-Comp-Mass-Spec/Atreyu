@@ -6,13 +6,13 @@
              xmlns:controls="clr-namespace:Atreyu.Controls"
              xmlns:views="clr-namespace:Atreyu.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="800">
+             d:DesignHeight="533.636" d:DesignWidth="1020.554">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </UserControl.Resources>
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition MinHeight="110" MaxHeight="120" Height="1*" />
+            <RowDefinition Height="1*" />
             <RowDefinition Height="6*" />
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="3*" MinHeight="140"/>
@@ -21,11 +21,10 @@
             <ColumnDefinition Width="3*" MinWidth="210"/>
             <ColumnDefinition Width="3"></ColumnDefinition>
             <ColumnDefinition Width="10*" />
-            <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="1*" MinWidth="100" />
         </Grid.ColumnDefinitions>
 
-        <GridSplitter Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="4" Height="3" Background="Black" HorizontalAlignment="Stretch"></GridSplitter>
+        <GridSplitter Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Height="3" Background="Black" HorizontalAlignment="Stretch"></GridSplitter>
         <GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Width="3" Background="Black" HorizontalAlignment="Stretch"></GridSplitter>
 
         <Grid Grid.Column="0" 
@@ -34,7 +33,7 @@
                 <RowDefinition Height="20"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-        <controls:MzRange x:Name="RangeControl" 
+            <controls:MzRange x:Name="RangeControl" 
                           Grid.Row="1"
                           Visibility="{Binding RangeVisible}"
                           MzRangeEnabled="{Binding Path=MzRangeEnabled, Mode=TwoWay}" 
@@ -47,22 +46,17 @@
             </StackPanel>
 
         </Grid>
-
-        <controls:CircularProgressBar  Grid.Column="3" 
-                                       Grid.ColumnSpan="2" 
-                                       Grid.Row="0" 
-                                       Visibility="{Binding CircularWaitIsVisible, Converter={StaticResource BoolToVis}}"  /> 
-        <StackPanel Grid.Row="3" Grid.Column="4" Background="White">
+        <StackPanel Grid.Row="3" Grid.Column="3" Background="White">
             <RadioButton GroupName="XaxisView" IsChecked="{Binding Path=TicEnabled}" Margin="0,5" HorizontalAlignment="Center">TIC View</RadioButton>
             <RadioButton GroupName="XaxisView" IsChecked="{Binding Path=BpiEnabled}" Margin="0,5" HorizontalAlignment="Center">BPI View</RadioButton>
             <CheckBox IsChecked="{Binding Path=ShowScanTime}" Margin="0,5" HorizontalAlignment="Center">Show Scan Time</CheckBox>
             <CheckBox IsChecked="{Binding Path=ShowFrameCollapsed}" IsEnabled="{Binding Path=EnableFrameCollapsed}" Margin="0,15" HorizontalAlignment="Center">Show Frame Collapsed</CheckBox>
         </StackPanel>
 
-        <!--<views:HeatMapView Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" DataContext="{Binding Path=HeatMapViewModel}">
+        <views:HeatMapView Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" DataContext="{Binding Path=HeatMapViewModel}">
         </views:HeatMapView>
         <views:MzSpectraView Grid.Row="1" Grid.Column="0" DataContext="{Binding Path=MzSpectraViewModel}">
-        </views:MzSpectraView>-->
+        </views:MzSpectraView>
 
         <views:TotalIonChromatogramView Grid.Row="3" Grid.Column="2" 
                                         Grid.ColumnSpan="2" DataContext="{Binding Path=TotalIonChromatogramViewModel}" 

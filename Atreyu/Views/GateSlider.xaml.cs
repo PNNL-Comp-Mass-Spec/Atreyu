@@ -1,3 +1,7 @@
+using System.ComponentModel.Composition;
+using System.Windows.Controls;
+using ReactiveUI;
+
 namespace Atreyu.Views
 {
     using Atreyu.ViewModels;
@@ -5,17 +9,9 @@ namespace Atreyu.Views
     /// <summary>
     /// Interaction logic for GateSlider.xaml
     /// </summary>
-    public partial class GateSlider
+    public partial class GateSlider : UserControl, IViewFor<GateSliderViewModel>
     {
         #region Constructors and Destructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GateSlider"/> class.
-        /// </summary>
-        public GateSlider()
-            : this(new GateSliderViewModel())
-        {
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GateSlider"/> class.
@@ -23,11 +19,12 @@ namespace Atreyu.Views
         /// <param name="viewModel">
         /// The view model.
         /// </param>
-        public GateSlider(GateSliderViewModel viewModel)
+        [ImportingConstructor]
+        public GateSlider()
         {
             this.InitializeComponent();
-            this.ViewModel = viewModel;
-            this.DataContext = this.ViewModel;
+
+           
 
             this.GateSliderControl.ValueChanged += (sender, args) => this.ViewModel.UpdateGate(args.NewValue);
         }
@@ -42,5 +39,11 @@ namespace Atreyu.Views
         public GateSliderViewModel ViewModel { get; set; }
 
         #endregion
+
+        object IViewFor.ViewModel
+        {
+            get { return ViewModel; }
+            set { ViewModel = value as GateSliderViewModel; }
+        }
     }
 }

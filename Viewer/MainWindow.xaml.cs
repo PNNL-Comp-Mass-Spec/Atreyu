@@ -18,10 +18,10 @@ namespace Viewer
         {
             this.InitializeComponent();
             this.ViewModel = new MainWindowViewModel();
-            this.DataContext = this.ViewModel;
+            this.WhenAnyValue(x => x.ViewModel).BindTo(this, window => window.DataContext);
 
             // Explicitly binding the content of CombinedHeatMapViewControl to the to CombinedHeatmapViewModel in the MainWindow model 
-            this.Bind(this.ViewModel, vm => vm.CombinedHeatmapViewModel, v => v.CombinedHeatMapViewControl.Content);
+            this.Bind(this.ViewModel, vm => vm.CombinedHeatmapViewModel, v => v.CombinedViewHost.ViewModel);
 
             ////this.AllowDrop = true;
             ////this.PreviewDrop += this.MainTabControl_PreviewDragEnter;

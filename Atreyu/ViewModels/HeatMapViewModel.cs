@@ -519,15 +519,6 @@ private  bool _heatmapWhite;
                 this.dataArray = new double[framedata.GetLength(0), framedata.GetLength(1)];
                 Array.Copy(framedata, dataArray, framedata.GetLength(0) * framedata.GetLength(1));
 
-                //for (int i = 0; i < framedata.GetLength(0); i++)
-                //{
-                //    for (int j = 0; j < framedata.GetLength(1); j++)
-                //    {
-                //        logArray[i, j] = Math.Log10(framedata[i, j]);
-                //        dataArray[i, j] = framedata[i, j];
-                //    }
-                //}
-
                 series.Data = dataArray;
 
                 // scans

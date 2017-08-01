@@ -1,3 +1,5 @@
+using System.Windows;
+
 namespace Viewer
 {
     /// <summary>
@@ -5,5 +7,10 @@ namespace Viewer
     /// </summary>
     public partial class App
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            var bootstrapper = new AppBootstrapper();
+        }
     }
 }

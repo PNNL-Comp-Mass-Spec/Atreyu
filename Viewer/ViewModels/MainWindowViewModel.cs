@@ -32,8 +32,6 @@ namespace Viewer.ViewModels
         public MainWindowViewModel()
         {
             this.CombinedHeatmapViewModel = new CombinedHeatmapViewModel();
-            this.CombinedHeatmapViewModel.WindowTitle = "Please load data";
-
             this.OpenFile = ReactiveCommand.Create(() => this.OpenHeatmapFile());
 
             this.SaveHeatmap = ReactiveCommand.Create(() => this.SaveHeatmapImage());
@@ -47,6 +45,8 @@ namespace Viewer.ViewModels
             this.ExportCompressedBpiData = ReactiveCommand.Create(() => this.SaveExportedBpiCompressedData());
 
             this.DisplayAboutWindow = ReactiveCommand.Create(() => this.SpawnAboutWindow());
+
+            this.WindowTitle = "Atreyu V2";
         }
 
         private void SpawnAboutWindow()
@@ -59,9 +59,8 @@ namespace Viewer.ViewModels
 
         #region Public Properties
 
-        
 
-        public string WindowTitle { get { return "Atreyu " + " - " + CombinedHeatmapViewModel.WindowTitle; } }
+        public string WindowTitle { get; set; }
 
         /// <summary>
         /// Gets or sets the combined heatmap view model.
@@ -202,8 +201,6 @@ namespace Viewer.ViewModels
             var filename = dialogue.FileName;
 
             this.CombinedHeatmapViewModel.InitializeUimfData(filename);
-
-            this.CombinedHeatmapViewModel.WindowTitle = Path.GetFileNameWithoutExtension(filename);
         }
 
         /// <summary>
