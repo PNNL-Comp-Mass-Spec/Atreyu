@@ -166,9 +166,25 @@ private  bool _heatmapWhite;
                 .Subscribe(
                     tuple =>
                     {
-                        this.HeatMapData.ReadData(tuple.Item2, tuple.Item1,
-                            new Range<int>(HeatMapData.StartFrameNumber, HeatMapData.EndFrameNumber), this.Height, this.Width);
+                        this.HeatMapData.Ranges =
+                            (tuple.Item1.Start, tuple.Item1.End, tuple.Item2.Start, tuple.Item2.End);
                     });
+
+            this.WhenAnyValue(x => x.MakeHeatmapWhite).Where(x => this.HeatMapData != null).Subscribe(b =>
+            {
+                lock (this.HeatMapPlotModel.SyncRoot)
+                {
+                    var colorAxis = this.heatMapPlotModel.Axes[0] as LinearColorAxis;
+                    colorAxis.LowColor = MakeHeatmapWhite ? OxyColors.White : OxyColors.Black;
+                    this.HeatMapPlotModel.InvalidatePlot(true);
+                }
+                
+            });
+
+            //this.WhenAnyValue(x => x.HeatMapData.Ranges).Where(x => this.HeatMapData != null).Subscribe(tuple =>
+            //{
+            //    this.CurrentMzRange = new Range<double>(tuple.CurrentMinMz, tuple.CurrentMaxMz);
+            //});
         }
 
         #endregion
@@ -393,7 +409,7 @@ private  bool _heatmapWhite;
         /// <summary>
         /// The set up plot.
         /// </summary>
-        public void SetUpPlot()
+        private void SetUpPlot()
         {
             lock (this.HeatMapPlotModel.SyncRoot)
             {
@@ -403,16 +419,11 @@ private  bool _heatmapWhite;
                 {
                     Position = AxisPosition.Right,
                     Minimum = 1,
-                    Title = "Intensity",
+                    Title = "abundance",
                     IsAxisVisible = this.AxisVisible,
-                    Palette = SelectedPalette.Palette
+                    Palette = SelectedPalette.Palette,
+                    LowColor = OxyColors.Black
                 };
-                if (MakeHeatmapWhite)
-                    linearColorAxis1.LowColor = OxyColors.White;
-                else
-                {
-                    linearColorAxis1.LowColor = OxyColors.Black;
-                }
 
                 this.HeatMapPlotModel.Axes.Add(linearColorAxis1);
 
@@ -460,23 +471,6 @@ private  bool _heatmapWhite;
                 };
 
                 this.HeatMapPlotModel.Series.Add(heatMapSeries1);
-                //this.HeatMapPlotModel.MouseMove += (sender, args) =>
-                //{
-                //    if (this.HeatMapPlotModel != null && this.HeatMapPlotModel.Series != null)
-                //    {
-                //        try
-                //        {
-                //            var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
-                //            var mz = series.InverseTransform(args.Position).Y;
-                //            var tof = this.HeatMapData.Calibrator.MZtoTOF(mz)/10000.0;
-                //            MzDisplay = "mz: " + mz;
-                //            TofDisplay = "tof: " + tof;
-                //        }
-                //        catch (Exception)
-                //        {
-                //        }
-                //    }
-                //};
             }
         }
 
@@ -499,13 +493,12 @@ private  bool _heatmapWhite;
         /// </param>
         public void UpdateData(double[,] framedata)
         {
+            if (framedata == null)
+            {
+                return;
+            }
             lock (this.HeatMapPlotModel.SyncRoot)
             {
-                if (framedata == null)
-                {
-                    return;
-                }
-
                 var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
                 if (series == null)
                 {
@@ -633,13 +626,6 @@ private  bool _heatmapWhite;
 
         #endregion
 
-        internal double[,] ExportData()
-        {
-            return uncompressed;
-        }
-
-        public double[,] uncompressed { get; set; }
-
         public List<OxyPaletteMap> AvailableColors
         {
             get { return this._heatmapPalettes; }
@@ -671,9 +657,6 @@ private  bool _heatmapWhite;
             set
             {
                 this.RaiseAndSetIfChanged(ref this._heatmapWhite, value);
-                var colorAxis = this.heatMapPlotModel.Axes[0] as LinearColorAxis;
-                colorAxis.LowColor = MakeHeatmapWhite ? OxyColors.White : OxyColors.Black;
-                this.heatMapPlotModel.InvalidatePlot(true);
             }
         }
     }

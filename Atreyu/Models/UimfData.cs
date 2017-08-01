@@ -30,16 +30,6 @@ namespace Atreyu.Models
         private MzCalibrator calibrator;
 
         /// <summary>
-        /// The current max m/z.
-        /// </summary>
-        private double currentMaxMz;
-
-        /// <summary>
-        /// The current min m/z.
-        /// </summary>
-        private double currentMinMz;
-
-        /// <summary>
         /// The data reader.
         /// </summary>
         private DataReader dataReader;
@@ -48,11 +38,6 @@ namespace Atreyu.Models
         /// The end frame number.
         /// </summary>
         private int endFrameNumber;
-
-        /// <summary>
-        /// The end scan.
-        /// </summary>
-        private int endScan;
 
         /// <summary>
         /// The frame data.
@@ -131,11 +116,6 @@ namespace Atreyu.Models
         private int startFrameNumber;
 
         /// <summary>
-        /// The start scan.
-        /// </summary>
-        private int startScan;
-
-        /// <summary>
         /// The total bins.
         /// </summary>
         private double totalMzRange;
@@ -178,10 +158,7 @@ namespace Atreyu.Models
             this.TotalMzRange = this.MaxMz - this.MinMz;
             this.Scans = this.dataReader.GetFrameParams(1).Scans;
 
-            this.CurrentMinMz = MinMz;
-            this.CurrentMaxMz = MaxMz;
-            this.StartScan = 1;
-            this.EndScan = frameCalibrator.Scans;
+            this.Ranges = (MinMz, MaxMz, 1, frameCalibrator.Scans);
             this.StartFrameNumber = 1;
             this.EndFrameNumber = 1;
             this.WhenAnyValue(x => x.StartFrameNumber).Subscribe(i =>
@@ -214,6 +191,14 @@ namespace Atreyu.Models
             }
         }
 
+        private (double CurrentMinMz, double CurrentMaxMz, int StartScan, int EndScan) ranges;
+
+        public (double CurrentMinMz, double CurrentMaxMz, int StartScan, int EndScan) Ranges
+        {
+            get => this.ranges;
+            set => this.RaiseAndSetIfChanged(ref this.ranges, value);
+        }
+
         /// <summary>
         /// Gets the m/z calibrator that converts TOF to m/z.
         /// </summary>
@@ -230,37 +215,6 @@ namespace Atreyu.Models
             }
         }
 
-        /// <summary>
-        /// Gets or sets the current max bin.
-        /// </summary>
-        public double CurrentMaxMz
-        {
-            get
-            {
-                return this.currentMaxMz;
-            }
-
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.currentMaxMz, value);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the current min bin.
-        /// </summary>
-        public double CurrentMinMz
-        {
-            get
-            {
-                return this.currentMinMz;
-            }
-
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.currentMinMz, value);
-            }
-        }
 
         /// <summary>
         /// Gets the end frame number.
@@ -275,22 +229,6 @@ namespace Atreyu.Models
             private set
             {
                 this.RaiseAndSetIfChanged(ref this.endFrameNumber, value);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the end scan.
-        /// </summary>
-        public int EndScan
-        {
-            get
-            {
-                return this.endScan;
-            }
-
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.endScan, value);
             }
         }
 
@@ -536,22 +474,6 @@ namespace Atreyu.Models
         }
 
         /// <summary>
-        /// Gets or sets the start scan.
-        /// </summary>
-        public int StartScan
-        {
-            get
-            {
-                return this.startScan;
-            }
-
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this.startScan, value);
-            }
-        }
-
-        /// <summary>
         /// Gets the total bins currently queried.
         /// </summary>
         public double TotalMzRange
@@ -626,7 +548,7 @@ namespace Atreyu.Models
 
             if (this.dataReader == null || this.Calibrator == null)
             {
-                var range = new Range<double>(0, CurrentMaxMz);
+                var range = new Range<double>(0, Ranges.CurrentMaxMz);
                 this.mzWindow = range;
                 return range;
             }
@@ -662,20 +584,20 @@ namespace Atreyu.Models
 
         private object syncRoot = new object();
 
-        /// <summary>
-        /// The read data.
-        /// </summary>
-        /// <param name="returnGatedData">
-        /// The return gated data.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Task"/>.
-        /// </returns>
-        public double[,] ReadData(Range<int> scanRange, Range<double> mzRange, Range<int> frameRange, double height, double width, bool returnGatedData = false)
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="scanRange"></param>
+       /// <param name="mzRange"></param>
+       /// <param name="frameRange"></param>
+       /// <param name="height"></param>
+       /// <param name="width"></param>
+       /// <param name="returnGatedData"></param>
+       /// <returns></returns>
+        public double[,] ReadData((double CurrentMinMz, double CurrentMaxMz, int StartScan, int EndScan) ranges, Range<int> frameRange, double height, double width, bool returnGatedData = false)
         {
             lock (syncRoot)
             {
-                ProcessData(scanRange, mzRange, frameRange);
                 this.LoadingData = true;
 
                 var frameParams = this.dataReader.GetFrameParams(this.startFrameNumber);
@@ -687,17 +609,17 @@ namespace Atreyu.Models
                 }
                 else
                 {
-                    this.TotalMzRange = this.CurrentMaxMz - this.CurrentMinMz + 1;
+                    this.TotalMzRange = ranges.CurrentMinMz - ranges.CurrentMaxMz + 1;
 
                     this.prevYPixels = this.ValuesPerPixelY;
                     this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
-                    int currentMinBin = (int)Math.Floor(this.Calibrator.MZtoBin(this.CurrentMinMz));
-                    int currentMaxBin = (int)Math.Ceiling(this.Calibrator.MZtoBin(this.CurrentMaxMz));
+                    int currentMinBin = (int)Math.Floor(this.Calibrator.MZtoBin(ranges.CurrentMinMz));
+                    int currentMaxBin = (int)Math.Ceiling(this.Calibrator.MZtoBin(ranges.Item2));
                     var totalBinRange = currentMaxBin - currentMinBin + 1;
                     //this.ValuesPerPixelY = (int)(this.TotalMzRange / (double)this.mostRecentHeight);
                     this.ValuesPerPixelY = (totalBinRange / (double)height);
 
-                    var totalScans = this.EndScan - this.StartScan + 1;
+                    var totalScans = ranges.EndScan - ranges.StartScan + 1;
                     this.ValuesPerPixelX = (totalScans / (double)width);
 
                     if (this.ValuesPerPixelY < 1)
@@ -752,8 +674,8 @@ namespace Atreyu.Models
                         this.StartFrameNumber,
                         this.EndFrameNumber,
                         frametype,
-                        this.StartScan,
-                        this.EndScan,
+                        ranges.Item3,
+                        ranges.Item4,
                         out mzs,
                         out intensities);
                     this.MzArray = mzs;
@@ -765,13 +687,13 @@ namespace Atreyu.Models
 
 
                     var collapsedFrame =
-                        new double[Frames - StartFrameNumber + 1, this.EndScan - this.StartScan + 1];
+                        new double[Frames - StartFrameNumber + 1, ranges.Item4 - ranges.Item3 + 1];
 
                     for (var i = 1; i < this.Frames + 1; i++)
                     {
 
                         var frame = this.dataReader.AccumulateFrameData(i, i, false,
-                            this.StartScan, this.EndScan, currentMinBin,
+                            ranges.Item3, ranges.Item4, currentMinBin,
                             currentMaxBin,
                             this.ValuesPerPixelX, this.ValuesPerPixelY);
                         for (int scan = 0; scan < frame.GetLength(0); scan++)
@@ -819,8 +741,8 @@ namespace Atreyu.Models
                         this.StartFrameNumber,
                         this.EndFrameNumber,
                         false,
-                        this.StartScan,
-                        this.EndScan,
+                        ranges.Item3,
+                        ranges.Item4,
                         currentMinBin,
                         currentMaxBin,
                         (int)this.ValuesPerPixelX,
@@ -828,69 +750,8 @@ namespace Atreyu.Models
 
                     return frameData;
                 }
-
-               
-
-                this.LoadingData = false;
             }
            
-        }
-
-        /// <summary>
-        /// The read data.
-        /// </summary>
-        /// <param name="startMz">
-        /// The start bin.
-        /// </param>
-        /// <param name="endMz">
-        /// The end bin.
-        /// </param>
-        /// <param name="startFrame">
-        /// The start frame number.
-        /// </param>
-        /// <param name="endFrame">
-        /// The end frame number.
-        /// </param>
-        /// <param name="height">
-        /// The height.
-        /// </param>
-        /// <param name="width">
-        /// The width.
-        /// </param>
-        /// <param name="startScanValue">
-        /// The start scan.
-        /// </param>
-        /// <param name="endScanValue">
-        /// The end scan.
-        /// </param>
-        /// <param name="returnGatedData">
-        /// Whether or not the returned data should be gated
-        /// </param>
-        /// <returns>
-        /// The 2d array of doubles that represents the data, index 0 is bins, index 1 in scans.
-        /// </returns>
-        public void ReadData(
-            double startMz, 
-            double endMz, 
-            int startFrame, 
-            int endFrame, 
-            int height, 
-            int width, 
-            int startScanValue = 0, 
-            int endScanValue = 359, 
-            bool returnGatedData = false)
-        {
-            this.UpdateScanRange(startScanValue, endScanValue);
-
-            //this.CurrentMinMz = startMz < 0 ? 0 : startMz;
-            //this.CurrentMaxMz = endMz > this.MaxBins ? this.MaxBins : endMz;
-            this.CurrentMinMz = startMz < this.MinMz ? this.MinMz : startMz;
-            this.CurrentMaxMz = endMz > this.MaxMz ? this.MaxMz : endMz;
-
-            this.StartFrameNumber = startFrame;
-            this.EndFrameNumber = endFrame;
-            this.Height = height;
-            this.Width = width;
         }
 
         public double Height { get; set; }
@@ -924,22 +785,6 @@ namespace Atreyu.Models
 
             this.LowGate = newValue;
             this.GateData();
-        }
-
-        /// <summary>
-        /// The update scan range.
-        /// </summary>
-        /// <param name="startScanNew">
-        /// The start scan new.
-        /// </param>
-        /// <param name="endScanNew">
-        /// The end scan new.
-        /// </param>
-        public void UpdateScanRange(int startScanNew, int endScanNew)
-        {
-            this.EndScan = endScanNew > this.Scans ? this.Scans : endScanNew;
-
-            this.StartScan = startScanNew < 0 ? 0 : startScanNew;
         }
 
         #endregion
@@ -1021,59 +866,6 @@ namespace Atreyu.Models
             //this.GatedFrameData = temp;
         }
 
-        /// <summary>
-        /// The process data.
-        /// </summary>
-        /// <param name="range">
-        /// The range.
-        /// </param>
-        /// <exception cref="ArgumentException">
-        /// thrown if the range type is set to a type that it cannot be cast to.
-        /// </exception>
-        /// <exception cref="NotImplementedException">
-        /// thrown if an unknown range type is used.  The currently known types are Mz, Frame, and Scan.
-        /// </exception>
-        private void ProcessData(Range<int> scanRange, Range<double> mzRange, Range<int> frameRange)
-        {
-            if (mzRange == null)
-            {
-                throw new ArgumentException(
-                    "Range has it's RangeType set to MzRange but cannot be cast to MzRange",
-                    "range");
-            }
-
-            double min, max;
-
-            if (this.WindowMz && this.mzWindow != null)
-            {
-                min = this.mzWindow.Start;
-                max = this.mzWindow.End;
-            }
-            else
-            {
-                min = this.MinMz;
-                max = this.MaxMz;
-            }
-
-            if (mzRange.Start < min)
-            {
-                mzRange.Start = min;
-            }
-
-            if (mzRange.End > max)
-            {
-                mzRange.End = max;
-            }
-
-            this.CurrentMinMz = mzRange.Start;
-            this.CurrentMaxMz = mzRange.End;
-
-            this.StartFrameNumber = frameRange.Start;
-            this.EndFrameNumber = frameRange.End;
-
-            this.StartScan = scanRange.Start;
-            this.EndScan = scanRange.End;
-        }
 
         #endregion
 

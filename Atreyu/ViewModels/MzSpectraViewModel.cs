@@ -26,7 +26,6 @@ namespace Atreyu.ViewModels
     /// <summary>
     /// The view model for properly displaying the mz spectra graph.
     /// </summary>
-    [Export]
     public class MzSpectraViewModel : ReactiveObject
     {
         #region Fields
@@ -83,7 +82,6 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="MzSpectraViewModel"/> class.
         /// </summary>
-        [ImportingConstructor]
         public MzSpectraViewModel()
         {
             this.WhenAnyValue(vm => vm.ShowMz).Subscribe(b => this.UpdateFrameData(this.frameData));
@@ -309,23 +307,23 @@ namespace Atreyu.ViewModels
         /// </param>
         public void UpdateFrameData(double[,] framedata)
         {
+            if (this.uimfData == null)
+            {
+                return;
+            }
+
+            if (framedata == null)
+            {
+                return;
+            }
+
+            if (this.BinToMzMap == null)
+            {
+                return;
+            }
             lock (syncRoot)
             {
-                if (this.uimfData == null)
-                {
-                    return;
-                }
-
-                if (framedata == null)
-                {
-                    return;
-                }
-
-                if (this.BinToMzMap == null)
-                {
-                    return;
-                }
-
+                
                 this.MaxMZ = this.uimfData.MaxMz;
 
                 this.frameData = framedata;

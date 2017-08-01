@@ -26,7 +26,6 @@ namespace Atreyu.ViewModels
     /// <summary>
     /// The total ion chromatogram view model.
     /// </summary>
-    [Export]
     public class TotalIonChromatogramViewModel : ReactiveObject
     {
         #region Fields
@@ -61,11 +60,6 @@ namespace Atreyu.ViewModels
         /// </summary>
         private UimfData uimfData;
 
-        /// <summary>
-        /// To determine if a file was loaded yet
-        /// </summary>
-        private bool _uimfLoaded;
-
         private int maxScan;
         private Visibility _ticVisible;
         private List<DataPoint> dataArray = new List<DataPoint>();
@@ -81,7 +75,12 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="TotalIonChromatogramViewModel"/> class.
         /// </summary>
-        [ImportingConstructor]
+        public TotalIonChromatogramViewModel(UimfData uimfData) : this()
+        {
+            this.uimfData = uimfData;
+            this.UpdateReference(this.uimfData);
+        }
+
         public TotalIonChromatogramViewModel()
         {
             this.frameDictionary = new Dictionary<int, double>();
@@ -89,11 +88,11 @@ namespace Atreyu.ViewModels
 
         #endregion
 
-        #region Public Properties
+            #region Public Properties
 
-        /// <summary>
-        /// Gets or sets the tic plot model.
-        /// </summary>
+            /// <summary>
+            /// Gets or sets the tic plot model.
+            /// </summary>
         public PlotModel TicPlotModel
         {
             get
@@ -104,16 +103,6 @@ namespace Atreyu.ViewModels
             set
             {
                 this.RaiseAndSetIfChanged(ref this.ticPlotModel, value);
-            }
-        }
-
-        public bool UimfLoaded
-        {
-            get { return this._uimfLoaded; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this._uimfLoaded, value);
-                
             }
         }
 
@@ -263,7 +252,7 @@ namespace Atreyu.ViewModels
         public void UpdateReference(UimfData uimfDataNew)
         {
             this.uimfData = uimfDataNew;
-            this.UimfLoaded = uimfDataNew != null;
+           
             if (this.TicPlotModel != null)
             {
                 return;
@@ -297,6 +286,7 @@ namespace Atreyu.ViewModels
             var series = new LineSeries { Color = OxyColors.Black, };
 
             this.TicPlotModel.Series.Add(series);
+            this.MaxScan = uimfDataNew.Ranges.EndScan;
         }
 
         #endregion

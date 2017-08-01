@@ -1,3 +1,7 @@
+using System.Windows;
+using System.Windows.Controls;
+using ReactiveUI;
+
 namespace Atreyu.Views
 {
     using System.ComponentModel.Composition;
@@ -7,29 +11,31 @@ namespace Atreyu.Views
     /// <summary>
     /// Interaction logic for TotalIonChromatogramView.xaml
     /// </summary>
-    [Export]
-    public partial class TotalIonChromatogramView
+    public partial class TotalIonChromatogramView : UserControl, IViewFor<TotalIonChromatogramViewModel>
     {
         #region Constructors and Destructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TotalIonChromatogramView"/> class.
-        /// </summary>
-        /// <param name="viewModel">
-        /// The view model.
-        /// </param>
-        [ImportingConstructor]
-        public TotalIonChromatogramView(TotalIonChromatogramViewModel viewModel)
-        {
-            this.DataContext = viewModel;
-            this.InitializeComponent();
-        }
 
         public TotalIonChromatogramView()
         {
             this.InitializeComponent();
+            this.WhenAnyValue(x => x.ViewModel).BindTo(this, view => view.DataContext);
         }
 
         #endregion
+
+        public static readonly DependencyProperty ViewModelProperty =
+            DependencyProperty.Register("ViewModel", typeof(TotalIonChromatogramViewModel), typeof(TotalIonChromatogramView));
+
+        object IViewFor.ViewModel
+        {
+            get { return ViewModel; }
+            set { ViewModel = value as TotalIonChromatogramViewModel; }
+        }
+
+        public TotalIonChromatogramViewModel ViewModel
+        {
+            get => (TotalIonChromatogramViewModel) GetValue(ViewModelProperty);
+            set => SetValue(ViewModelProperty, value);
+        }
     }
 }

@@ -18,9 +18,8 @@
         <views:MzSpectraView MinWidth="400"  DataContext="{Binding Path=MzSpectraViewModel}">
         </views:MzSpectraView>
 
-        <views:TotalIonChromatogramView DockPanel.Dock="Bottom" DataContext="{Binding Path=TotalIonChromatogramViewModel}" 
-                                        Visibility="{Binding TicVisible}" Background="White">
-        </views:TotalIonChromatogramView>
-        <reactiveUi:ViewModelViewHost x:Name="HeatMapViewHost" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"></reactiveUi:ViewModelViewHost>
+        <reactiveUi:ViewModelViewHost x:Name="TotalIonChromatogramViewHost" DockPanel.Dock="Bottom" Background="White" MinHeight="200" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+        </reactiveUi:ViewModelViewHost>
+        <reactiveUi:ViewModelViewHost x:Name="HeatMapViewHost" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ></reactiveUi:ViewModelViewHost>
     </DockPanel>
 </UserControl>

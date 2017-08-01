@@ -30,6 +30,8 @@ namespace Atreyu.Views
                 view => view.FrameManipulationViewHost.ViewModel);
             this.Bind(this.ViewModel, model => model.HeatMapViewModel,
                 view => view.HeatMapViewHost.ViewModel);
+            this.Bind(this.ViewModel, model => model.TotalIonChromatogramViewModel,
+                view => view.TotalIonChromatogramViewHost.ViewModel);
         }
 
         #endregion

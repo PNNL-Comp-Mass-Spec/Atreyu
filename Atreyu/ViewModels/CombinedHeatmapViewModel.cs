@@ -123,30 +123,15 @@ namespace Atreyu.ViewModels
             this.CalibEnabled = false;
 
             // Keep the M/Z mode settings updated
-            this.WhenAnyValue(vm => vm.MzCenter)
-                .Where(b => this.UimfData != null)
+            this.WhenAnyValue(vm => vm.MzCenter, vm => vm.PartsPerMillion, vm => vm.MzRangeEnabled)
+                .Where(tuple => this.UimfData != null && tuple.Item1 >= 1 && tuple.Item2 >= 1)
                 .Subscribe(x =>
                 {
-                    this.UimfData.MzCenter = x;
+                    this.UimfData.MzCenter = x.Item1;
+                    this.UimfData.PartsPerMillion = x.Item2;
+                    this.UimfData.WindowMz = x.Item3;
                     this.UpdateMzWindow();
                 });
-            this.WhenAnyValue(vm => vm.PartsPerMillion)
-                .Where(b => this.UimfData != null)
-                .Subscribe(x =>
-                {
-                    this.UimfData.PartsPerMillion = x;
-                    this.UpdateMzWindow();
-                });
-
-            this.WhenAnyValue(vm => vm.MzRangeEnabled).Subscribe(x =>
-            {
-                this.HeatMapViewModel.ForceMinMaxMz = x;
-                if (this.UimfData != null)
-                {
-                    this.UimfData.WindowMz = x;
-                    this.UpdateMzWindow();
-                }
-            });
 
             this.ZoomOutFull = this.FrameManipulationViewModel.ZoomOutCommand;
             this.ZoomOutFull.Select(async _ => await Task.Run(() => this.ZoomOut())).Subscribe();
@@ -184,26 +169,25 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.FrameManipulationViewModel.Range).Subscribe(this.SumFrames);
             
             // Update the Heatmap axes
-            this.WhenAnyValue(vm => vm.UimfData.StartScan, vm => vm.UimfData.EndScan, vm => vm.UimfData.CurrentMinMz, vm => vm.UimfData.CurrentMaxMz).Subscribe(tuple=>
+            this.WhenAnyValue(vm => vm.UimfData.Ranges).Subscribe(ranges=>
             {
                 lock (syncRoot)
                 {
-                    this.HeatMapViewModel.CurrentMinScan = tuple.Item1;
-                    this.TotalIonChromatogramViewModel.ChangeStartScan(tuple.Item1);
-                    this.BasePeakIntensityViewModel.ChangeStartScan(tuple.Item1);
+                    this.HeatMapViewModel.CurrentMinScan = ranges.StartScan;
+                    this.TotalIonChromatogramViewModel.ChangeStartScan(ranges.StartScan);
+                    this.BasePeakIntensityViewModel.ChangeStartScan(ranges.StartScan);
 
-                    this.HeatMapViewModel.CurrentMaxScan = tuple.Item2;
-                    this.TotalIonChromatogramViewModel.ChangeEndScan(tuple.Item2);
-                    this.BasePeakIntensityViewModel.ChangeEndScan(tuple.Item2);
+                    this.HeatMapViewModel.CurrentMaxScan = ranges.EndScan;
+                    this.TotalIonChromatogramViewModel.ChangeEndScan(ranges.EndScan);
+                    this.BasePeakIntensityViewModel.ChangeEndScan(ranges.EndScan);
 
-                    this.HeatMapViewModel.CurrentMinMz = tuple.Item3;
-                    this.MzSpectraViewModel.ChangeStartMz(tuple.Item3);
+                    this.HeatMapViewModel.CurrentMinMz = ranges.CurrentMinMz;
+                    this.MzSpectraViewModel.ChangeStartMz(ranges.CurrentMinMz);
 
-                    this.HeatMapViewModel.CurrentMaxMz = tuple.Item4;
-                    this.MzSpectraViewModel.ChangeEndMz(tuple.Item4);
+                    this.HeatMapViewModel.CurrentMaxMz = ranges.CurrentMaxMz;
+                    this.MzSpectraViewModel.ChangeEndMz(ranges.CurrentMaxMz);
 
-                    var data = this.UimfData.ReadData(new Range<int>(tuple.Item1, tuple.Item2),
-                        new Range<double>(tuple.Item3, tuple.Item4),
+                    var data = this.UimfData.ReadData(ranges,
                         new Range<int>(this.uimfData.StartFrameNumber, this.uimfData.EndFrameNumber), this.Height, this.Width);
                     if (!ShowFrameCollapsed)
                     {
@@ -217,10 +201,10 @@ namespace Atreyu.ViewModels
                     this.TotalIonChromatogramViewModel.UpdateFrameData(data);
                     this.BasePeakIntensityViewModel.UpdateFrameData(data);
 
-                    this.TotalIonChromatogramViewModel.StartScan = this.UimfData.StartScan;
-                    this.TotalIonChromatogramViewModel.EndScan = this.UimfData.EndScan;
-                    this.BasePeakIntensityViewModel.StartScan = this.UimfData.StartScan;
-                    this.BasePeakIntensityViewModel.EndScan = this.UimfData.EndScan;
+                    this.TotalIonChromatogramViewModel.StartScan = this.UimfData.Ranges.StartScan;
+                    this.TotalIonChromatogramViewModel.EndScan = this.UimfData.Ranges.EndScan;
+                    this.BasePeakIntensityViewModel.StartScan = this.UimfData.Ranges.StartScan;
+                    this.BasePeakIntensityViewModel.EndScan = this.UimfData.Ranges.EndScan;
                 }
                 
             });
@@ -360,10 +344,6 @@ namespace Atreyu.ViewModels
 
             set
             {
-                if (value < 1)
-                {
-                    value = 1;
-                }
                 this.RaiseAndSetIfChanged(ref this.centerMz, value);
             }
         }
@@ -401,10 +381,6 @@ namespace Atreyu.ViewModels
 
             set
             {
-                if (value < 1)
-                {
-                    value = 1;
-                }
                 this.RaiseAndSetIfChanged(ref this.partsPerMillion, value);
             }
         }
@@ -412,7 +388,7 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Gets the total ion chromatogram view model.
         /// </summary>
-        public TotalIonChromatogramViewModel TotalIonChromatogramViewModel { get; }
+        public TotalIonChromatogramViewModel TotalIonChromatogramViewModel { get; private set; }
 
         public BasePeakIntensityViewModel BasePeakIntensityViewModel { get; }
 
@@ -465,8 +441,7 @@ namespace Atreyu.ViewModels
         /// </returns>
         public double[,] ExportHeatmapDataCompressed()
         {
-            //return this.HeatMapViewModel.GetCompressedDataInView();
-            return this.HeatMapViewModel.ExportData();
+            return new double[0,0];
         }
 
         /// <summary>
@@ -511,19 +486,6 @@ namespace Atreyu.ViewModels
             this.currentEndFrame = frameNumber;
             if(frameNumber != 0)
                 this.UimfData.UpdateTofTime(frameNumber);
-
-            UimfData?.ReadData(
-                //1,
-                //this.UimfData.MaxBins,
-                this.UimfData.MinMz,
-                this.UimfData.MaxMz,
-                frameNumber,
-                frameNumber,
-                this.Height,
-                this.Width,
-                0,
-                this.UimfData.Scans,
-                ReturnGatedData);
         }
 
         /// <summary>
@@ -566,15 +528,11 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            this.UimfData = new UimfData(file);// { CurrentMinMz = 0 };
-            //this.UimfData.CurrentMaxMz = this.UimfData.TotalMzRange;
-            this.UimfData.CurrentMinMz = this.UimfData.MinMz;
-            this.UimfData.CurrentMaxMz = this.UimfData.MaxMz;
+            this.UimfData = new UimfData(file);
             this.FetchSingleFrame(1);
             this.TofCalibratorViewModel.FileName = Path.GetFullPath(file);
             this.HeatMapViewModel.CurrentFile = Path.GetFileNameWithoutExtension(file);
-            this.TotalIonChromatogramViewModel.MaxScan = this.UimfData.EndScan;
-            this.BasePeakIntensityViewModel.MaxScan = this.UimfData.EndScan;
+            this.TotalIonChromatogramViewModel = new TotalIonChromatogramViewModel(this.UimfData);
         }
 
         /// <summary>
@@ -599,16 +557,16 @@ namespace Atreyu.ViewModels
 
             this.currentEndFrame = sumFrames.End < 1 ? 1 : sumFrames.End;
 
-            this.UimfData.ReadData(
-                    this.UimfData.CurrentMinMz,
-                    this.UimfData.CurrentMaxMz,
-                    this.currentStartFrame,
-                    this.currentEndFrame,
-                    this.Height,
-                    this.Width,
-                    this.UimfData.StartScan,
-                    this.UimfData.EndScan,
-                    ReturnGatedData);
+            //this.UimfData.ReadData(
+            //        this.UimfData.CurrentMinMz,
+            //        this.UimfData.CurrentMaxMz,
+            //        this.currentStartFrame,
+            //        this.currentEndFrame,
+            //        this.Height,
+            //        this.Width,
+            //        this.UimfData.StartScan,
+            //        this.UimfData.EndScan,
+            //        ReturnGatedData);
         }
 
         /// <summary>
@@ -634,8 +592,7 @@ namespace Atreyu.ViewModels
 
             var mzRange = this.windowMz ? this.mzWindow : new Range<double>(this.UimfData.MinMz, this.UimfData.MaxMz);
 
-            var frameRange = new Range<int>(this.currentStartFrame, this.currentEndFrame);
-            this.UimfData.ReadData(scanRange, mzRange, frameRange, Height, Width);
+            this.UimfData.Ranges = (mzRange.Start, mzRange.End, scanRange.Start, scanRange.End);
             this.HeatMapViewModel.HeatMapPlotModel.ResetAllAxes();
         }
 
@@ -656,8 +613,7 @@ namespace Atreyu.ViewModels
             var frameRange = new Range<int>(this.currentStartFrame, this.currentEndFrame);
             var scanRange = new Range<int>(this.TotalIonChromatogramViewModel.StartScan,
                 this.TotalIonChromatogramViewModel.EndScan);
-
-            this.UimfData.ReadData(scanRange, mzWindow, frameRange, Height, Width);
+            this.UimfData.Ranges = (mzWindow.Start, mzWindow.End, scanRange.Start, scanRange.End);
         }
 
         #endregion
@@ -701,7 +657,6 @@ namespace Atreyu.ViewModels
             set
             {
                 this.RaiseAndSetIfChanged(ref this._ticEnabled, value);
-                TicVisible = value ? Visibility.Visible : Visibility.Hidden;
             }
         }
 
