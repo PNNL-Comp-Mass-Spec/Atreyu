@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reactive.Linq;
 using System.Reflection;
 using System.Windows.Media;
 
@@ -107,8 +108,6 @@ namespace Atreyu.ViewModels
         private string _mzDisplay;
         private List<OxyPaletteMap> _heatmapPalettes;
         private OxyPaletteMap _selectedPalette;
-        private bool _needsEventHandle;
-        private double[,] logArray;
         private bool _showLogData;
 private  bool _heatmapWhite;
 
@@ -122,6 +121,7 @@ private  bool _heatmapWhite;
         [ImportingConstructor]
         public HeatMapViewModel()
         {
+            this.HeatMapPlotModel = new PlotModel();
             var ddlColor = new List<OxyPaletteMap>();
             Type colors = typeof (OxyPalettes);
             MethodInfo[] colorInfo = colors.GetMethods(BindingFlags.Public | BindingFlags.Static);
@@ -143,7 +143,25 @@ private  bool _heatmapWhite;
                 }
             }
             AvailableColors = ddlColor;
-            _needsEventHandle = true;
+
+            this.WhenAnyValue(x => x.SelectedPalette).Where(x => this.HeatMapData != null).Subscribe(map =>
+            {
+                lock (this.HeatMapPlotModel.SyncRoot)
+                {
+                    var axis = HeatMapPlotModel.Axes[0] as LinearColorAxis;
+                    axis.Palette = SelectedPalette.Palette;
+                    UpdateData(this.FrameData);
+                    HeatMapPlotModel.ResetAllAxes();
+                }
+            });
+
+            this.WhenAnyValue(x => x.ShowLogData).Where(x => this.HeatMapData != null && this.HeatMapPlotModel != null).Subscribe(b =>
+            {
+                lock (this.HeatMapPlotModel.SyncRoot)
+                {
+                    
+                }
+            });
         }
 
         #endregion
@@ -370,101 +388,89 @@ private  bool _heatmapWhite;
         /// </summary>
         public void SetUpPlot()
         {
-            this.HeatMapPlotModel = new PlotModel();
-
-            var dis = System.Windows.Application.Current.Dispatcher;
-
-            dis.Invoke(() =>
+            lock (this.HeatMapPlotModel.SyncRoot)
             {
-                var subDis = System.Windows.Application.Current.Dispatcher;
-                subDis.Invoke(() =>
+                this.HeatMapPlotModel.Axes.Clear();
+
+                var linearColorAxis1 = new LinearColorAxis
                 {
-                    this.HeatMapPlotModel.Axes.Clear();
-                    
-                    var linearColorAxis1 = new LinearColorAxis
-                    {
-                        Position = AxisPosition.Right,
-                        Minimum = 1,
-                        Title = "Intensity",
-                        IsAxisVisible = this.AxisVisible,
-                        Palette = SelectedPalette.Palette
-                    };
-                    if (MakeHeatmapWhite)
-                        linearColorAxis1.LowColor = OxyColors.White;
-                    else
-                    {
-                        linearColorAxis1.LowColor = OxyColors.Black;
-                    }
+                    Position = AxisPosition.Right,
+                    Minimum = 1,
+                    Title = "Intensity",
+                    IsAxisVisible = this.AxisVisible,
+                    Palette = SelectedPalette.Palette
+                };
+                if (MakeHeatmapWhite)
+                    linearColorAxis1.LowColor = OxyColors.White;
+                else
+                {
+                    linearColorAxis1.LowColor = OxyColors.Black;
+                }
 
-                    this.HeatMapPlotModel.Axes.Add(linearColorAxis1);
-                    
-                    var horizontalAxis = new LinearAxis
-                    {
-                        Position = AxisPosition.Bottom,
-                        AbsoluteMinimum = 0,
-                        AbsoluteMaximum = this.HeatMapData.Scans,
-                        MinimumRange = 10,
-                        MaximumPadding = 0,
-                        Title = "Mobility Scans",
-                        IsAxisVisible = this.AxisVisible
-                    };
+                this.HeatMapPlotModel.Axes.Add(linearColorAxis1);
 
-                    horizontalAxis.AxisChanged += this.PublishXAxisChange;
+                var horizontalAxis = new LinearAxis
+                {
+                    Position = AxisPosition.Bottom,
+                    AbsoluteMinimum = 0,
+                    AbsoluteMaximum = this.HeatMapData.Scans,
+                    MinimumRange = 10,
+                    MaximumPadding = 0,
+                    Title = "Mobility Scans",
+                    IsAxisVisible = this.AxisVisible
+                };
 
-                    this.HeatMapPlotModel.Axes.Add(horizontalAxis);
+                horizontalAxis.AxisChanged += this.PublishXAxisChange;
 
-                    var verticalAxis = new LinearAxis
-                    {
-                        AbsoluteMinimum = this.HeatMapData.MinMz,
-                        AbsoluteMaximum = this.HeatMapData.MaxMz,
-                        MaximumPadding = 0,
-                        Title = "M/Z",
-                        TickStyle = TickStyle.Inside,
-                        AxisDistance = -2,
-                        IsZoomEnabled = true,
-                        TextColor = OxyColors.Red,
-                        TicklineColor = OxyColors.Red,
-                        Layer = AxisLayer.AboveSeries,
-                        IsAxisVisible = this.AxisVisible
-                    };
-                    
-                    verticalAxis.AxisChanged += this.PublishYAxisChange;
+                this.HeatMapPlotModel.Axes.Add(horizontalAxis);
 
-                    this.HeatMapPlotModel.Axes.Add(verticalAxis);
+                var verticalAxis = new LinearAxis
+                {
+                    AbsoluteMinimum = this.HeatMapData.MinMz,
+                    AbsoluteMaximum = this.HeatMapData.MaxMz,
+                    MaximumPadding = 0,
+                    Title = "M/Z",
+                    TickStyle = TickStyle.Inside,
+                    AxisDistance = -2,
+                    IsZoomEnabled = true,
+                    TextColor = OxyColors.Red,
+                    TicklineColor = OxyColors.Red,
+                    Layer = AxisLayer.AboveSeries,
+                    IsAxisVisible = this.AxisVisible
+                };
 
-                    var heatMapSeries1 = new HeatMapSeries
-                    {
-                        X0 = 0,
-                        X1 = this.HeatMapData.Scans,
-                        Y0 = this.HeatMapData.MinMz,
-                        Y1 = this.HeatMapData.MaxMz,
-                        Interpolate = false
-                    };
+                verticalAxis.AxisChanged += this.PublishYAxisChange;
 
-                    this.HeatMapPlotModel.Series.Add(heatMapSeries1);
-                    if (_needsEventHandle)
-                    {
-                        this.HeatMapPlotModel.MouseMove += (sender, args) =>
-                        {
-                            if (this.HeatMapPlotModel != null && this.HeatMapPlotModel.Series != null)
-                            {
-                                try
-                                {
-                                    var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
-                                    var mz = series.InverseTransform(args.Position).Y;
-                                    var tof = this.HeatMapData.Calibrator.MZtoTOF(mz)/10000.0;
-                                    MzDisplay = "mz: " + mz;
-                                    TofDisplay = "tof: " + tof;
-                                }
-                                catch (Exception)
-                                {
-                                }
-                            }
-                        };
-                        _needsEventHandle = false;
-                    }
-                });
-            });
+                this.HeatMapPlotModel.Axes.Add(verticalAxis);
+
+                var heatMapSeries1 = new HeatMapSeries
+                {
+                    X0 = 0,
+                    X1 = this.HeatMapData.Scans,
+                    Y0 = this.HeatMapData.MinMz,
+                    Y1 = this.HeatMapData.MaxMz,
+                    Interpolate = false
+                };
+
+                this.HeatMapPlotModel.Series.Add(heatMapSeries1);
+                //this.HeatMapPlotModel.MouseMove += (sender, args) =>
+                //{
+                //    if (this.HeatMapPlotModel != null && this.HeatMapPlotModel.Series != null)
+                //    {
+                //        try
+                //        {
+                //            var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
+                //            var mz = series.InverseTransform(args.Position).Y;
+                //            var tof = this.HeatMapData.Calibrator.MZtoTOF(mz)/10000.0;
+                //            MzDisplay = "mz: " + mz;
+                //            TofDisplay = "tof: " + tof;
+                //        }
+                //        catch (Exception)
+                //        {
+                //        }
+                //    }
+                //};
+            }
         }
 
         public string TofDisplay
@@ -486,56 +492,57 @@ private  bool _heatmapWhite;
         /// </param>
         public void UpdateData(double[,] framedata)
         {
-            if (framedata == null)
+            lock (this.HeatMapPlotModel.SyncRoot)
             {
-                return;
-            }
-
-            var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
-            if (series == null)
-            {
-                return;
-            }
-
-            if (this.ForceMinMaxMz)
-            {
-                this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.MzWindow.EndMz;
-                this.heatMapPlotModel.Axes[2].AbsoluteMinimum = this.MzWindow.StartMz;
-            }
-            else
-            {
-                this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.HeatMapData.MaxMz;
-                this.heatMapPlotModel.Axes[2].AbsoluteMinimum = this.HeatMapData.MinMz;
-            }
-
-            this.dataArray = new double[framedata.GetLength(0), framedata.GetLength(1)];
-            this.logArray = new double[framedata.GetLength(0), framedata.GetLength(1)];
-            for (int i = 0; i < framedata.GetLength(0); i++)
-            {
-                for (int j = 0; j < framedata.GetLength(1); j++)
+                if (framedata == null)
                 {
-                    logArray[i, j] = Math.Log10(framedata[i, j]);
-                    dataArray[i, j] = framedata[i, j];
+                    return;
                 }
+
+                var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
+                if (series == null)
+                {
+                    return;
+                }
+
+                if (this.ForceMinMaxMz)
+                {
+                    this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.MzWindow.EndMz;
+                    this.heatMapPlotModel.Axes[2].AbsoluteMinimum = this.MzWindow.StartMz;
+                }
+                else
+                {
+                    this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.HeatMapData.MaxMz;
+                    this.heatMapPlotModel.Axes[2].AbsoluteMinimum = this.HeatMapData.MinMz;
+                }
+
+                this.dataArray = new double[framedata.GetLength(0), framedata.GetLength(1)];
+                Array.Copy(framedata, dataArray, framedata.GetLength(0) * framedata.GetLength(1));
+
+                //for (int i = 0; i < framedata.GetLength(0); i++)
+                //{
+                //    for (int j = 0; j < framedata.GetLength(1); j++)
+                //    {
+                //        logArray[i, j] = Math.Log10(framedata[i, j]);
+                //        dataArray[i, j] = framedata[i, j];
+                //    }
+                //}
+
+                series.Data = dataArray;
+
+                // scans
+                series.X0 = this.CurrentMinScan;
+                series.X1 = this.CurrentMaxScan;
+
+                // bins
+                series.Y0 = this.CurrentMinMz;
+                series.Y1 = this.CurrentMaxMz;
+
+                this.HeatMapPlotModel.ResetAllAxes();
+
+                this.HeatMapPlotModel.InvalidatePlot(true);
             }
-
-            UpdateHeatmapData();
-
-            // scans
-            series.X0 = this.CurrentMinScan;
-            series.X1 = this.CurrentMaxScan;
             
-            // bins
-            series.Y0 = this.CurrentMinMz;
-            series.Y1 = this.CurrentMaxMz;
-
-            //if ((this.CurrentMinScan == 0 && this.CurrentMinMz.Equals(0))
-            //    || (this.ForceMinMaxMz && this.CurrentMinMz.Equals(this.MzWindow.StartMz)))
-            //{
-            this.heatMapPlotModel.ResetAllAxes();
-            //}
-
-            this.HeatMapPlotModel.InvalidatePlot(true);
         }
 
         /// <summary>
@@ -625,22 +632,6 @@ private  bool _heatmapWhite;
             }
         }
 
-        private void UpdateHeatmapData()
-        {
-            if (this.HeatMapPlotModel != null)
-            {
-                var series = this.HeatMapPlotModel.Series[0] as HeatMapSeries;
-                if (ShowLogData)
-                {
-                    series.Data = this.logArray;
-                }
-                else
-                {
-                    series.Data = this.dataArray;
-                }
-                this.HeatMapPlotModel.InvalidatePlot(true);
-            }
-        }
 
         #endregion
 
@@ -663,17 +654,6 @@ private  bool _heatmapWhite;
             set
             {
                 this.RaiseAndSetIfChanged(ref _selectedPalette, value);
-                if (this.HeatMapData != null)
-                {
-                    var dis = System.Windows.Application.Current.Dispatcher;
-                    dis.Invoke(() =>
-                    {
-                        var axis = HeatMapPlotModel.Axes[0] as LinearColorAxis;
-                        axis.Palette = SelectedPalette.Palette;
-                        UpdateData(this.FrameData);
-                        HeatMapPlotModel.ResetAllAxes();
-                    });
-                }
             }
         }
 
@@ -683,7 +663,7 @@ private  bool _heatmapWhite;
             set
             {
                 this.RaiseAndSetIfChanged(ref this._showLogData, value);
-                UpdateHeatmapData();
+               
             }
         }
 

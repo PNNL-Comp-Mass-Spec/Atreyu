@@ -1,3 +1,5 @@
+using System.Windows.Controls;
+
 namespace Atreyu.Views
 {
     using System;
@@ -12,7 +14,7 @@ namespace Atreyu.Views
     /// Interaction logic for HeatMapView.xaml
     /// </summary>
     [Export]
-    public partial class HeatMapView : IViewFor<HeatMapViewModel>
+    public partial class HeatMapView : UserControl, IViewFor<HeatMapViewModel>
     {
         #region Constructors and Destructors
 

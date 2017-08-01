@@ -63,17 +63,18 @@ namespace Atreyu.ViewModels
             if(File.Exists(fileName))
                 File.Delete(fileName);
             File.Copy(FileName, fileName);
-            var dataWriter = new DataWriter(fileName);
-            
-            //dataWriter.InsertGlobal(dataReader.GetGlobalParams());
-            for (int i = 1; i <= dataReader.GetGlobalParams().NumFrames; i++)
+            using (var dataWriter = new DataWriter(fileName))
             {
-                //    dataWriter.InsertFrame(i, dataReader.GetFrameParams(i));
-                //    dataWriter.InsertScan(i, dataReader.GetFrameParams(i), dataReader.)
+                //dataWriter.InsertGlobal(dataReader.GetGlobalParams());
+                var numFrames = dataReader.GetGlobalParams().NumFrames;
+                for (int i = 1; i <= numFrames; i++)
+                {
+                    //    dataWriter.InsertFrame(i, dataReader.GetFrameParams(i));
+                    //    dataWriter.InsertScan(i, dataReader.GetFrameParams(i), dataReader.)
 
-                dataWriter.UpdateCalibrationCoefficients(1, (float) (CalibSlope*10000.0), (float) (CalibInt/10000.0));
+                    dataWriter.UpdateCalibrationCoefficients(1, (float)(CalibSlope * 10000.0), (float)(CalibInt / 10000.0));
+                }
             }
-            dataWriter.FlushUimf();
             this.NewFileName = fileName;
             this.ReloadUIMF = true;
         }
