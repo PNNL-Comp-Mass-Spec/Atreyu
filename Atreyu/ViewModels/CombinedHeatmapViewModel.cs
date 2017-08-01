@@ -64,10 +64,8 @@ namespace Atreyu.ViewModels
         /// </summary>
         private int height;
 
-        /// <summary>
-        /// The m/z window represented as a <see cref="MzRange"/>.
-        /// </summary>
-        private MzRange mzWindow = new MzRange();
+       
+        private Range<double> mzWindow;
 
         /// <summary>
         /// The parts per million tolerance for the m/z window.
@@ -154,7 +152,7 @@ namespace Atreyu.ViewModels
             this.ZoomOutFull.Select(async _ => await Task.Run(() => this.ZoomOut())).Subscribe();
 
             // update the uimf data for the various components
-            this.WhenAnyValue(vm => vm.UimfData).Subscribe(data =>
+            this.WhenAnyValue(vm => vm.UimfData).Where(x => x != null).Subscribe(data =>
             {
                 this.FrameManipulationViewModel.UpdateUimf(data);
                 this.HeatMapViewModel.UpdateReference(data);
@@ -162,26 +160,13 @@ namespace Atreyu.ViewModels
                 this.BasePeakIntensityViewModel.UpdateReference(data);
                 this.TotalIonChromatogramViewModel.UpdateReference(data);
                 this.TofCalibratorViewModel.UpdateExistingCalib(data, this.currentFile);
+
+               
             });
 
-            this.WhenAnyValue(vm => vm.UimfData.FrameData)
-                .Subscribe(data =>
-                {
-                    if (!ShowFrameCollapsed)
-                    {
-                        this.HeatMapViewModel.UpdateData(data);
-                    }
-                    else if (this.uimfData.FrameCollapsed != null)
-                    {
-                        this.HeatMapViewModel.UpdateData(this.uimfData.FrameCollapsed);
-                    }
-                    this.MzSpectraViewModel.UpdateFrameData(data);
-                    this.TotalIonChromatogramViewModel.UpdateFrameData(data);
-                    this.BasePeakIntensityViewModel.UpdateFrameData(data);
-                });
 
             // update the frame data of the TIC plot when needed; apparently the Throttler should always specify the schedule.
-            this.WhenAnyValue(vm => vm.UimfData.GatedFrameData).Throttle(TimeSpan.FromMilliseconds(50))
+            this.WhenAnyValue(vm => vm.UimfData.GatedFrameData).Where(x => x != null).Throttle(TimeSpan.FromMilliseconds(50))
                 .Subscribe(data =>
                 {
                     this.HeatMapViewModel.UpdateData(data);
@@ -197,29 +182,47 @@ namespace Atreyu.ViewModels
 
             // hook up the frame summing feature
             this.WhenAnyValue(vm => vm.FrameManipulationViewModel.Range).Subscribe(this.SumFrames);
-
+            
             // Update the Heatmap axes
-            this.WhenAnyValue(vm => vm.UimfData.StartScan).Subscribe(i =>
+            this.WhenAnyValue(vm => vm.UimfData.StartScan, vm => vm.UimfData.EndScan, vm => vm.UimfData.CurrentMinMz, vm => vm.UimfData.CurrentMaxMz).Subscribe(tuple=>
             {
-                this.HeatMapViewModel.CurrentMinScan = i;
-                this.TotalIonChromatogramViewModel.ChangeStartScan(i);
-                this.BasePeakIntensityViewModel.ChangeStartScan(i);
-            });
-            this.WhenAnyValue(vm => vm.UimfData.EndScan).Subscribe(i =>
-            {
-                this.HeatMapViewModel.CurrentMaxScan = i;
-                this.TotalIonChromatogramViewModel.ChangeEndScan(i);
-                this.BasePeakIntensityViewModel.ChangeEndScan(i);
-            });
-            this.WhenAnyValue(vm => vm.UimfData.CurrentMinMz).Subscribe(i =>
-            {
-                this.HeatMapViewModel.CurrentMinMz = i;
-                this.MzSpectraViewModel.ChangeStartMz(i);
-            });
-            this.WhenAnyValue(vm => vm.UimfData.CurrentMaxMz).Subscribe(i =>
-            {
-                this.HeatMapViewModel.CurrentMaxMz = i;
-                this.MzSpectraViewModel.ChangeEndMz(i);
+                lock (syncRoot)
+                {
+                    this.HeatMapViewModel.CurrentMinScan = tuple.Item1;
+                    this.TotalIonChromatogramViewModel.ChangeStartScan(tuple.Item1);
+                    this.BasePeakIntensityViewModel.ChangeStartScan(tuple.Item1);
+
+                    this.HeatMapViewModel.CurrentMaxScan = tuple.Item2;
+                    this.TotalIonChromatogramViewModel.ChangeEndScan(tuple.Item2);
+                    this.BasePeakIntensityViewModel.ChangeEndScan(tuple.Item2);
+
+                    this.HeatMapViewModel.CurrentMinMz = tuple.Item3;
+                    this.MzSpectraViewModel.ChangeStartMz(tuple.Item3);
+
+                    this.HeatMapViewModel.CurrentMaxMz = tuple.Item4;
+                    this.MzSpectraViewModel.ChangeEndMz(tuple.Item4);
+
+                    var data = this.UimfData.ReadData(new Range<int>(tuple.Item1, tuple.Item2),
+                        new Range<double>(tuple.Item3, tuple.Item4),
+                        new Range<int>(this.uimfData.StartFrameNumber, this.uimfData.EndFrameNumber), this.Height, this.Width);
+                    if (!ShowFrameCollapsed)
+                    {
+                        this.HeatMapViewModel.UpdateData(data);
+                    }
+                    else if (this.uimfData.FrameCollapsed != null)
+                    {
+                        this.HeatMapViewModel.UpdateData(this.uimfData.FrameCollapsed);
+                    }
+                    this.MzSpectraViewModel.UpdateFrameData(data);
+                    this.TotalIonChromatogramViewModel.UpdateFrameData(data);
+                    this.BasePeakIntensityViewModel.UpdateFrameData(data);
+
+                    this.TotalIonChromatogramViewModel.StartScan = this.UimfData.StartScan;
+                    this.TotalIonChromatogramViewModel.EndScan = this.UimfData.EndScan;
+                    this.BasePeakIntensityViewModel.StartScan = this.UimfData.StartScan;
+                    this.BasePeakIntensityViewModel.EndScan = this.UimfData.EndScan;
+                }
+                
             });
 
             // This makes the axis of the mz plot be in mz mode properly
@@ -268,43 +271,16 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.HeatMapViewModel.Height).Subscribe(d => this.Height = d);
             this.WhenAnyValue(vm => vm.HeatMapViewModel.Width).Subscribe(d => this.Width = d);
 
-            this.HeatMapViewModel.WhenAnyValue(hm => hm.CurrentMzRange)
-                .Where(_ => this.UimfData != null && this.HeatMapViewModel.CurrentMzRange != null)
-                .Select(
-                    async x =>
-                    {
-                        await Task.Run(() =>
-                        {
-                            this.UimfData.RangeUpdateList.Enqueue(x);
-                            this.uimfData.CheckQueue();
-                        });
-                    }).Subscribe();
-
-            this.HeatMapViewModel.WhenAnyValue(hm => hm.CurrentScanRange)
-                .Where(_ => this.UimfData != null && this.HeatMapViewModel.CurrentScanRange != null)
-                .Select(
-                    async x =>
-                    {
-                        await Task.Run(() =>
-                        {
-                            this.UimfData.RangeUpdateList.Enqueue(x);
-                            this.uimfData.CheckQueue();
-                            this.TotalIonChromatogramViewModel.StartScan = this.uimfData.StartScan;
-                            this.TotalIonChromatogramViewModel.EndScan = this.uimfData.EndScan;
-                            this.BasePeakIntensityViewModel.StartScan = this.uimfData.StartScan;
-                            this.BasePeakIntensityViewModel.EndScan = this.uimfData.EndScan;
-                        });
-                    }).Subscribe();
             
             this.MzSpectraViewModel.WhenAnyValue(mzStart => mzStart.StartMZ, mzEnd => mzEnd.EndMZ)
                 .Where(_ => this.UimfData != null)
                 .Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
-                .Subscribe(x => this.HeatMapViewModel.CurrentMzRange = new MzRange(this.MzSpectraViewModel.StartMZ, this.MzSpectraViewModel.EndMZ));
+                .Subscribe(x => this.HeatMapViewModel.CurrentMzRange = new Range<double>(this.MzSpectraViewModel.StartMZ, this.MzSpectraViewModel.EndMZ));
 
             this.BasePeakIntensityViewModel.WhenAnyValue(ticStart => ticStart.StartScan, ticEnd => ticEnd.EndScan)
                 .Where(_ => this.UimfData != null)
                 .Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
-                .Subscribe(x => this.HeatMapViewModel.CurrentScanRange = new ScanRange(this.BasePeakIntensityViewModel.StartScan, this.BasePeakIntensityViewModel.EndScan));
+                .Subscribe(x => this.HeatMapViewModel.CurrentScanRange = new Range<int>(this.BasePeakIntensityViewModel.StartScan, this.BasePeakIntensityViewModel.EndScan));
 
             this.TofCalibratorViewModel.WhenAnyValue(x => x.ReloadUIMF)
                 .Where(_ => this.TofCalibratorViewModel.ReloadUIMF)
@@ -317,7 +293,7 @@ namespace Atreyu.ViewModels
             this.TotalIonChromatogramViewModel.WhenAnyValue(ticStart => ticStart.StartScan, ticEnd => ticEnd.EndScan)
                 .Where(_ => this.UimfData != null)
                 .Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
-                .Subscribe(x => this.HeatMapViewModel.CurrentScanRange = new ScanRange(this.TotalIonChromatogramViewModel.StartScan, this.TotalIonChromatogramViewModel.EndScan));
+                .Subscribe(x => this.HeatMapViewModel.CurrentScanRange = new Range<int>(this.TotalIonChromatogramViewModel.StartScan, this.TotalIonChromatogramViewModel.EndScan));
 
             this.HeatMapViewModel.WhenAnyValue(palette => palette.SelectedPalette).Where(_ => this.UimfData != null)
                 .Subscribe(x =>
@@ -340,7 +316,7 @@ namespace Atreyu.ViewModels
         #region Public Properties
 
 
-
+        private object syncRoot = new object();
         /// <summary>
         /// Gets the frame manipulation view model.
         /// </summary>
@@ -607,7 +583,7 @@ namespace Atreyu.ViewModels
         /// <param name="sumFrames">
         /// The frame range to sum.
         /// </param>
-        public void SumFrames(FrameRange sumFrames)
+        public void SumFrames(Range<int> sumFrames)
         {
             if (sumFrames == null)
             {
@@ -619,9 +595,9 @@ namespace Atreyu.ViewModels
                 return;
             }
 
-            this.currentStartFrame = sumFrames.StartFrame < 1 ? 1 : sumFrames.StartFrame;
+            this.currentStartFrame = sumFrames.Start < 1 ? 1 : sumFrames.Start;
 
-            this.currentEndFrame = sumFrames.EndFrame < 1 ? 1 : sumFrames.EndFrame;
+            this.currentEndFrame = sumFrames.End < 1 ? 1 : sumFrames.End;
 
             this.UimfData.ReadData(
                     this.UimfData.CurrentMinMz,
@@ -654,13 +630,12 @@ namespace Atreyu.ViewModels
         /// </returns>
         public void ZoomOut()
         {
-            var scanRange = new ScanRange(0, this.UimfData.Scans);
+            var scanRange = new Range<int>(0, this.UimfData.Scans);
 
-            var mzRange = this.windowMz ? this.mzWindow : new MzRange(this.UimfData.MinMz, this.UimfData.MaxMz);
+            var mzRange = this.windowMz ? this.mzWindow : new Range<double>(this.UimfData.MinMz, this.UimfData.MaxMz);
 
-            this.UimfData.RangeUpdateList.Enqueue(scanRange);
-            this.UimfData.RangeUpdateList.Enqueue(mzRange);
-            this.UimfData.CheckQueue();
+            var frameRange = new Range<int>(this.currentStartFrame, this.currentEndFrame);
+            this.UimfData.ReadData(scanRange, mzRange, frameRange, Height, Width);
             this.HeatMapViewModel.HeatMapPlotModel.ResetAllAxes();
         }
 
@@ -678,9 +653,11 @@ namespace Atreyu.ViewModels
         {
             this.mzWindow = this.uimfData.GetMzRangeForMzWindow(this.MzCenter, this.PartsPerMillion);
             this.HeatMapViewModel.MzWindow = this.mzWindow;
-            this.UimfData.RangeUpdateList.Enqueue(this.mzWindow);
-            this.UimfData.RangeUpdateList.Enqueue(new ScanRange(this.TotalIonChromatogramViewModel.StartScan, this.TotalIonChromatogramViewModel.EndScan));
-            this.UimfData.CheckQueue();
+            var frameRange = new Range<int>(this.currentStartFrame, this.currentEndFrame);
+            var scanRange = new Range<int>(this.TotalIonChromatogramViewModel.StartScan,
+                this.TotalIonChromatogramViewModel.EndScan);
+
+            this.UimfData.ReadData(scanRange, mzWindow, frameRange, Height, Width);
         }
 
         #endregion
@@ -728,25 +705,7 @@ namespace Atreyu.ViewModels
             }
         }
 
-        public bool ShowFrameCollapsed
-        {
-            get { return this._showFrameCollapsed; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref this._showFrameCollapsed, value);
-                if (this.uimfData != null && this.uimfData.FrameData != null)
-                {
-                    if (!value)
-                    {
-                        this.HeatMapViewModel.UpdateData(this.uimfData.FrameData);
-                    }
-                    else
-                    {
-                        this.HeatMapViewModel.UpdateData(this.uimfData.FrameCollapsed);
-                    }
-                }
-            }
-        }
+        public bool ShowFrameCollapsed { get; set; }
 
         public ToFCalibratorViewModel TofCalibratorViewModel { get; set; }
 

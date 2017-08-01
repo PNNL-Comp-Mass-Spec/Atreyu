@@ -27,7 +27,6 @@ namespace Atreyu.ViewModels
     /// <summary>
     /// The heat map view model.
     /// </summary>
-    [Export]
     public class HeatMapViewModel : ReactiveObject
     {
         #region Fields
@@ -35,7 +34,7 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// The current m/z range.
         /// </summary>
-        private MzRange currentMzRange;
+        private Range<double> currentMzRange;
 
         /// <summary>
         /// The current file.
@@ -65,7 +64,7 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// The current scan range.
         /// </summary>
-        private ScanRange currentScanRange;
+        private Range<int> currentScanRange;
 
         /// <summary>
         /// The data array.
@@ -118,10 +117,9 @@ private  bool _heatmapWhite;
         /// <summary>
         /// Initializes a new instance of the <see cref="HeatMapViewModel"/> class.
         /// </summary>
-        [ImportingConstructor]
         public HeatMapViewModel()
         {
-            this.HeatMapPlotModel = new PlotModel();
+            this.HeatMapPlotModel = new PlotModel() { Title = "IMS Data"};
             var ddlColor = new List<OxyPaletteMap>();
             Type colors = typeof (OxyPalettes);
             MethodInfo[] colorInfo = colors.GetMethods(BindingFlags.Public | BindingFlags.Static);
@@ -162,6 +160,15 @@ private  bool _heatmapWhite;
                     
                 }
             });
+
+            this.WhenAnyValue(hm => hm.CurrentMzRange, model => model.CurrentScanRange)
+                .Where(_ => this.HeatMapData != null && this.CurrentMzRange != null && this.CurrentScanRange != null)
+                .Subscribe(
+                    tuple =>
+                    {
+                        this.HeatMapData.ReadData(tuple.Item2, tuple.Item1,
+                            new Range<int>(HeatMapData.StartFrameNumber, HeatMapData.EndFrameNumber), this.Height, this.Width);
+                    });
         }
 
         #endregion
@@ -183,7 +190,7 @@ private  bool _heatmapWhite;
         /// <summary>
         /// Gets or sets the current m/z range.
         /// </summary>
-        public MzRange CurrentMzRange
+        public Range<double> CurrentMzRange
         {
             get { return this.currentMzRange; }
 
@@ -243,7 +250,7 @@ private  bool _heatmapWhite;
         /// <summary>
         /// Gets or sets the current scan range.
         /// </summary>
-        public ScanRange CurrentScanRange
+        public Range<int> CurrentScanRange
         {
             get { return this.currentScanRange; }
 
@@ -272,7 +279,7 @@ private  bool _heatmapWhite;
         {
             get { return this.heatMapPlotModel; }
 
-            set { this.RaiseAndSetIfChanged(ref this.heatMapPlotModel, value); }
+            private set { this.RaiseAndSetIfChanged(ref this.heatMapPlotModel, value); }
         }
 
         /// <summary>
@@ -308,7 +315,7 @@ private  bool _heatmapWhite;
         /// <summary>
         /// Gets or sets the mz window which will be enforced if <see cref="ForceMinMaxMz"/> is true.
         /// </summary>
-        public MzRange MzWindow { get; set; }
+        public Range<double> MzWindow { get; set; }
 
         /// <summary>
         /// Gets or sets the width.
@@ -507,8 +514,8 @@ private  bool _heatmapWhite;
 
                 if (this.ForceMinMaxMz)
                 {
-                    this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.MzWindow.EndMz;
-                    this.heatMapPlotModel.Axes[2].AbsoluteMinimum = this.MzWindow.StartMz;
+                    this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.MzWindow.End;
+                    this.heatMapPlotModel.Axes[2].AbsoluteMinimum = this.MzWindow.Start;
                 }
                 else
                 {
@@ -581,11 +588,11 @@ private  bool _heatmapWhite;
 
             if (e.ChangeType == AxisChangeTypes.Reset)
             {
-                this.CurrentScanRange = new ScanRange(this.currentMinScan, this.currentMaxScan);
+                this.CurrentScanRange = new Range<int>(this.currentMinScan, this.currentMaxScan);
             }
             else
             {
-                this.CurrentScanRange = new ScanRange((int) axis.ActualMinimum, (int) axis.ActualMaximum);
+                this.CurrentScanRange = new Range<int>((int) axis.ActualMinimum, (int) axis.ActualMaximum);
                 this.currentMaxScan = (int) axis.ActualMaximum;
                 this.currentMinScan = (int) axis.ActualMinimum;
             }
@@ -613,11 +620,11 @@ private  bool _heatmapWhite;
                 //axis.Maximum = this.HeatMapData.MaxMz;
                 //axis.Minimum = this.HeatMapData.MinMz;
                 //this.CurrentMzRange = new MzRange(this.HeatMapData.MinMz, this.HeatMapData.MaxMz);
-                this.CurrentMzRange = new MzRange(this.currentMinMz, this.currentMaxMz);
+                this.CurrentMzRange = new Range<double>(this.currentMinMz, this.currentMaxMz);
             }
             else
             {
-                this.CurrentMzRange = new MzRange(axis.ActualMinimum, axis.ActualMaximum);
+                this.CurrentMzRange = new Range<double>(axis.ActualMinimum, axis.ActualMaximum);
                 this.currentMinMz = axis.ActualMinimum;
                 this.currentMaxMz = axis.ActualMaximum;
             }

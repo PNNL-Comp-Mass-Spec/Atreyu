@@ -26,6 +26,10 @@ namespace Atreyu.Views
         {
             this.InitializeComponent();
             this.WhenAnyValue(x => x.ViewModel).BindTo(this, view => view.DataContext);
+            this.Bind(this.ViewModel, model => model.FrameManipulationViewModel,
+                view => view.FrameManipulationViewHost.ViewModel);
+            this.Bind(this.ViewModel, model => model.HeatMapViewModel,
+                view => view.HeatMapViewHost.ViewModel);
         }
 
         #endregion

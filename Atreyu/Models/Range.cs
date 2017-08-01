@@ -5,16 +5,11 @@ namespace Atreyu.Models
     /// <summary>
     /// The range.
     /// </summary>
-    public abstract class Range : ReactiveObject
+    public class Range<T> : ReactiveObject
     {
-        #region Fields
+        private T start;
 
-        /// <summary>
-        /// The range type.
-        /// </summary>
-        private readonly RangeType rangeType;
-
-        #endregion
+        private T end;
 
         #region Constructors and Destructors
 
@@ -24,24 +19,22 @@ namespace Atreyu.Models
         /// <param name="type">
         /// The type.
         /// </param>
-        protected Range(RangeType type)
+        public Range(T start, T end)
         {
-            this.rangeType = type;
+            this.Start = start;
+            this.End = end;
         }
 
-        #endregion
-
-        #region Public Properties
-
-        /// <summary>
-        /// Gets the range type.
-        /// </summary>
-        public RangeType RangeType
+        public T Start
         {
-            get
-            {
-                return this.rangeType;
-            }
+            get => this.start;
+            set => this.RaiseAndSetIfChanged(ref this.start, value);
+        }
+
+        public T End
+        {
+            get => this.end;
+            set => this.RaiseAndSetIfChanged(ref this.end, value);
         }
 
         #endregion

@@ -1,3 +1,4 @@
+using System.Linq;
 using Xceed.Wpf.DataGrid;
 
 namespace Atreyu.ViewModels
@@ -42,19 +43,9 @@ namespace Atreyu.ViewModels
         private double[,] frameData;
 
         /// <summary>
-        /// The bin centric frame data that has been compressed.
-        /// </summary>
-        private Dictionary<double, double> frameDictionary;
-
-        /// <summary>
         /// The calibration intercept.
         /// </summary>
         private double intercept;
-
-        /// <summary>
-        /// The mz frame data that has been compressed.
-        /// </summary>
-        private Dictionary<double, double> mzFrameData;
 
         /// <summary>
         /// The plot model for the mz.
@@ -107,7 +98,6 @@ namespace Atreyu.ViewModels
         /// </summary>
         public double[] BinToMzMap { get; set; }
         public double[] BinToTofMap { get; set; }
-        private List<DataPoint> dataArray = new List<DataPoint>();
         private List<DataPoint> logArray = new List<DataPoint>();
   
 
@@ -309,6 +299,8 @@ namespace Atreyu.ViewModels
             return image;
         }
 
+        private object syncRoot = new object();
+
         /// <summary>
         /// Update frame data.
         /// </summary>
@@ -317,67 +309,69 @@ namespace Atreyu.ViewModels
         /// </param>
         public void UpdateFrameData(double[,] framedata)
         {
-            if (this.uimfData == null)
+            lock (syncRoot)
             {
-                return;
-            }
+                if (this.uimfData == null)
+                {
+                    return;
+                }
 
-            if (framedata == null)
-            {
-                return;
-            }
+                if (framedata == null)
+                {
+                    return;
+                }
 
-            if (this.BinToMzMap == null)
-            {
-                return;
+                if (this.BinToMzMap == null)
+                {
+                    return;
+                }
+
+                this.MaxMZ = this.uimfData.MaxMz;
+
+                this.frameData = framedata;
+                var frameDictionary = new Dictionary<double, double>();
+                var mzFrameData = new Dictionary<double, double>();
+
+                for (var j = 0; j < Math.Min(this.BinToMzMap.Length, this.frameData.GetLength(1)); j++)
+                {
+                    var mzIndex = this.BinToMzMap[j];
+
+                    for (var i = 0; i < this.frameData.GetLength(0); i++)
+                    {
+                        if (mzFrameData.ContainsKey(mzIndex))
+                        {
+                            mzFrameData[mzIndex] += this.frameData[i, j];
+                        }
+                        else
+                        {
+                            mzFrameData.Add(mzIndex, this.frameData[i, j]);
+                        }
+                    }
+                }
+
+                var series = this.MzPlotModel.Series[0] as LineSeries;
+                if (series != null)
+                {
+                    if (series.YAxis != null)
+                    {
+                        series.YAxis.Title = this.ShowMz ? "m/z" : "Tof";
+                    }
+
+                    series.Points.Clear();
+                    this.logArray.Clear();
+                    if (this.ShowMz)
+                    {
+                        var dataArray = new List<DataPoint>();
+                        dataArray.AddRange(mzFrameData.Select(x => new DataPoint(x.Key, x.Value)));
+                        UpdatePlotData(dataArray);
+                    }
+
+
+                }
+
             }
             
-            this.MaxMZ = this.uimfData.MaxMz;
 
-            this.frameData = framedata;
-            this.frameDictionary = new Dictionary<double, double>();
-            this.mzFrameData = new Dictionary<double, double>();
-
-            for (var j = 0; j < Math.Min(this.BinToMzMap.Length, this.frameData.GetLength(1)); j++)
-            {
-                var mzIndex = this.BinToMzMap[j];
-
-                for (var i = 0; i < this.frameData.GetLength(0); i++)
-                {
-                    if (this.mzFrameData.ContainsKey(mzIndex))
-                    {
-                        this.mzFrameData[mzIndex] += this.frameData[i, j];
-                    }
-                    else
-                    {
-                        this.mzFrameData.Add(mzIndex, this.frameData[i, j]);
-                    }
-                }
-            }
-
-            var series = this.MzPlotModel.Series[0] as LineSeries;
-            if (series != null)
-            {
-                if (series.YAxis != null)
-                {
-                    series.YAxis.Title = this.ShowMz ? "m/z" : "Tof";
-                }
-
-                series.Points.Clear();
-                this.dataArray.Clear();
-                this.logArray.Clear();
-                if (this.ShowMz)
-                {
-                    foreach (var d in this.mzFrameData)
-                    {
-                        this.dataArray.Add(new DataPoint(d.Value, d.Key));
-                    }
-                }
-
-                UpdatePlotData();
-            }
-            
-            this.MzPlotModel.InvalidatePlot(true);
         }
 
         /// <summary>
@@ -467,21 +461,20 @@ namespace Atreyu.ViewModels
             set
             {
                 this.RaiseAndSetIfChanged(ref this._showLogData, value);
-                UpdatePlotData();
             }
         }
 
-        private void UpdatePlotData()
+        private void UpdatePlotData(IEnumerable<DataPoint> points)
         {
-            var series = this.MzPlotModel.Series[0] as LineSeries;
-            series.Points.RemoveRange(0, series.Points.Count);
-            var data = new List<DataPoint>();
-            data = dataArray;
-            foreach (var point in data)
+            lock (this.MzPlotModel.SyncRoot)
             {
-                series.Points.Add(point);
+                var series = this.MzPlotModel.Series[0] as LineSeries;
+                series.Points.Clear();
+
+                series.Points.AddRange(points);
+                this.MzPlotModel.InvalidatePlot(true);
             }
-            this.MzPlotModel.InvalidatePlot(true);
+           
         }
     }
 }

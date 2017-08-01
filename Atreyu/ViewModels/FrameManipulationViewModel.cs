@@ -50,7 +50,11 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// The range.
         /// </summary>
-        private FrameRange range;
+        private Range<int> range;
+
+        private int startFrame;
+
+        private int endFrame;
 
         #endregion
 
@@ -100,7 +104,11 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Gets or sets the end frame.
         /// </summary>
-        public int EndFrame { get; set; }
+        public int EndFrame
+        {
+            get => this.endFrame;
+            set => this.RaiseAndSetIfChanged(ref this.endFrame, value);
+        }
 
         /// <summary>
         /// Gets or sets the frame type.
@@ -171,7 +179,7 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Gets or sets the range.
         /// </summary>
-        public FrameRange Range
+        public Range<int> Range
         {
             get
             {
@@ -187,7 +195,11 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Gets or sets the start frame.
         /// </summary>
-        public int StartFrame { get; set; }
+        public int StartFrame
+        {
+            get => this.startFrame;
+            set => this.RaiseAndSetIfChanged(ref this.startFrame, value);
+        }
 
         /// <summary>
         /// Gets the sum frames command.
@@ -241,7 +253,7 @@ namespace Atreyu.ViewModels
         /// </summary>
         private void SumFrames()
         {
-            var tempRange = new FrameRange { StartFrame = this.StartFrame, EndFrame = this.EndFrame };
+            var tempRange = new Range<int>(this.StartFrame, this.EndFrame);
             this.Range = tempRange;
         }
 

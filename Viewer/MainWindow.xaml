@@ -1,33 +1,41 @@
-﻿<Window x:Class="Viewer.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:y="clr-namespace:Atreyu.Views;assembly=Atreyu"
         xmlns:reactiveUi="http://reactiveui.net"
-        Title="{Binding Path=WindowTitle}"
-        Icon="AtreyuIconCropped.jpg"
-        Width="1280"
-        Height="960">
-    <DockPanel Name="MainDockPanel">
-        <Menu DockPanel.Dock="Top">
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Viewer.MainWindow"
+        Title="{Binding WindowTitle}"
+        MinHeight="100" MinWidth="100"
+        Icon="AtreyuIconCropped.jpg" WindowStyle="ThreeDBorderWindow" SizeToContent="WidthAndHeight" d:DesignWidth="832" d:DesignHeight="415">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Menu Grid.Row="0">
             <MenuItem Header="_Export">
-                <MenuItem Header="_Heatmap" Command="{Binding Path=ExportCompressedHeatmapData}" />
-                <MenuItem Header="_m/z" Command="{Binding Path=ExportCompressedMzData}"/>
-                <MenuItem Header="_TiC" Command="{Binding Path=ExportCompressedTicData}"/>
-                <MenuItem Header="_Bpi" Command="{Binding Path=ExportCompressedBpiData}"/>
+                <MenuItem Header="_Heatmap" Command="{Binding ExportCompressedHeatmapData}" />
+                <MenuItem Header="_m/z" Command="{Binding ExportCompressedMzData}"/>
+                <MenuItem Header="_TiC" Command="{Binding ExportCompressedTicData}"/>
+                <MenuItem Header="_Bpi" Command="{Binding ExportCompressedBpiData}"/>
             </MenuItem>
-            <MenuItem Header="About" Command="{Binding Path=DisplayAboutWindow}"></MenuItem>
+            <MenuItem Header="About" Command="{Binding DisplayAboutWindow}"/>
         </Menu>
-        <ToolBarTray DockPanel.Dock="Top">
+        <ToolBarTray Grid.Row="1">
             <ToolBar>
-                <Button Name="OpenButton"
-                        Command="{Binding Path=OpenFile}"
+                <Button x:Name="OpenButton"
+                        Command="{Binding OpenFile}"
                         Content="Open" />
-				<Button Name="SaveButton"
-                        Command="{Binding Path=SaveHeatmap}"
+                <Button x:Name="SaveButton"
+                        Command="{Binding SaveHeatmap}"
                         Content="Save Heatmap" />
             </ToolBar>
         </ToolBarTray>
 
-        <reactiveUi:ViewModelViewHost x:Name="CombinedViewHost"></reactiveUi:ViewModelViewHost>
-    </DockPanel>
+        <reactiveUi:ViewModelViewHost Grid.Row="2" Grid.Column="0" x:Name="CombinedViewHost" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"/>
+    </Grid>
 </Window>

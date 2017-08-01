@@ -1,3 +1,6 @@
+using System.Windows.Controls;
+using ReactiveUI;
+
 namespace Atreyu.Views
 {
     using System.ComponentModel.Composition;
@@ -7,23 +10,9 @@ namespace Atreyu.Views
     /// <summary>
     /// Interaction logic for MzSpectraView.xaml
     /// </summary>
-    [Export]
-    public partial class MzSpectraView
+    public partial class MzSpectraView : UserControl, IViewFor<MzSpectraViewModel>
     {
         #region Constructors and Destructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MzSpectraView"/> class.
-        /// </summary>
-        /// <param name="viewModel">
-        /// The view model.
-        /// </param>
-        [ImportingConstructor]
-        public MzSpectraView(MzSpectraViewModel viewModel)
-        {
-            this.DataContext = viewModel;
-            this.InitializeComponent();
-        }
 
         public MzSpectraView()
         {
@@ -31,5 +20,13 @@ namespace Atreyu.Views
         }
 
         #endregion
+
+        object IViewFor.ViewModel
+        {
+            get { return ViewModel; }
+            set { ViewModel = value as MzSpectraViewModel; }
+        }
+
+        public MzSpectraViewModel ViewModel { get; set; }
     }
 }

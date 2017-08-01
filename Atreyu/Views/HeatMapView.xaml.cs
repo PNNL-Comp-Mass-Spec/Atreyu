@@ -1,3 +1,4 @@
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Atreyu.Views
@@ -13,7 +14,6 @@ namespace Atreyu.Views
     /// <summary>
     /// Interaction logic for HeatMapView.xaml
     /// </summary>
-    [Export]
     public partial class HeatMapView : UserControl, IViewFor<HeatMapViewModel>
     {
         #region Constructors and Destructors
@@ -24,28 +24,19 @@ namespace Atreyu.Views
         /// <param name="viewModel">
         /// The view model.
         /// </param>
-        [ImportingConstructor]
-        public HeatMapView(HeatMapViewModel viewModel)
-        {
-            this.ViewModel = viewModel;
-            this.DataContext = this.ViewModel;
-            this.InitializeComponent();
-
-            // x and y are magically is assigned "this" via extension methods
-            this.WhenAnyValue(x => x.ActualHeight, y => y.ActualWidth)
-                .Throttle(TimeSpan.FromMilliseconds(200))
-                .Subscribe(
-                    z =>
-                        {
-                            viewModel.Height = (int)z.Item1;
-                            viewModel.Width = (int)z.Item2;
-                        });
-        }
-
 
         public HeatMapView()
         {
             this.InitializeComponent();
+
+            this.WhenAnyValue(x => x.ViewModel).BindTo(this, view => view.DataContext);
+            this.Bind(this.ViewModel, model => model.HeatMapPlotModel, view => view.HeatMapPlot.Model);
+            this.HeatMapPlot.Events().SizeChanged.Throttle(TimeSpan.FromMilliseconds(100)).ObserveOn(RxApp.MainThreadScheduler).Subscribe(args =>
+            {
+                ViewModel.Height = (int) args.NewSize.Height;
+                ViewModel.Width = (int) args.NewSize.Width;
+            });
+
         }
 
         #endregion
@@ -55,7 +46,11 @@ namespace Atreyu.Views
         /// <summary>
         /// Gets or sets the view model.
         /// </summary>
-        public HeatMapViewModel ViewModel { get; set; }
+        public HeatMapViewModel ViewModel
+        {
+            get => (HeatMapViewModel) GetValue(ViewModelProperty);
+            set => SetValue(ViewModelProperty, value);
+        }
 
         #endregion
 
@@ -76,6 +71,9 @@ namespace Atreyu.Views
                 this.ViewModel = value as HeatMapViewModel;
             }
         }
+
+        public static readonly DependencyProperty ViewModelProperty =
+            DependencyProperty.Register("ViewModel", typeof(HeatMapViewModel), typeof(HeatMapView));
 
         #endregion
     }

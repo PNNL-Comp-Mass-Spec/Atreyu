@@ -30,11 +30,6 @@ namespace Atreyu.Models
         private MzCalibrator calibrator;
 
         /// <summary>
-        /// The checking.
-        /// </summary>
-        private bool checking;
-
-        /// <summary>
         /// The current max m/z.
         /// </summary>
         private double currentMaxMz;
@@ -109,15 +104,6 @@ namespace Atreyu.Models
         /// </summary>
         private int maxBins;
 
-        /// <summary>
-        /// The most recent height.
-        /// </summary>
-        private int mostRecentHeight;
-
-        /// <summary>
-        /// The most recent width.
-        /// </summary>
-        private int mostRecentWidth;
 
         /// <summary>
         /// The mz array.
@@ -132,12 +118,7 @@ namespace Atreyu.Models
         /// <summary>
         /// The mz window that will be enforced if <see cref="WindowMz"/> it true.
         /// </summary>
-        private MzRange mzWindow;
-
-        /// <summary>
-        /// The range update list.
-        /// </summary>
-        private ConcurrentQueue<Range> rangeUpdateList;
+        private Range<double> mzWindow;
 
         /// <summary>
         /// The scans.
@@ -196,7 +177,13 @@ namespace Atreyu.Models
             this.MinMz = this.Calibrator.BinToMZ(0);
             this.TotalMzRange = this.MaxMz - this.MinMz;
             this.Scans = this.dataReader.GetFrameParams(1).Scans;
-            this.checking = false;
+
+            this.CurrentMinMz = MinMz;
+            this.CurrentMaxMz = MaxMz;
+            this.StartScan = 1;
+            this.EndScan = frameCalibrator.Scans;
+            this.StartFrameNumber = 1;
+            this.EndFrameNumber = 1;
             this.WhenAnyValue(x => x.StartFrameNumber).Subscribe(i =>
             {
                 this.readerWriterLock.EnterReadLock();
@@ -307,21 +294,6 @@ namespace Atreyu.Models
             }
         }
 
-        /// <summary>
-        /// Gets the frame data.
-        /// </summary>
-        public double[,] FrameData
-        {
-            get
-            {
-                return this.frameData;
-            }
-
-            private set
-            {
-                this.RaiseAndSetIfChanged(ref this.frameData, value);
-            }
-        }
 
         /// <summary>
         /// Gets the frame intercept.
@@ -637,33 +609,6 @@ namespace Atreyu.Models
         #region Public Methods and Operators
 
         /// <summary>
-        /// The check queue method that processes the queue of updates.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="Task"/>.
-        /// </returns>
-        public void CheckQueue()
-        {
-            if (this.checking)
-            {
-                return;
-            }
-
-            this.checking = true;
-            Range currentRange;
-
-            while (this.RangeUpdateList.TryDequeue(out currentRange))
-            {
-                this.ProcessData(currentRange);
-                Task.Delay(1);
-            }
-
-            this.ReadData();
-
-            this.checking = false;
-        }
-
-        /// <summary>
         /// The dispose.
         /// </summary>
         public void Dispose()
@@ -672,40 +617,29 @@ namespace Atreyu.Models
             GC.SuppressFinalize(this);
         }
 
-        /// <summary>
-        /// Get m/z range for a given mz window.
-        /// </summary>
-        /// <param name="centerMz">
-        /// The center mz.
-        /// </param>
-        /// <param name="partsPerMillionTolerance">
-        /// The parts per million tolerance.
-        /// </param>
-        /// <returns>
-        /// The <see cref="MzRange"/>.
-        /// </returns>
-        public MzRange GetMzRangeForMzWindow(double centerMz, double partsPerMillionTolerance)
+       
+        public Range<double> GetMzRangeForMzWindow(double centerMz, double partsPerMillionTolerance)
         {
             this.MzCenter = centerMz;
             this.PartsPerMillion = partsPerMillionTolerance;
-            var range = new MzRange();
+
 
             if (this.dataReader == null || this.Calibrator == null)
             {
-                range.StartMz = 0;
-                range.EndMz = this.CurrentMaxMz;
+                var range = new Range<double>(0, CurrentMaxMz);
                 this.mzWindow = range;
                 return range;
             }
+            else
+            {
+                var mzOffset = this.MzCenter * (this.PartsPerMillion / 1000000.0);
+                var range = new Range<double>(this.MzCenter - mzOffset, this.MzCenter + mzOffset);
 
-            var mzOffset = this.MzCenter * (this.PartsPerMillion / 1000000.0);
+                this.mzWindow = range;
+                return range;
 
-            range.StartMz = this.MzCenter - mzOffset;
+            }
 
-            range.EndMz = this.MzCenter + mzOffset;
-
-            this.mzWindow = range;
-            return range;
         }
 
         /// <summary>
@@ -726,6 +660,8 @@ namespace Atreyu.Models
         //private double[,] _uncompressed;
         private double[] binToTofMap;
 
+        private object syncRoot = new object();
+
         /// <summary>
         /// The read data.
         /// </summary>
@@ -735,102 +671,83 @@ namespace Atreyu.Models
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        public void ReadData(bool returnGatedData = false)
+        public double[,] ReadData(Range<int> scanRange, Range<double> mzRange, Range<int> frameRange, double height, double width, bool returnGatedData = false)
         {
-            const int MAX_ATTEMPTS = 3;
-
-            //if (this.CurrentMaxMz < 1)
-            if (this.CurrentMaxMz < this.MinMz)
+            lock (syncRoot)
             {
-                return;
-            }
+                ProcessData(scanRange, mzRange, frameRange);
+                this.LoadingData = true;
 
-            //if (this.endScan < 1)
-            if (this.endScan < this.MinMz)
-            {
-                return;
-            }
+                var frameParams = this.dataReader.GetFrameParams(this.startFrameNumber);
+                UncompressedDeltaMz = this.dataReader.GetDeltaMz(1);
 
-            this.LoadingData = true;
-
-            var frameParams = this.dataReader.GetFrameParams(this.startFrameNumber);
-            UncompressedDeltaMz = this.dataReader.GetDeltaMz(1);
-
-            if (frameParams == null)
-            {
-                // Frame number is out of range
-                this.FrameData = new double[0, 0];
-            }
-            else
-            {
-                this.TotalMzRange = this.CurrentMaxMz - this.CurrentMinMz + 1;
-
-                this.prevYPixels = this.ValuesPerPixelY;
-                this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
-                int currentMinBin = (int)Math.Floor(this.Calibrator.MZtoBin(this.CurrentMinMz));
-                int currentMaxBin = (int)Math.Ceiling(this.Calibrator.MZtoBin(this.CurrentMaxMz));
-                var totalBinRange = currentMaxBin - currentMinBin + 1;
-                //this.ValuesPerPixelY = (int)(this.TotalMzRange / (double)this.mostRecentHeight);
-                this.ValuesPerPixelY = (int)(totalBinRange / (double)this.mostRecentHeight);
-
-                var totalScans = this.EndScan - this.StartScan + 1;
-                this.ValuesPerPixelX = (int) (totalScans / (double) this.mostRecentWidth);
-
-                if (this.ValuesPerPixelY < 1)
+                if (frameParams == null)
                 {
-                    this.ValuesPerPixelY = 1;
+                    throw new Exception($"Frame: {this.startFrameNumber}");
                 }
-
-                if (this.ValuesPerPixelX < 1)
+                else
                 {
-                    this.ValuesPerPixelX = 1;
-                }
+                    this.TotalMzRange = this.CurrentMaxMz - this.CurrentMinMz + 1;
 
-                this.FrameSlope = frameParams.GetValueDouble(FrameParamKeyType.CalibrationSlope);
-                this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
+                    this.prevYPixels = this.ValuesPerPixelY;
+                    this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
+                    int currentMinBin = (int)Math.Floor(this.Calibrator.MZtoBin(this.CurrentMinMz));
+                    int currentMaxBin = (int)Math.Ceiling(this.Calibrator.MZtoBin(this.CurrentMaxMz));
+                    var totalBinRange = currentMaxBin - currentMinBin + 1;
+                    //this.ValuesPerPixelY = (int)(this.TotalMzRange / (double)this.mostRecentHeight);
+                    this.ValuesPerPixelY = (totalBinRange / (double)height);
 
-                this.FrameType = frameParams.GetValue(FrameParamKeyType.FrameType);
-                this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
+                    var totalScans = this.EndScan - this.StartScan + 1;
+                    this.ValuesPerPixelX = (totalScans / (double)width);
 
-                this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
+                    if (this.ValuesPerPixelY < 1)
+                    {
+                        this.ValuesPerPixelY = 1;
+                    }
 
-                //var gMaxBin = this.dataReader.GetGlobalParams().Bins;
-                //var gMinBin = 1;
-                //
-                //if (!(this.currentMaxMz == gMaxBin &&
-                //    this.currentMinMz == 1))
-                //{
-                //    var validRange = gMaxBin - gMinBin + 1;
-                //    if (this.prevYPixels > 1)
-                //    {
-                //        validRange = (int)Math.Round(validRange / this.prevYPixels);
-                //    }
-                //
-                //    var binRange = gMaxBin - gMinBin;
-                //    var lowerPct = (this.currentMinMz - gMinBin) / (double)binRange;
-                //    var upperPct = (this.currentMaxMz - gMinBin) / (double)binRange;
-                //    var newMinBin = this.dataReader.GetPixelMZ((int)Math.Floor(lowerPct * validRange));
-                //    var newMaxBin = this.dataReader.GetPixelMZ((int)Math.Ceiling(upperPct * validRange));
-                //    this.currentMinMz = (int)newMinBin;
-                //    this.currentMaxMz = (int)newMaxBin;
-                //}
+                    if (this.ValuesPerPixelX < 1)
+                    {
+                        this.ValuesPerPixelX = 1;
+                    }
 
-                //int currentMinBin = (int) Math.Floor(this.Calibrator.MZtoBin(this.CurrentMinMz));
-                //int currentMaxBin = (int) Math.Ceiling(this.Calibrator.MZtoBin(this.CurrentMaxMz));
+                    this.FrameSlope = frameParams.GetValueDouble(FrameParamKeyType.CalibrationSlope);
+                    this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
 
-                var frametype = GetFrameType(this.frameType);
-                double[] mzs;
-                int[] intensities;
+                    this.FrameType = frameParams.GetValue(FrameParamKeyType.FrameType);
+                    this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
 
-                bool exceptionEncountered = true;
-                var exceptionMessage = string.Empty;
+                    this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
 
-                int numTries = 0;
+                    //var gMaxBin = this.dataReader.GetGlobalParams().Bins;
+                    //var gMinBin = 1;
+                    //
+                    //if (!(this.currentMaxMz == gMaxBin &&
+                    //    this.currentMinMz == 1))
+                    //{
+                    //    var validRange = gMaxBin - gMinBin + 1;
+                    //    if (this.prevYPixels > 1)
+                    //    {
+                    //        validRange = (int)Math.Round(validRange / this.prevYPixels);
+                    //    }
+                    //
+                    //    var binRange = gMaxBin - gMinBin;
+                    //    var lowerPct = (this.currentMinMz - gMinBin) / (double)binRange;
+                    //    var upperPct = (this.currentMaxMz - gMinBin) / (double)binRange;
+                    //    var newMinBin = this.dataReader.GetPixelMZ((int)Math.Floor(lowerPct * validRange));
+                    //    var newMaxBin = this.dataReader.GetPixelMZ((int)Math.Ceiling(upperPct * validRange));
+                    //    this.currentMinMz = (int)newMinBin;
+                    //    this.currentMaxMz = (int)newMaxBin;
+                    //}
 
-                // For pulling the spectrum data from the UIMF file
-                
-                try
-                {
+                    //int currentMinBin = (int) Math.Floor(this.Calibrator.MZtoBin(this.CurrentMinMz));
+                    //int currentMaxBin = (int) Math.Ceiling(this.Calibrator.MZtoBin(this.CurrentMaxMz));
+
+                    var frametype = GetFrameType(this.frameType);
+                    double[] mzs;
+                    int[] intensities;
+
+                    // For pulling the spectrum data from the UIMF file
+
                     this.dataReader.GetSpectrum(
                         this.StartFrameNumber,
                         this.EndFrameNumber,
@@ -842,44 +759,21 @@ namespace Atreyu.Models
                     this.MzArray = mzs;
 
                     this.MzIntensities = intensities;
-                }
-                catch (Exception ex)
-                {
-                    if (string.IsNullOrEmpty(exceptionMessage) && !string.IsNullOrEmpty(ex.Message))
-                        exceptionMessage = ex.Message;
-                }
-                
-                var currentStep = "starting";
 
-                // For pulling frame data from the UIMF file
-                try
-                {
-                    currentStep = "Populate temp by calling AccumulateFrameData for frames " + startFrameNumber + " through " + EndFrameNumber;
 
-                    var temp = this.dataReader.AccumulateFrameData(
-                        this.startFrameNumber,
-                        this.EndFrameNumber,
-                        false,
-                        this.StartScan,
-                        this.EndScan,
-                        currentMinBin,
-                        currentMaxBin,
-                        (int)this.ValuesPerPixelX,
-                        (int)this.ValuesPerPixelY);
-                    this.FrameData = temp;
-                    currentStep = "Initialize 2D array collapsedFrame with size " + (Frames - StartFrameNumber + 1) +"," + (this.EndScan - this.StartScan + 1);
+                    
+
 
                     var collapsedFrame =
                         new double[Frames - StartFrameNumber + 1, this.EndScan - this.StartScan + 1];
 
                     for (var i = 1; i < this.Frames + 1; i++)
                     {
-                        currentStep = "Call to AccumulateFrameData for frame " + i;
 
                         var frame = this.dataReader.AccumulateFrameData(i, i, false,
-                                                                        this.StartScan, this.EndScan, currentMinBin,
-                                                                        currentMaxBin,
-                                                                        this.ValuesPerPixelX, this.ValuesPerPixelY);
+                            this.StartScan, this.EndScan, currentMinBin,
+                            currentMaxBin,
+                            this.ValuesPerPixelX, this.ValuesPerPixelY);
                         for (int scan = 0; scan < frame.GetLength(0); scan++)
                         {
                             for (int mzindex = 0; mzindex < frame.GetLength(1); mzindex++)
@@ -890,7 +784,6 @@ namespace Atreyu.Models
                     }
                     FrameCollapsed = collapsedFrame;
 
-                    currentStep = "Populate uncompressed by calling AccumulateFrameData for frames " + startFrameNumber + " through " + EndFrameNumber;
 
                     //var uncompressed = this.dataReader.AccumulateFrameData(
                     //    this.startFrameNumber,
@@ -904,37 +797,43 @@ namespace Atreyu.Models
                     //    1);
                     //this.Uncompressed = uncompressed;
                     //exceptionEncountered = false;
-                }
-                catch (System.OutOfMemoryException ex)
-                {
-                    exceptionMessage = "Out of memory: " + ex.Message + "; " + currentStep;
-                    numTries = MAX_ATTEMPTS;
-                }
-                catch (Exception ex)
-                {
-                    if (string.IsNullOrEmpty(exceptionMessage) && !string.IsNullOrEmpty(ex.Message))
-                        exceptionMessage = ex.Message;
+
+                    var arrayLength =
+                        (int)Math.Round((currentMaxBin - currentMinBin + 1) / this.ValuesPerPixelY);
+
+                    var tof = new double[arrayLength];
+                    var mz = new double[arrayLength];
+                    var start = this.dataReader.GetBinForPixel(0);
+                    for (var i = 0; i < arrayLength; i++)
+                    {
+                        tof[i] = this.dataReader.GetBinForPixel((int)Math.Round(i * ValuesPerPixelY));
+                        mz[i] = this.calibrator.BinToMZ(tof[i]);
+                        tof[i] = this.calibrator.MZtoTOF(mz[i]) / 10000.0;
+                    }
+                    this.BinToMzMap = mz;
+                    this.BinToTofMap = tof;
+
+                    this.GateData();
+
+                    var frameData = this.dataReader.AccumulateFrameData(
+                        this.StartFrameNumber,
+                        this.EndFrameNumber,
+                        false,
+                        this.StartScan,
+                        this.EndScan,
+                        currentMinBin,
+                        currentMaxBin,
+                        (int)this.ValuesPerPixelX,
+                        (int)this.ValuesPerPixelY);
+
+                    return frameData;
                 }
 
-                var arrayLength =
-                    (int) Math.Round((currentMaxBin - currentMinBin + 1) / this.ValuesPerPixelY);
+               
 
-                var tof = new double[arrayLength];
-                var mz = new double[arrayLength];
-                var start = this.dataReader.GetBinForPixel(0);
-                for (var i = 0; i < arrayLength; i++)
-                {
-                    tof[i] = this.dataReader.GetBinForPixel((int) Math.Round(i*ValuesPerPixelY));
-                    mz[i] = this.calibrator.BinToMZ(tof[i]);
-                    tof[i] = this.calibrator.MZtoTOF(mz[i])/10000.0;
-                }
-                this.BinToMzMap = mz;
-                this.BinToTofMap = tof;
+                this.LoadingData = false;
             }
-
-            this.GateData();
-
-            this.LoadingData = false;
+           
         }
 
         /// <summary>
@@ -990,9 +889,13 @@ namespace Atreyu.Models
 
             this.StartFrameNumber = startFrame;
             this.EndFrameNumber = endFrame;
-            this.mostRecentHeight = height;
-            this.mostRecentWidth = width;
+            this.Height = height;
+            this.Width = width;
         }
+
+        public double Height { get; set; }
+
+        public double Width { get; set; }
 
         /// <summary>
         /// The update high gate.
@@ -1096,26 +999,26 @@ namespace Atreyu.Models
         /// </summary>
         private void GateData()
         {
-            if (this.LowGate <= 0)
-            {
-                this.GatedFrameData = this.FrameData;
-                return;
-            }
+            //if (this.LowGate <= 0)
+            //{
+            //    this.GatedFrameData = this.FrameData;
+            //    return;
+            //}
 
-            var temp = new double[this.FrameData.GetLength(0), this.FrameData.GetLength(1)];
+            //var temp = new double[this.FrameData.GetLength(0), this.FrameData.GetLength(1)];
 
-            for (var x = 0; x < temp.GetLength(0); x++)
-            {
-                for (var y = 0; y < temp.GetLength(1); y++)
-                {
-                    if (this.FrameData[x, y] > this.LowGate && this.FrameData[x, y] < this.HighGate)
-                    {
-                        temp[x, y] = this.FrameData[x, y];
-                    }
-                }
-            }
+            //for (var x = 0; x < temp.GetLength(0); x++)
+            //{
+            //    for (var y = 0; y < temp.GetLength(1); y++)
+            //    {
+            //        if (this.FrameData[x, y] > this.LowGate && this.FrameData[x, y] < this.HighGate)
+            //        {
+            //            temp[x, y] = this.FrameData[x, y];
+            //        }
+            //    }
+            //}
 
-            this.GatedFrameData = temp;
+            //this.GatedFrameData = temp;
         }
 
         /// <summary>
@@ -1130,75 +1033,46 @@ namespace Atreyu.Models
         /// <exception cref="NotImplementedException">
         /// thrown if an unknown range type is used.  The currently known types are Mz, Frame, and Scan.
         /// </exception>
-        private void ProcessData(Range range)
+        private void ProcessData(Range<int> scanRange, Range<double> mzRange, Range<int> frameRange)
         {
-            switch (range.RangeType)
+            if (mzRange == null)
             {
-                case RangeType.MzRange:
-                    var mzRange = range as MzRange;
-                    if (mzRange == null)
-                    {
-                        throw new ArgumentException(
-                            "Range has it's RangeType set to MzRange but cannot be cast to MzRange", 
-                            "range");
-                    }
-
-                    double min, max;
-
-                    if (this.WindowMz && this.mzWindow != null)
-                    {
-                        min = this.mzWindow.StartMz;
-                        max = this.mzWindow.EndMz;
-                    }
-                    else
-                    {
-                        min = this.MinMz;
-                        max = this.MaxMz;
-                    }
-
-                    if (mzRange.StartMz < min)
-                    {
-                        mzRange.StartMz = min;
-                    }
-
-                    if (mzRange.EndMz > max)
-                    {
-                        mzRange.EndMz = max;
-                    }
-
-                    this.CurrentMinMz = mzRange.StartMz;
-                    this.CurrentMaxMz = mzRange.EndMz;
-
-                    break;
-                case RangeType.FrameRange:
-                    var frameRange = range as FrameRange;
-                    if (frameRange == null)
-                    {
-                        throw new ArgumentException(
-                            "Range has it's RangeType set to FrameRange but cannot be cast to FrameRange", 
-                            "range");
-                    }
-
-                    this.StartFrameNumber = frameRange.StartFrame;
-                    this.EndFrameNumber = frameRange.EndFrame;
-                    break;
-                case RangeType.ScanRange:
-                    var scanRange = range as ScanRange;
-                    if (scanRange == null)
-                    {
-                        throw new ArgumentException(
-                            "Range has it's RangeType set to ScanRange but cannot be cast to ScanRange", 
-                            "range");
-                    }
-
-                    this.StartScan = scanRange.StartScan;
-                    this.EndScan = scanRange.EndScan;
-                    break;
-                default:
-                    throw new NotImplementedException(
-                        "Currently ProcessRangeData only supports types of MzRange, FrameRange, and ScanRange, "
-                        + "but you passed something else and it scared us too much to continue.");
+                throw new ArgumentException(
+                    "Range has it's RangeType set to MzRange but cannot be cast to MzRange",
+                    "range");
             }
+
+            double min, max;
+
+            if (this.WindowMz && this.mzWindow != null)
+            {
+                min = this.mzWindow.Start;
+                max = this.mzWindow.End;
+            }
+            else
+            {
+                min = this.MinMz;
+                max = this.MaxMz;
+            }
+
+            if (mzRange.Start < min)
+            {
+                mzRange.Start = min;
+            }
+
+            if (mzRange.End > max)
+            {
+                mzRange.End = max;
+            }
+
+            this.CurrentMinMz = mzRange.Start;
+            this.CurrentMaxMz = mzRange.End;
+
+            this.StartFrameNumber = frameRange.Start;
+            this.EndFrameNumber = frameRange.End;
+
+            this.StartScan = scanRange.Start;
+            this.EndScan = scanRange.End;
         }
 
         #endregion

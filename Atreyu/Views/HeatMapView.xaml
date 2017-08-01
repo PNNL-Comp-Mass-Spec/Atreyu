@@ -6,7 +6,7 @@
 			 xmlns:wpf="http://oxyplot.org/wpf"
 			 xmlns:models="clr-namespace:Atreyu.Models"
 			 mc:Ignorable="d" 
-			 d:DesignHeight="300" d:DesignWidth="300"
+			 d:DesignHeight="346" d:DesignWidth="597"
 			 AllowDrop="True">
     <UserControl.Resources>
         <DataTemplate x:Key="SolidColorTemplate" DataType="{x:Type models:OxyPaletteMap}">
@@ -16,39 +16,30 @@
             </DockPanel>
         </DataTemplate>
     </UserControl.Resources>
-	<Grid>
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <!--<Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="100"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <ComboBox Grid.Column="0" ItemsSource="{Binding Path=AvailableColors}" SelectedItem="{Binding Path=HeatmapBackgroundColor}" ItemTemplate="{StaticResource SolidColorTemplate}"></ComboBox>
-            <Label Grid.Column="1" HorizontalAlignment="Left">Background color</Label>
-            <Label Grid.Column="2" HorizontalAlignment="Right">Max Intensity color</Label>
-            <ComboBox Grid.Column="3" ItemsSource="{Binding Path=AvailableColors}" SelectedItem="{Binding Path=HeatmapPeakColor}" ItemTemplate="{StaticResource SolidColorTemplate}"></ComboBox>
-        </Grid>-->
-        <TextBlock Grid.Row="0" Text="{Binding MzDisplay}" Background="White" HorizontalAlignment="Left" Margin="10,0"></TextBlock>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+
+        
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" >
+            <TextBlock Grid.Row="0" Text="{Binding MzDisplay}" Background="White" HorizontalAlignment="Left" Margin="10,0"></TextBlock>
             <ComboBox ItemsSource="{Binding Path=AvailableColors}" SelectedItem="{Binding Path=SelectedPalette}" ItemTemplate="{StaticResource SolidColorTemplate}" Height="20" Margin="5,0,5,0"></ComboBox>
             <TextBlock HorizontalAlignment="Left" Background="White" FontSize="12" Margin="5,0,5,0">Heatmap Palette</TextBlock>
+            <TextBlock Grid.Row="0" Text="{Binding TofDisplay}" Background="White" HorizontalAlignment="Right" Margin="10,0"></TextBlock>
         </StackPanel>
-        <TextBlock Grid.Row="0" Text="{Binding TofDisplay}" Background="White" HorizontalAlignment="Right" Margin="10,0"></TextBlock>
-        
-        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+
+
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
             <CheckBox IsChecked="{Binding ShowLogData}" Margin="5,0,5,0">Show Log Heatmap</CheckBox>
             <CheckBox IsChecked="{Binding MakeHeatmapWhite}" Margin="5,0,5,0">White Heatmap Background</CheckBox>
         </StackPanel>
-        
-        <wpf:PlotView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="HeatMapPlot" Model="{Binding HeatMapPlotModel}" Margin="0,5,0,0" />
-	</Grid>
+
+        <wpf:PlotView Grid.Row="2" Grid.Column="0" x:Name="HeatMapPlot" Model="{Binding HeatMapPlotModel}" MinHeight="500" Margin="3" />
+    </Grid>
 </UserControl>
