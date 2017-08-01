@@ -11,7 +11,7 @@
 
     public abstract class UimfExtraction
     {
-        protected CommandLineOptions Options { get; private set; }
+        protected CommandLineOptions Options { get; }
 
         protected UimfExtraction(CommandLineOptions options)
         {

@@ -1,5 +1,7 @@
 using System.Linq;
+using System.Reactive;
 using System.Text;
+using ReactiveUI.Legacy;
 using Viewer.Views;
 
 namespace Viewer.ViewModels
@@ -32,26 +34,19 @@ namespace Viewer.ViewModels
             this.CombinedHeatmapViewModel = new CombinedHeatmapViewModel();
             this.CombinedHeatmapViewModel.WindowTitle = "Please load data";
 
-            this.OpenFile = ReactiveCommand.Create();
-            this.OpenFile.Select(async _ => await Task.Run(() => this.OpenHeatmapFile())).Subscribe();
+            this.OpenFile = ReactiveCommand.Create(() => this.OpenHeatmapFile());
 
-            this.SaveHeatmap = ReactiveCommand.Create();
-            this.SaveHeatmap.Subscribe(x => this.SaveHeatmapImage());
+            this.SaveHeatmap = ReactiveCommand.Create(() => this.SaveHeatmapImage());
 
-            this.ExportCompressedHeatmapData = ReactiveCommand.Create();
-            this.ExportCompressedHeatmapData.Subscribe(x => this.SaveExportedHeatmapCompressedData());
+            this.ExportCompressedHeatmapData = ReactiveCommand.Create(() => this.SaveExportedHeatmapCompressedData());
 
-            this.ExportCompressedMzData = ReactiveCommand.Create();
-            this.ExportCompressedMzData.Subscribe(x => this.SaveExportedMzCompressedData());
+            this.ExportCompressedMzData = ReactiveCommand.Create(() => this.SaveExportedMzCompressedData());
 
-            this.ExportCompressedTicData = ReactiveCommand.Create();
-            this.ExportCompressedTicData.Subscribe(x => this.SaveExportedTicCompressedData());
+            this.ExportCompressedTicData = ReactiveCommand.Create(() => this.SaveExportedTicCompressedData());
 
-            this.ExportCompressedBpiData = ReactiveCommand.Create();
-            this.ExportCompressedBpiData.Subscribe(x => this.SaveExportedBpiCompressedData());
+            this.ExportCompressedBpiData = ReactiveCommand.Create(() => this.SaveExportedBpiCompressedData());
 
-            this.DisplayAboutWindow = ReactiveCommand.Create();
-            this.DisplayAboutWindow.Subscribe(x => this.SpawnAboutWindow());
+            this.DisplayAboutWindow = ReactiveCommand.Create(() => this.SpawnAboutWindow());
         }
 
         private void SpawnAboutWindow()
@@ -76,30 +71,32 @@ namespace Viewer.ViewModels
         /// <summary>
         /// Gets the export compressed heatmap data.
         /// </summary>
-        public ReactiveCommand<object> ExportCompressedHeatmapData { get; private set; }
+        public ReactiveCommand<Unit, Unit> ExportCompressedHeatmapData { get; }
 
         /// <summary>
         /// Gets the export compressed mz data.
         /// </summary>
-        public ReactiveCommand<object> ExportCompressedMzData { get; private set; }
+        public ReactiveCommand<Unit, Unit> ExportCompressedMzData { get; }
 
         /// <summary>
         /// Gets the export compressed tic data.
         /// </summary>
-        public ReactiveCommand<object> ExportCompressedTicData { get; private set; }
+        public ReactiveCommand<Unit, Unit> ExportCompressedTicData { get; }
 
 
-        public ReactiveCommand<object> ExportCompressedBpiData { get; private set; }
+        public ReactiveCommand<Unit, Unit> ExportCompressedBpiData { get; }
 
         /// <summary>
         /// Gets the open file.
         /// </summary>
-        public ReactiveCommand<object> OpenFile { get; private set; }
+        public ReactiveCommand<Unit, Unit> OpenFile { get; }
 
         /// <summary>
         /// Gets the save heatmap.
         /// </summary>
-        public ReactiveCommand<object> SaveHeatmap { get; private set; }
+        public ReactiveCommand<Unit, Unit> SaveHeatmap { get; }
+
+        public ReactiveCommand<Unit, Unit> DisplayAboutWindow { get; }
 
         #endregion
 
@@ -374,6 +371,6 @@ namespace Viewer.ViewModels
 
         #endregion
 
-        public ReactiveCommand<object> DisplayAboutWindow { get; set; }
+        
     }
 }

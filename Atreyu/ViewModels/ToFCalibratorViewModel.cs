@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Xml;
 using Atreyu.Models;
 using ReactiveUI;
+using ReactiveUI.Legacy;
 using UIMFLibrary;
+using ReactiveCommand = ReactiveUI.ReactiveCommand;
 
 namespace Atreyu.ViewModels
 {
@@ -41,10 +44,8 @@ namespace Atreyu.ViewModels
         public ToFCalibratorViewModel()
         {
             CalibVisible = Visibility.Hidden;
-            CalculateCalibrationCommand = ReactiveCommand.Create();
-            CalculateCalibrationCommand.Subscribe(x => CalculateCalibration());
-            PerformCalibrationCommand = ReactiveCommand.Create();
-            PerformCalibrationCommand.Subscribe(x => PerformCalibration());
+            CalculateCalibrationCommand = ReactiveCommand.Create(() => CalculateCalibration());
+            PerformCalibrationCommand = ReactiveCommand.Create(() => PerformCalibration());
         }
 
         private void CalculateCalibration()
@@ -166,13 +167,13 @@ namespace Atreyu.ViewModels
             this.data = data;
             if (data != null && data.Calibrator != null)
             {
-                CalibSlope = data.Calibrator.k;
-                CalibInt = data.Calibrator.t0;
+                CalibSlope = data.Calibrator.K;
+                CalibInt = data.Calibrator.T0;
             }
         }
 
-        public ReactiveCommand<object> CalculateCalibrationCommand { get; set; }
-        public ReactiveCommand<object> PerformCalibrationCommand { get; set; }
+        public ReactiveCommand<Unit, Unit> CalculateCalibrationCommand { get; }
+        public ReactiveCommand<Unit, Unit> PerformCalibrationCommand { get;  }
 
         public bool ReloadUIMF { get { return this._reload; } set
         {

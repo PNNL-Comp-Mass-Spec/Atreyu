@@ -169,6 +169,8 @@ namespace Atreyu.Models
         /// </summary>
         private double valuesPerPixelY;
 
+        private ReaderWriterLockSlim readerWriterLock;
+
         #endregion
 
         #region Constructors and Destructors
@@ -181,19 +183,29 @@ namespace Atreyu.Models
         /// </param>
         public UimfData(string uimfFile)
         {
+            this.readerWriterLock = new ReaderWriterLockSlim();
             this.RangeUpdateList = new ConcurrentQueue<Range>();
             this.dataReader = new DataReader(uimfFile);
             this.TenthsOfNanoSecondsPerBin = 0.0;
             var global = this.dataReader.GetGlobalParams();
             this.Frames = this.dataReader.GetGlobalParams().NumFrames;
             this.MaxBins = global.Bins;
-            this.Calibrator = this.dataReader.GetMzCalibrator(this.dataReader.GetFrameParams(1));
-            this.TenthsOfNanoSecondsPerBin = Convert.ToDouble(this.dataReader.GetFrameParams(1).Values[FrameParamKeyType.AverageTOFLength].Value);
+            var frameCalibrator = this.dataReader.GetFrameParams(1);
+            this.Calibrator = this.dataReader.GetMzCalibrator(frameCalibrator);
+            this.TenthsOfNanoSecondsPerBin = Convert.ToDouble(frameCalibrator.Values[FrameParamKeyType.AverageTOFLength].Value);
             this.MaxMz = this.Calibrator.BinToMZ(global.Bins);
             this.MinMz = this.Calibrator.BinToMZ(0);
             this.TotalMzRange = this.MaxMz - this.MinMz;
             this.Scans = this.dataReader.GetFrameParams(1).Scans;
             this.checking = false;
+            this.WhenAnyValue(x => x.StartFrameNumber).Subscribe(i =>
+            {
+                this.readerWriterLock.EnterReadLock();
+                var calib = this.dataReader.GetMzCalibrator(this.dataReader.GetFrameParams(i));
+                this.readerWriterLock.ExitReadLock();
+                this.MinMz = calib.BinToMZ(0);
+                this.MaxMz = calib.BinToMZ(this.MaxBins);
+            });
         }
 
         #endregion
@@ -561,27 +573,9 @@ namespace Atreyu.Models
                 return this.startFrameNumber;
             }
 
-            private set
+            set
             {
-                if (this.startFrameNumber != value)
-                {
-                    while (true)
-                    {
-                        try
-                        {
-                            var calib = this.dataReader.GetMzCalibrator(this.dataReader.GetFrameParams(value));
-                            this.MinMz = calib.BinToMZ(0);
-                            this.MaxMz = calib.BinToMZ(this.MaxBins);
-                            break;
-                        }
-                        catch (Exception)
-                        {
-                            //Let stuff cycle for a millisecond before trying again. Error occurs due to invalid operation where
-                            //data reader is already active
-                            Task.Delay(1);
-                        }
-                    }
-                }
+               
                 this.RaiseAndSetIfChanged(ref this.startFrameNumber, value);
             }
         }

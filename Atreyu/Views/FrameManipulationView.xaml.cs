@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using ReactiveUI;
 
 namespace Atreyu.Views
 {
@@ -8,13 +9,11 @@ namespace Atreyu.Views
 
     using Atreyu.ViewModels;
 
-    using Microsoft.Practices.Prism.Mvvm;
-
     /// <summary>
     /// Interaction logic for FrameManipulationView
     /// </summary>
     [Export]
-    public partial class FrameManipulationView : IView
+    public partial class FrameManipulationView : UserControl, IViewFor<FrameManipulationViewModel>
     {
         #region Fields
 
@@ -118,5 +117,13 @@ namespace Atreyu.Views
         {
             this.viewModel.UpdateCurrentFrameNumber(interimFrame);
         }
+
+        object IViewFor.ViewModel
+        {
+            get { return ViewModel; }
+            set { ViewModel = value as FrameManipulationViewModel; }
+        }
+
+        public FrameManipulationViewModel ViewModel { get; set; }
     }
 }

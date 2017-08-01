@@ -81,7 +81,7 @@ namespace UimfDataExtractor.Models
         [Option('v', "verbose", HelpText = "Print details during execution. *NotImplementedWellYet*")]
         public bool Verbose { get; set; }
 
-        public List<XicTarget> XicTargetList { get; private set; }
+        public List<XicTarget> XicTargetList { get; }
 
         #endregion
 

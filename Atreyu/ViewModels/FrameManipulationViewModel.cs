@@ -1,4 +1,6 @@
 using System;
+using System.Reactive;
+using ReactiveUI.Legacy;
 
 namespace Atreyu.ViewModels
 {
@@ -7,7 +9,6 @@ namespace Atreyu.ViewModels
 
     using Atreyu.Models;
 
-    using Microsoft.Practices.Prism.Commands;
 
     using ReactiveUI;
 
@@ -61,9 +62,9 @@ namespace Atreyu.ViewModels
         [ImportingConstructor]
         public FrameManipulationViewModel()
         {
-            this.SumFramesCommand = new DelegateCommand(this.SumFrames);
+            this.SumFramesCommand = ReactiveCommand.Create(SumFrames);
 
-            this.ZoomOutCommand = ReactiveCommand.Create();
+            this.ZoomOutCommand = ReactiveCommand.Create(() => {});
         }
 
         #endregion
@@ -92,12 +93,7 @@ namespace Atreyu.ViewModels
 
             set
             {
-                // always raise it currently I would like to go back and find another way using raise and set if changed,
-                // but I have a meeting and I needed the slider bar to update on load and this was the easy way.
-                this.currentFrame = value;
-                this.RaisePropertyChanged();
-
-                // this.RaiseAndSetIfChanged(ref this.currentFrame, value);
+                 this.RaiseAndSetIfChanged(ref this.currentFrame, value);
             }
         }
 
@@ -196,12 +192,12 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Gets the sum frames command.
         /// </summary>
-        public ICommand SumFramesCommand { get; private set; }
+        public ReactiveCommand<Unit, Unit> SumFramesCommand { get; }
 
         /// <summary>
         /// Gets the zoom out command.
         /// </summary>
-        public ReactiveCommand<object> ZoomOutCommand { get; private set; }
+        public ReactiveCommand<Unit, Unit> ZoomOutCommand { get; }
 
         #endregion
 

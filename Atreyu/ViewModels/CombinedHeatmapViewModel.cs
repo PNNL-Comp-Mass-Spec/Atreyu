@@ -1,3 +1,4 @@
+using System.Reactive;
 using System.Threading;
 using System.Windows;
 using Xceed.Wpf.DataGrid.Converters;
@@ -380,12 +381,12 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Gets the frame manipulation view model.
         /// </summary>
-        public FrameManipulationViewModel FrameManipulationViewModel { get; private set; }
+        public FrameManipulationViewModel FrameManipulationViewModel { get; }
 
         /// <summary>
         /// Gets the heat map view model.
         /// </summary>
-        public HeatMapViewModel HeatMapViewModel { get; private set; }
+        public HeatMapViewModel HeatMapViewModel { get; }
 
         /// <summary>
         /// Gets the height of the Heat map plot.
@@ -406,7 +407,7 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Gets the low value gate slider view model.
         /// </summary>
-        public GateSliderViewModel LowValueGateSliderViewModel { get; private set; }
+        public GateSliderViewModel LowValueGateSliderViewModel { get; }
 
         /// <summary>
         /// Gets or sets the mz center.
@@ -447,7 +448,7 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Gets the mz spectra view model.
         /// </summary>
-        public MzSpectraViewModel MzSpectraViewModel { get; private set; }
+        public MzSpectraViewModel MzSpectraViewModel { get; }
 
         /// <summary>
         /// Gets or sets the parts per million.
@@ -472,9 +473,9 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Gets the total ion chromatogram view model.
         /// </summary>
-        public TotalIonChromatogramViewModel TotalIonChromatogramViewModel { get; private set; }
+        public TotalIonChromatogramViewModel TotalIonChromatogramViewModel { get; }
 
-        public BasePeakIntensityViewModel BasePeakIntensityViewModel { get; private set; }
+        public BasePeakIntensityViewModel BasePeakIntensityViewModel { get; }
 
         /// <summary>
         ///  Gets or sets the data relevant to the UIMF that is loaded.
@@ -511,7 +512,7 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Gets the zoom out full.
         /// </summary>
-        public ReactiveCommand<object> ZoomOutFull { get; private set; }
+        public ReactiveCommand<Unit, Unit> ZoomOutFull { get; }
 
         #endregion
 
@@ -571,22 +572,19 @@ namespace Atreyu.ViewModels
             this.currentEndFrame = frameNumber;
             if(frameNumber != 0)
                 this.UimfData.UpdateTofTime(frameNumber);
-    
-            if (this.UimfData != null)
-            {
-                this.UimfData.ReadData(
-                    //1,
-                    //this.UimfData.MaxBins,
-                    this.UimfData.MinMz,
-                    this.UimfData.MaxMz,
-                    frameNumber,
-                    frameNumber,
-                    this.Height,
-                    this.Width,
-                    0,
-                    this.UimfData.Scans,
-                    ReturnGatedData);
-            }
+
+            UimfData?.ReadData(
+                //1,
+                //this.UimfData.MaxBins,
+                this.UimfData.MinMz,
+                this.UimfData.MaxMz,
+                frameNumber,
+                frameNumber,
+                this.Height,
+                this.Width,
+                0,
+                this.UimfData.Scans,
+                ReturnGatedData);
         }
 
         /// <summary>
@@ -683,12 +681,7 @@ namespace Atreyu.ViewModels
         /// </param>
         public void UpdateLowGate(double gate)
         {
-            if (this.UimfData == null)
-            {
-                return;
-            }
-
-            this.UimfData.UpdateLowGate(gate);
+            UimfData?.UpdateLowGate(gate);
         }
 
         /// <summary>
