@@ -149,7 +149,6 @@ private  bool _heatmapWhite;
                     var axis = HeatMapPlotModel.Axes[0] as LinearColorAxis;
                     axis.Palette = SelectedPalette.Palette;
                     UpdateData(this.FrameData);
-                    HeatMapPlotModel.ResetAllAxes();
                 }
             });
 
@@ -513,17 +512,6 @@ private  bool _heatmapWhite;
                     return;
                 }
 
-                if (this.ForceMinMaxMz)
-                {
-                    this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.MzWindow.End;
-                    this.heatMapPlotModel.Axes[2].AbsoluteMinimum = this.MzWindow.Start;
-                }
-                else
-                {
-                    this.heatMapPlotModel.Axes[2].AbsoluteMaximum = this.HeatMapData.MaxMz;
-                    this.heatMapPlotModel.Axes[2].AbsoluteMinimum = this.HeatMapData.MinMz;
-                }
-
                 this.dataArray = new double[framedata.GetLength(0), framedata.GetLength(1)];
                 Array.Copy(framedata, dataArray, framedata.GetLength(0) * framedata.GetLength(1));
 
@@ -536,8 +524,6 @@ private  bool _heatmapWhite;
                 // bins
                 series.Y0 = this.CurrentMinMz;
                 series.Y1 = this.CurrentMaxMz;
-
-                this.HeatMapPlotModel.ResetAllAxes();
 
                 this.HeatMapPlotModel.InvalidatePlot(true);
             }

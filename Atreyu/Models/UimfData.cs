@@ -226,7 +226,7 @@ namespace Atreyu.Models
                 return this.endFrameNumber;
             }
 
-            private set
+            set
             {
                 this.RaiseAndSetIfChanged(ref this.endFrameNumber, value);
             }
@@ -578,8 +578,6 @@ namespace Atreyu.Models
             return this.dataReader.GetFrameScans(frameNumber);
         }
 
-        private double prevYPixels;
-        //private double[,] _uncompressed;
         private double[] binToTofMap;
 
         private object syncRoot = new object();
@@ -607,149 +605,82 @@ namespace Atreyu.Models
                 {
                     throw new Exception($"Frame: {this.startFrameNumber}");
                 }
-                else
+                this.TotalMzRange = ranges.CurrentMinMz - ranges.CurrentMaxMz + 1;
+
+                this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
+                int currentMinBin = (int)Math.Floor(this.Calibrator.MZtoBin(ranges.CurrentMinMz));
+                int currentMaxBin = (int)Math.Ceiling(this.Calibrator.MZtoBin(ranges.Item2));
+                var totalBinRange = currentMaxBin - currentMinBin + 1;
+                this.ValuesPerPixelY = (totalBinRange / (double)height);
+
+                var totalScans = ranges.EndScan - ranges.StartScan + 1;
+                this.ValuesPerPixelX = (totalScans / (double)width);
+
+                if (this.ValuesPerPixelY < 1)
                 {
-                    this.TotalMzRange = ranges.CurrentMinMz - ranges.CurrentMaxMz + 1;
-
-                    this.prevYPixels = this.ValuesPerPixelY;
-                    this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
-                    int currentMinBin = (int)Math.Floor(this.Calibrator.MZtoBin(ranges.CurrentMinMz));
-                    int currentMaxBin = (int)Math.Ceiling(this.Calibrator.MZtoBin(ranges.Item2));
-                    var totalBinRange = currentMaxBin - currentMinBin + 1;
-                    //this.ValuesPerPixelY = (int)(this.TotalMzRange / (double)this.mostRecentHeight);
-                    this.ValuesPerPixelY = (totalBinRange / (double)height);
-
-                    var totalScans = ranges.EndScan - ranges.StartScan + 1;
-                    this.ValuesPerPixelX = (totalScans / (double)width);
-
-                    if (this.ValuesPerPixelY < 1)
-                    {
-                        this.ValuesPerPixelY = 1;
-                    }
-
-                    if (this.ValuesPerPixelX < 1)
-                    {
-                        this.ValuesPerPixelX = 1;
-                    }
-
-                    this.FrameSlope = frameParams.GetValueDouble(FrameParamKeyType.CalibrationSlope);
-                    this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
-
-                    this.FrameType = frameParams.GetValue(FrameParamKeyType.FrameType);
-                    this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
-
-                    this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
-
-                    //var gMaxBin = this.dataReader.GetGlobalParams().Bins;
-                    //var gMinBin = 1;
-                    //
-                    //if (!(this.currentMaxMz == gMaxBin &&
-                    //    this.currentMinMz == 1))
-                    //{
-                    //    var validRange = gMaxBin - gMinBin + 1;
-                    //    if (this.prevYPixels > 1)
-                    //    {
-                    //        validRange = (int)Math.Round(validRange / this.prevYPixels);
-                    //    }
-                    //
-                    //    var binRange = gMaxBin - gMinBin;
-                    //    var lowerPct = (this.currentMinMz - gMinBin) / (double)binRange;
-                    //    var upperPct = (this.currentMaxMz - gMinBin) / (double)binRange;
-                    //    var newMinBin = this.dataReader.GetPixelMZ((int)Math.Floor(lowerPct * validRange));
-                    //    var newMaxBin = this.dataReader.GetPixelMZ((int)Math.Ceiling(upperPct * validRange));
-                    //    this.currentMinMz = (int)newMinBin;
-                    //    this.currentMaxMz = (int)newMaxBin;
-                    //}
-
-                    //int currentMinBin = (int) Math.Floor(this.Calibrator.MZtoBin(this.CurrentMinMz));
-                    //int currentMaxBin = (int) Math.Ceiling(this.Calibrator.MZtoBin(this.CurrentMaxMz));
-
-                    var frametype = GetFrameType(this.frameType);
-                    double[] mzs;
-                    int[] intensities;
-
-                    // For pulling the spectrum data from the UIMF file
-
-                    this.dataReader.GetSpectrum(
-                        this.StartFrameNumber,
-                        this.EndFrameNumber,
-                        frametype,
-                        ranges.Item3,
-                        ranges.Item4,
-                        out mzs,
-                        out intensities);
-                    this.MzArray = mzs;
-
-                    this.MzIntensities = intensities;
-
-
-                    
-
-
-                    var collapsedFrame =
-                        new double[Frames - StartFrameNumber + 1, ranges.Item4 - ranges.Item3 + 1];
-
-                    for (var i = 1; i < this.Frames + 1; i++)
-                    {
-
-                        var frame = this.dataReader.AccumulateFrameData(i, i, false,
-                            ranges.Item3, ranges.Item4, currentMinBin,
-                            currentMaxBin,
-                            this.ValuesPerPixelX, this.ValuesPerPixelY);
-                        for (int scan = 0; scan < frame.GetLength(0); scan++)
-                        {
-                            for (int mzindex = 0; mzindex < frame.GetLength(1); mzindex++)
-                            {
-                                collapsedFrame[i - 1, scan] += frame[scan, mzindex];
-                            }
-                        }
-                    }
-                    FrameCollapsed = collapsedFrame;
-
-
-                    //var uncompressed = this.dataReader.AccumulateFrameData(
-                    //    this.startFrameNumber,
-                    //    this.endFrameNumber,
-                    //    false,
-                    //    this.startScan,
-                    //    this.endScan,
-                    //    currentMinBin,
-                    //    currentMaxBin,
-                    //    1,
-                    //    1);
-                    //this.Uncompressed = uncompressed;
-                    //exceptionEncountered = false;
-
-                    var arrayLength =
-                        (int)Math.Round((currentMaxBin - currentMinBin + 1) / this.ValuesPerPixelY);
-
-                    var tof = new double[arrayLength];
-                    var mz = new double[arrayLength];
-                    var start = this.dataReader.GetBinForPixel(0);
-                    for (var i = 0; i < arrayLength; i++)
-                    {
-                        tof[i] = this.dataReader.GetBinForPixel((int)Math.Round(i * ValuesPerPixelY));
-                        mz[i] = this.calibrator.BinToMZ(tof[i]);
-                        tof[i] = this.calibrator.MZtoTOF(mz[i]) / 10000.0;
-                    }
-                    this.BinToMzMap = mz;
-                    this.BinToTofMap = tof;
-
-                    this.GateData();
-
-                    var frameData = this.dataReader.AccumulateFrameData(
-                        this.StartFrameNumber,
-                        this.EndFrameNumber,
-                        false,
-                        ranges.Item3,
-                        ranges.Item4,
-                        currentMinBin,
-                        currentMaxBin,
-                        (int)this.ValuesPerPixelX,
-                        (int)this.ValuesPerPixelY);
-
-                    return frameData;
+                    this.ValuesPerPixelY = 1;
                 }
+
+                if (this.ValuesPerPixelX < 1)
+                {
+                    this.ValuesPerPixelX = 1;
+                }
+
+                this.FrameSlope = frameParams.GetValueDouble(FrameParamKeyType.CalibrationSlope);
+                this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
+
+                this.FrameType = frameParams.GetValue(FrameParamKeyType.FrameType);
+                this.FrameIntercept = frameParams.GetValueDouble(FrameParamKeyType.CalibrationIntercept);
+
+                this.Calibrator = this.dataReader.GetMzCalibrator(frameParams);
+
+
+                var frametype = GetFrameType(this.frameType);
+                double[] mzs;
+                int[] intensities;
+
+                // For pulling the spectrum data from the UIMF file
+
+                this.dataReader.GetSpectrum(
+                    this.StartFrameNumber,
+                    this.EndFrameNumber,
+                    frametype,
+                    ranges.Item3,
+                    ranges.Item4,
+                    out mzs,
+                    out intensities);
+                this.MzArray = mzs;
+
+                this.MzIntensities = intensities;
+
+                var arrayLength =
+                    (int)Math.Round((currentMaxBin - currentMinBin + 1) / this.ValuesPerPixelY);
+
+                var tof = new double[arrayLength];
+                var mz = new double[arrayLength];
+                for (var i = 0; i < arrayLength; i++)
+                {
+                    tof[i] = this.dataReader.GetBinForPixel((int)Math.Round(i * ValuesPerPixelY));
+                    mz[i] = this.calibrator.BinToMZ(tof[i]);
+                    tof[i] = this.calibrator.MZtoTOF(mz[i]) / 10000.0;
+                }
+                this.BinToMzMap = mz;
+                this.BinToTofMap = tof;
+
+                this.GateData();
+
+                var frameData = this.dataReader.AccumulateFrameData(
+                    this.StartFrameNumber,
+                    this.EndFrameNumber,
+                    false,
+                    ranges.Item3,
+                    ranges.Item4,
+                    currentMinBin,
+                    currentMaxBin,
+                    (int)this.ValuesPerPixelX,
+                    (int)this.ValuesPerPixelY);
+
+                return frameData;
             }
            
         }
@@ -889,7 +820,31 @@ namespace Atreyu.Models
 
         public double UncompressedDeltaMz { get; set; }
 
-        public double[,] FrameCollapsed { get; set; }
+        public double[,] GetFrameCollapsed((double CurrentMinMz, double CurrentMaxMz, int StartScan, int EndScan) ranges, Range<int> frameRange, double height, double width, bool returnGatedData = false)
+        {
+            int currentMinBin = (int)Math.Floor(this.Calibrator.MZtoBin(ranges.CurrentMinMz));
+            int currentMaxBin = (int)Math.Ceiling(this.Calibrator.MZtoBin(ranges.Item2));
+
+            var collapsedFrame =
+                new double[Frames - StartFrameNumber + 1, ranges.Item4 - ranges.Item3 + 1];
+
+            for (var i = 1; i < this.Frames + 1; i++)
+            {
+
+                var frame = this.dataReader.AccumulateFrameData(i, i, false,
+                    ranges.Item3, ranges.Item4, currentMinBin,
+                    currentMaxBin,
+                    this.ValuesPerPixelX, this.ValuesPerPixelY);
+                for (int scan = 0; scan < frame.GetLength(0); scan++)
+                {
+                    for (int mzindex = 0; mzindex < frame.GetLength(1); mzindex++)
+                    {
+                        collapsedFrame[i - 1, scan] += frame[scan, mzindex];
+                    }
+                }
+            }
+            return collapsedFrame;
+        }
 
         public double TenthsOfNanoSecondsPerBin { get; set; }
 
@@ -897,7 +852,7 @@ namespace Atreyu.Models
         {
             TenthsOfNanoSecondsPerBin =
                 Convert.ToDouble(
-                    this.dataReader.GetFrameParams(1).Values[FrameParamKeyType.AverageTOFLength].Value);
+                    this.dataReader.GetFrameParams(frameNumber).Values[FrameParamKeyType.AverageTOFLength].Value);
         }
     }
 }

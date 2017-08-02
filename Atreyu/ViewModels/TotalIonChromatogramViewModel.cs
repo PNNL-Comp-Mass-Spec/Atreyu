@@ -191,7 +191,7 @@ namespace Atreyu.ViewModels
             var logArray =  frameDictionary.Select(x => new DataPoint(x.Key, x.Value));
             UpdatePlotData(timeFactor, logArray);
 
-            this.TicPlotModel.InvalidatePlot(true);
+            
         }
 
         /// <summary>
@@ -298,19 +298,15 @@ namespace Atreyu.ViewModels
                 {
                     axis.Title = "Arrival Time";
                     axis.Unit = "ms";
-                    axis.AbsoluteMaximum = EndScan * timeFactor;
-                    axis.AbsoluteMinimum = StartScan * timeFactor;
                 }
                 else
                 {
                     axis.Title = "Mobility Scan";
                     axis.Unit = "Scan Number";
-                    axis.AbsoluteMaximum = EndScan;
-                    axis.AbsoluteMinimum = StartScan;
                     
                 }
                 TicPlotModel.ResetAllAxes();
-                
+                this.TicPlotModel.InvalidatePlot(true);
             }
            
         }

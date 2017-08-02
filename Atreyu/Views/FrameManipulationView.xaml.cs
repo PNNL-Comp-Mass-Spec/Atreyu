@@ -30,10 +30,6 @@ namespace Atreyu.Views
         {
             this.InitializeComponent();
             this.WhenAnyValue(x => x.ViewModel).BindTo(this, view => view.DataContext);
-            this.FrameSlider.Events().MouseUp.Select(x => this.FrameSlider.Value).Where(x => x > 0).Throttle(TimeSpan.FromMilliseconds(500)).Subscribe(args =>
-            {
-                this.ViewModel.CurrentFrame = (int)this.FrameSlider.Value;
-            });
         }
 
         #endregion

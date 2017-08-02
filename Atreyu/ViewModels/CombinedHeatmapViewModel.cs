@@ -157,9 +157,32 @@ namespace Atreyu.ViewModels
                 });
 
             // update the frame whenever it is changed via the frame manipulation view
-            this.WhenAnyValue(vm => vm.FrameManipulationViewModel.CurrentFrame)
-                .Select(async x => await Task.Run(() => this.FetchSingleFrame(x)))
-                .Subscribe();
+            this.WhenAnyValue(vm => vm.FrameManipulationViewModel.CurrentFrame).Where(x => x > 0 && this.UimfData != null).Throttle(TimeSpan.FromMilliseconds(100)).Subscribe(i =>
+            {
+                this.FetchSingleFrame(i);
+                lock (syncRoot)
+                {
+
+                    double[,] data;
+                    if (!ShowFrameCollapsed)
+                    {
+                        data = this.UimfData.ReadData(this.UimfData.Ranges,
+                            new Range<int>(i, i), this.Height, this.Width);
+                        this.HeatMapViewModel.UpdateData(data);
+                    }
+                    else
+                    {
+                        data = this.UimfData.GetFrameCollapsed(this.UimfData.Ranges,
+                            new Range<int>(i, i), this.Height, this.Width);
+                        this.HeatMapViewModel.UpdateData(data);
+                    }
+                    this.MzSpectraViewModel.UpdateFrameData(data);
+                    this.TotalIonChromatogramViewModel.UpdateFrameData(data);
+                    this.UimfData.StartFrameNumber = i;
+                    this.UimfData.EndFrameNumber = i;
+                }
+
+            });
 
             // hook up the frame summing feature
             this.WhenAnyValue(vm => vm.FrameManipulationViewModel.Range).Subscribe(this.SumFrames);
@@ -181,15 +204,18 @@ namespace Atreyu.ViewModels
                     this.HeatMapViewModel.CurrentMaxMz = ranges.CurrentMaxMz;
                     this.MzSpectraViewModel.ChangeEndMz(ranges.CurrentMaxMz);
 
-                    var data = this.UimfData.ReadData(ranges,
-                        new Range<int>(this.uimfData.StartFrameNumber, this.uimfData.EndFrameNumber), this.Height, this.Width);
+                    double[,] data;
                     if (!ShowFrameCollapsed)
                     {
+                         data = this.UimfData.ReadData(ranges,
+                            new Range<int>(this.uimfData.StartFrameNumber, this.uimfData.EndFrameNumber), this.Height, this.Width);
                         this.HeatMapViewModel.UpdateData(data);
                     }
-                    else if (this.uimfData.FrameCollapsed != null)
+                    else
                     {
-                        this.HeatMapViewModel.UpdateData(this.uimfData.FrameCollapsed);
+                        data = this.UimfData.GetFrameCollapsed(ranges,
+                            new Range<int>(this.uimfData.StartFrameNumber, this.uimfData.EndFrameNumber), this.Height, this.Width);
+                        this.HeatMapViewModel.UpdateData(data);
                     }
                     this.MzSpectraViewModel.UpdateFrameData(data);
                     this.TotalIonChromatogramViewModel.UpdateFrameData(data);
@@ -269,7 +295,6 @@ namespace Atreyu.ViewModels
                 .Subscribe(x =>
                 {
                     this.ZoomOut();
-                    this.HeatMapViewModel.HeatMapPlotModel.ResetAllAxes();
                 });
 
             this.HeatMapViewModel.WhenAnyValue(x => x.ShowLogData)
@@ -453,8 +478,8 @@ namespace Atreyu.ViewModels
         {
             this.currentStartFrame = frameNumber;
             this.currentEndFrame = frameNumber;
-            if(frameNumber != 0)
-                this.UimfData.UpdateTofTime(frameNumber);
+            this.UimfData.UpdateTofTime(frameNumber);
+
         }
 
         /// <summary>

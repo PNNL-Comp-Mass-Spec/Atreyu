@@ -15,7 +15,6 @@ namespace Atreyu.ViewModels
     /// <summary>
     /// The frame manipulation view model.
     /// </summary>
-    [Export]
     public class FrameManipulationViewModel : ReactiveObject
     {
         #region Fields
@@ -63,7 +62,6 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="FrameManipulationViewModel"/> class. 
         /// </summary>
-        [ImportingConstructor]
         public FrameManipulationViewModel()
         {
             this.SumFramesCommand = ReactiveCommand.Create(SumFrames);

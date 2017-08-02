@@ -15,7 +15,7 @@
         <Slider  x:Name="FrameSlider" Grid.Row="0" Maximum="{Binding NumFrames}"
                 Minimum="{Binding MinNumFrame}" VerticalAlignment="Top" 
                 TickPlacement="Both" TickFrequency="{Binding TickSize}"
-                IsSnapToTickEnabled="{Binding IsTickSizeOne}"
+                IsSnapToTickEnabled="{Binding IsTickSizeOne}" Value="{Binding Path=CurrentFrame}"
                 SmallChange="1" LargeChange="10" Interval="50" AutoToolTipPlacement="TopLeft"
                 />
         <Grid Grid.Row="1">
