@@ -269,14 +269,12 @@ private  bool _heatmapWhite;
             private set { this.RaiseAndSetIfChanged(ref this.heatMapPlotModel, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the height.
-        /// </summary>
-        public int Height
-        {
-            get { return this.height; }
+        private (double Height, double Width) size;
 
-            set { this.RaiseAndSetIfChanged(ref this.height, value); }
+        public (double Height, double Width) Size
+        {
+            get { return this.size; }
+            set => this.RaiseAndSetIfChanged(ref this.size, value);
         }
 
         /// <summary>
@@ -303,16 +301,6 @@ private  bool _heatmapWhite;
         /// Gets or sets the mz window which will be enforced if <see cref="ForceMinMaxMz"/> is true.
         /// </summary>
         public Range<double> MzWindow { get; set; }
-
-        /// <summary>
-        /// Gets or sets the width.
-        /// </summary>
-        public int Width
-        {
-            get { return this.width; }
-
-            set { this.RaiseAndSetIfChanged(ref this.width, value); }
-        }
 
         #endregion
 

@@ -167,13 +167,13 @@ namespace Atreyu.ViewModels
                     if (!ShowFrameCollapsed)
                     {
                         data = this.UimfData.ReadData(this.UimfData.Ranges,
-                            new Range<int>(i, i), this.Height, this.Width);
+                            new Range<int>(i, i), this.HeatMapViewModel.Size.Height, this.HeatMapViewModel.Size.Width);
                         this.HeatMapViewModel.UpdateData(data);
                     }
                     else
                     {
                         data = this.UimfData.GetFrameCollapsed(this.UimfData.Ranges,
-                            new Range<int>(i, i), this.Height, this.Width);
+                            new Range<int>(i, i), this.HeatMapViewModel.Size.Height, this.HeatMapViewModel.Size.Width);
                         this.HeatMapViewModel.UpdateData(data);
                     }
                     this.MzSpectraViewModel.UpdateFrameData(data);
@@ -208,13 +208,13 @@ namespace Atreyu.ViewModels
                     if (!ShowFrameCollapsed)
                     {
                          data = this.UimfData.ReadData(ranges,
-                            new Range<int>(this.uimfData.StartFrameNumber, this.uimfData.EndFrameNumber), this.Height, this.Width);
+                            new Range<int>(this.uimfData.StartFrameNumber, this.uimfData.EndFrameNumber), this.HeatMapViewModel.Size.Height, this.HeatMapViewModel.Size.Width);
                         this.HeatMapViewModel.UpdateData(data);
                     }
                     else
                     {
                         data = this.UimfData.GetFrameCollapsed(ranges,
-                            new Range<int>(this.uimfData.StartFrameNumber, this.uimfData.EndFrameNumber), this.Height, this.Width);
+                            new Range<int>(this.uimfData.StartFrameNumber, this.uimfData.EndFrameNumber), this.HeatMapViewModel.Size.Height, this.HeatMapViewModel.Size.Width);
                         this.HeatMapViewModel.UpdateData(data);
                     }
                     this.MzSpectraViewModel.UpdateFrameData(data);
@@ -255,11 +255,6 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.UimfData.BinToMzMap).Subscribe(d =>
             {
                 this.HeatMapViewModel.BinToMzMap = d;
-                this.MzSpectraViewModel.BinToMzMap = d;
-            });
-            this.WhenAnyValue(vm => vm.UimfData.BinToTofMap).Subscribe(d =>
-            {
-                this.MzSpectraViewModel.BinToTofMap = d;
             });
             this.WhenAnyValue(vm => vm.UimfData.MzArray).Subscribe(d => this.MzSpectraViewModel.MzArray = d);
             this.WhenAnyValue(vm => vm.UimfData.MzIntensities).Subscribe(i => this.MzSpectraViewModel.MzIntensities = i);
@@ -268,9 +263,6 @@ namespace Atreyu.ViewModels
             //    .Subscribe(uncomp => this.HeatMapViewModel.uncompressed = uncomp);
 
             this.WhenAnyValue(vm => vm.UimfData.Calibrator).Subscribe(c => this.MzSpectraViewModel.Calibrator = c);
-
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.Height).Subscribe(d => this.Height = d);
-            this.WhenAnyValue(vm => vm.HeatMapViewModel.Width).Subscribe(d => this.Width = d);
 
             
             //this.MzSpectraViewModel.WhenAnyValue(mzStart => mzStart.StartMZ, mzEnd => mzEnd.EndMZ)
@@ -322,21 +314,6 @@ namespace Atreyu.ViewModels
         /// </summary>
         public HeatMapViewModel HeatMapViewModel { get; }
 
-        /// <summary>
-        /// Gets the height of the Heat map plot.
-        /// </summary>
-        public int Height
-        {
-            get
-            {
-                return this.height;
-            }
-
-            private set
-            {
-                this.RaiseAndSetIfChanged(ref this.height, value);
-            }
-        }
 
         /// <summary>
         /// Gets the low value gate slider view model.
@@ -414,22 +391,6 @@ namespace Atreyu.ViewModels
             set
             {
                 this.RaiseAndSetIfChanged(ref this.uimfData, value);
-            }
-        }
-
-        /// <summary>
-        /// Gets the width of the Heat map plot.
-        /// </summary>
-        public int Width
-        {
-            get
-            {
-                return this.width;
-            }
-
-            private set
-            {
-                this.RaiseAndSetIfChanged(ref this.width, value);
             }
         }
 
@@ -562,6 +523,7 @@ namespace Atreyu.ViewModels
             var mzRange = this.windowMz ? this.mzWindow : new Range<double>(this.UimfData.MinMz, this.UimfData.MaxMz);
 
             this.UimfData.Ranges = (mzRange.Start, mzRange.End, scanRange.Start, scanRange.End);
+            this.HeatMapViewModel.HeatMapPlotModel.ResetAllAxes();
         }
 
         #endregion

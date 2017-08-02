@@ -33,8 +33,7 @@ namespace Atreyu.Views
             this.Bind(this.ViewModel, model => model.HeatMapPlotModel, view => view.HeatMapPlot.Model);
             this.HeatMapPlot.Events().SizeChanged.Throttle(TimeSpan.FromMilliseconds(100)).ObserveOn(RxApp.MainThreadScheduler).Subscribe(args =>
             {
-                ViewModel.Height = (int) args.NewSize.Height;
-                ViewModel.Width = (int) args.NewSize.Width;
+                ViewModel.Size = (args.NewSize.Height, args.NewSize.Width);
             });
 
         }

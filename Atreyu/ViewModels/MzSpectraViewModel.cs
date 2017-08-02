@@ -37,11 +37,6 @@ namespace Atreyu.ViewModels
         private double endMz;
 
         /// <summary>
-        /// The raw frame data that is compressed on the Y axis.
-        /// </summary>
-        private double[,] frameData;
-
-        /// <summary>
         /// The calibration intercept.
         /// </summary>
         private double intercept;
@@ -84,7 +79,6 @@ namespace Atreyu.ViewModels
         /// </summary>
         public MzSpectraViewModel()
         {
-            this.WhenAnyValue(vm => vm.ShowMz).Subscribe(b => this.UpdateFrameData(this.frameData));
         }
 
         #endregion
@@ -94,8 +88,6 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Gets or sets the bin to mz map.
         /// </summary>
-        public double[] BinToMzMap { get; set; }
-        public double[] BinToTofMap { get; set; }
         private List<DataPoint> logArray = new List<DataPoint>();
   
 
@@ -229,17 +221,17 @@ namespace Atreyu.ViewModels
             this.MzPlotModel.Axes.Add(linearAxis);
 
             var linearYAxis = new LinearAxis
-                                  {
-                                      AbsoluteMinimum = 0, 
-                                      IsZoomEnabled = false, 
-                                      Position = AxisPosition.Top, 
-                                      Key = "YAxisKey", 
-                                      IsPanEnabled = false, 
-                                      MinimumPadding = 0,
-                                      StartPosition = 1,
-                                      EndPosition = 0
-                                  };
-            linearYAxis.ToolTip = "Intensity";
+            {
+                AbsoluteMinimum = 0,
+                IsZoomEnabled = false,
+                Position = AxisPosition.Top,
+                Key = "YAxisKey",
+                IsPanEnabled = false,
+                MinimumPadding = 0,
+                StartPosition = 1,
+                EndPosition = 0,
+                ToolTip = "Intensity"
+            };
             this.MzPlotModel.Axes.Add(linearYAxis);
             var series = new LineSeries
                              {
@@ -302,69 +294,49 @@ namespace Atreyu.ViewModels
         /// <summary>
         /// Update frame data.
         /// </summary>
-        /// <param name="framedata">
+        /// <param name="frameData">
         /// The frame data.
         /// </param>
-        public void UpdateFrameData(double[,] framedata)
+        public void UpdateFrameData(double[,] frameData)
         {
             if (this.uimfData == null)
             {
                 return;
             }
 
-            if (framedata == null)
+            if (frameData == null)
             {
                 return;
             }
 
-            if (this.BinToMzMap == null)
-            {
-                return;
-            }
             lock (syncRoot)
             {
                 
                 this.MaxMZ = this.uimfData.MaxMz;
-
-                this.frameData = framedata;
-                var frameDictionary = new Dictionary<double, double>();
                 var mzFrameData = new Dictionary<double, double>();
 
-                for (var j = 0; j < Math.Min(this.BinToMzMap.Length, this.frameData.GetLength(1)); j++)
+                for (var j = 0; j < Math.Min(this.uimfData.BinToMzMap.Length, frameData.GetLength(1)); j++)
                 {
-                    var mzIndex = this.BinToMzMap[j];
+                    var mzIndex = this.uimfData.BinToMzMap[j];
 
-                    for (var i = 0; i < this.frameData.GetLength(0); i++)
+                    for (var i = 0; i < frameData.GetLength(0); i++)
                     {
                         if (mzFrameData.ContainsKey(mzIndex))
                         {
-                            mzFrameData[mzIndex] += this.frameData[i, j];
+                            mzFrameData[mzIndex] += frameData[i, j];
                         }
                         else
                         {
-                            mzFrameData.Add(mzIndex, this.frameData[i, j]);
+                            mzFrameData.Add(mzIndex, frameData[i, j]);
                         }
                     }
                 }
 
-                var series = this.MzPlotModel.Series[0] as LineSeries;
-                if (series != null)
+                if (this.ShowMz)
                 {
-                    if (series.YAxis != null)
-                    {
-                        series.YAxis.Title = this.ShowMz ? "m/z" : "Tof";
-                    }
-
-                    series.Points.Clear();
-                    this.logArray.Clear();
-                    if (this.ShowMz)
-                    {
-                        var dataArray = new List<DataPoint>();
-                        dataArray.AddRange(mzFrameData.Select(x => new DataPoint(x.Key, x.Value)));
-                        UpdatePlotData(dataArray);
-                    }
-
-
+                    var dataArray = new List<DataPoint>();
+                    dataArray.AddRange(mzFrameData.Select(x => new DataPoint(x.Key, x.Value)).OrderBy(x => x.X));
+                    UpdatePlotData(dataArray);
                 }
 
             }

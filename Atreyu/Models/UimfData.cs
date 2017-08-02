@@ -614,7 +614,7 @@ namespace Atreyu.Models
                 this.ValuesPerPixelY = (totalBinRange / (double)height);
 
                 var totalScans = ranges.EndScan - ranges.StartScan + 1;
-                this.ValuesPerPixelX = (totalScans / (double)width);
+                this.ValuesPerPixelX = (totalScans / width);
 
                 if (this.ValuesPerPixelY < 1)
                 {
@@ -636,8 +636,18 @@ namespace Atreyu.Models
 
 
                 var frametype = GetFrameType(this.frameType);
-                double[] mzs;
-                int[] intensities;
+
+
+                var frameData = this.dataReader.AccumulateFrameData(
+                    this.StartFrameNumber,
+                    this.EndFrameNumber,
+                    false,
+                    ranges.Item3,
+                    ranges.Item4,
+                    currentMinBin,
+                    currentMaxBin,
+                    this.ValuesPerPixelX,
+                    this.ValuesPerPixelY);
 
                 // For pulling the spectrum data from the UIMF file
 
@@ -647,8 +657,8 @@ namespace Atreyu.Models
                     frametype,
                     ranges.Item3,
                     ranges.Item4,
-                    out mzs,
-                    out intensities);
+                    out var mzs,
+                    out var intensities);
                 this.MzArray = mzs;
 
                 this.MzIntensities = intensities;
@@ -660,8 +670,8 @@ namespace Atreyu.Models
                 var mz = new double[arrayLength];
                 for (var i = 0; i < arrayLength; i++)
                 {
-                    tof[i] = this.dataReader.GetBinForPixel((int)Math.Round(i * ValuesPerPixelY));
-                    mz[i] = this.calibrator.BinToMZ(tof[i]);
+                    var binForPixel = this.dataReader.GetBinForPixel(i);
+                    mz[i] = this.calibrator.BinToMZ(binForPixel);
                     tof[i] = this.calibrator.MZtoTOF(mz[i]) / 10000.0;
                 }
                 this.BinToMzMap = mz;
@@ -669,16 +679,7 @@ namespace Atreyu.Models
 
                 this.GateData();
 
-                var frameData = this.dataReader.AccumulateFrameData(
-                    this.StartFrameNumber,
-                    this.EndFrameNumber,
-                    false,
-                    ranges.Item3,
-                    ranges.Item4,
-                    currentMinBin,
-                    currentMaxBin,
-                    (int)this.ValuesPerPixelX,
-                    (int)this.ValuesPerPixelY);
+
 
                 return frameData;
             }
