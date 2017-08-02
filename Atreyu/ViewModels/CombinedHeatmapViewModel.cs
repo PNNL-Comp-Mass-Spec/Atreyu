@@ -132,7 +132,7 @@ namespace Atreyu.ViewModels
                 });
 
             this.ZoomOutFull = this.FrameManipulationViewModel.ZoomOutCommand;
-            this.ZoomOutFull.Select(async _ => await Task.Run(() => this.ZoomOut())).Subscribe();
+            this.ZoomOutFull.Subscribe(unit => this.ZoomOut());
 
             // update the uimf data for the various components
             this.WhenAnyValue(vm => vm.UimfData).Where(x => x != null).Subscribe(data =>
@@ -247,10 +247,10 @@ namespace Atreyu.ViewModels
             this.WhenAnyValue(vm => vm.HeatMapViewModel.Width).Subscribe(d => this.Width = d);
 
             
-            this.MzSpectraViewModel.WhenAnyValue(mzStart => mzStart.StartMZ, mzEnd => mzEnd.EndMZ)
-                .Where(_ => this.UimfData != null)
-                .Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
-                .Subscribe(x => this.HeatMapViewModel.CurrentMzRange = new Range<double>(this.MzSpectraViewModel.StartMZ, this.MzSpectraViewModel.EndMZ));
+            //this.MzSpectraViewModel.WhenAnyValue(mzStart => mzStart.StartMZ, mzEnd => mzEnd.EndMZ)
+            //    .Where(_ => this.UimfData != null)
+            //    .Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
+            //    .Subscribe(x => this.HeatMapViewModel.CurrentMzRange = new Range<double>(this.MzSpectraViewModel.StartMZ, this.MzSpectraViewModel.EndMZ));
 
             this.TofCalibratorViewModel.WhenAnyValue(x => x.ReloadUIMF)
                 .Where(_ => this.TofCalibratorViewModel.ReloadUIMF)
@@ -260,10 +260,10 @@ namespace Atreyu.ViewModels
                     this.TofCalibratorViewModel.ReloadUIMF = false;
                 });
 
-            this.TotalIonChromatogramViewModel.WhenAnyValue(ticStart => ticStart.StartScan, ticEnd => ticEnd.EndScan)
-                .Where(_ => this.UimfData != null)
-                .Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
-                .Subscribe(x => this.HeatMapViewModel.CurrentScanRange = new Range<int>(this.TotalIonChromatogramViewModel.StartScan, this.TotalIonChromatogramViewModel.EndScan));
+            //this.TotalIonChromatogramViewModel.WhenAnyValue(ticStart => ticStart.StartScan, ticEnd => ticEnd.EndScan)
+            //    .Where(_ => this.UimfData != null)
+            //    .Throttle(TimeSpan.FromMilliseconds(5), RxApp.MainThreadScheduler)
+            //    .Subscribe(x => this.HeatMapViewModel.CurrentScanRange = new Range<int>(this.TotalIonChromatogramViewModel.StartScan, this.TotalIonChromatogramViewModel.EndScan));
 
             this.HeatMapViewModel.WhenAnyValue(palette => palette.SelectedPalette).Where(_ => this.UimfData != null)
                 .Subscribe(x =>
@@ -537,7 +537,6 @@ namespace Atreyu.ViewModels
             var mzRange = this.windowMz ? this.mzWindow : new Range<double>(this.UimfData.MinMz, this.UimfData.MaxMz);
 
             this.UimfData.Ranges = (mzRange.Start, mzRange.End, scanRange.Start, scanRange.End);
-            this.HeatMapViewModel.HeatMapPlotModel.ResetAllAxes();
         }
 
         #endregion

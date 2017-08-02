@@ -161,14 +161,6 @@ private  bool _heatmapWhite;
                 }
             });
 
-            this.WhenAnyValue(hm => hm.CurrentMzRange, model => model.CurrentScanRange)
-                .Where(_ => this.HeatMapData != null && this.CurrentMzRange != null && this.CurrentScanRange != null)
-                .Subscribe(
-                    tuple =>
-                    {
-                        this.HeatMapData.Ranges =
-                            (tuple.Item1.Start, tuple.Item1.End, tuple.Item2.Start, tuple.Item2.End);
-                    });
 
             this.WhenAnyValue(x => x.MakeHeatmapWhite).Where(x => this.HeatMapData != null).Subscribe(b =>
             {
@@ -202,16 +194,6 @@ private  bool _heatmapWhite;
         public double[] BinToMzMap { get; set; }
 
         public double[,] FrameData { get; set; }
-
-        /// <summary>
-        /// Gets or sets the current m/z range.
-        /// </summary>
-        public Range<double> CurrentMzRange
-        {
-            get { return this.currentMzRange; }
-
-            set { this.RaiseAndSetIfChanged(ref this.currentMzRange, value); }
-        }
 
         /// <summary>
         /// Gets or sets the current file.
@@ -261,16 +243,6 @@ private  bool _heatmapWhite;
             get { return this.currentMinScan; }
 
             set { this.RaiseAndSetIfChanged(ref this.currentMinScan, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the current scan range.
-        /// </summary>
-        public Range<int> CurrentScanRange
-        {
-            get { return this.currentScanRange; }
-
-            set { this.RaiseAndSetIfChanged(ref this.currentScanRange, value); }
         }
 
         /// <summary>
@@ -435,10 +407,13 @@ private  bool _heatmapWhite;
                     MinimumRange = 10,
                     MaximumPadding = 0,
                     Title = "Mobility Scans",
-                    IsAxisVisible = this.AxisVisible
+                    IsAxisVisible = this.AxisVisible,
+                    Key = "Horizontal"
                 };
 
-                horizontalAxis.AxisChanged += this.PublishXAxisChange;
+                var horizontalAxisObservable = Observable.FromEventPattern<AxisChangedEventArgs>(
+                    h => horizontalAxis.AxisChanged += h, h =>
+                        horizontalAxis.AxisChanged -= h);
 
                 this.HeatMapPlotModel.Axes.Add(horizontalAxis);
 
@@ -454,10 +429,43 @@ private  bool _heatmapWhite;
                     TextColor = OxyColors.Red,
                     TicklineColor = OxyColors.Red,
                     Layer = AxisLayer.AboveSeries,
-                    IsAxisVisible = this.AxisVisible
+                    IsAxisVisible = this.AxisVisible,
+                    Key = "Vertical"
                 };
 
-                verticalAxis.AxisChanged += this.PublishYAxisChange;
+               // verticalAxis.AxisChanged += this.PublishYAxisChange;
+
+                var verticalAxisObservable = Observable.FromEventPattern<AxisChangedEventArgs>(
+                    h => verticalAxis.AxisChanged += h, h =>
+                        verticalAxis.AxisChanged -= h);
+
+                var stream = Observable.Zip(horizontalAxisObservable, verticalAxisObservable);
+                stream.Subscribe(list =>
+                {
+                    foreach (var eventPattern in list)
+                    {
+                        var linearAxis = eventPattern.Sender as LinearAxis;
+                        if (linearAxis.Key == "Horizontal")
+                        {
+                            if (eventPattern.EventArgs.ChangeType != AxisChangeTypes.Reset)
+                            {
+                                this.CurrentMaxScan = (int)linearAxis.ActualMaximum;
+                                this.CurrentMinScan = (int)linearAxis.ActualMinimum;
+                            }
+                        }
+                        else
+                        {
+                            if (eventPattern.EventArgs.ChangeType != AxisChangeTypes.Reset)
+                            {
+                                this.CurrentMaxMz = linearAxis.ActualMaximum;
+                                this.CurrentMinMz = linearAxis.ActualMinimum;
+                            }
+                        }
+                        
+                    }
+
+                    this.HeatMapData.Ranges = (CurrentMinMz, CurrentMaxMz, CurrentMinScan, CurrentMaxScan);
+                });
 
                 this.HeatMapPlotModel.Axes.Add(verticalAxis);
 
@@ -557,72 +565,6 @@ private  bool _heatmapWhite;
 
             this.SetUpPlot();
         }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// The publish x axis change.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        protected void PublishXAxisChange(object sender, AxisChangedEventArgs e)
-        {
-            var axis = sender as LinearAxis;
-            if (axis == null)
-            {
-                return;
-            }
-
-            if (e.ChangeType == AxisChangeTypes.Reset)
-            {
-                this.CurrentScanRange = new Range<int>(this.currentMinScan, this.currentMaxScan);
-            }
-            else
-            {
-                this.CurrentScanRange = new Range<int>((int) axis.ActualMinimum, (int) axis.ActualMaximum);
-                this.currentMaxScan = (int) axis.ActualMaximum;
-                this.currentMinScan = (int) axis.ActualMinimum;
-            }
-        }
-
-        /// <summary>
-        /// The publish y axis change.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        protected void PublishYAxisChange(object sender, AxisChangedEventArgs e)
-        {
-            var axis = sender as LinearAxis;
-            if (axis == null)
-            {
-                return;
-            }
-
-            if (e.ChangeType == AxisChangeTypes.Reset)
-            {
-                //axis.Maximum = this.HeatMapData.MaxMz;
-                //axis.Minimum = this.HeatMapData.MinMz;
-                //this.CurrentMzRange = new MzRange(this.HeatMapData.MinMz, this.HeatMapData.MaxMz);
-                this.CurrentMzRange = new Range<double>(this.currentMinMz, this.currentMaxMz);
-            }
-            else
-            {
-                this.CurrentMzRange = new Range<double>(axis.ActualMinimum, axis.ActualMaximum);
-                this.currentMinMz = axis.ActualMinimum;
-                this.currentMaxMz = axis.ActualMaximum;
-            }
-        }
-
 
         #endregion
 
